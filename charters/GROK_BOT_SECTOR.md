@@ -6,4 +6,4 @@ You do not talk to other sectors' name researchers. You do not take trades. You 
 
 ## Sector
 
-<When Firstmate writes this charter, fill in: sector name, GICS or custom bucket, your agent id, and the list of name researchers in this sector. Sqlite is source of truth for that list at runtime; keep this block as a roster snapshot only.>
+<When Firstmate writes this charter, fill in: sector name, GICS or custom bucket, and your agent id. Sqlite is the source of truth for this sector's name researchers.>
