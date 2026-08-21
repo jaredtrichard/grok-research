@@ -34,14 +34,14 @@ Do not call official view changes "ship" or "view-ship." Use **update**.
 
 Two ladders, never collapsed:
 
-- **Task:** scout → update (research) or scout → ship (platform).
+- **Task:** scout → update.
 - **Coverage:** idea → investment → paper portfolio **or** watch.
 
 Promoting a scout to an update does not put a name in the book. Firstmate never flips an update into a fill.
 
 ## Comms graph
 
-Each **sector has its own persistent researcher**. That bot is the hub for that sector: it talks to that sector's name researchers and to Firstmate. Name researchers talk to their sector researcher, not to Firstmate. Jurisdiction joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed. One platform researcher owns this repo only.
+Each **sector has its own persistent researcher**. That bot is the hub for that sector: it talks to that sector's name researchers and to Firstmate. Name researchers talk to their sector researcher, not to Firstmate. Jurisdiction joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed. The research factory is Firstmate plus idea, sector, name, and jurisdiction researchers.
 
 ```
             captain
@@ -50,11 +50,10 @@ Each **sector has its own persistent researcher**. That bot is the hub for that 
  ┌─────────────────────────────────────────┐
  │ Firstmate (Ass PM)                      │
  │ book.db · scout / update / ship / trade │
- └──┬───────────┬────────────┬─────────────┘
-    │           │            │
-    ▼           ▼            ▼
- idea gen   sector hub    platform
-                │         (this repo)
+ └──┬───────────┬──────────────────────────┘
+    │           │
+    ▼           ▼
+ idea gen   sector hub
                 ▼
          name researchers
                 │
@@ -65,7 +64,7 @@ Firstmate always delegates grind. No subagents on Firstmate. Firstmate never cal
 
 ## Scorecard
 
-Paper book versus **S&P 500 total return**. No live exchange or brokerage in v1. Captain alone takes trades. Code PRs exist only for platform/repo work.
+Paper book versus **S&P 500 total return**. No live exchange or brokerage in v1. Captain alone takes trades.
 
 Price return is the wrong scorecard (drops dividends). Russell 3000 is wrong unless the charter is all-cap. A hedge-fund or market-neutral index is wrong without shorts.
 
@@ -99,7 +98,6 @@ Sqlite owns which sectors and names exist, coverage stage, and the current offic
 - [charters/GROK_BOT_NAME.md](charters/GROK_BOT_NAME.md)
 - [charters/GROK_BOT_IDEA.md](charters/GROK_BOT_IDEA.md)
 - [charters/GROK_BOT_JURISDICTION.md](charters/GROK_BOT_JURISDICTION.md)
-- [charters/GROK_BOT_PLATFORM.md](charters/GROK_BOT_PLATFORM.md) — `jaredtrichard/grok-research` only
 
 ## License
 
