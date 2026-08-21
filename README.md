@@ -1,4 +1,4 @@
-<h1 align="center">Grok Ship</h1>
+<h1 align="center">Grok Research</h1>
 <p align="center">
   <a
     href="https://img.shields.io/badge/platform-Grok%20Bot-blue?style=flat-square"
@@ -6,90 +6,99 @@
       alt="Platform"
       src="https://img.shields.io/badge/platform-Grok%20Bot-blue?style=flat-square"
   /></a>
-  <a href="https://x.com/kunchenguid"
-    ><img
-      alt="X"
-      src="https://img.shields.io/badge/X-@kunchenguid-black?style=flat-square"
-  /></a>
-  <a href="https://discord.gg/Wsy2NpnZDu"
-    ><img
-      alt="Discord"
-      src="https://img.shields.io/discord/1439901831038763092?style=flat-square&label=discord"
-  /></a>
 </p>
 
-<h3 align="center">Turn your Grok Bot into a software factory.</h3>
+<h3 align="center">Buy-side equity research factory on Grok Bot.</h3>
 
 ## What it is
 
-Grok Ship is an agent distro for Grok Bot.
-It helps turn your Grok Bot into a small software factory: scout vs ship work, per-project crewmates that drive Cursor cloud agents, adversarial review before any pull request, and a local sqlite backlog.
+Grok Research is an agent distro for Grok Bot.
+It turns a Grok Bot into a buy-side equity research factory: persistent researchers, a paper book scored against **S&P 500 total return**, and Firstmate as the only agent the captain talks to.
 
-Bots never execute on your machine.
-They run on the shared Grok Bot computer; project work runs on ephemeral Cursor cloud agents.
+Bots never execute on the captain's machine.
+They run on the shared Grok Bot computer.
 
-After install, talk only to Firstmate - the one agent you chat with in the factory.
+Talk only to **Firstmate**. Ass PM is the role, not the public name. Firstmate never takes a trade.
 
-## Features
+## Vocabulary
 
-- **A software factory on Grok Bot** - you bring work; the factory files it, delegates it, and brings back reports or pull requests.
-- **Scout vs ship** - scout is investigation, diagnosis, planning, or audit, and the deliverable is a report, never a PR. Ship is authorized change. Promoting a scout flips the same task row rather than opening a duplicate.
-- **Per-project crewmates** - each project or project area gets a persistent crewmate that drives Cursor cloud agents.
-- **Review before any PR** - after a ship cloud agent pushes a branch, a fresh adversarial review reads it through the project's forge CLI. No pull request until that pass is clean.
-- **Local sqlite backlog** - chat is not the source of truth. Projects and tasks live in a sqlite database on the shared computer.
-- **You merge** - no bot merges a pull request on its own. Merge only on your explicit word, and never while checks are red.
-- **Forge-agnostic** - detect GitHub, GitLab, Bitbucket, or Cursor Origin. Do not assume GitHub.
+| Word | Who authorizes | What it is | What it is not |
+| --- | --- | --- | --- |
+| **scout** | Firstmate files; no captain "make the change" | Investigation. Deliverable = report under `/home/box/agent-data/grok-research/reports/<task id>.md`. | Not a trade. Not a PR. |
+| **update** | Captain | Authorized official view change. Deeper pursuit of an idea or investment. New or revised official view under `/home/box/agent-data/grok-research/views/`. Adversarial review of the view before it is current. | Not a trade. Not a PR. |
+| **ship** | Captain | Repo PR for `jaredtrichard/grok-research` (platform/code). Branch, review, PR; captain merges. | Not research. Not a trade. Keep this word for this repo only. |
+| **trade** | Captain only | Paper-portfolio fill, exit, or size change. | Not an update. Not a ship. Researchers never execute it. |
+| **watch** | Captain, at the investment gate | Keep covering after a no-buy. | Not a drop. Not a fill. |
 
-## Quick Start
+Do not call official view changes "ship" or "view-ship." Use **update**.
 
-Tell any Grok Bot:
+Two ladders, never collapsed:
 
-```
-follow https://github.com/kunchenguid/grok-ship/blob/main/GROK_SHIP.md
-```
+- **Task:** scout → update.
+- **Coverage:** idea → investment → paper portfolio **or** watch.
 
-That sets up the factory on the shared computer and hands you over to Firstmate.
-Talk only to Firstmate from then on.
+Promoting a scout to an update does not put a name in the book. Firstmate never flips an update into a fill.
 
-```
-> look at my project xyz, then fix the flaky login test
+## Comms graph
 
-# The factory files a ship task. A project crewmate drives a
-# Cursor cloud agent; adversarial review runs before any pull request.
-
-  PR ready: https://github.com/you/xyz/pull/42
-
-> merge it
-```
-
-## How It Works
+Each **sector has its own persistent researcher**. That bot is the hub for that sector: it talks to that sector's name researchers and to Firstmate. Name researchers talk to their sector researcher, not to Firstmate. Jurisdiction joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed. The research factory is Firstmate plus idea, sector, name, and jurisdiction researchers.
 
 ```
-            you
-                  │  work requests, decisions, "merge it"
+            captain
+                  │  talk only to Firstmate
                   ▼
- ┌─────────────────────────────────────┐
- │ Grok Bot software factory           │
- │ sqlite backlog · scout vs ship      │
- └──┬──────────────┬───────────────┬───┘
-    │                              │
-    ▼              ▼               ▼
- ┌────────┐   ┌────────┐      ┌────────┐
- │crewmate│   │crewmate│      │crewmate│   one per project
- └───┬────┘   └───┬────┘      └───┬────┘
-     ▼            ▼               ▼
-  Cursor cloud agents
-     │
-     ├─ ship: branch ► adversarial review ► PR ► you merge
-     │
-     └─ scout: report, never a PR
+ ┌─────────────────────────────────────────┐
+ │ Firstmate (Ass PM)                      │
+ │ book.db · scout / update / ship / trade │
+ └──┬───────────┬──────────────────────────┘
+    │           │
+    ▼           ▼
+ idea gen   sector hub
+                ▼
+         name researchers
+                │
+        jurisdiction joins
 ```
 
-Work is filed as scout or ship in the local sqlite backlog, then handed to the crewmate whose project charter fits.
-Software goes through a project crewmate and a Cursor cloud agent.
-Scout reports land on the shared computer.
-Ship work is reviewed on the pushed branch before a pull request is opened.
+Firstmate always delegates grind. No subagents on Firstmate. Firstmate never calls Cursor cloud. Secrets are per-bot; never pasted in chat. Task ids on every handoff; empty outcomes still reported.
+
+## Scorecard
+
+Paper book versus **S&P 500 total return**. No live exchange or brokerage in v1. Captain alone takes trades.
+
+Price return is the wrong scorecard (drops dividends). Russell 3000 is wrong unless the charter is all-cap. A hedge-fund or market-neutral index is wrong without shorts.
+
+## Shared computer
+
+Suggested paths on the Grok Bot computer (not a local Mac app):
+
+- Pack: `/home/box/agent-data/grok-research/pack/`
+- Book db: `/home/box/agent-data/grok-research/book.db`
+- Scout reports: `/home/box/agent-data/grok-research/reports/`
+- Official views: `/home/box/agent-data/grok-research/views/`
+
+Sqlite owns which sectors and names exist, coverage stage, and the current official view pointer. Charters are rules, not the coverage list.
+
+## Non-goals
+
+- Not a software factory.
+- Not a local Mac app.
+- No live exchange, brokerage, or order routing in v1.
+- No researcher takes a trade.
+- No Firstmate grind, subagents, or Cursor cloud.
+- Ass PM is not a public bot name.
+- One shared sector agent is forbidden.
+- Skills and installer are later work, not this pack's public face.
+
+## Charters
+
+- [GROK_BOT_FIRSTMATE.md](GROK_BOT_FIRSTMATE.md) — Ass PM; public name Firstmate
+- [GROK_BOT_RESEARCHER.md](GROK_BOT_RESEARCHER.md) — generic researcher template
+- [charters/GROK_BOT_SECTOR.md](charters/GROK_BOT_SECTOR.md) — instantiate one bot per sector
+- [charters/GROK_BOT_NAME.md](charters/GROK_BOT_NAME.md)
+- [charters/GROK_BOT_IDEA.md](charters/GROK_BOT_IDEA.md)
+- [charters/GROK_BOT_JURISDICTION.md](charters/GROK_BOT_JURISDICTION.md)
 
 ## License
 
-MIT - see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
