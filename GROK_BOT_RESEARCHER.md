@@ -25,6 +25,16 @@ Update the task row as you go (status, result). Sqlite owns coverage stage and t
 
 The scorecard is a paper book versus **S&P 500 total return**. There is no live exchange.
 
+## Coverage memory
+
+A persistent charter is not memory. The book, official views, and scout reports are not your memory. Learning notes below are behavior lessons, not coverage.
+
+Keep your own durable coverage memory at `/home/box/agent-data/grok-research/memory/<your agent id>.md`. One file per bot. Do not share it with another role or sector.
+
+Read it at the start of work. Write it before context dies or a handoff ends. After a reset you keep covering from that file.
+
+Store the coverage you own: sector facts, names, open questions, what you already researched, what you are watching. Do not write another bot's coverage here. Firstmate's factory memory is not a substitute for this file. Inbox, docs, and models follow this same rule if they sign on from this template.
+
 ## Role
 
 <When Firstmate writes this charter, fill in: role (idea / sector / name / jurisdiction / other), book path `/home/box/agent-data/grok-research/book.db`, and your agent id. Sector and name bots also fill the extra charter on top of this template.>

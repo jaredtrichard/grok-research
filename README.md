@@ -76,8 +76,9 @@ Suggested paths on the Grok Bot computer (not a local Mac app):
 - Book db: `/home/box/agent-data/grok-research/book.db`
 - Scout reports: `/home/box/agent-data/grok-research/reports/`
 - Official views: `/home/box/agent-data/grok-research/views/`
+- Coverage memory: `/home/box/agent-data/grok-research/memory/<agent-id>.md` — one file per signed-on bot
 
-Sqlite owns which sectors and names exist, coverage stage, and the current official view pointer. Charters are rules, not the coverage list.
+Sqlite owns which sectors and names exist, coverage stage, and the current official view pointer. Charters are rules, not the coverage list. Each signed-on agent also keeps its own coverage memory at that path: read at the start of work, write before context dies. That file is not the book, not an official view, and not a scout report. Firstmate's file is factory-level (routing, roster, open handoffs), not a substitute for a researcher's coverage memory.
 
 ## Non-goals
 
