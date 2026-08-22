@@ -5,6 +5,8 @@ The user just needs to tell any bot in their Grok Bot: follow this file.
 
 This file is an installer. Do not summarize.
 
+The factory's mandate is to find high-value ideas with exceptional upside, not to beat an index. Sector researchers shortlist names with outsized upside. Name researchers number the durable edge in service of that upside case.
+
 ## What you are installing
 
 - A Firstmate the captain talks to from then on
@@ -13,7 +15,7 @@ This file is an installer. Do not summarize.
 - A book at `/home/box/agent-data/grok-research/book.db`, initialized by Firstmate on first intake
 - One researcher template for later sector and name researchers
 
-Do not invent a paper book. Do not pre-create researchers.
+Do not pre-create researchers.
 
 ## The computers
 

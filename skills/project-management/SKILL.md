@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS tasks (
 
 `tasks.kind` is `scout`, `update`, `ship`, or `decision`. `tasks.status` is `queued`, `underway`, `blocked`, `done`, or `cancelled`. `tasks.result` is the outcome pointer. `gate_kind` is optional: `after-task`, `at-time`, or `captain`.
 
-The schema is deliberately minimal. Do not add fills, positions, a portfolio stage, or a trade task kind.
+The schema is deliberately minimal. Do not add execution or portfolio tracking, a portfolio stage, or a trade task kind.
 
 ## Setup
 
@@ -83,5 +83,5 @@ Researchers update `status`, `result`, and `updated_at` as they work. After an a
 
 - Do not keep the book only in chat
 - Do not treat sqlite as coverage memory
-- Do not invent a paper book or live trade
+- Do not take a live trade
 - Do not open a pull request from this factory
