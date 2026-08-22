@@ -88,6 +88,8 @@ Sqlite owns which sectors and names exist, coverage stage, and the current offic
 
 ## Charters
 
+Installer: [GROK_RESEARCH.md](GROK_RESEARCH.md).
+
 - [GROK_BOT_FIRSTMATE.md](GROK_BOT_FIRSTMATE.md) — Ass PM; public name Firstmate
 - [GROK_BOT_RESEARCHER.md](GROK_BOT_RESEARCHER.md) — generic researcher template
 - [charters/GROK_BOT_SECTOR.md](charters/GROK_BOT_SECTOR.md) — instantiate one bot per sector
