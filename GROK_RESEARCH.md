@@ -35,7 +35,7 @@ Same directory as this file:
 
 ## Steps
 
-1. Copy this whole pack to `/home/box/agent-data/grok-research/pack/` on the shared computer (clone or download it first if you only have this file's text). Every later reference to a pack file means that path. If a copy is already there, refresh it.
+1. Replace `/home/box/agent-data/grok-research/pack/` with this whole pack on the shared computer (clone or download it first if you only have this file's text). The installed `pack/` must match this version file-for-file: delete destination-only files, including an old `pack/charters/`. Preserve the sibling `reports/`, `views/`, `memory/`, and `book.db`. Every later reference to a pack file means that path.
 
 2. Create these empty directories if they do not exist. Do not seed files into them:
    - `/home/box/agent-data/grok-research/reports/`

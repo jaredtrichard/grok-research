@@ -63,7 +63,7 @@ The schema is deliberately minimal. Do not add fills, positions, a portfolio sta
 
 ## Setup
 
-On Firstmate's first intake, create `book.db` if it does not exist and run the schema. If it exists, do not migrate inventively.
+On Firstmate's first intake, if `book.db` is missing, create it and run the schema above. This `listing_venue` and no-`projects` schema applies only to fresh books. If `book.db` exists, leave its schema and data untouched; this pack does not migrate existing books.
 
 ## Intake
 
