@@ -79,13 +79,13 @@ For flows, architecture, state, or sequence diagrams, do not hand-build boxes-an
 - Lavish does not auto-inject any design system - artifacts stay portable so they render identically when opened directly without lavish-axi running. Before writing any HTML: Decide the design direction in this strict priority order, and only move to the next step when the current one truly yields nothing: (1) if the user asked for a specific look or named design system, use that; (2) otherwise you must first inspect the project the artifact is about - the subject or product whose content or UI it represents, which may differ from your current working directory - and match that project's design system: Tailwind or theme config, shared CSS variables or design tokens, component library, brand assets, or existing styled pages. If the artifact previews, proposes, or mocks a specific app's UI, render it in that app's own design system so it faithfully shows the product, even when you are running in a different repo; (3) only when both steps come up empty, use the Lavish-recommended Tailwind CSS browser runtime v4 + DaisyUI v5, available via CDN, and prefer that CDN snippet over hand-writing styles unless explicitly instructed otherwise by the user. Run `npx -y lavish-axi design` for a content-to-playbook router, a copy-pasteable CDN snippet, a Mermaid CDN snippet/init for diagrams, and the DaisyUI component reference. When you deliver the artifact, state which of the three design sources you used and why.
 - Use lavish-axi when the user asks for a visual artifact, HTML explainer, interactive prototype, review surface, product or technical plan, comparison, report, or browser-based feedback loop
 
-## Grok Ship addendum
+## Grok Research addendum
 
-This skill is the official lavish-axi skill plus the grok ship factory specific rules.
+This skill is the official lavish-axi skill plus the Grok Research factory specific rules.
 
 - Minimum lavish-axi version: 0.1.53. Prefer `npx -y lavish-axi@latest` or a newer installed bin. If the installed version is older, upgrade or pin npx.
-- Run lavish-axi on the shared Grok Bot computer, never on a cloud agent VM (ephemeral - the session dies with it). The session URL is exposed only to that machine and its tailnet, and the user views it from their own computer, so confirm they can reach it.
+- Run lavish-axi on the shared Grok Bot computer, never on a cloud agent VM (ephemeral - the session dies with it). The session URL is exposed only to that machine and its tailnet, and the captain views it from their own computer, so confirm they can reach it.
 - After `lavish-axi <html-file>` returns, paste the exact `url` into chat. Never invent a localhost or session path.
-- `share` publishes a public snapshot on ht-ml.app. That is not the live mark/poll loop. Do not use it for this interactive session unless the user asks.
+- `share` publishes a public snapshot on ht-ml.app. `export` writes a portable copy. Neither is the live mark/poll loop. Do not share or export for a live loop unless the captain asks.
 - Sit on `lavish-axi poll` with a harness-native wait whose completion wakes you (foreground poll, or a tracked background job you then await). Do not background the poll and walk away. Feedback should reach the parent within a few seconds of Send.
-- If the user ends the session from the browser, do not reopen unless they ask. Deliver leftovers in chat.
+- If the captain ends the session from the browser, do not reopen unless they ask. Deliver leftovers in chat.
