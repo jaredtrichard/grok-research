@@ -28,7 +28,7 @@ A previous ahoy is a real captain message and may be the next interval boundary.
 2. If none exists, say this session has no prior captain message and stop. Do not invent a fleet snapshot. Do not call GitHub or read live queues.
 3. Recap only what is already visible after that message and before this invocation.
    Include concrete outcomes, landed work, failures, decisions made, new decisions needed, and work still running only when those events appear in that interval.
-   Use outcome language. Keep every full PR URL that appears in the interval.
+   Use outcome language. Recap views, reports, and task ids. Keep those paths and ids when they appear. A PR URL is not the main story.
 4. Also inspect the entire visible session before this invocation for every explicit captain decision that is still unanswered.
    A later unrelated captain message is a recap boundary. It does not close an earlier decision.
    A decision is closed only when a later visible response substantively resolves it: they chose an option, declined it, granted or denied the approval, skipped a card (treat skip as decline and record the assumption you made), or otherwise directly addressed it.
@@ -50,6 +50,6 @@ Do not batch unrelated decisions onto one card.
 
 ## Do not
 
-- Do not treat a good leftover merge as an open decision just because the process was messy
+- Do not treat a landed update or ship as an open decision just because the process was messy
 - Do not re-ask a skipped card; the skip already closed it
-- Do not pull live issue or PR status to "complete" the recap
+- Do not pull live book, view, or GitHub status to "complete" the recap
