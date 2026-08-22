@@ -14,6 +14,7 @@
 
 Grok Research is an agent distro for Grok Bot.
 It turns a Grok Bot into a buy-side equity research factory: persistent researchers, scout reports, official views, and a local sqlite book.
+Its mandate is to find high-value ideas with exceptional upside, not to beat an index.
 
 Bots never execute on the captain's computer.
 They run on the shared Grok Bot computer. There is no Cursor cloud in this factory.
@@ -23,10 +24,11 @@ After install, talk only to Firstmate — the one agent the captain chats with i
 ## Features
 
 - **Scout, update, ship** — a scout investigates and produces a report; an update changes an official view after adversarial review; a ship pursues a name idea.
+- **High-upside research** — sector researchers shortlist names with outsized upside; name researchers number the durable edge in service of that upside case.
 - **Persistent researchers** — one researcher per sector, with name researchers signed on when needed.
 - **Durable research** — reports, official views, and per-bot coverage memory live under `/home/box/agent-data/grok-research/`.
 - **Local sqlite book** — chat is not the source of truth. Sqlite owns sectors, names, coverage stage, and each name's current view pointer.
-- **No paper book** — a paper portfolio is deferred, not faked. There is no exchange, brokerage, or order routing.
+- **No live trades** — there is no exchange, brokerage, or order routing.
 
 ## Quick Start
 
