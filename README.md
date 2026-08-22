@@ -13,35 +13,34 @@
 ## What it is
 
 Grok Research is an agent distro for Grok Bot.
-It turns a Grok Bot into a buy-side equity research factory: persistent researchers, a paper book scored against **S&P 500 total return**, and Firstmate as the only agent the captain talks to.
+It turns a Grok Bot into a buy-side equity research factory: persistent researchers, official views, and Firstmate as the only agent the captain talks to.
 
 Bots never execute on the captain's machine.
 They run on the shared Grok Bot computer.
 
-Talk only to **Firstmate**. Ass PM is the role, not the public name. Firstmate never takes a trade.
+Talk only to **Firstmate**. Ass PM is the role, not the public name. Firstmate never takes a live trade.
 
 ## Vocabulary
 
 | Word | Who authorizes | What it is | What it is not |
 | --- | --- | --- | --- |
-| **scout** | Firstmate files; no captain "make the change" | Investigation. Deliverable = report under `/home/box/agent-data/grok-research/reports/<task id>.md`. | Not a trade. Not a PR. |
-| **update** | Captain | Authorized official view change. Deeper pursuit of an idea or investment. New or revised official view under `/home/box/agent-data/grok-research/views/`. Adversarial review of the view before it is current. | Not a trade. Not a PR. |
-| **ship** | Captain | Repo PR for `jaredtrichard/grok-research` (platform/code). Branch, review, PR; captain merges. | Not research. Not a trade. Keep this word for this repo only. |
-| **trade** | Captain only | Paper-portfolio fill, exit, or size change. | Not an update. Not a ship. Researchers never execute it. |
-| **watch** | Captain, at the investment gate | Keep covering after a no-buy. | Not a drop. Not a fill. |
+| **scout** | Firstmate files; no captain "make the change" | Investigation. Deliverable = report under `/home/box/agent-data/grok-research/reports/<task id>.md`. | Not an update. Not a ship. |
+| **update** | Captain | A view change. New or revised official view under `/home/box/agent-data/grok-research/views/`. Adversarial review of the view before it is current. | Not a ship. Not a scout. |
+| **ship** | Captain | Pursue a name idea. | Not a repo change. Not code. Not an update. |
+| **watch** | Captain | Keep covering a name. | Not a drop. |
 
-Do not call official view changes "ship" or "view-ship." Use **update**.
+Do not call a view change "ship." Use **update**. Do not call a repo change "ship."
 
 Two ladders, never collapsed:
 
 - **Task:** scout → update.
-- **Coverage:** idea → investment → paper portfolio **or** watch.
+- **Coverage:** idea → investment. A paper book is deferred; do not treat a ship or an update as a fill.
 
-Promoting a scout to an update does not put a name in the book. Firstmate never flips an update into a fill.
+Promoting a scout to an update changes the official view. It is not a ship.
 
 ## Comms graph
 
-Each **sector has its own persistent researcher**. That bot is the hub for that sector: it talks to that sector's name researchers and to Firstmate. Name researchers talk to their sector researcher, not to Firstmate. Jurisdiction joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed. The research factory is Firstmate plus idea, sector, name, and jurisdiction researchers.
+Each **sector has its own persistent researcher**. Every researcher talks to Firstmate; they are on equal footing. Researchers also talk among themselves: a name researcher may talk to its sector hub to inform a view, and to jurisdiction. Jurisdiction joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed. The research factory is Firstmate plus idea, sector, name, and jurisdiction researchers.
 
 ```
             captain
@@ -49,24 +48,20 @@ Each **sector has its own persistent researcher**. That bot is the hub for that 
                   ▼
  ┌─────────────────────────────────────────┐
  │ Firstmate (Ass PM)                      │
- │ book.db · scout / update / ship / trade │
- └──┬───────────┬──────────────────────────┘
-    │           │
-    ▼           ▼
- idea gen   sector hub
-                ▼
-         name researchers
-                │
-        jurisdiction joins
+ │ book.db · scout / update / ship         │
+ └──┬───────────┬───────────┬───────────┬──┘
+    ▼           ▼           ▼           ▼
+ idea gen    sector      name        jurisdiction
+                │           │
+                └──── talk to inform a view
+         name also talks to jurisdiction
 ```
 
 Firstmate always delegates grind. No subagents on Firstmate. Firstmate never calls Cursor cloud. Secrets are per-bot; never pasted in chat. Task ids on every handoff; empty outcomes still reported.
 
 ## Scorecard
 
-Paper book versus **S&P 500 total return**. No live exchange or brokerage in v1. Captain alone takes trades.
-
-Price return is the wrong scorecard (drops dividends). Russell 3000 is wrong unless the charter is all-cap. A hedge-fund or market-neutral index is wrong without shorts.
+A paper book versus **S&P 500 total return** is deferred — too complex to add now. Do not fake a substitute scorecard. No live exchange or brokerage in v1.
 
 ## Shared computer
 
@@ -85,7 +80,8 @@ Sqlite owns which sectors and names exist, coverage stage, and the current offic
 - Not a software factory.
 - Not a local Mac app.
 - No live exchange, brokerage, or order routing in v1.
-- No researcher takes a trade.
+- No paper book in the current product.
+- No researcher takes a live trade.
 - No Firstmate grind, subagents, or Cursor cloud.
 - Ass PM is not a public bot name.
 - One shared sector agent is forbidden.
