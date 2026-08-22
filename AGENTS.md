@@ -3,7 +3,7 @@
 This file is the project's committed home for project-intrinsic agent knowledge: build, test, release, architecture, and sharp-edge notes that should travel with the code.
 
 - Every signed-on bot keeps its own durable coverage memory at `/home/box/agent-data/grok-research/memory/<agent-id>.md` (read at start of work, write before context dies). Firstmate's file is factory-level, not a researcher's store. That is not the book, views, reports, or charter learning notes. See `GROK_BOT_RESEARCHER.md` and `GROK_BOT_FIRSTMATE.md`.
-- Product face: no paper book (deferred, not faked). Every researcher talks to Firstmate and may talk among themselves. **ship** = pursue a name idea; **update** = a view change. Authoritative: `README.md`, `GROK_BOT_FIRSTMATE.md`, `GROK_BOT_RESEARCHER.md`, `charters/`.
+- Product face: no paper book (deferred, not faked). Every researcher talks to Firstmate and may talk among themselves as needed; only Firstmate talks to the captain. Idea gen is not a routing hub and does not own coverage. **ship** = pursue a name idea; **update** = a view change. Authoritative: `README.md`, `GROK_BOT_FIRSTMATE.md`, `GROK_BOT_RESEARCHER.md`, `charters/`.
 
 ## Maintaining this file
 
