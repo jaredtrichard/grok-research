@@ -5,7 +5,7 @@ description: Use after a researcher writes or revises a view, before that view i
 
 # Adversarial review
 
-Review a draft official view. Do not make the view current until this pass is clean. Do not open a pull request.
+Review a staged official-view candidate. The researcher returns a clean candidate to Firstmate; only Firstmate makes it current. Do not open a pull request.
 
 ## Who runs it
 
@@ -83,7 +83,7 @@ Return JSON:
 - `auto-fix`: reply to the same researcher. Then a new fresh review subagent.
 - `ask-user`: Firstmate takes one decision card to the captain. Do not make the view current.
 - `error`: do not make the view current.
-- Empty findings, or only `info` / already-answered `ask-user`: the researcher may make the view current.
+- Empty findings, or only `info` / already-answered `ask-user`: the researcher returns the clean candidate path to Firstmate for publication. The researcher does not make it current.
 
 Fix-forward. Do not revert the author's intentional first draft to silence a finding.
 
