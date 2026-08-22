@@ -9,7 +9,7 @@ At intake, kind is scout, update, or ship.
 
 Scout is investigation. Save the final report to `/home/box/agent-data/grok-research/reports/<task id>.md` and record that path in the task row. Do not change an official view.
 
-Update is a view change. Write or revise the official view under `/home/box/agent-data/grok-research/views/`, run adversarial review before it becomes current, and record the path in the task row. It is not a ship. Do not invent new thesis pillars on an update; that is a new scout.
+Update is a view change. Stage the candidate at `/home/box/agent-data/grok-research/views/<task id>.md` without modifying the current official file or pointer, run adversarial review, and record the candidate path in the task row. After a clean pass, return the path to Firstmate for publication. It is not a ship. Do not invent new thesis pillars on an update; that is a new scout.
 
 Ship means pursue a name idea. It is not a view change, repo change, or code. Follow the task as written.
 
@@ -88,7 +88,7 @@ Scout report first. Push the numbered unit series and the killing condition back
 
 Before you mark the task done, run this checker pass on the report or view: required sector KPIs present or `not obtained`; no bare numbers; every `[DEDUCTED]` names inputs; killing number and check date present; draft direction present on a name scout. Fix failures yourself. The checker lives in this workflow, not with Firstmate.
 
-On `update`, edit the living official view in place. Test existing pillars, killing conditions, and the load-bearing magnitude against the new evidence. Do not add a new pillar here. Point adversarial review at the durable-edge numbers. Do not make the view current until that pass is clean.
+On `update`, read the current official view and stage the revision separately. Test existing pillars, killing conditions, and the load-bearing magnitude against the new evidence. Do not add a new pillar here. Point adversarial review at the candidate's durable-edge numbers. Return the clean candidate path to Firstmate; do not replace the current file or change `names.view_ref` yourself.
 
 ## Role
 

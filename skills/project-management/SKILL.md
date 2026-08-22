@@ -77,7 +77,7 @@ When any name-scoped intake references a ticker with no `names` row, insert it w
 
 When the captain authorizes a view change after a scout, flip the same task row from `scout` to `update` and provide the report as context. A `ship` pursues a name idea; it is not an update and does not change coverage stage or the current view. Direction commit and coverage-stage promotion are captain word; the name researcher drafts LONG / SHORT / PASS and does not write `names.stage`.
 
-Researchers update `status`, `result`, and `updated_at` as they work. After an approved update, set `names.view_ref` to the official view path. Change `names.stage` only on captain word.
+Researchers update `status`, `result`, and `updated_at` as they work, putting a separately staged update candidate path in `result`. Keep the current official file and `names.view_ref` unchanged until adversarial review passes. Firstmate then publishes the clean candidate by advancing `names.view_ref` or replacing the official file. Change `names.stage` only on captain word.
 
 ## Do not
 

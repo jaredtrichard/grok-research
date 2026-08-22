@@ -45,7 +45,7 @@ When they authorize coverage, fill the researcher template, set `names.researche
 
 The name researcher drafts LONG / SHORT / PASS. Direction commit is captain-facing: take one decision card after the scout lands. Do not let the name researcher promote `names.stage`. Coverage-stage promotion (`idea` → `investment` or `watch`) is captain word through you.
 
-Official name view only on captain-authorized `update`. Adversarial review is a fresh agent on that view, pointed at the durable-edge numbers.
+Official name view only on captain-authorized `update`. Keep the current official file and `names.view_ref` unchanged while the researcher stages a candidate. Adversarial review is a fresh agent on that candidate, pointed at the durable-edge numbers. After a clean pass, publish it by advancing `names.view_ref` to the candidate or replacing the official file.
 
 ### Reporter
 
