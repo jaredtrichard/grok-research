@@ -7,29 +7,18 @@ description: Use at Grok Research intake and whenever work is handed to a resear
 
 A local sqlite database is the research book. Chat is not the source of truth.
 
-Authoritative product: `README.md`, `GROK_BOT_FIRSTMATE.md`, `GROK_BOT_RESEARCHER.md`, `charters/`.
-
 ## Database path
 
 On the shared Grok Bot computer:
 
 `/home/box/agent-data/grok-research/book.db`
 
-Create the parent directory if needed. Same path every time. Do not invent a second database. Do not create this file on the captain's Mac.
-
-Scout reports live beside it in `/home/box/agent-data/grok-research/reports/`, one file per task id.
-Official views live in `/home/box/agent-data/grok-research/views/`.
-Coverage memory is **not** this database. Each bot keeps `/home/box/agent-data/grok-research/memory/<agent-id>.md`.
+Create the parent directory if needed. Same path every time. Do not create this file on the captain's computer.
+Scout reports live in `/home/box/agent-data/grok-research/reports/`, official views in `/home/box/agent-data/grok-research/views/`, and each bot's separate coverage memory in `/home/box/agent-data/grok-research/memory/<agent-id>.md`.
 
 ## Schema
 
 ```sql
-CREATE TABLE IF NOT EXISTS projects (
-  id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  created_at INTEGER NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS sectors (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
@@ -44,7 +33,7 @@ CREATE TABLE IF NOT EXISTS names (
   sector_id TEXT NOT NULL,
   researcher_id TEXT,
   stage TEXT NOT NULL,
-  jurisdiction TEXT,
+  listing_venue TEXT,
   view_ref TEXT,
   created_at INTEGER NOT NULL,
   updated_at INTEGER
@@ -55,7 +44,6 @@ CREATE TABLE IF NOT EXISTS tasks (
   kind TEXT NOT NULL,
   title TEXT NOT NULL,
   prompt TEXT NOT NULL,
-  project_id TEXT,
   name_id TEXT,
   sector_id TEXT,
   status TEXT NOT NULL,
@@ -67,50 +55,33 @@ CREATE TABLE IF NOT EXISTS tasks (
 );
 ```
 
-`names.stage` is `idea`, `investment`, or `watch`.
-`names.view_ref` is the current official view path, or null until the first update.
+`names.stage` is `idea`, `investment`, or `watch`. `names.listing_venue` is optional data, not a researcher role or routing hook. `names.view_ref` is the current official view path, or null.
 
-`tasks.kind` is `scout`, `update`, `ship`, or `decision`.
-`tasks.status` is `queued`, `underway`, `blocked`, `done`, or `cancelled`.
-`tasks.result` is the outcome pointer: scout or ship report path, or update view path.
-`gate_kind` is optional: `after-task`, `at-time`, or `captain`.
+`tasks.kind` is `scout`, `update`, `ship`, or `decision`. `tasks.status` is `queued`, `underway`, `blocked`, `done`, or `cancelled`. `tasks.result` is the outcome pointer. `gate_kind` is optional: `after-task`, `at-time`, or `captain`.
 
-The schema is deliberately minimal. Do not add a fills or positions table. Do not add a portfolio stage. Do not add a trade or platform-ship task kind.
+The schema is deliberately minimal. Do not add fills, positions, a portfolio stage, or a trade task kind.
 
 ## Setup
 
-If `book.db` does not exist on the shared Grok Bot computer, create it and run the schema. If it exists, do not migrate inventively. Report the path to Firstmate.
+On Firstmate's first intake, if `book.db` is missing, create it and run the schema above. This `listing_venue` and no-`projects` schema applies only to fresh books. If `book.db` exists, leave its schema and data untouched; this pack does not migrate existing books.
 
 ## Intake
 
-Firstmate writes a task row before handing work off. Reuse the task id in the researcher message. A good `prompt` states the goal, acceptance criteria, and constraints — enough to act on without coming back for basics.
+Firstmate writes a task row before handing work off. Reuse the task id in the researcher message. The prompt carries the goal, acceptance criteria, and constraints.
 
-Research work files under the reserved `book` project row. Create that row on first use (`id` = `book`). Nothing else is required. Do not invent a `default` or `platform` project.
+If a sector has no row, Firstmate fills `GROK_BOT_RESEARCHER.md` for that sector, signs on one persistent researcher, and inserts the row. Reuse that researcher thereafter; never create one shared researcher for multiple sectors.
 
-If the work belongs to a sector that has no sector row, sign on a researcher from `charters/GROK_BOT_SECTOR.md` and insert the sector row (`researcher_id` required). If a sector row already maps that sector to a researcher, reuse that researcher.
+If a name has no row, insert it with the captain's stated stage, or `idea` by default. Sign on a name researcher from the same template only when the name needs its own bot. Researchers may talk to Firstmate and one another directly.
 
-If the work belongs to a name that has no name row, insert the name (`stage` = `idea` unless the captain already said `investment` or `watch`) and sign on a name researcher from `charters/GROK_BOT_NAME.md` when that name needs its own bot. If a name row already maps that name to a researcher, reuse that researcher.
+## Promotion and updates
 
-Firstmate talks to any researcher. Researchers talk among themselves as needed. Do not route only through a sector hub.
+When the captain authorizes a view change after a scout, flip the same task row from `scout` to `update` and provide the report as context. A `ship` pursues a name idea; it is not an update and does not change coverage stage or the current view.
 
-## Two ladders
-
-Never collapse these.
-
-**Task ladder:** scout → update. When the captain authorizes a view change after a scout, do not open a duplicate task: flip the same row's kind to `update` and hand it back to the researcher with the scout report as context.
-
-**Coverage ladder:** idea → investment. `watch` exists (keep covering). Coverage stage lives on `names.stage`. Update it only on captain word. An update does not promote coverage. A ship does not promote coverage and does not change the official view.
-
-When the captain authorizes pursuing a name idea, file a `ship` task. That is not an update and not a scout promotion.
-
-## Updates
-
-The researcher updates `status`, `result`, and `updated_at` as it goes. Done means `result` holds the pointer: report path for scout or ship, view path for update. After a successful update, set `names.view_ref` to that view path.
+Researchers update `status`, `result`, and `updated_at` as they work. After an approved update, set `names.view_ref` to the official view path. Change `names.stage` only on captain word.
 
 ## Do not
 
 - Do not keep the book only in chat
-- Do not treat sqlite as a bot's coverage memory
-- Do not write a fill or invent a paper book
-- Do not create one Firstmate per sector or name
+- Do not treat sqlite as coverage memory
+- Do not invent a paper book or live trade
 - Do not open a pull request from this factory
