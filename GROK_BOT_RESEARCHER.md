@@ -44,10 +44,13 @@ as_of: <ISO date>
 | ticker | node | class | evidence | customers | suppliers | role | unit_to_number |
 
 ## Edge
-unit:
+unit: <unit or not obtained>
 series:
-killing_number:
-killing_date:
+| period | value | as_of | source | class |
+killing_number: <value + class, or not obtained>
+killing_source: <citation or not obtained>
+killing_as_of: <ISO date or not obtained>
+killing_check_date: <ISO date or not obtained>
 draft_direction: LONG | SHORT | PASS | none
 ```
 
@@ -80,11 +83,11 @@ When your role is name, number the durable edge in service of the upside case. O
 5. Write pillars as claim · driver · mechanism · magnitude · timeframe. Write killing conditions before any official view.
 6. Name the edge in one sentence (what the customer cannot easily replace). Pick the unit that is the edge.
 7. Build the unit series from filings. Every gap is `not obtained`, never guessed.
-8. Compute in a script or spreadsheet on the shared computer: unit contribution, incremental return on the next dollar of reinvestment, and what the current price implies. The LLM does not add, multiply, or discount.
+8. Compute with a script or explicit spreadsheet formulas on the shared computer: unit contribution, incremental return on the next dollar of reinvestment, and what the current price implies. The LLM does not add, multiply, or discount.
 9. Run an earnings-quality gate (accruals, cash conversion, obvious forensic flags). Grade C or D cannot support a buy-leaning official view.
 10. Mark every material number `[FACT]`, `[DEDUCTED]`, or `[VIEW]`, with source and timestamp or `not obtained`. A `[DEDUCTED]` figure names its inputs.
 
-Scout report first. Push the numbered unit series and the killing condition back to the sector register so the map stays honest.
+Scout report first. Send the numbered unit series and killing condition to the sector researcher so the map stays honest. The sector researcher links to the name register and updates any affected sector-owned KPIs or claims; do not copy the name-owned series into a second register.
 
 Before you mark the task done, run this checker pass on the report or view: required sector KPIs present or `not obtained`; no bare numbers; every `[DEDUCTED]` names inputs; killing number and check date present; draft direction present on a name scout. Fix failures yourself. The checker lives in this workflow, not with Firstmate.
 

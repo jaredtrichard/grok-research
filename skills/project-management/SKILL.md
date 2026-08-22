@@ -71,7 +71,7 @@ Firstmate writes a task row before handing work off. Reuse the task id in the re
 
 If a sector has no row, Firstmate fills `GROK_BOT_RESEARCHER.md` for that sector, signs on one persistent researcher, and inserts the row. Reuse that researcher thereafter; never create one shared researcher for multiple sectors.
 
-When any name-scoped intake references a ticker with no `names` row, insert it with the captain's stated stage, or `idea` by default, and `researcher_id` null. This includes a sector shortlist and a captain-authorized direct scout. A shortlist is not a wake. Sign on or wake a name researcher from the same template only after the captain authorizes that name; then set `researcher_id`. Researchers may talk to Firstmate and one another directly.
+When a name-scoped intake or landed sector shortlist references a ticker with no `names` row, insert it with the captain's stated stage, or `idea` by default, and `researcher_id` null. A shortlist is not a wake. Sign on or wake a name researcher from the same template only after the captain authorizes that name; then set `researcher_id`. Researchers may talk to Firstmate and one another directly.
 
 ## Promotion and updates
 
