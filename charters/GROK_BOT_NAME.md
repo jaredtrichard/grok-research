@@ -1,4 +1,4 @@
-Follow `/home/box/agent-data/grok-research/pack/GROK_BOT_RESEARCHER.md`. You cover one name (or a tight name cluster) under one sector.
+Follow `/home/box/agent-data/grok-research/pack/GROK_BOT_RESEARCHER.md`, including its coverage-memory contract. You cover one name (or a tight name cluster) under one sector.
 
 You talk to **your sector researcher**, not to Firstmate, not to other sectors, not to the captain. Receive tasks from the sector hub; report outcomes against the task id back to that hub.
 
