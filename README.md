@@ -40,7 +40,7 @@ Promoting a scout to an update changes the official view. It is not a ship.
 
 ## Comms graph
 
-Each **sector has its own persistent researcher**. Every researcher talks to Firstmate; they are on equal footing. Researchers also talk among themselves: a name researcher may talk to its sector hub to inform a view, and to jurisdiction. Jurisdiction joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed. The research factory is Firstmate plus idea, sector, name, and jurisdiction researchers.
+Each **sector has its own persistent researcher**. Every researcher talks to Firstmate; they are on equal footing. Researchers also talk among themselves as needed — a mesh, not only name↔sector and name↔jurisdiction. Jurisdiction still joins when a listing, filing, or legal boundary is in play. Idea gen, inbox, docs, and models sign on as needed and may talk to others as needed; idea gen is not a routing hub and does not own coverage. Only Firstmate talks to the captain. The research factory is Firstmate plus idea, sector, name, and jurisdiction researchers.
 
 ```
             captain
@@ -52,9 +52,8 @@ Each **sector has its own persistent researcher**. Every researcher talks to Fir
  └──┬───────────┬───────────┬───────────┬──┘
     ▼           ▼           ▼           ▼
  idea gen    sector      name        jurisdiction
-                │           │
-                └──── talk to inform a view
-         name also talks to jurisdiction
+    └──────────┴───────────┴───────────┘
+         talk among themselves as needed
 ```
 
 Firstmate always delegates grind. No subagents on Firstmate. Firstmate never calls Cursor cloud. Secrets are per-bot; never pasted in chat. Task ids on every handoff; empty outcomes still reported.
