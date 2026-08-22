@@ -8,30 +8,26 @@ This file is an installer. Do not summarize.
 ## What you are installing
 
 - A Firstmate the captain talks to from then on
-- Global skills from this pack: lavish-session, adversarial-review, project-management, ahoy
-- Empty factory dirs for reports, views, and per-bot memory
-- A book path at `/home/box/agent-data/grok-research/book.db` (Firstmate inits the book on first intake)
-- A researcher template and thin charters for later sign-on
+- Global skills: lavish-session, adversarial-review, project-management, ahoy
+- Empty directories for scout reports, official views, and per-bot coverage memory
+- A book at `/home/box/agent-data/grok-research/book.db`, initialized by Firstmate on first intake
+- One researcher template for later sector and name researchers
 
-Do not invent a paper book. Do not create a paper-book file or directory.
+Do not invent a paper book. Do not pre-create researchers.
 
 ## The computers
 
-- The captain's Mac: their own machine. Bots never execute here.
-- The shared Grok Bot computer: a persistent cloud VM that runs every bot. Pack, book, reports, views, memory, skills, browser grind, and lavish-axi all run here.
+- The captain's computer: their own machine. Bots never execute here.
+- The shared Grok Bot computer: the persistent cloud VM where every bot, the book, research files, browser work, and lavish-axi run.
 
-There is no Cursor cloud in this factory. Do not sign on a crewmate. Do not use grok-ship paths.
+There is no Cursor cloud in this factory. Do not use grok-ship paths.
 
 ## Files in this pack
 
 Same directory as this file:
 
-- `GROK_BOT_FIRSTMATE.md` — Firstmate charter (Ass PM; public name Firstmate)
-- `GROK_BOT_RESEARCHER.md` — generic researcher template
-- `charters/GROK_BOT_IDEA.md`
-- `charters/GROK_BOT_SECTOR.md`
-- `charters/GROK_BOT_NAME.md`
-- `charters/GROK_BOT_JURISDICTION.md`
+- `GROK_BOT_FIRSTMATE.md` — Firstmate charter
+- `GROK_BOT_RESEARCHER.md` — researcher template
 - `skills/lavish-session/SKILL.md`
 - `skills/adversarial-review/SKILL.md`
 - `skills/project-management/SKILL.md`
@@ -39,35 +35,23 @@ Same directory as this file:
 
 ## Steps
 
-1. Copy this whole pack to `/home/box/agent-data/grok-research/pack/` on the shared computer (clone or download it first if you only have this file's text). Every later reference to a pack file means that path. If a copy is already there, refresh it. Never copy to a grok-ship path.
+1. Copy this whole pack to `/home/box/agent-data/grok-research/pack/` on the shared computer (clone or download it first if you only have this file's text). Every later reference to a pack file means that path. If a copy is already there, refresh it.
 
-2. Create these empty directories if they do not exist. Do not seed files into them.
-
+2. Create these empty directories if they do not exist. Do not seed files into them:
    - `/home/box/agent-data/grok-research/reports/`
    - `/home/box/agent-data/grok-research/views/`
    - `/home/box/agent-data/grok-research/memory/`
 
-   Do not create a paper book. Do not invent other factory roots.
+3. Look at the existing roster. If a Firstmate already exists, reuse it. Do not create a second.
 
-3. Point the book at `/home/box/agent-data/grok-research/book.db`. Schema is owned by the project-management skill. That skill is still landing, so do not invent a schema and do not run a grok-ship `factory.db` init. Firstmate inits the book on first intake.
+4. Read `GROK_BOT_FIRSTMATE.md`. CreateAgent name `Firstmate` with that description. If you are already Firstmate, keep your name and update your description instead of cloning yourself.
 
-4. Look at the existing roster (agent profile folders). If a Firstmate already exists, reuse it. Do not create a second.
+5. Write four global workflows from the skill files. Names: Lavish session, Adversarial review, Project management, Ahoy. Use each skill's description line as the workflow description. Do not install extra plugins without a yes from the captain.
 
-5. Read `/home/box/agent-data/grok-research/pack/GROK_BOT_FIRSTMATE.md`. CreateAgent name `Firstmate` with that description. If you are already Firstmate, keep your name and update your description instead of cloning yourself.
+6. Check for lavish-axi on the shared computer. Minimum version 0.1.53. If missing, run `npx -y lavish-axi@latest` or ask the captain to install it. Confirm that the captain can reach its session URLs. Do not pretend the live loop works without it.
 
-6. Do not pre-create researchers at install. Firstmate signs them on later from `/home/box/agent-data/grok-research/pack/GROK_BOT_RESEARCHER.md` plus the matching thin charter under `pack/charters/`. One persistent researcher per sector; never one shared sector agent. Do not pre-create inbox, docs, or models. Do not sign on a platform researcher. Do not invent a sector or name just to have a bot.
+7. Message Firstmate with ready-id `GR-READY`. Tell it the skills are installed, the three empty directories exist, and it must initialize `/home/box/agent-data/grok-research/book.db` with the project-management skill on first intake. Tell it to reply ready against that id and leave a greeting for the captain.
 
-7. After the pack is copied, write four global workflows from `pack/skills/`. Names:
+8. Tell the captain to talk only to Firstmate from here. This starter bot is leftover; the captain can delete it from the sidebar. You cannot delete it yourself.
 
-   - Lavish session
-   - Adversarial review
-   - Project management
-   - Ahoy
-
-   Use each skill's description line as the workflow description. Do not install extra plugins without a yes from the user.
-
-8. Check for lavish-axi on the shared computer. Minimum version 0.1.53. If missing, run `npx -y lavish-axi@latest` or ask the captain to install it. Session URLs are served from the shared computer and the captain views them from their own computer, so confirm they can reach it (tailnet or exposed address). Do not pretend the live loop works without it.
-
-9. Message Firstmate with ready-id `GR-READY`. Tell it the pack path, the four skills, the empty dirs, and that the book is `/home/box/agent-data/grok-research/book.db` (Firstmate inits it on first intake). Tell it to reply ready against that id. Empty or blocked still gets a reply. Tell Firstmate to leave a greeting message to the captain.
-
-10. Tell the captain: talk only to Firstmate from here. This starter bot is leftover. They can delete it from the sidebar (right-click the row, Delete). You cannot delete it yourself.
+Firstmate signs researchers on later from `GROK_BOT_RESEARCHER.md` only. It fills the role (sector or name), agent id, book path, and learning notes into each bot. One persistent researcher serves each sector; name researchers are added only when needed.
