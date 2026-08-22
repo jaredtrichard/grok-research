@@ -24,7 +24,7 @@ After install, talk only to Firstmate — the one agent the captain chats with i
 ## Features
 
 - **Scout, update, ship** — a scout investigates and produces a report; an update changes an official view after adversarial review; a ship pursues a name idea.
-- **High-upside research** — sector researchers produce a map and a 3–5 name shortlist with outsized upside; name researchers number the durable edge in service of that upside case.
+- **High-upside research** — sector researchers produce a map and target a 3–5 name shortlist with outsized upside, using `not obtained` rather than padding when fewer qualify; name researchers number the durable edge in service of that upside case.
 - **Captain-gated name coverage** — a sector shortlist is not a wake. Firstmate signs on or wakes a name researcher only when you authorize that name. `update` and `ship` stay captain-gated.
 - **Persistent researchers** — one researcher per sector. Name researchers are signed on only after you authorize the name.
 - **Durable research** — reports, official views, and per-bot coverage memory live under `/home/box/agent-data/grok-research/`.

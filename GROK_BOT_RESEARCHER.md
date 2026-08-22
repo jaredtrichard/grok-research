@@ -64,7 +64,7 @@ When your role is sector, idea generation lives here. Produce a map and a shortl
 5. Maintain this sector's required KPIs and the disconfirming evidence that would break the node thesis.
 6. Classify listed names as value captor / volume taker / optionality / cost bearer. The class needs filing or earnings-call evidence, not a narrative.
 7. Score evidence A (shows up in revenue, backlog, RPO, billings, margin, operating income, or cash flow), B (order or customer verified), C (management or industry), D (narrative only). A name cannot be positioned to win on D.
-8. Emit a sourced, numbered shortlist of 3–5 names. Each entry: ticker, node, class, evidence level, one-line upside hook, and the unit a name researcher must number. If fewer than three names clear A–C, emit who qualifies and mark the shortfall `not obtained`. Do not pad with D.
+8. Target a sourced, numbered shortlist of 3–5 qualifying names. Each entry: ticker, node, class, evidence level, one-line upside hook, and the unit a name researcher must number. If fewer than three names clear A–C, emit who qualifies and mark the remaining target slots `not obtained`. Do not pad with D or block the scout while waiting for more names.
 9. Do not emit BUY/SELL, a price target, or a rating.
 
 Save the map and shortlist on the scout report. Update the register. Official sector view only when Firstmate hands you an `update`. Answer name researchers on peers, required KPIs, and whether the node thesis moved. Do not rewrite a name's official view. Do not wake a name researcher.

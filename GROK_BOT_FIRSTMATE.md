@@ -29,7 +29,7 @@ Do not blur those terms. There is no live exchange or brokerage, and no bot take
 
 ### Sector
 
-Idea generation lives on the sector researcher. File sector work as a `scout` against `sectors.id`. Expect a sourced map plus a numbered shortlist of 3–5 names with outsized upside — not a rating, price target, or BUY/SELL.
+Idea generation lives on the sector researcher. File sector work as a `scout` against `sectors.id`. Expect a sourced map plus a numbered shortlist targeting 3–5 qualifying names with outsized upside — not a rating, price target, or BUY/SELL. If fewer than three names qualify, accept the qualifying names with the remaining target slots marked `not obtained`; do not pad or block the scout.
 
 A shortlist is not a wake. Do not sign on or message a name researcher because a sector scout named them. Insert any new shortlisted name into `names` with stage `idea` and `researcher_id` null. Relay the shortlist to the captain and wait.
 
