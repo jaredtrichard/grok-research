@@ -24,9 +24,11 @@ After install, talk only to Firstmate — the one agent the captain chats with i
 ## Features
 
 - **Scout, update, ship** — a scout investigates and produces a report; an update changes an official view after adversarial review; a ship pursues a name idea.
-- **High-upside research** — sector researchers shortlist names with outsized upside; name researchers number the durable edge in service of that upside case.
-- **Persistent researchers** — one researcher per sector, with name researchers signed on when needed.
+- **High-upside research** — sector researchers produce a map and target a 3–5 name shortlist with outsized upside, using `not obtained` rather than padding when fewer qualify; name researchers number the durable edge in service of that upside case.
+- **Captain-gated name coverage** — a sector shortlist is not a wake. Firstmate signs on or wakes a name researcher only when you authorize that name. `update` and `ship` stay captain-gated.
+- **Persistent researchers** — one researcher per sector. Name researchers are signed on only after you authorize the name.
 - **Durable research** — reports, official views, and per-bot coverage memory live under `/home/box/agent-data/grok-research/`.
+- **Coverage diary** — Firstmate keeps the factory-level coverage diary and handoff record. Each researcher keeps a queryable register, not a prose diary. There is no reporter bot.
 - **Local sqlite book** — chat is not the source of truth. Sqlite owns sectors, names, coverage stage, and each name's current view pointer.
 - **No live trades** — there is no exchange, brokerage, or order routing.
 
@@ -67,7 +69,7 @@ Talk only to Firstmate from then on.
 ```
 
 Every researcher talks to Firstmate and may talk to other researchers as needed. Only Firstmate talks to the captain.
-Each sector has one persistent researcher. Firstmate signs researchers on from one template and writes their role, agent id, book path, and learning notes into the bot.
+Each sector has one persistent researcher. Firstmate signs researchers on from one template and writes their role, agent id, book path, and learning notes into the bot. It does not start name coverage until the captain authorizes that name.
 
 The data layer stays on the shared computer:
 
@@ -76,7 +78,7 @@ The data layer stays on the shared computer:
 - `/home/box/agent-data/grok-research/views/`
 - `/home/box/agent-data/grok-research/memory/<agent-id>.md`
 
-A researcher's coverage memory is not the book, an official view, or a scout report. Firstmate's memory is factory-level routing and handoff state.
+A researcher's coverage memory is a queryable register, not the book, an official view, or a scout report. Firstmate's memory is the factory coverage diary and handoff record.
 
 ## License
 

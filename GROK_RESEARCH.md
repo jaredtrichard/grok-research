@@ -5,7 +5,7 @@ The user just needs to tell any bot in their Grok Bot: follow this file.
 
 This file is an installer. Do not summarize.
 
-The factory's mandate is to find high-value ideas with exceptional upside, not to beat an index. Sector researchers shortlist names with outsized upside. Name researchers number the durable edge in service of that upside case.
+The factory's mandate is to find high-value ideas with exceptional upside, not to beat an index. Sector researchers shortlist names with outsized upside. Name researchers number the durable edge in service of that upside case. Firstmate owns the factory coverage diary. There is no reporter bot.
 
 ## What you are installing
 
@@ -56,4 +56,4 @@ Same directory as this file:
 
 8. Tell the captain to talk only to Firstmate from here. This starter bot is leftover; the captain can delete it from the sidebar. You cannot delete it yourself.
 
-Firstmate signs researchers on later from `GROK_BOT_RESEARCHER.md` only. It fills the role (sector or name), agent id, book path, and learning notes into each bot. One persistent researcher serves each sector; name researchers are added only when needed.
+Firstmate signs researchers on later from `GROK_BOT_RESEARCHER.md` only. It fills the role (sector or name), agent id, book path, and learning notes into each bot. One persistent researcher serves each sector. Name researchers are signed on only when the captain authorizes that name; a sector shortlist is not a wake.

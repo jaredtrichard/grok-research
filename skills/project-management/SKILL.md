@@ -14,7 +14,7 @@ On the shared Grok Bot computer:
 `/home/box/agent-data/grok-research/book.db`
 
 Create the parent directory if needed. Same path every time. Do not create this file on the captain's computer.
-Scout reports live in `/home/box/agent-data/grok-research/reports/`, official views in `/home/box/agent-data/grok-research/views/`, and each bot's separate coverage memory in `/home/box/agent-data/grok-research/memory/<agent-id>.md`.
+Scout reports live in `/home/box/agent-data/grok-research/reports/`, official views in `/home/box/agent-data/grok-research/views/`, and each bot's separate coverage memory in `/home/box/agent-data/grok-research/memory/<agent-id>.md`. Firstmate's file is the factory coverage diary and handoff record. A researcher's file is a queryable register, not a prose diary.
 
 ## Schema
 
@@ -71,13 +71,13 @@ Firstmate writes a task row before handing work off. Reuse the task id in the re
 
 If a sector has no row, Firstmate fills `GROK_BOT_RESEARCHER.md` for that sector, signs on one persistent researcher, and inserts the row. Reuse that researcher thereafter; never create one shared researcher for multiple sectors.
 
-If a name has no row, insert it with the captain's stated stage, or `idea` by default. Sign on a name researcher from the same template only when the name needs its own bot. Researchers may talk to Firstmate and one another directly.
+When a name-scoped intake or landed sector shortlist references a ticker with no `names` row, insert it with the captain's stated stage, or `idea` by default, and `researcher_id` null. A shortlist is not a wake. Sign on or wake a name researcher from the same template only after the captain authorizes that name; then set `researcher_id`. Researchers may talk to Firstmate and one another directly.
 
 ## Promotion and updates
 
-When the captain authorizes a view change after a scout, flip the same task row from `scout` to `update` and provide the report as context. A `ship` pursues a name idea; it is not an update and does not change coverage stage or the current view.
+When the captain authorizes a view change after a scout, flip the same task row from `scout` to `update` and provide the report as context. A `ship` pursues a name idea; it is not an update and does not change coverage stage or the current view. Direction commit and coverage-stage promotion are captain word; the name researcher drafts LONG / SHORT / PASS and does not write `names.stage`.
 
-Researchers update `status`, `result`, and `updated_at` as they work. After an approved update, set `names.view_ref` to the official view path. Change `names.stage` only on captain word.
+Researchers update `status`, `result`, and `updated_at` as they work, putting a separately staged update candidate path in `result`. Keep the current official file and `names.view_ref` unchanged until adversarial review passes. Firstmate then publishes the clean candidate by advancing `names.view_ref` or replacing the official file. Change `names.stage` only on captain word.
 
 ## Do not
 

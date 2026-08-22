@@ -5,7 +5,7 @@ description: Use after a researcher writes or revises a view, before that view i
 
 # Adversarial review
 
-Review a draft official view. Do not make the view current until this pass is clean. Do not open a pull request.
+Review a staged official-view candidate. The researcher returns a clean candidate to Firstmate; only Firstmate makes it current. Do not open a pull request.
 
 ## Who runs it
 
@@ -33,6 +33,8 @@ Task:
 
 - Read the view yourself. Read the previous view and scout report when provided.
 - Focus findings on risks in the view: unsupported claims, missing contrary evidence, stale or wrong facts, internal contradictions, and a thesis that does not follow from the evidence.
+- On a name view, point the review at the durable-edge numbers: unit series, source + timestamp or `not obtained`, `[FACT]` / `[DEDUCTED]` / `[VIEW]`, killing conditions, earnings-quality grade, and any arithmetic the model appears to have done in prose.
+- On a sector view, hunt a hidden rating or price target, unsourced shortlist entries, and names positioned to win on narrative-only evidence.
 - Do NOT change the official view during review. Do NOT run tests.
 - Analyze for reasoning bugs, risks, and argument simplification opportunities.
 - Simplification means tightening the argument without changing the thesis. It does NOT mean dropping coverage or changing the recommended stance.
@@ -81,7 +83,7 @@ Return JSON:
 - `auto-fix`: reply to the same researcher. Then a new fresh review subagent.
 - `ask-user`: Firstmate takes one decision card to the captain. Do not make the view current.
 - `error`: do not make the view current.
-- Empty findings, or only `info` / already-answered `ask-user`: the researcher may make the view current.
+- Empty findings, or only `info` / already-answered `ask-user`: the researcher returns the clean candidate path to Firstmate for publication. The researcher does not make it current.
 
 Fix-forward. Do not revert the author's intentional first draft to silence a finding.
 
