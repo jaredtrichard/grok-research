@@ -33,6 +33,8 @@ Task:
 
 - Read the view yourself. Read the previous view and scout report when provided.
 - Focus findings on risks in the view: unsupported claims, missing contrary evidence, stale or wrong facts, internal contradictions, and a thesis that does not follow from the evidence.
+- On a name view, point the review at the durable-edge numbers: unit series, source + timestamp or `not obtained`, `[FACT]` / `[DEDUCTED]` / `[VIEW]`, killing conditions, earnings-quality grade, and any arithmetic the model appears to have done in prose.
+- On a sector view, hunt a hidden rating or price target, unsourced shortlist entries, and names positioned to win on narrative-only evidence.
 - Do NOT change the official view during review. Do NOT run tests.
 - Analyze for reasoning bugs, risks, and argument simplification opportunities.
 - Simplification means tightening the argument without changing the thesis. It does NOT mean dropping coverage or changing the recommended stance.
