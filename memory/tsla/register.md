@@ -87,7 +87,7 @@ Sources: [S1, Note 16, p. 92](https://www.sec.gov/Archives/edgar/data/1318605/00
 - **R5.4 [FACT]** Accrued warranty ended Q2 at 8,963; Q2 provision was 615 and costs incurred were 504. [S3, Note 1, p. 14](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
 - **R5.5 [FACT]** Automotive deferred revenue tied mainly to connectivity, FSD maintenance, free Supercharging and OTA updates was 4,050 at 2026-06-30; 962 was expected in the next 12 months. Regulatory-credit contracts longer than one year had 287 of unsatisfied/partly unsatisfied performance obligations, 220 expected within 12 months. [S3, Note 2, pp. 10–11](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
 - **R5.6 [FACT]** Energy contracts longer than one year had 10,050 of unsatisfied/partly unsatisfied performance obligations at 2026-06-30, with 4,560 expected in the next 12 months. [S3, Note 2, p. 12](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
-- **R5.7 [FACT]** Residual-value guarantee liabilities were immaterial at 2026-06-30; maximum exposure was 157. Tesla separately carried 4,253 of operating-lease vehicles. [S3, pp. 3 and 10–11](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
+- **R5.7 [FACT]** Residual-value guarantee liabilities were immaterial at 2026-06-30; maximum exposure was 4,070. Tesla separately carried 4,253 of operating-lease vehicles. [S3, pp. 3 and 10–11](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
 
 ## R6 — Related parties in Tesla filings only
 
