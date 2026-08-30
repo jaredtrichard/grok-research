@@ -326,74 +326,74 @@ ASSUMPTIONS = {
 # Researcher-specified platform assumptions. Every value is a [VIEW].
 PLATFORM_ASSUMPTIONS = {
     "FY2026E": {
-        "fsd_revenue": 2_000.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 5.0,
-        "robotaxi_revenue_per_vehicle_k": 28.0,
-        "robotaxi_ebit_margin": 0.30,
+        "fsd_revenue": 3_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 15.0,
+        "robotaxi_revenue_per_vehicle_k": 30.0,
+        "robotaxi_ebit_margin": 0.25,
         "optimus_units_k": 0.0,
         "optimus_asp_k": 0.0,
         "optimus_ebit_margin": 0.0,
     },
     "FY2027E": {
-        "fsd_revenue": 3_500.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 30.0,
-        "robotaxi_revenue_per_vehicle_k": 32.0,
-        "robotaxi_ebit_margin": 0.45,
-        "optimus_units_k": 5.0,
+        "fsd_revenue": 6_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 80.0,
+        "robotaxi_revenue_per_vehicle_k": 34.0,
+        "robotaxi_ebit_margin": 0.40,
+        "optimus_units_k": 25.0,
         "optimus_asp_k": 30.0,
-        "optimus_ebit_margin": 0.05,
+        "optimus_ebit_margin": 0.08,
     },
     "FY2028E": {
-        "fsd_revenue": 5_500.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 100.0,
-        "robotaxi_revenue_per_vehicle_k": 36.0,
-        "robotaxi_ebit_margin": 0.55,
-        "optimus_units_k": 40.0,
-        "optimus_asp_k": 30.0,
+        "fsd_revenue": 10_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 250.0,
+        "robotaxi_revenue_per_vehicle_k": 38.0,
+        "robotaxi_ebit_margin": 0.50,
+        "optimus_units_k": 200.0,
+        "optimus_asp_k": 28.0,
         "optimus_ebit_margin": 0.15,
     },
     "FY2029E": {
-        "fsd_revenue": 7_500.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 220.0,
-        "robotaxi_revenue_per_vehicle_k": 37.0,
+        "fsd_revenue": 15_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 650.0,
+        "robotaxi_revenue_per_vehicle_k": 40.0,
         "robotaxi_ebit_margin": 0.50,
-        "optimus_units_k": 80.0,
-        "optimus_asp_k": 28.0,
-        "optimus_ebit_margin": 0.18,
+        "optimus_units_k": 800.0,
+        "optimus_asp_k": 24.0,
+        "optimus_ebit_margin": 0.20,
     },
     "FY2030E": {
-        "fsd_revenue": 9_500.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 400.0,
-        "robotaxi_revenue_per_vehicle_k": 38.0,
-        "robotaxi_ebit_margin": 0.45,
-        "optimus_units_k": 120.0,
-        "optimus_asp_k": 26.0,
-        "optimus_ebit_margin": 0.20,
+        "fsd_revenue": 21_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 1_400.0,
+        "robotaxi_revenue_per_vehicle_k": 41.0,
+        "robotaxi_ebit_margin": 0.48,
+        "optimus_units_k": 2_500.0,
+        "optimus_asp_k": 22.0,
+        "optimus_ebit_margin": 0.25,
     },
     "FY2031E": {
-        "fsd_revenue": 11_500.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 600.0,
-        "robotaxi_revenue_per_vehicle_k": 38.0,
-        "robotaxi_ebit_margin": 0.42,
-        "optimus_units_k": 160.0,
-        "optimus_asp_k": 25.0,
-        "optimus_ebit_margin": 0.20,
+        "fsd_revenue": 27_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 2_500.0,
+        "robotaxi_revenue_per_vehicle_k": 42.0,
+        "robotaxi_ebit_margin": 0.45,
+        "optimus_units_k": 5_000.0,
+        "optimus_asp_k": 20.0,
+        "optimus_ebit_margin": 0.28,
     },
     "FY2032E": {
-        "fsd_revenue": 13_000.0,
-        "fsd_ebit_margin": 0.70,
-        "robotaxi_avg_fleet_k": 800.0,
-        "robotaxi_revenue_per_vehicle_k": 38.0,
-        "robotaxi_ebit_margin": 0.40,
-        "optimus_units_k": 200.0,
-        "optimus_asp_k": 25.0,
-        "optimus_ebit_margin": 0.20,
+        "fsd_revenue": 32_000.0,
+        "fsd_ebit_margin": 0.72,
+        "robotaxi_avg_fleet_k": 3_500.0,
+        "robotaxi_revenue_per_vehicle_k": 42.0,
+        "robotaxi_ebit_margin": 0.43,
+        "optimus_units_k": 8_000.0,
+        "optimus_asp_k": 20.0,
+        "optimus_ebit_margin": 0.30,
     },
 }
 
@@ -417,9 +417,13 @@ PT_SHARES = 3_949_547_394
 OFFICIAL_EBIT_MULTIPLE = 20.0
 THREE_YEAR_EBIT_MULTIPLE = 22.0
 DCF_WACC = 0.10
-PLATFORM_TERMINAL_EBIT_MULTIPLE = 16.0
-ROBOTAXI_FLEET_CAPEX_PER_INCREMENTAL_AVG_UNIT_K = 25.0
-CYBERCAB_ANNUAL_ADDITION_CEILING_K = 125.0
+PLATFORM_TERMINAL_EBIT_MULTIPLES = {
+    "fsd": 20.0,
+    "robotaxi": 18.0,
+    "optimus": 18.0,
+}
+ROBOTAXI_FLEET_CAPEX_PER_INCREMENTAL_AVG_UNIT_K = 22.0
+DISCLOSED_CYBERCAB_LINE_CAPACITY_K = 125.0
 FSD_UFCF_CONVERSION = 0.90
 OPTIMUS_UFCF_CONVERSION = 0.70
 YAHOO_TSLA_HISTORY = "https://finance.yahoo.com/quote/TSLA/history/"
@@ -484,11 +488,11 @@ def build_platforms() -> dict[str, dict[str, float]]:
         total_fleet_additions = (
             robotaxi_year_end_fleet - previous_year_end_fleet
         )
-        cybercab_additions = min(
-            total_fleet_additions, CYBERCAB_ANNUAL_ADDITION_CEILING_K
+        disclosed_line_supported_additions = min(
+            total_fleet_additions, DISCLOSED_CYBERCAB_LINE_CAPACITY_K
         )
-        model_y_reallocation = max(
-            total_fleet_additions - cybercab_additions, 0.0
+        additional_capacity_or_model_y = max(
+            total_fleet_additions - disclosed_line_supported_additions, 0.0
         )
 
         optimus_revenue = (
@@ -517,8 +521,8 @@ def build_platforms() -> dict[str, dict[str, float]]:
             "robotaxi_ufcf": robotaxi_ufcf,
             "robotaxi_year_end_fleet_k": robotaxi_year_end_fleet,
             "robotaxi_total_additions_k": total_fleet_additions,
-            "robotaxi_cybercab_additions_k": cybercab_additions,
-            "robotaxi_model_y_reallocation_k": model_y_reallocation,
+            "robotaxi_disclosed_line_supported_k": disclosed_line_supported_additions,
+            "robotaxi_additional_capacity_or_model_y_k": additional_capacity_or_model_y,
             "optimus_units_k": assumption["optimus_units_k"],
             "optimus_asp_k": assumption["optimus_asp_k"],
             "optimus_revenue": optimus_revenue,
@@ -1089,32 +1093,18 @@ def build_checks(
                     ebit_flow_difference,
                 )
             )
-            if platforms:
-                cybercab_headroom = (
-                    CYBERCAB_ANNUAL_ADDITION_CEILING_K
-                    - platforms[period]["robotaxi_cybercab_additions_k"]
-                )
-                checks.append(
-                    (
-                        f"{period}: Cybercab additions respect capacity ceiling",
-                        cybercab_headroom >= 0.0,
-                        cybercab_headroom,
-                    )
-                )
-
     if platforms:
         for period in PLATFORM_PERIODS:
-            if period in FORECAST_PERIODS:
-                continue
-            cybercab_headroom = (
-                CYBERCAB_ANNUAL_ADDITION_CEILING_K
-                - platforms[period]["robotaxi_cybercab_additions_k"]
+            capacity_bridge_difference = (
+                platforms[period]["robotaxi_total_additions_k"]
+                - platforms[period]["robotaxi_disclosed_line_supported_k"]
+                - platforms[period]["robotaxi_additional_capacity_or_model_y_k"]
             )
             checks.append(
                 (
-                    f"{period}: Cybercab additions respect capacity ceiling",
-                    cybercab_headroom >= 0.0,
-                    cybercab_headroom,
+                    f"{period}: Robotaxi capacity bridge reconciles",
+                    abs(capacity_bridge_difference) < tolerance,
+                    capacity_bridge_difference,
                 )
             )
 
@@ -1268,7 +1258,7 @@ def render_segments(
         if "segment revenue" in row[0]
         or "segment GP" in row[0]
         or "installed capacity" in row[0]
-        or "Cybercab additions" in row[0]
+        or "Robotaxi capacity bridge" in row[0]
         or "platform EBIT flows" in row[0]
     ]
     check_rows = [
@@ -1641,7 +1631,7 @@ def valuation(
         )
         terminal_value = (
             platforms["FY2032E"][f"{name}_ebit"]
-            * PLATFORM_TERMINAL_EBIT_MULTIPLE
+            * PLATFORM_TERMINAL_EBIT_MULTIPLES[name]
         )
         terminal_date = date(2032, 12, 31)
         terminal_years = (terminal_date - VALUATION_DATE).days / 365.0
@@ -1661,7 +1651,7 @@ def valuation(
 
     bear_equity_value = core_equity_value + 0.5 * total_platform_ev
     bear_value = bear_equity_value / shares_m
-    bull_equity_value = core_equity_value + 1.75 * total_platform_ev
+    bull_equity_value = core_equity_value + 1.50 * total_platform_ev
     bull_value = bull_equity_value / shares_m
 
     core_exit_operating_ev = (
@@ -1686,7 +1676,7 @@ def valuation(
         )
         remaining_terminal = (
             platforms["FY2032E"][f"{name}_ebit"]
-            * PLATFORM_TERMINAL_EBIT_MULTIPLE
+            * PLATFORM_TERMINAL_EBIT_MULTIPLES[name]
             / ((1.0 + DCF_WACC) ** 4.0)
         )
         remaining_platform_value_at_fy28 += (
@@ -1708,6 +1698,22 @@ def valuation(
         )
     )
     current_operating_ev = market_cap - q2_net_cash - SPACEX_FAIR_VALUE
+    implied_platform_ev_to_tape = market_cap - core_equity_value
+    residual_equity_value = market_cap - official_equity_value
+    dilution_500m_percent = 500_000_000 / PT_SHARES
+    largest_platform = max(
+        ("fsd", "robotaxi", "optimus"),
+        key=lambda name: platform_values[name]["ev"],
+    )
+    residual_lever_sentence = (
+        f"The positive residual is most directly tested through a larger "
+        f"{largest_platform.capitalize()} operating path because it is the "
+        f"largest modeled platform EV; no automatic retuning is made."
+        if residual_equity_value > 0.0
+        else f"The base SOTP exceeds the tape by the signed residual; holding "
+        f"other cells fixed, a smaller {largest_platform.capitalize()} path "
+        f"would close the gap because it is the largest modeled platform EV."
+    )
     current_multiples: dict[str, float] = {}
     for period in ("FY2026E", "FY2028E"):
         current_multiples[f"{period}_revenue"] = (
@@ -1761,6 +1767,44 @@ def valuation(
         ],
     ]
 
+    tape_rows = [
+        ["Last-price market capitalization", "Last close × filing shares", fmt(market_cap, 1)],
+        ["2026-06-30 net cash", "Cash + STI − debt", fmt(q2_net_cash, 1)],
+        ["Tesla-held SpaceX stake", "R6.2 filing FV", fmt(SPACEX_FAIR_VALUE, 1)],
+        ["Last-price operating EV", "Market cap − net cash − stake", fmt(current_operating_ev, 1)],
+        ["A. Core equity value", "Accepted core method", fmt(core_equity_value, 1)],
+        ["[DEDUCTED] Implied platform EV to tape", "Market cap − A", fmt(implied_platform_ev_to_tape, 1)],
+        ["[DEDUCTED] 500m-share dilution / filing shares", "500m ÷ filing shares", pct(dilution_500m_percent)],
+    ]
+
+    hole_rows = [
+        [
+            "A. Core",
+            fmt(core_equity_value, 1),
+            pct(core_equity_value / market_cap),
+        ],
+        [
+            "B. [VIEW] FSD",
+            f"[VIEW] {fmt(platform_values['fsd']['ev'], 1)}",
+            f"[VIEW] {pct(platform_values['fsd']['ev'] / market_cap)}",
+        ],
+        [
+            "C. [VIEW] Robotaxi",
+            f"[VIEW] {fmt(platform_values['robotaxi']['ev'], 1)}",
+            f"[VIEW] {pct(platform_values['robotaxi']['ev'] / market_cap)}",
+        ],
+        [
+            "D. [VIEW] Optimus",
+            f"[VIEW] {fmt(platform_values['optimus']['ev'], 1)}",
+            f"[VIEW] {pct(platform_values['optimus']['ev'] / market_cap)}",
+        ],
+        [
+            "[DEDUCTED] Residual",
+            fmt(residual_equity_value, 1),
+            pct(residual_equity_value / market_cap),
+        ],
+    ]
+
     check_rows = [
         [
             "3-year / FY2028 exit",
@@ -1774,7 +1818,7 @@ def valuation(
         ],
         [
             "Bull",
-            "A + 1.75× (B + C + D)",
+            "A + 1.50× (B + C + D)",
             f"${bull_value:.2f}",
         ],
     ]
@@ -1872,8 +1916,8 @@ def valuation(
                 view(platform["robotaxi_avg_fleet_k"]),
                 view(platform["robotaxi_year_end_fleet_k"]),
                 view(platform["robotaxi_total_additions_k"]),
-                view(platform["robotaxi_cybercab_additions_k"]),
-                view(platform["robotaxi_model_y_reallocation_k"]),
+                view(platform["robotaxi_disclosed_line_supported_k"]),
+                view(platform["robotaxi_additional_capacity_or_model_y_k"]),
             ]
         )
 
@@ -1889,7 +1933,7 @@ def valuation(
                 f"[VIEW] {label}",
                 view(value_item["pv_ufcf"]),
                 view(platforms["FY2032E"][f"{name}_ebit"]),
-                f"[VIEW] {PLATFORM_TERMINAL_EBIT_MULTIPLE:.1f}x",
+                f"[VIEW] {PLATFORM_TERMINAL_EBIT_MULTIPLES[name]:.1f}x",
                 view(value_item["terminal_value"]),
                 view(value_item["pv_terminal"]),
                 view(value_item["ev"]),
@@ -1961,6 +2005,12 @@ At the ${LAST_PRICE:.2f} last close, the official SOTP combines the filed-busine
 
 {markdown_table(["item", "value"], setup_rows)}
 
+## What the tape must be paying for
+
+{markdown_table(["item", "formula", "$m or percentage"], tape_rows)}
+
+The implied platform hole is not Energy, which is already in core, and it is not primarily dilution: the script shows the effect of another 500m shares relative to the filing denominator. At tape scale, the operating `[VIEW]` requires (1) a multi-plant Cybercab build plus Model Y network vehicles, (2) FSD as a high-ARPU unsupervised software layer rather than a fixed small revenue ceiling, (3) Optimus at manufacturing scale, and (4) software/network terminal multiples above the industrial core multiple. The filing facts establish direction and the current subscription/capacity references, not these platform economics.
+
 ## Official SOTP bridge
 
 {markdown_table(["item", "basis", "$m except per share"], bridge_rows)}
@@ -1975,9 +2025,9 @@ FSD revenue is incremental above the filing Automotive/Services quotient to limi
 
 ## Robotaxi capacity bridge
 
-{markdown_table(["[VIEW] year", "[VIEW] avg paid fleet (k)", "[VIEW] implied YE fleet (k)", "[VIEW] total additions (k)", "[VIEW] Cybercab additions (k)", "[VIEW] Model Y reallocation (k)"], capacity_rows)}
+{markdown_table(["[VIEW] year", "[VIEW] avg paid fleet (k)", "[VIEW] implied YE fleet (k)", "[VIEW] total additions (k)", "[VIEW] one disclosed line supports (k)", "[VIEW] added capacity / Model Y need (k)"], capacity_rows)}
 
-The implied year-end fleet assumes additions occur evenly through each year. Cybercab additions are capped at 125k annually, using the disclosed `>125k` installed capacity as the conservative ceiling; any additions above that ceiling are explicit `[VIEW]` Model Y reallocations because the specified paid fleet includes both Cybercab and Model Y. Installed capacity is not current output (R3.2).
+The implied year-end fleet assumes additions occur evenly through each year. The single disclosed Texas Cybercab line is shown at 125k annual support for comparison; the `[VIEW]` path requires additional Cybercab plants and/or Model Y network reallocations above it. Peak implied additions are computed in the table and exceed one million vehicles in a year by FY2031. The 10-Q does not disclose a multi-plant Cybercab plan, and installed capacity is not current output (R3.2).
 
 ## Platform DCF and terminal bridges
 
@@ -1985,7 +2035,7 @@ The implied year-end fleet assumes additions occur evenly through each year. Cyb
 
 {markdown_table(["component", "[VIEW] PV UFCF", "[VIEW] FY2032 EBIT", "[VIEW] terminal multiple", "[VIEW] terminal value", "[VIEW] PV terminal", "[VIEW] EV"], platform_value_rows)}
 
-Platform values use a 10.0% WACC, mid-year convention and a 16.0× FY2032 EBIT terminal. FY2026 uses the midpoint of the remaining period after 2026-08-29. No full FY2029–FY2032 core income statement is invented.
+Platform values use a 10.0% WACC and mid-year convention. FY2032 terminal EBIT multiples are 20.0× for FSD, 18.0× for Robotaxi and 18.0× for Optimus. FY2026 uses the midpoint of the remaining period after 2026-08-29. No full FY2029–FY2032 core income statement is invented.
 
 ## Checks — not additional official targets
 
@@ -1993,11 +2043,17 @@ Platform values use a 10.0% WACC, mid-year convention and a 16.0× FY2032 EBIT t
 
 The 3-year check values the core at 22.0× FY2028E core operating income, adds core YE2028E net cash and the filing-value SpaceX stake, then adds the FY2029–FY2032 platform UFCFs and terminals discounted back to YE2028. Bear and bull scale only the platform values.
 
+## Hole anatomy
+
+{markdown_table(["piece", "$m of last-price equity", "% of market cap"], hole_rows)}
+
+The residual is a signed `[DEDUCTED]` comparison, not an instruction to retune the base. {residual_lever_sentence}
+
 ## Current market-implied checks
 
 {markdown_table(["item", "formula", "$m or multiple"], current_multiple_rows)}
 
-**[DEDUCTED] Tape residual per share:** `${LAST_PRICE:.2f} − official SOTP = ${residual_per_share:.2f}`. This is the gap after the three platform `[VIEW]`s; it is not a substitute valuation for any one platform.
+**[DEDUCTED] Tape residual per share:** `${LAST_PRICE:.2f} − official SOTP = ${residual_per_share:.2f}`. This is the signed gap after the three platform `[VIEW]`s; it is not a substitute valuation for any one platform and does not feed back into any operating assumption.
 
 ## Comparable-company snapshot
 
@@ -2077,7 +2133,7 @@ def main() -> None:
     print(f"[VIEW] Robotaxi EV | ${valuation_summary['robotaxi']:.1f}m")
     print(f"[VIEW] Optimus EV | ${valuation_summary['optimus']:.1f}m")
     print(f"Official 12-month PT | ${valuation_summary['official_pt']:.2f}")
-    print(f"Unmodeled residual | ${valuation_summary['residual']:.2f}")
+    print(f"[DEDUCTED] Tape residual | ${valuation_summary['residual']:.2f}")
     print(f"3-year check | ${valuation_summary['three_year']:.2f}")
     print(f"Bear check | ${valuation_summary['bear']:.2f}")
     print(f"Bull check | ${valuation_summary['bull']:.2f}")

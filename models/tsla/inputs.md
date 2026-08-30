@@ -59,8 +59,8 @@ These are researcher-specified assumptions, never filing facts. FSD revenue is i
 
 | input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Revenue | [VIEW] 2,000 | [VIEW] 3,500 | [VIEW] 5,500 | [VIEW] 7,500 | [VIEW] 9,500 | [VIEW] 11,500 | [VIEW] 13,000 |
-| EBIT margin | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% |
+| Revenue | [VIEW] 3,000 | [VIEW] 6,000 | [VIEW] 10,000 | [VIEW] 15,000 | [VIEW] 21,000 | [VIEW] 27,000 | [VIEW] 32,000 |
+| EBIT margin | [VIEW] 72% | [VIEW] 72% | [VIEW] 72% | [VIEW] 72% | [VIEW] 72% | [VIEW] 72% | [VIEW] 72% |
 
 FSD UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 90%.
 
@@ -68,19 +68,19 @@ FSD UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 90%.
 
 | input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Average paid fleet (k) | [VIEW] 5 | [VIEW] 30 | [VIEW] 100 | [VIEW] 220 | [VIEW] 400 | [VIEW] 600 | [VIEW] 800 |
-| Revenue / vehicle ($k) | [VIEW] 28 | [VIEW] 32 | [VIEW] 36 | [VIEW] 37 | [VIEW] 38 | [VIEW] 38 | [VIEW] 38 |
-| EBIT margin | [VIEW] 30% | [VIEW] 45% | [VIEW] 55% | [VIEW] 50% | [VIEW] 45% | [VIEW] 42% | [VIEW] 40% |
+| Average paid fleet (k) | [VIEW] 15 | [VIEW] 80 | [VIEW] 250 | [VIEW] 650 | [VIEW] 1,400 | [VIEW] 2,500 | [VIEW] 3,500 |
+| Revenue / vehicle ($k) | [VIEW] 30 | [VIEW] 34 | [VIEW] 38 | [VIEW] 40 | [VIEW] 41 | [VIEW] 42 | [VIEW] 42 |
+| EBIT margin | [VIEW] 25% | [VIEW] 40% | [VIEW] 50% | [VIEW] 50% | [VIEW] 48% | [VIEW] 45% | [VIEW] 43% |
 
-Robotaxi revenue `[VIEW]` equals average fleet (k) × revenue/vehicle ($k). Fleet-growth capex `[VIEW]` is $25k per incremental average-fleet unit versus the prior year. UFCF `[VIEW]` equals after-tax EBIT less fleet-growth capex. Cybercab additions are capped at 125k per year; the script separately identifies any Model Y reallocation required to reconcile the specified combined Cybercab/Model Y paid fleet. R3.2 is installed capacity, not current output.
+Robotaxi revenue `[VIEW]` equals average fleet (k) × revenue/vehicle ($k). Fleet-growth capex `[VIEW]` is $22k per incremental average-fleet unit versus the prior year. UFCF `[VIEW]` equals after-tax EBIT less fleet-growth capex. The path requires `[VIEW]` multi-plant Cybercab capacity and Model Y network reallocations; the script compares implied additions with the single disclosed Texas `>125k` line. R3.2 is installed capacity, not current output.
 
 ### Optimus
 
 | input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Units (k) | [VIEW] 0 | [VIEW] 5 | [VIEW] 40 | [VIEW] 80 | [VIEW] 120 | [VIEW] 160 | [VIEW] 200 |
-| ASP ($k) | [VIEW] — | [VIEW] 30 | [VIEW] 30 | [VIEW] 28 | [VIEW] 26 | [VIEW] 25 | [VIEW] 25 |
-| EBIT margin | [VIEW] — | [VIEW] 5% | [VIEW] 15% | [VIEW] 18% | [VIEW] 20% | [VIEW] 20% | [VIEW] 20% |
+| Units (k) | [VIEW] 0 | [VIEW] 25 | [VIEW] 200 | [VIEW] 800 | [VIEW] 2,500 | [VIEW] 5,000 | [VIEW] 8,000 |
+| ASP ($k) | [VIEW] — | [VIEW] 30 | [VIEW] 28 | [VIEW] 24 | [VIEW] 22 | [VIEW] 20 | [VIEW] 20 |
+| EBIT margin | [VIEW] — | [VIEW] 8% | [VIEW] 15% | [VIEW] 20% | [VIEW] 25% | [VIEW] 28% | [VIEW] 30% |
 
 Optimus UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 70%.
 
@@ -90,9 +90,9 @@ Optimus UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 70%.
 |---|---|---|
 | Core | 20.0× FY2027E operating income excluding platform wedges + core YE2026E net cash + SpaceX filing FV | [VIEW] |
 | Platform discount rate | 10.0%, mid-year convention from 2026-08-29 | [VIEW] |
-| Platform terminal | 16.0× FY2032 platform EBIT | [VIEW] |
+| Platform terminal | 20.0× FSD, 18.0× Robotaxi and 18.0× Optimus FY2032 EBIT | [VIEW] |
 | Bear check | Core + 0.50× total platform EV | [VIEW] |
-| Bull check | Core + 1.75× total platform EV | [VIEW] |
+| Bull check | Core + 1.50× total platform EV | [VIEW] |
 | Three-year check | 22.0× FY2028E core operating income + core YE2028E net cash + SpaceX + remaining platform value from YE2028 | [VIEW] |
 
 ## Completion assumptions
