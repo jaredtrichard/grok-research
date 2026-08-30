@@ -7,31 +7,31 @@ Company revenue and gross profit sum the four filed-business lines plus the thre
 | line | FY2023A | FY2024A | FY2025A | 1H2026A | FY2026E | FY2027E | FY2028E |
 |---|---|---|---|---|---|---|---|
 | Core filed-business revenue | 96,773 | 97,690 | 94,827 | 50,623 | 103,090 | 113,714 | 125,188 |
-| [VIEW] FSD incremental revenue | — | — | — | — | [VIEW] 2,000 | [VIEW] 3,500 | [VIEW] 5,500 |
-| [VIEW] Robotaxi revenue | — | — | — | — | [VIEW] 140 | [VIEW] 960 | [VIEW] 3,600 |
-| [VIEW] Optimus revenue | — | — | — | — | [VIEW] — | [VIEW] 150 | [VIEW] 1,200 |
-| Total revenue | 96,773 | 97,690 | 94,827 | 50,623 | 105,230 | 118,324 | 135,488 |
+| [VIEW] FSD incremental revenue | — | — | — | — | [VIEW] 3,000 | [VIEW] 6,000 | [VIEW] 10,000 |
+| [VIEW] Robotaxi revenue | — | — | — | — | [VIEW] 450 | [VIEW] 2,720 | [VIEW] 9,500 |
+| [VIEW] Optimus revenue | — | — | — | — | [VIEW] — | [VIEW] 750 | [VIEW] 5,600 |
+| Total revenue | 96,773 | 97,690 | 94,827 | 50,623 | 106,540 | 123,184 | 150,288 |
 | Core filed-business gross profit | 17,660 | 17,450 | 17,094 | 9,471 | 17,565 | 20,079 | 22,790 |
-| [VIEW] FSD GP / EBIT contribution | — | — | — | — | [VIEW] 1,400 | [VIEW] 2,450 | [VIEW] 3,850 |
-| [VIEW] Robotaxi GP / EBIT contribution | — | — | — | — | [VIEW] 42 | [VIEW] 432 | [VIEW] 1,980 |
-| [VIEW] Optimus GP / EBIT contribution | — | — | — | — | [VIEW] — | [VIEW] 8 | [VIEW] 180 |
-| Total gross profit | 17,660 | 17,450 | 17,094 | 9,471 | 19,007 | 22,969 | 28,800 |
+| [VIEW] FSD GP / EBIT contribution | — | — | — | — | [VIEW] 2,160 | [VIEW] 4,320 | [VIEW] 7,200 |
+| [VIEW] Robotaxi GP / EBIT contribution | — | — | — | — | [VIEW] 112 | [VIEW] 1,088 | [VIEW] 4,750 |
+| [VIEW] Optimus GP / EBIT contribution | — | — | — | — | [VIEW] — | [VIEW] 60 | [VIEW] 840 |
+| Total gross profit | 17,660 | 17,450 | 17,094 | 9,471 | 19,838 | 25,547 | 35,580 |
 | R&D | 3,969 | 4,540 | 6,411 | 4,317 | 9,200 | 10,000 | 10,600 |
 | SG&A | 4,800 | 5,150 | 5,834 | 3,815 | 7,800 | 8,200 | 8,600 |
 | Restructuring and other | — | 684 | 494 | — | — | — | — |
 | Total operating expense | 8,769 | 10,374 | 12,739 | 8,132 | 17,000 | 18,200 | 19,200 |
 | Core operating income excluding platform [VIEW]s | 8,891 | 7,076 | 4,355 | 1,339 | 565 | 1,879 | 3,590 |
-| Operating income | 8,891 | 7,076 | 4,355 | 1,339 | 2,007 | 4,769 | 9,600 |
-| Interest income | 1,066 | 1,569 | 1,680 | 856 | 1,509 | 947 | 752 |
+| Operating income | 8,891 | 7,076 | 4,355 | 1,339 | 2,838 | 7,347 | 16,380 |
+| Interest income | 1,066 | 1,569 | 1,680 | 856 | 1,509 | 956 | 786 |
 | Interest expense | (156) | (350) | (338) | (173) | (360) | (374) | (374) |
 | Other income / (expense) | 172 | 695 | (419) | 55 | 55 | — | — |
-| Pre-tax income | 9,973 | 8,990 | 5,278 | 2,077 | 3,211 | 5,342 | 9,979 |
-| Tax provision / (benefit) | (5,001) | 1,837 | 1,423 | 458 | 866 | 1,440 | 2,690 |
-| Net income | 14,974 | 7,153 | 3,855 | 1,619 | 2,346 | 3,902 | 7,289 |
+| Pre-tax income | 9,973 | 8,990 | 5,278 | 2,077 | 4,042 | 7,930 | 16,793 |
+| Tax provision / (benefit) | (5,001) | 1,837 | 1,423 | 458 | 1,090 | 2,138 | 4,528 |
+| Net income | 14,974 | 7,153 | 3,855 | 1,619 | 2,952 | 5,792 | 12,265 |
 | NCI income | (23) | 62 | 61 | 28 | 28 | — | — |
-| Net income attributable to common | 14,997 | 7,091 | 3,794 | 1,591 | 2,318 | 3,902 | 7,289 |
+| Net income attributable to common | 14,997 | 7,091 | 3,794 | 1,591 | 2,924 | 5,792 | 12,265 |
 | Diluted weighted-average shares | 3,485 | 3,498 | 3,528 | 3,538 | 3,620 | 3,700 | 3,780 |
-| Diluted EPS | 4.30 | 2.03 | 1.08 | 0.45 | 0.64 | 1.05 | 1.93 |
+| Diluted EPS | 4.30 | 2.03 | 1.08 | 0.45 | 0.81 | 1.57 | 3.24 |
 
 `1H2026A` is a six-month period and is not directly comparable with full years. FY2026 other income holds reported 1H other income and assumes zero in 2H, including no further SpaceX mark-to-market. FY2026 interest combines reported 1H with a 2H run-rate on the June balance; later years use beginning cash/investments and debt. Forecast tax uses the FY2025 effective rate.
 

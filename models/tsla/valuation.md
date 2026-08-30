@@ -1,6 +1,6 @@
 # Tesla valuation
 
-At the $348.75 last close, the official SOTP combines the filed-business core with numbered `[VIEW]` FSD, Robotaxi and Optimus values; the last price still implies a larger platform outcome than this base.
+At the $348.75 last close, the official SOTP combines the filed-business core with numbered `[VIEW]` FSD, Robotaxi and Optimus values; the base SOTP meets or exceeds the last price.
 
 ## Official method and as-of
 
@@ -12,6 +12,20 @@ At the $348.75 last close, the official SOTP combines the filed-business core wi
 | PT denominator | 3,949,547,394 shares outstanding on 2026-07-16 (R5.3) |
 | Method | Core equity + separately discounted [VIEW] FSD, Robotaxi and Optimus |
 
+## What the tape must be paying for
+
+| item | formula | $m or percentage |
+|---|---|---|
+| Last-price market capitalization | Last close × filing shares | 1,377,404.7 |
+| 2026-06-30 net cash | Cash + STI − debt | 34,182.0 |
+| Tesla-held SpaceX stake | R6.2 filing FV | 3,007.0 |
+| Last-price operating EV | Market cap − net cash − stake | 1,340,215.7 |
+| A. Core equity value | Accepted core method | 62,058.3 |
+| [DEDUCTED] Implied platform EV to tape | Market cap − A | 1,315,346.3 |
+| [DEDUCTED] 500m-share dilution / filing shares | 500m ÷ filing shares | 12.7% |
+
+The implied platform hole is not Energy, which is already in core, and it is not primarily dilution: the script shows the effect of another 500m shares relative to the filing denominator. At tape scale, the operating `[VIEW]` requires (1) a multi-plant Cybercab build plus Model Y network vehicles, (2) FSD as a high-ARPU unsupervised software layer rather than a fixed small revenue ceiling, (3) Optimus at manufacturing scale, and (4) software/network terminal multiples above the industrial core multiple. The filing facts establish direction and the current subscription/capacity references, not these platform economics.
+
 ## Official SOTP bridge
 
 | item | basis | $m except per share |
@@ -22,12 +36,12 @@ At the $348.75 last close, the official SOTP combines the filed-business core wi
 | Core YE2026E net cash | Core cash + STI − debt; excludes Robotaxi fleet capex | 21,462.2 |
 | Tesla-held SpaceX stake | R6.2; held at filing FV | 3,007.0 |
 | A. Core equity value | Core EV + core net cash + stake | 62,058.3 |
-| B. [VIEW] FSD EV | PV FY2026–FY2032 UFCF + terminal | [VIEW] 96,473.9 |
-| C. [VIEW] Robotaxi EV | PV FY2026–FY2032 UFCF + terminal | [VIEW] 109,440.9 |
-| D. [VIEW] Optimus EV | PV FY2026–FY2032 UFCF + terminal | [VIEW] 9,749.5 |
-| Official equity value | A + B + C + D | 277,722.7 |
+| B. [VIEW] FSD EV | PV FY2026–FY2032 UFCF + terminal | [VIEW] 288,730.3 |
+| C. [VIEW] Robotaxi EV | PV FY2026–FY2032 UFCF + terminal | [VIEW] 643,798.3 |
+| D. [VIEW] Optimus EV | PV FY2026–FY2032 UFCF + terminal | [VIEW] 501,774.3 |
+| Official equity value | A + B + C + D | 1,496,361.1 |
 | Shares outstanding (m) | R5.3; not diluted WAS | 3,949.547 |
-| Official 12-month PT / share | Equity value ÷ shares | $70.32 |
+| Official 12-month PT / share | Equity value ÷ shares | $378.87 |
 
 Core uses 20.0× FY2027E operating income excluding all three platform `[VIEW]` wedges, plus core YE2026E net cash and the Tesla-held SpaceX stake at filing fair value. The 20.0× multiple is a `[VIEW]`: a premium to mature global auto framing, not a software multiple. Robotaxi fleet capex does not reduce core net cash.
 
@@ -35,59 +49,71 @@ Core uses 20.0× FY2027E operating income excluding all three platform `[VIEW]` 
 
 | [VIEW] year | [VIEW] FSD revenue | [VIEW] FSD EBIT | [VIEW] FSD UFCF | [VIEW] Robotaxi avg fleet (k) | [VIEW] Robotaxi revenue | [VIEW] Robotaxi EBIT | [VIEW] Robotaxi fleet capex | [VIEW] Robotaxi UFCF | [VIEW] Optimus units (k) | [VIEW] Optimus revenue | [VIEW] Optimus EBIT | [VIEW] Optimus UFCF |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| FY2026E | [VIEW] 2,000.0 | [VIEW] 1,400.0 | [VIEW] 920.3 | [VIEW] 5.0 | [VIEW] 140.0 | [VIEW] 42.0 | [VIEW] 125.0 | [VIEW] (94.3) | [VIEW] — | [VIEW] — | [VIEW] — | [VIEW] — |
-| FY2027E | [VIEW] 3,500.0 | [VIEW] 2,450.0 | [VIEW] 1,610.5 | [VIEW] 30.0 | [VIEW] 960.0 | [VIEW] 432.0 | [VIEW] 625.0 | [VIEW] (309.5) | [VIEW] 5.0 | [VIEW] 150.0 | [VIEW] 7.5 | [VIEW] 3.8 |
-| FY2028E | [VIEW] 5,500.0 | [VIEW] 3,850.0 | [VIEW] 2,530.8 | [VIEW] 100.0 | [VIEW] 3,600.0 | [VIEW] 1,980.0 | [VIEW] 1,750.0 | [VIEW] (303.8) | [VIEW] 40.0 | [VIEW] 1,200.0 | [VIEW] 180.0 | [VIEW] 92.0 |
-| FY2029E | [VIEW] 7,500.0 | [VIEW] 5,250.0 | [VIEW] 3,451.1 | [VIEW] 220.0 | [VIEW] 8,140.0 | [VIEW] 4,070.0 | [VIEW] 3,000.0 | [VIEW] (27.3) | [VIEW] 80.0 | [VIEW] 2,240.0 | [VIEW] 403.2 | [VIEW] 206.1 |
-| FY2030E | [VIEW] 9,500.0 | [VIEW] 6,650.0 | [VIEW] 4,371.4 | [VIEW] 400.0 | [VIEW] 15,200.0 | [VIEW] 6,840.0 | [VIEW] 4,500.0 | [VIEW] 495.9 | [VIEW] 120.0 | [VIEW] 3,120.0 | [VIEW] 624.0 | [VIEW] 319.0 |
-| FY2031E | [VIEW] 11,500.0 | [VIEW] 8,050.0 | [VIEW] 5,291.7 | [VIEW] 600.0 | [VIEW] 22,800.0 | [VIEW] 9,576.0 | [VIEW] 5,000.0 | [VIEW] 1,994.2 | [VIEW] 160.0 | [VIEW] 4,000.0 | [VIEW] 800.0 | [VIEW] 409.0 |
-| FY2032E | [VIEW] 13,000.0 | [VIEW] 9,100.0 | [VIEW] 5,981.9 | [VIEW] 800.0 | [VIEW] 30,400.0 | [VIEW] 12,160.0 | [VIEW] 5,000.0 | [VIEW] 3,881.5 | [VIEW] 200.0 | [VIEW] 5,000.0 | [VIEW] 1,000.0 | [VIEW] 511.3 |
+| FY2026E | [VIEW] 3,000.0 | [VIEW] 2,160.0 | [VIEW] 1,419.9 | [VIEW] 15.0 | [VIEW] 450.0 | [VIEW] 112.5 | [VIEW] 330.0 | [VIEW] (247.8) | [VIEW] — | [VIEW] — | [VIEW] — | [VIEW] — |
+| FY2027E | [VIEW] 6,000.0 | [VIEW] 4,320.0 | [VIEW] 2,839.8 | [VIEW] 80.0 | [VIEW] 2,720.0 | [VIEW] 1,088.0 | [VIEW] 1,430.0 | [VIEW] (635.3) | [VIEW] 25.0 | [VIEW] 750.0 | [VIEW] 60.0 | [VIEW] 30.7 |
+| FY2028E | [VIEW] 10,000.0 | [VIEW] 7,200.0 | [VIEW] 4,732.9 | [VIEW] 250.0 | [VIEW] 9,500.0 | [VIEW] 4,750.0 | [VIEW] 3,740.0 | [VIEW] (270.6) | [VIEW] 200.0 | [VIEW] 5,600.0 | [VIEW] 840.0 | [VIEW] 429.5 |
+| FY2029E | [VIEW] 15,000.0 | [VIEW] 10,800.0 | [VIEW] 7,099.4 | [VIEW] 650.0 | [VIEW] 26,000.0 | [VIEW] 13,000.0 | [VIEW] 8,800.0 | [VIEW] 695.1 | [VIEW] 800.0 | [VIEW] 19,200.0 | [VIEW] 3,840.0 | [VIEW] 1,963.3 |
+| FY2030E | [VIEW] 21,000.0 | [VIEW] 15,120.0 | [VIEW] 9,939.2 | [VIEW] 1,400.0 | [VIEW] 57,400.0 | [VIEW] 27,552.0 | [VIEW] 16,500.0 | [VIEW] 3,623.7 | [VIEW] 2,500.0 | [VIEW] 55,000.0 | [VIEW] 13,750.0 | [VIEW] 7,030.0 |
+| FY2031E | [VIEW] 27,000.0 | [VIEW] 19,440.0 | [VIEW] 12,778.9 | [VIEW] 2,500.0 | [VIEW] 105,000.0 | [VIEW] 47,250.0 | [VIEW] 24,200.0 | [VIEW] 10,310.9 | [VIEW] 5,000.0 | [VIEW] 100,000.0 | [VIEW] 28,000.0 | [VIEW] 14,315.6 |
+| FY2032E | [VIEW] 32,000.0 | [VIEW] 23,040.0 | [VIEW] 15,145.4 | [VIEW] 3,500.0 | [VIEW] 147,000.0 | [VIEW] 63,210.0 | [VIEW] 22,000.0 | [VIEW] 24,168.0 | [VIEW] 8,000.0 | [VIEW] 160,000.0 | [VIEW] 48,000.0 | [VIEW] 24,541.1 |
 
 FSD revenue is incremental above the filing Automotive/Services quotient to limit double counting. FSD UFCF equals after-tax EBIT times 90%. Robotaxi revenue equals average paid fleet in thousands times revenue per vehicle in thousands; UFCF equals after-tax EBIT less fleet-growth capex. Optimus revenue equals units in thousands times ASP in thousands; UFCF equals after-tax EBIT times 70%. Every cell is a researcher-specified `[VIEW]`, never a filing fact.
 
 ## Robotaxi capacity bridge
 
-| [VIEW] year | [VIEW] avg paid fleet (k) | [VIEW] implied YE fleet (k) | [VIEW] total additions (k) | [VIEW] Cybercab additions (k) | [VIEW] Model Y reallocation (k) |
+| [VIEW] year | [VIEW] avg paid fleet (k) | [VIEW] implied YE fleet (k) | [VIEW] total additions (k) | [VIEW] one disclosed line supports (k) | [VIEW] added capacity / Model Y need (k) |
 |---|---|---|---|---|---|
-| FY2026E | [VIEW] 5.0 | [VIEW] 10.0 | [VIEW] 10.0 | [VIEW] 10.0 | [VIEW] — |
-| FY2027E | [VIEW] 30.0 | [VIEW] 50.0 | [VIEW] 40.0 | [VIEW] 40.0 | [VIEW] — |
-| FY2028E | [VIEW] 100.0 | [VIEW] 150.0 | [VIEW] 100.0 | [VIEW] 100.0 | [VIEW] — |
-| FY2029E | [VIEW] 220.0 | [VIEW] 290.0 | [VIEW] 140.0 | [VIEW] 125.0 | [VIEW] 15.0 |
-| FY2030E | [VIEW] 400.0 | [VIEW] 510.0 | [VIEW] 220.0 | [VIEW] 125.0 | [VIEW] 95.0 |
-| FY2031E | [VIEW] 600.0 | [VIEW] 690.0 | [VIEW] 180.0 | [VIEW] 125.0 | [VIEW] 55.0 |
-| FY2032E | [VIEW] 800.0 | [VIEW] 910.0 | [VIEW] 220.0 | [VIEW] 125.0 | [VIEW] 95.0 |
+| FY2026E | [VIEW] 15.0 | [VIEW] 30.0 | [VIEW] 30.0 | [VIEW] 30.0 | [VIEW] — |
+| FY2027E | [VIEW] 80.0 | [VIEW] 130.0 | [VIEW] 100.0 | [VIEW] 100.0 | [VIEW] — |
+| FY2028E | [VIEW] 250.0 | [VIEW] 370.0 | [VIEW] 240.0 | [VIEW] 125.0 | [VIEW] 115.0 |
+| FY2029E | [VIEW] 650.0 | [VIEW] 930.0 | [VIEW] 560.0 | [VIEW] 125.0 | [VIEW] 435.0 |
+| FY2030E | [VIEW] 1,400.0 | [VIEW] 1,870.0 | [VIEW] 940.0 | [VIEW] 125.0 | [VIEW] 815.0 |
+| FY2031E | [VIEW] 2,500.0 | [VIEW] 3,130.0 | [VIEW] 1,260.0 | [VIEW] 125.0 | [VIEW] 1,135.0 |
+| FY2032E | [VIEW] 3,500.0 | [VIEW] 3,870.0 | [VIEW] 740.0 | [VIEW] 125.0 | [VIEW] 615.0 |
 
-The implied year-end fleet assumes additions occur evenly through each year. Cybercab additions are capped at 125k annually, using the disclosed `>125k` installed capacity as the conservative ceiling; any additions above that ceiling are explicit `[VIEW]` Model Y reallocations because the specified paid fleet includes both Cybercab and Model Y. Installed capacity is not current output (R3.2).
+The implied year-end fleet assumes additions occur evenly through each year. The single disclosed Texas Cybercab line is shown at 125k annual support for comparison; the `[VIEW]` path requires additional Cybercab plants and/or Model Y network reallocations above it. Peak implied additions are computed in the table and exceed one million vehicles in a year by FY2031. The 10-Q does not disclose a multi-plant Cybercab plan, and installed capacity is not current output (R3.2).
 
 ## Platform DCF and terminal bridges
 
 | [VIEW] year | discount years | [VIEW] FSD UFCF | [VIEW] FSD PV | [VIEW] Robotaxi UFCF | [VIEW] Robotaxi PV | [VIEW] Optimus UFCF | [VIEW] Optimus PV |
 |---|---|---|---|---|---|---|---|
-| FY2026E | 0.173 | [VIEW] 920.3 | [VIEW] 905.3 | [VIEW] (94.3) | [VIEW] (92.8) | [VIEW] — | [VIEW] — |
-| FY2027E | 0.836 | [VIEW] 1,610.5 | [VIEW] 1,487.2 | [VIEW] (309.5) | [VIEW] (285.8) | [VIEW] 3.8 | [VIEW] 3.5 |
-| FY2028E | 1.838 | [VIEW] 2,530.8 | [VIEW] 2,124.0 | [VIEW] (303.8) | [VIEW] (255.0) | [VIEW] 92.0 | [VIEW] 77.2 |
-| FY2029E | 2.838 | [VIEW] 3,451.1 | [VIEW] 2,633.1 | [VIEW] (27.3) | [VIEW] (20.8) | [VIEW] 206.1 | [VIEW] 157.3 |
-| FY2030E | 3.838 | [VIEW] 4,371.4 | [VIEW] 3,032.1 | [VIEW] 495.9 | [VIEW] 343.9 | [VIEW] 319.0 | [VIEW] 221.3 |
-| FY2031E | 4.838 | [VIEW] 5,291.7 | [VIEW] 3,336.7 | [VIEW] 1,994.2 | [VIEW] 1,257.5 | [VIEW] 409.0 | [VIEW] 257.9 |
-| FY2032E | 5.841 | [VIEW] 5,981.9 | [VIEW] 3,428.2 | [VIEW] 3,881.5 | [VIEW] 2,224.5 | [VIEW] 511.3 | [VIEW] 293.0 |
+| FY2026E | 0.173 | [VIEW] 1,419.9 | [VIEW] 1,396.7 | [VIEW] (247.8) | [VIEW] (243.8) | [VIEW] — | [VIEW] — |
+| FY2027E | 0.836 | [VIEW] 2,839.8 | [VIEW] 2,622.4 | [VIEW] (635.3) | [VIEW] (586.7) | [VIEW] 30.7 | [VIEW] 28.3 |
+| FY2028E | 1.838 | [VIEW] 4,732.9 | [VIEW] 3,972.2 | [VIEW] (270.6) | [VIEW] (227.1) | [VIEW] 429.5 | [VIEW] 360.4 |
+| FY2029E | 2.838 | [VIEW] 7,099.4 | [VIEW] 5,416.7 | [VIEW] 695.1 | [VIEW] 530.3 | [VIEW] 1,963.3 | [VIEW] 1,497.9 |
+| FY2030E | 3.838 | [VIEW] 9,939.2 | [VIEW] 6,894.0 | [VIEW] 3,623.7 | [VIEW] 2,513.5 | [VIEW] 7,030.0 | [VIEW] 4,876.1 |
+| FY2031E | 4.838 | [VIEW] 12,778.9 | [VIEW] 8,057.9 | [VIEW] 10,310.9 | [VIEW] 6,501.7 | [VIEW] 14,315.6 | [VIEW] 9,026.9 |
+| FY2032E | 5.841 | [VIEW] 15,145.4 | [VIEW] 8,679.6 | [VIEW] 24,168.0 | [VIEW] 13,850.4 | [VIEW] 24,541.1 | [VIEW] 14,064.2 |
 
 | component | [VIEW] PV UFCF | [VIEW] FY2032 EBIT | [VIEW] terminal multiple | [VIEW] terminal value | [VIEW] PV terminal | [VIEW] EV |
 |---|---|---|---|---|---|---|
-| [VIEW] B. FSD | [VIEW] 16,946.6 | [VIEW] 9,100.0 | [VIEW] 16.0x | [VIEW] 145,600.0 | [VIEW] 79,527.3 | [VIEW] 96,473.9 |
-| [VIEW] C. Robotaxi | [VIEW] 3,171.5 | [VIEW] 12,160.0 | [VIEW] 16.0x | [VIEW] 194,560.0 | [VIEW] 106,269.5 | [VIEW] 109,440.9 |
-| [VIEW] D. Optimus | [VIEW] 1,010.3 | [VIEW] 1,000.0 | [VIEW] 16.0x | [VIEW] 16,000.0 | [VIEW] 8,739.3 | [VIEW] 9,749.5 |
+| [VIEW] B. FSD | [VIEW] 37,039.5 | [VIEW] 23,040.0 | [VIEW] 20.0x | [VIEW] 460,800.0 | [VIEW] 251,690.8 | [VIEW] 288,730.3 |
+| [VIEW] C. Robotaxi | [VIEW] 22,338.2 | [VIEW] 63,210.0 | [VIEW] 18.0x | [VIEW] 1,137,780.0 | [VIEW] 621,460.0 | [VIEW] 643,798.3 |
+| [VIEW] D. Optimus | [VIEW] 29,854.0 | [VIEW] 48,000.0 | [VIEW] 18.0x | [VIEW] 864,000.0 | [VIEW] 471,920.3 | [VIEW] 501,774.3 |
 
-Platform values use a 10.0% WACC, mid-year convention and a 16.0× FY2032 EBIT terminal. FY2026 uses the midpoint of the remaining period after 2026-08-29. No full FY2029–FY2032 core income statement is invented.
+Platform values use a 10.0% WACC and mid-year convention. FY2032 terminal EBIT multiples are 20.0× for FSD, 18.0× for Robotaxi and 18.0× for Optimus. FY2026 uses the midpoint of the remaining period after 2026-08-29. No full FY2029–FY2032 core income statement is invented.
 
 ## Checks — not additional official targets
 
 | check | method | value / share |
 |---|---|---|
-| 3-year / FY2028 exit | 22.0× FY2028E core EBIT + core net cash + stake + FY2029–FY2032 platform PV | $90.99 |
-| Bear | A + 0.50× (B + C + D) | $43.02 |
-| Bull | A + 1.75× (B + C + D) | $111.27 |
+| 3-year / FY2028 exit | 22.0× FY2028E core EBIT + core net cash + stake + FY2029–FY2032 platform PV | $475.75 |
+| Bear | A + 0.50× (B + C + D) | $197.29 |
+| Bull | A + 1.50× (B + C + D) | $560.45 |
 
 The 3-year check values the core at 22.0× FY2028E core operating income, adds core YE2028E net cash and the filing-value SpaceX stake, then adds the FY2029–FY2032 platform UFCFs and terminals discounted back to YE2028. Bear and bull scale only the platform values.
+
+## Hole anatomy
+
+| piece | $m of last-price equity | % of market cap |
+|---|---|---|
+| A. Core | 62,058.3 | 4.5% |
+| B. [VIEW] FSD | [VIEW] 288,730.3 | [VIEW] 21.0% |
+| C. [VIEW] Robotaxi | [VIEW] 643,798.3 | [VIEW] 46.7% |
+| D. [VIEW] Optimus | [VIEW] 501,774.3 | [VIEW] 36.4% |
+| [DEDUCTED] Residual | (118,956.5) | -8.6% |
+
+The residual is a signed `[DEDUCTED]` comparison, not an instruction to retune the base. The base SOTP exceeds the tape by the signed residual; holding other cells fixed, a smaller Robotaxi path would close the gap because it is the largest modeled platform EV.
 
 ## Current market-implied checks
 
@@ -97,14 +123,14 @@ The 3-year check values the core at 22.0× FY2028E core operating income, adds c
 | 2026-06-30 net cash | Cash + STI − debt | 34,182.0 |
 | SpaceX stake | R6.2 | 3,007.0 |
 | Current operating EV | Market cap − net cash − stake | 1,340,215.7 |
-| EV / FY2026E revenue | Current operating EV ÷ revenue | 12.7x |
-| EV / FY2028E revenue | Current operating EV ÷ revenue | 9.9x |
-| EV / FY2026E EBIT | Current operating EV ÷ operating income | 667.7x |
-| EV / FY2028E EBIT | Current operating EV ÷ operating income | 139.6x |
-| EV / FY2026E common NI | Current operating EV ÷ common NI | 578.3x |
-| EV / FY2028E common NI | Current operating EV ÷ common NI | 183.9x |
+| EV / FY2026E revenue | Current operating EV ÷ revenue | 12.6x |
+| EV / FY2028E revenue | Current operating EV ÷ revenue | 8.9x |
+| EV / FY2026E EBIT | Current operating EV ÷ operating income | 472.3x |
+| EV / FY2028E EBIT | Current operating EV ÷ operating income | 81.8x |
+| EV / FY2026E common NI | Current operating EV ÷ common NI | 458.3x |
+| EV / FY2028E common NI | Current operating EV ÷ common NI | 109.3x |
 
-**[DEDUCTED] Tape residual per share:** `$348.75 − official SOTP = $278.43`. This is the gap after the three platform `[VIEW]`s; it is not a substitute valuation for any one platform.
+**[DEDUCTED] Tape residual per share:** `$348.75 − official SOTP = $-30.12`. This is the signed gap after the three platform `[VIEW]`s; it is not a substitute valuation for any one platform and does not feed back into any operating assumption.
 
 ## Comparable-company snapshot
 
