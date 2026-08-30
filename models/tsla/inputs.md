@@ -65,7 +65,8 @@ As of 2026-08-29. USD millions except per-share data, vehicles, GWh and percenta
 | Core working-capital days | 2026-06-30 AR, inventory and AP days, using annualized 1H revenue/COGS; held flat | [DEDUCTED]/[VIEW] |
 | Minimum cash | 5,000; sell short-term investments before issuing incremental debt | [VIEW] liquidity policy |
 | Other assets / liabilities / AOCI / NCI | hold at the latest applicable base value | [VIEW] |
-| FY2026 other income | include actual 1H SpaceX unrealized gain; zero further mark-to-market and zero other H2 income | [FACT]/[VIEW] |
+| FY2026 other income | hold reported 1H net other income, which includes the actual SpaceX unrealized gain; zero further mark-to-market and zero other H2 income | [FACT]/[VIEW] |
+| NCI income | FY2026 retains reported 1H NCI income and assumes zero in 2H; zero thereafter | [FACT]/[VIEW] |
 
 ## Gaps
 
