@@ -39,7 +39,7 @@ Target net cash uses FY2026E ending liquidity less debt and eight months of FY20
 | Bear | Enterprise & Government factor | 85.0% of base [VIEW] | Starshield remains embedded; standalone P&L not obtained |
 | Bear | Connectivity exit EBIT multiple | 40.0× [VIEW] | Selected SOTP input; primary-source peer multiple not obtained |
 | Bear | Space exit revenue multiple / Starship revenue | 8.0× / $0.0 [VIEW] | Starship commercial revenue stays zero |
-| Bear | AI capital conversion / Customer B haircut | 0.8× / 40.0% [VIEW] | AI capex conversion with explicit concentration haircut |
+| Bear | AI capital conversion / Customer B haircut | 0.75× / 40.0% [VIEW] | AI capex conversion with explicit concentration haircut |
 | Bear | WACC / years to FY2028 | 13.5% / 1.3 [VIEW] | Discount FY2028 segment values to the 12-month target date |
 | Base | Connectivity subscribers / ARPU | 18.0m → 22.5m / $59.0 [VIEW] | `research.md` explicit subscriber and ARPU paths |
 | Base | Enterprise & Government factor | 100.0% of base [VIEW] | Starshield remains embedded; standalone P&L not obtained |

@@ -1828,7 +1828,7 @@ def build_valuation_md() -> str:
             [scenario, "Enterprise & Government factor", f"{number(inputs['enterprise_factor'] * D('100'))}% of base [VIEW]", "Starshield remains embedded; standalone P&L not obtained"],
             [scenario, "Connectivity exit EBIT multiple", f"{plain(inputs['connectivity_exit_ebit_multiple'])}× [VIEW]", "Selected SOTP input; primary-source peer multiple not obtained"],
             [scenario, "Space exit revenue multiple / Starship revenue", f"{plain(inputs['space_exit_revenue_multiple'])}× / {money(inputs['starship_commercial_revenue'])} [VIEW]", "Starship commercial revenue stays zero"],
-            [scenario, "AI capital conversion / Customer B haircut", f"{plain(inputs['ai_capital_conversion_multiple'])}× / {number(inputs['customer_b_haircut'] * D('100'))}% [VIEW]", "AI capex conversion with explicit concentration haircut"],
+            [scenario, "AI capital conversion / Customer B haircut", f"{number(inputs['ai_capital_conversion_multiple'], '0.01') if scenario == 'Bear' else plain(inputs['ai_capital_conversion_multiple'])}× / {number(inputs['customer_b_haircut'] * D('100'))}% [VIEW]", "AI capex conversion with explicit concentration haircut"],
             [scenario, "WACC / years to FY2028", f"{number(inputs['wacc'] * D('100'))}% / {plain(target_years_from_fy2028)} [VIEW]", "Discount FY2028 segment values to the 12-month target date"],
         ])
 
