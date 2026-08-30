@@ -324,7 +324,6 @@ BUYBACKS = 0.0
 ENDING_LEASE_VEHICLES = 4_253.0
 SPACEX_FAIR_VALUE = 3_007.0
 SPACEX_CASH_PURCHASE_2026 = 2_002.0
-SPACEX_NONCASH_GAIN_2026 = 1_005.0
 
 
 def fmt(value: Any, decimals: int = 0) -> str:
@@ -424,9 +423,8 @@ def build_forecast_segments() -> tuple[dict[str, dict[str, float]], float, float
     return output, fy25_revenue_per_delivery, q2_revenue_per_delivery
 
 
-def build_income(
+def build_historical_income(
     segments: dict[str, dict[str, float]],
-    balances: dict[str, dict[str, float]] | None = None,
 ) -> dict[str, dict[str, float]]:
     output: dict[str, dict[str, float]] = {}
     for period in HIST_PERIODS:
@@ -449,51 +447,6 @@ def build_income(
             "pretax_income": pretax,
             "diluted_eps": raw["common_net_income"] / raw["diluted_shares"],
         }
-
-    if balances is None:
-        return output
-
-    fy25_tax_rate = HIST_INCOME["FY2025A"]["tax"] / (
-        HIST_INCOME["FY2025A"]["net_income"] + HIST_INCOME["FY2025A"]["tax"]
-    )
-    previous_balance = balances["FY2025A"]
-    for period in FORECAST_PERIODS:
-        segment = segments[period]
-        assumption = ASSUMPTIONS[period]
-        total_opex = assumption["rd"] + assumption["sga"]
-        operating_income = segment["total_gp"] - total_opex
-        beginning_liquidity = (
-            previous_balance["cash"] + previous_balance["short_investments"]
-        )
-        beginning_debt = previous_balance["debt"]
-        interest_income = (
-            beginning_liquidity * INTEREST_INCOME_RATE_ON_BEGINNING_LIQUIDITY
-        )
-        interest_expense = beginning_debt * INTEREST_EXPENSE_RATE_ON_BEGINNING_DEBT
-        other_income = SPACEX_NONCASH_GAIN_2026 if period == "FY2026E" else 0.0
-        pretax = operating_income + interest_income - interest_expense + other_income
-        tax = max(pretax, 0.0) * fy25_tax_rate
-        net_income = pretax - tax
-        output[period] = {
-            "total_revenue": segment["total_revenue"],
-            "total_gp": segment["total_gp"],
-            "rd": assumption["rd"],
-            "sga": assumption["sga"],
-            "restructuring": 0.0,
-            "total_opex": total_opex,
-            "operating_income": operating_income,
-            "interest_income": interest_income,
-            "interest_expense": interest_expense,
-            "other_income": other_income,
-            "pretax_income": pretax,
-            "tax": tax,
-            "net_income": net_income,
-            "nci_income": 0.0,
-            "common_net_income": net_income,
-            "diluted_shares": assumption["diluted_shares"],
-            "diluted_eps": net_income / assumption["diluted_shares"],
-        }
-        previous_balance = balances[period]
     return output
 
 
@@ -534,6 +487,7 @@ def build_forecast(
     dict[str, dict[str, float]],
 ]:
     balances = historical_balance_with_derived()
+    income = build_historical_income(segments)
 
     # Working-capital days use 1H 2026 balances and annualized 1H flows.
     h1_revenue_annualized = segments["1H2026A"]["total_revenue"] * 2.0
@@ -545,70 +499,138 @@ def build_forecast(
     inventory_days = h1_balance["inventory"] / h1_cogs_annualized * 365.0
     ap_days = h1_balance["ap"] / h1_cogs_annualized * 365.0
 
-    # First pass creates a provisional sequential balance and income statement.
-    previous = balances["FY2025A"]
+    fy25_tax_rate = HIST_INCOME["FY2025A"]["tax"] / (
+        HIST_INCOME["FY2025A"]["net_income"] + HIST_INCOME["FY2025A"]["tax"]
+    )
     forecast_cashflow: dict[str, dict[str, float]] = {}
     for period in FORECAST_PERIODS:
         segment = segments[period]
         assumption = ASSUMPTIONS[period]
+        is_fy26 = period == "FY2026E"
+        previous = balances["1H2026A"] if is_fy26 else balances[
+            FORECAST_PERIODS[FORECAST_PERIODS.index(period) - 1]
+        ]
+        prior_annual = balances["FY2025A"] if is_fy26 else previous
         revenue = segment["total_revenue"]
         cogs = revenue - segment["total_gp"]
         ar = revenue * ar_days / 365.0
         inventory = cogs * inventory_days / 365.0
         ap = cogs * ap_days / 365.0
-        delta_nwc = (
+        rollforward_delta_nwc = (
             (ar + inventory - ap)
             - (previous["ar"] + previous["inventory"] - previous["ap"])
         )
-        sbc = (assumption["rd"] + assumption["sga"]) * SBC_AS_PERCENT_OF_RD_AND_SGA
+        annual_delta_nwc = (
+            (ar + inventory - ap)
+            - (
+                prior_annual["ar"]
+                + prior_annual["inventory"]
+                - prior_annual["ap"]
+            )
+        )
+        annual_sbc = (
+            assumption["rd"] + assumption["sga"]
+        ) * SBC_AS_PERCENT_OF_RD_AND_SGA
+        rollforward_sbc = (
+            annual_sbc - HIST_CASHFLOW["1H2026A"]["sbc"]
+            if is_fy26
+            else annual_sbc
+        )
+
         # D&A is based on average PPE. Solving:
         # D&A = rate * (beginning PPE + ending PPE) / 2
         # ending PPE = beginning PPE + capex - D&A
-        da = (
-            DA_RATE_ON_AVERAGE_PPE
-            * (previous["ppe"] + assumption["capex"] / 2.0)
-            / (1.0 + DA_RATE_ON_AVERAGE_PPE / 2.0)
+        rollforward_capex = (
+            assumption["capex"] - HIST_CASHFLOW["1H2026A"]["capex"]
+            if is_fy26
+            else assumption["capex"]
         )
-        ppe = previous["ppe"] + assumption["capex"] - da
+        rollforward_da_rate = (
+            DA_RATE_ON_AVERAGE_PPE / 2.0 if is_fy26 else DA_RATE_ON_AVERAGE_PPE
+        )
+        rollforward_da = (
+            rollforward_da_rate
+            * (previous["ppe"] + rollforward_capex / 2.0)
+            / (1.0 + rollforward_da_rate / 2.0)
+        )
+        annual_da = (
+            HIST_CASHFLOW["1H2026A"]["da"] + rollforward_da
+            if is_fy26
+            else rollforward_da
+        )
+        ppe = previous["ppe"] + rollforward_capex - rollforward_da
         lease_vehicles = ENDING_LEASE_VEHICLES
         spacex_investment = SPACEX_FAIR_VALUE
-        spacex_gain_adjustment = (
-            SPACEX_NONCASH_GAIN_2026 if period == "FY2026E" else 0.0
-        )
-        spacex_purchase = (
-            SPACEX_CASH_PURCHASE_2026 if period == "FY2026E" else 0.0
-        )
 
-        # Income is temporarily calculated here so cash and funding can be
-        # determined. The same formulas are repeated by build_income and tested.
-        fy25_tax_rate = HIST_INCOME["FY2025A"]["tax"] / (
-            HIST_INCOME["FY2025A"]["net_income"] + HIST_INCOME["FY2025A"]["tax"]
-        )
-        operating_income = (
-            segment["total_gp"] - assumption["rd"] - assumption["sga"]
-        )
+        total_opex = assumption["rd"] + assumption["sga"]
+        operating_income = segment["total_gp"] - total_opex
         interest_income = (
-            (previous["cash"] + previous["short_investments"])
+            HIST_INCOME["1H2026A"]["interest_income"]
+            + (
+                previous["cash"] + previous["short_investments"]
+            )
+            * INTEREST_INCOME_RATE_ON_BEGINNING_LIQUIDITY
+            / 2.0
+            if is_fy26
+            else (
+                previous["cash"] + previous["short_investments"]
+            )
             * INTEREST_INCOME_RATE_ON_BEGINNING_LIQUIDITY
         )
         interest_expense = (
-            previous["debt"] * INTEREST_EXPENSE_RATE_ON_BEGINNING_DEBT
+            HIST_INCOME["1H2026A"]["interest_expense"]
+            + previous["debt"] * INTEREST_EXPENSE_RATE_ON_BEGINNING_DEBT / 2.0
+            if is_fy26
+            else previous["debt"] * INTEREST_EXPENSE_RATE_ON_BEGINNING_DEBT
         )
-        other_income = SPACEX_NONCASH_GAIN_2026 if period == "FY2026E" else 0.0
+        # FY2026 keeps reported 1H other income and assumes zero in 2H.
+        # The SpaceX investment is held at its Q2 fair value thereafter.
+        other_income = HIST_INCOME["1H2026A"]["other_income"] if is_fy26 else 0.0
         pretax = operating_income + interest_income - interest_expense + other_income
         tax = max(pretax, 0.0) * fy25_tax_rate
         net_income = pretax - tax
+        nci_income = HIST_INCOME["1H2026A"]["nci_income"] if is_fy26 else 0.0
+        common_net_income = net_income - nci_income
+        income[period] = {
+            "total_revenue": segment["total_revenue"],
+            "total_gp": segment["total_gp"],
+            "rd": assumption["rd"],
+            "sga": assumption["sga"],
+            "restructuring": 0.0,
+            "total_opex": total_opex,
+            "operating_income": operating_income,
+            "interest_income": interest_income,
+            "interest_expense": interest_expense,
+            "other_income": other_income,
+            "pretax_income": pretax,
+            "tax": tax,
+            "net_income": net_income,
+            "nci_income": nci_income,
+            "common_net_income": common_net_income,
+            "diluted_shares": assumption["diluted_shares"],
+            "diluted_eps": common_net_income / assumption["diluted_shares"],
+        }
 
-        operating_cash_flow = (
-            net_income + da + sbc - delta_nwc - spacex_gain_adjustment
+        rollforward_net_income = (
+            net_income - HIST_INCOME["1H2026A"]["net_income"]
+            if is_fy26
+            else net_income
         )
-        free_cash_flow = operating_cash_flow - assumption["capex"]
-        lease_fleet_cash_flow = -(lease_vehicles - previous["lease_vehicles"])
+        rollforward_common_income = (
+            common_net_income - HIST_INCOME["1H2026A"]["common_net_income"]
+            if is_fy26
+            else common_net_income
+        )
+        rollforward_ocf = (
+            rollforward_net_income
+            + rollforward_da
+            + rollforward_sbc
+            - rollforward_delta_nwc
+        )
+        rollforward_fcf = rollforward_ocf - rollforward_capex
         pre_funding_cash = (
             previous["cash"]
-            + free_cash_flow
-            - spacex_purchase
-            + lease_fleet_cash_flow
+            + rollforward_fcf
         )
         investment_sale = min(
             max(MINIMUM_CASH - pre_funding_cash, 0.0),
@@ -620,8 +642,10 @@ def build_forecast(
         debt = previous["debt"] + debt_issuance
         cash = cash_after_investments + debt_issuance - DIVIDENDS - BUYBACKS
 
-        retained_earnings = previous["retained_earnings"] + net_income - DIVIDENDS
-        apic = previous["apic"] + sbc
+        retained_earnings = (
+            previous["retained_earnings"] + rollforward_common_income - DIVIDENDS
+        )
+        apic = previous["apic"] + rollforward_sbc
         common_stock = previous["common_stock"]
         aoci = previous["aoci"]
         stockholders_equity = common_stock + apic + aoci + retained_earnings
@@ -668,27 +692,60 @@ def build_forecast(
             "shares_out": None,
             "diluted_shares": assumption["diluted_shares"],
         }
+        annual_ocf = (
+            HIST_CASHFLOW["1H2026A"]["ocf"] + rollforward_ocf
+            if is_fy26
+            else rollforward_ocf
+        )
+        annual_fcf = annual_ocf - assumption["capex"]
+        other_operating_adjustments = (
+            annual_ocf
+            - net_income
+            - annual_da
+            - annual_sbc
+            + annual_delta_nwc
+        )
+        # Actual H1 post-FCF cash items not separately forecast:
+        # net investing ex-capex/SpaceX + financing + FX
+        # less the increase in restricted cash.
+        h1_restricted_cash_change = (
+            (
+                HIST_CASHFLOW["1H2026A"]["ending_cash_restricted"]
+                - HIST_BALANCE["1H2026A"]["cash"]
+            )
+            - (
+                HIST_CASHFLOW["FY2025A"]["ending_cash_restricted"]
+                - HIST_BALANCE["FY2025A"]["cash"]
+            )
+        )
+        h1_other_post_fcf = (
+            HIST_CASHFLOW["1H2026A"]["net_investing"]
+            + HIST_CASHFLOW["1H2026A"]["capex"]
+            + SPACEX_CASH_PURCHASE_2026
+            + HIST_CASHFLOW["1H2026A"]["net_financing"]
+            + HIST_CASHFLOW["1H2026A"]["fx"]
+            - h1_restricted_cash_change
+        ) if is_fy26 else 0.0
         forecast_cashflow[period] = {
             "net_income": net_income,
-            "da": da,
-            "sbc": sbc,
-            "delta_nwc": delta_nwc,
-            "spacex_gain_adjustment": spacex_gain_adjustment,
-            "ocf": operating_cash_flow,
+            "da": annual_da,
+            "sbc": annual_sbc,
+            "delta_nwc": annual_delta_nwc,
+            "other_operating_adjustments": other_operating_adjustments,
+            "ocf": annual_ocf,
             "capex": assumption["capex"],
-            "fcf": free_cash_flow,
-            "spacex_purchase": spacex_purchase,
-            "lease_fleet_cash_flow": lease_fleet_cash_flow,
+            "fcf": annual_fcf,
+            "spacex_purchase": (
+                SPACEX_CASH_PURCHASE_2026 if is_fy26 else 0.0
+            ),
+            "other_post_fcf": h1_other_post_fcf,
             "investment_sale": investment_sale,
             "debt_issuance": debt_issuance,
             "dividends": DIVIDENDS,
             "buybacks": BUYBACKS,
-            "cash_change": cash - previous["cash"],
+            "cash_change": cash - prior_annual["cash"],
             "ending_cash": cash,
         }
-        previous = balances[period]
-
-    income = build_income(segments, balances)
     return balances, income, {
         **forecast_cashflow,
         "_working_capital_days": {
@@ -763,6 +820,22 @@ def build_checks(
                 f"{period}: CF ending cash = BS cash",
                 abs(cf["ending_cash"] - balance["cash"]) < tolerance,
                 cf["ending_cash"] - balance["cash"],
+            )
+        )
+        cash_bridge = (
+            cf["fcf"]
+            - cf["spacex_purchase"]
+            + cf["other_post_fcf"]
+            + cf["investment_sale"]
+            + cf["debt_issuance"]
+            - cf["dividends"]
+            - cf["buybacks"]
+        )
+        checks.append(
+            (
+                f"{period}: cash-flow bridge = change in cash",
+                abs(cash_bridge - cf["cash_change"]) < tolerance,
+                cash_bridge - cf["cash_change"],
             )
         )
         expected_re = previous["retained_earnings"] + income[period]["common_net_income"]
@@ -928,7 +1001,7 @@ Company revenue and gross profit are sourced only from the four segment lines in
 
 {markdown_table(["line", *ALL_PERIODS], detailed_rows)}
 
-`1H2026A` is a six-month period and is not directly comparable with full years. FY2026 other income includes the actual first-half SpaceX unrealized gain and assumes no further mark-to-market; the cash-flow statement removes that noncash gain. Forecast tax uses the FY2025 effective rate. Forecast interest income uses beginning cash plus short-term investments; interest expense uses beginning debt.
+`1H2026A` is a six-month period and is not directly comparable with full years. FY2026 other income holds reported 1H other income and assumes zero in 2H, including no further SpaceX mark-to-market. FY2026 interest combines reported 1H with a 2H run-rate on the June balance; later years use beginning cash/investments and debt. Forecast tax uses the FY2025 effective rate.
 
 ## Historical filing checks
 
@@ -1006,7 +1079,7 @@ Generated by `compute.py`; do not hand-edit. USD millions except shares.
 
 Historical FY2023 comes from the [FY2023 10-K]({S2023}); FY2024–FY2025 from [S1]({S1}); and 1H2026 from [S3]({S3}). “Other assets,” “Other liabilities,” and “Other equity / NCI” aggregate reported residual lines; the script calculates them from the filed totals.
 
-Forecast PP&E equals beginning PP&E plus capex less D&A. Retained earnings equals prior retained earnings plus common net income because dividends are zero. APIC increases by forecast SBC. Short-term investments are sold before incremental debt is issued to maintain the `[VIEW]` minimum cash balance. Forecast period-end basic shares are `not obtained`; diluted weighted-average shares are the researcher-specified model share counts.
+FY2026 year-end balance-sheet lines roll forward from 2026-06-30 using the implied 2H portion of annual capex, D&A, SBC and net income; later years roll annually. PP&E equals beginning PP&E plus capex less D&A. Retained earnings receives common net income because dividends are zero. APIC increases by forecast SBC. Short-term investments are sold before incremental debt is issued to maintain the `[VIEW]` minimum cash balance. Forecast period-end basic shares are `not obtained`; diluted weighted-average shares are the researcher-specified model share counts.
 
 ## Tie checks
 
@@ -1056,12 +1129,12 @@ def render_cashflow(
         ("D&A and impairment", "da"),
         ("SBC", "sbc"),
         ("Less: increase in core NWC", "delta_nwc"),
-        ("Less: SpaceX noncash gain", "spacex_gain_adjustment"),
+        ("Other operating / noncash adjustments", "other_operating_adjustments"),
         ("Operating cash flow", "ocf"),
         ("Less: capex", "capex"),
         ("Free cash flow", "fcf"),
         ("Less: SpaceX investment purchase", "spacex_purchase"),
-        ("Lease-fleet investment / (release)", "lease_fleet_cash_flow"),
+        ("Other investing / financing / FX", "other_post_fcf"),
         ("Short-term investment maturities / sales", "investment_sale"),
         ("Net debt issuance", "debt_issuance"),
         ("Dividends", "dividends"),
@@ -1075,7 +1148,6 @@ def render_cashflow(
             value = cashflow[p][key]
             if key in {
                 "delta_nwc",
-                "spacex_gain_adjustment",
                 "capex",
                 "spacex_purchase",
                 "dividends",
@@ -1086,7 +1158,11 @@ def render_cashflow(
         rows.append([label, "—", "—", "—", "—", *values])
 
     wc = cashflow["_working_capital_days"]
-    relevant_checks = [row for row in checks if "CF ending cash" in row[0]]
+    relevant_checks = [
+        row
+        for row in checks
+        if "CF ending cash" in row[0] or "cash-flow bridge" in row[0]
+    ]
     check_rows = [
         [name, "PASS" if passed else "FAIL", fmt(difference, 2)]
         for name, passed, difference in relevant_checks
@@ -1099,7 +1175,7 @@ Generated by `compute.py`; do not hand-edit. USD millions.
 
 Historical figures are reported cash-flow lines from [S1]({S1}) and [S3]({S3}); restricted cash reconciles the filed cash-flow ending balance to balance-sheet cash.
 
-Forecast operating cash flow is explicitly `NI + D&A + SBC − Δ(core NWC) − noncash SpaceX gain`. Core NWC is `accounts receivable + inventory − accounts payable`. Forecast days held from 2026-06-30 are: receivables `{wc["ar_days"]:.2f}`, inventory `{wc["inventory_days"]:.2f}`, payables `{wc["ap_days"]:.2f}`. FCF is operating cash flow less capex. Post-FCF cash flows separately show the actual-2026 SpaceX purchase, lease-fleet change, investment liquidation and required debt funding. Dividend and buyback assumptions are zero.
+Forecast operating cash flow is explicitly `NI + D&A + SBC − Δ(core NWC) + other operating/noncash adjustments`. Core NWC is `accounts receivable + inventory − accounts payable`. Forecast days held from 2026-06-30 are: receivables `{wc["ar_days"]:.2f}`, inventory `{wc["inventory_days"]:.2f}`, payables `{wc["ap_days"]:.2f}`. FY2026 combines reported 1H operating cash flow with an explicit 2H roll-forward; its “other” lines aggregate the already-reported 1H non-core operating, investing, financing, FX and restricted-cash movements. FCF is operating cash flow less capex. Post-FCF cash flows separately show the actual-2026 SpaceX purchase, investment liquidation and required debt funding. Dividend and buyback assumptions are zero.
 
 ## Cash tie checks
 
