@@ -12,7 +12,9 @@ Workbook:
 
 Valuation source: `models/spcx/valuation.md` → `Price target` → `12-month base price target`.
 
-Valuation uses the consolidated Revenue and Operating income / EBIT lines in `income.md`, Free cash flow in `cashflow.md`, and Cash, Marketable securities, Debt and finance leases, and ending basic shares in `balance.md`. Fully diluted shares remain `not obtained`. EchoStar is a scenario memo, not part of the base case.
+Valuation uses the consolidated Revenue and Operating income / EBIT lines in `income.md`, Free cash flow in `cashflow.md`, and Cash, Marketable securities, Debt and finance leases, and ending basic shares in `balance.md`. Fully diluted shares remain `not obtained`. The pending EchoStar transaction is included in the base as a labeled view.
+
+Starship Commercial, Spectrum / Mobile Overlay, and Cursor are labeled forecast views in `segments.md`; Cursor rolls into AI and is not back-cast into Q2.
 
 Reconciliation notes:
 
@@ -22,6 +24,6 @@ Reconciliation notes:
 - Each forecast balance sheet balances.
 - Free cash flow equals operating cash flow less capex.
 - FY2026E equals H1 actual plus H2 forecast.
-- Internal Falcon and Starship launches are excluded from Launch Services revenue.
+- Internal Falcon launches are excluded from Launch Services revenue; Starship commercial revenue is a separate overlay.
 
 Run `python3 models/spcx/compute.py` to regenerate the workbook and execute the checks.

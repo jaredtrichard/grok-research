@@ -17,6 +17,7 @@ from typing import Iterable
 D = Decimal
 ROOT = Path(__file__).resolve().parent
 TOLERANCE = D("0.000001")
+VIEW_TAG = "[VIEW; as_of 2026-08-30; not a filing line]"
 
 
 @dataclass(frozen=True)
@@ -211,13 +212,13 @@ ACTUAL_CASHFLOW: dict[str, dict[str, Decimal]] = {
 ACTUAL_BALANCE: dict[str, dict[str, Decimal]] = {
     "FY2025": {
         "cash": D("24747"), "securities": D("0"), "ar": D("1579"), "inventory": D("2416"),
-        "ppe": D("42602"), "total_assets": D("92079"), "debt": D("22896"),
+        "ppe": D("42602"), "spectrum_assets": D("0"), "total_assets": D("92079"), "debt": D("22896"),
         "deferred_revenue": D("12116"), "total_liabilities": D("50754"),
         "redeemable_preferred": D("38752"), "equity": D("2573"),
     },
     "H1 2026A": {
         "cash": D("93522"), "securities": D("6487"), "ar": D("3596"), "inventory": D("2718"),
-        "ppe": D("65736"), "total_assets": D("192770"), "debt": D("39364"),
+        "ppe": D("65736"), "spectrum_assets": D("0"), "total_assets": D("192770"), "debt": D("39364"),
         "deferred_revenue": D("14286"), "total_liabilities": D("65546"),
         "redeemable_preferred": D("0"), "equity": D("127224"),
     },
@@ -232,8 +233,10 @@ DRIVERS: dict[str, dict[str, Decimal]] = {
     "H2 2026E": {
         "customer_falcon_launches": D("22"), "internal_falcon_launches": D("58"), "starship_launches": D("2"),
         "launch_revenue_per_customer_launch": D("65"), "launch_development_revenue": D("700"),
-        "ending_subscribers_m": D("14"), "arpu_monthly": D("64"), "enterprise_government_revenue": D("3300"),
-        "advertising_revenue": D("760"), "solutions_infrastructure_revenue": D("5000"),
+        "starship_commercial_flights": D("1"), "starship_revenue_per_flight": D("150"), "starship_cor_pct": D("0.60"),
+        "ending_subscribers_m": D("14"), "arpu_monthly": D("64"), "enterprise_government_revenue": D("3300"), "spectrum_mobile_revenue": D("100"), "spectrum_mobile_cor_pct": D("0.50"),
+        "advertising_revenue": D("760"), "solutions_infrastructure_revenue": D("5000"), "cursor_revenue": D("1000"),
+        "cursor_cor_pct": D("0.25"), "cursor_rd_pct": D("0.70"), "cursor_sga_pct": D("0.25"),
         "space_launch_cor_pct": D("0.35"), "space_development_cor_pct": D("0.45"), "space_rd": D("2200"), "space_sga": D("200"),
         "consumer_cor_pct": D("0.50"), "enterprise_cor_pct": D("0.32"), "connectivity_rd": D("350"), "connectivity_sga": D("350"),
         "advertising_cor_pct": D("0.30"), "solutions_cor_pct": D("0.45"), "ai_rd": D("4500"), "ai_sga": D("1100"), "ai_restruct": D("0"),
@@ -242,13 +245,16 @@ DRIVERS: dict[str, dict[str, Decimal]] = {
         "space_capex_per_launch": D("28.54"), "connectivity_capex_per_net_add": D("822"), "ai_capex": D("18000"),
         "ar_pct_revenue": D("0.15"), "inventory_pct_revenue": D("0.10"),
         "deferred_revenue": D("16000"), "other_liabilities": D("13000"),
-        "cursor_equity_consideration": D("60000"), "noncapex_cash_flows": D("0"),
+        "cursor_equity_consideration": D("60000"), "echostar_equity_consideration": D("11100.32"),
+        "echostar_spectrum_assets": D("19600"), "echostar_cash_consideration": D("8500"), "noncapex_cash_flows": D("-8500"),
     },
     "FY2027E": {
-        "customer_falcon_launches": D("45"), "internal_falcon_launches": D("130"), "starship_launches": D("5"),
+        "customer_falcon_launches": D("45"), "internal_falcon_launches": D("130"), "starship_launches": D("20"),
         "launch_revenue_per_customer_launch": D("67"), "launch_development_growth": D("0.12"),
-        "ending_subscribers_m": D("18"), "arpu_monthly": D("61"), "enterprise_government_growth": D("0.30"),
-        "advertising_growth": D("0.10"), "solutions_infrastructure_growth": D("0.45"),
+        "starship_commercial_flights": D("12"), "starship_revenue_per_flight": D("150"), "starship_cor_pct": D("0.50"),
+        "ending_subscribers_m": D("18"), "arpu_monthly": D("61"), "enterprise_government_growth": D("0.30"), "spectrum_mobile_revenue": D("1000"), "spectrum_mobile_cor_pct": D("0.40"),
+        "advertising_growth": D("0.10"), "solutions_infrastructure_growth": D("0.45"), "cursor_revenue": D("3000"),
+        "cursor_cor_pct": D("0.25"), "cursor_rd_pct": D("0.50"), "cursor_sga_pct": D("0.25"),
         "space_launch_cor_pct": D("0.34"), "space_development_cor_pct": D("0.44"), "space_rd": D("4200"), "space_sga": D("220"),
         "consumer_cor_pct": D("0.47"), "enterprise_cor_pct": D("0.30"), "connectivity_rd": D("1000"), "connectivity_sga": D("1100"),
         "advertising_cor_pct": D("0.28"), "solutions_cor_pct": D("0.40"), "ai_rd": D("8000"), "ai_sga": D("2500"), "ai_restruct": D("0"),
@@ -256,13 +262,15 @@ DRIVERS: dict[str, dict[str, Decimal]] = {
         "da": D("15000"), "sbc": D("4000"), "other_operating_items": D("-2000"),
         "space_capex_per_launch": D("27"), "connectivity_capex_per_net_add": D("800"), "ai_capex": D("30000"),
         "ar_pct_revenue": D("0.14"), "inventory_pct_revenue": D("0.09"),
-        "deferred_revenue": D("18500"), "other_liabilities": D("15000"), "noncapex_cash_flows": D("0"),
+        "deferred_revenue": D("18500"), "other_liabilities": D("15000"), "echostar_spectrum_assets": D("19600"), "noncapex_cash_flows": D("0"),
     },
     "FY2028E": {
-        "customer_falcon_launches": D("50"), "internal_falcon_launches": D("140"), "starship_launches": D("10"),
+        "customer_falcon_launches": D("50"), "internal_falcon_launches": D("140"), "starship_launches": D("60"),
         "launch_revenue_per_customer_launch": D("69"), "launch_development_growth": D("0.12"),
-        "ending_subscribers_m": D("22.5"), "arpu_monthly": D("59"), "enterprise_government_growth": D("0.25"),
-        "advertising_growth": D("0.08"), "solutions_infrastructure_growth": D("0.30"),
+        "starship_commercial_flights": D("50"), "starship_revenue_per_flight": D("140"), "starship_cor_pct": D("0.40"),
+        "ending_subscribers_m": D("22.5"), "arpu_monthly": D("59"), "enterprise_government_growth": D("0.25"), "spectrum_mobile_revenue": D("2500"), "spectrum_mobile_cor_pct": D("0.35"),
+        "advertising_growth": D("0.08"), "solutions_infrastructure_growth": D("0.30"), "cursor_revenue": D("5000"),
+        "cursor_cor_pct": D("0.25"), "cursor_rd_pct": D("0.40"), "cursor_sga_pct": D("0.20"),
         "space_launch_cor_pct": D("0.32"), "space_development_cor_pct": D("0.42"), "space_rd": D("3600"), "space_sga": D("230"),
         "consumer_cor_pct": D("0.45"), "enterprise_cor_pct": D("0.29"), "connectivity_rd": D("1200"), "connectivity_sga": D("1300"),
         "advertising_cor_pct": D("0.27"), "solutions_cor_pct": D("0.36"), "ai_rd": D("8500"), "ai_sga": D("2900"), "ai_restruct": D("0"),
@@ -270,7 +278,7 @@ DRIVERS: dict[str, dict[str, Decimal]] = {
         "da": D("18000"), "sbc": D("5000"), "other_operating_items": D("-2000"),
         "space_capex_per_launch": D("25"), "connectivity_capex_per_net_add": D("750"), "ai_capex": D("25000"),
         "ar_pct_revenue": D("0.13"), "inventory_pct_revenue": D("0.08"),
-        "deferred_revenue": D("21000"), "other_liabilities": D("17000"), "noncapex_cash_flows": D("0"),
+        "deferred_revenue": D("21000"), "other_liabilities": D("17000"), "echostar_spectrum_assets": D("19600"), "noncapex_cash_flows": D("0"),
     },
 }
 
@@ -300,19 +308,25 @@ for period, launch_mix in (("FY2023", D("0.552")), ("FY2024", D("0.682")), ("FY2
     REVENUE_LINES[period] = {
         "Launch Services": launch_services,
         "Launch & Development": launch_development,
+        "Starship Commercial": None,
         "Consumer": None,
         "Enterprise & Government": None,
+        "Spectrum / Mobile Overlay": None,
         "Advertising": None,
         "Solutions & Infrastructure": None,
+        "Cursor": None,
     }
 
 REVENUE_LINES["H1 2026A"] = {
     "Launch Services": D("978"),
     "Launch & Development": D("603"),
+    "Starship Commercial": D("0"),
     "Consumer": D("4633"),
     "Enterprise & Government": D("2915"),
+    "Spectrum / Mobile Overlay": D("0"),
     "Advertising": D("710"),
     "Solutions & Infrastructure": D("2669"),
+    "Cursor": D("0"),
 }
 
 H1_SUBSCRIBERS = D("12")
@@ -323,6 +337,13 @@ H2_LAUNCH_SERVICES = multiply(
     H2["customer_falcon_launches"],
     "launch_revenue_per_customer_launch",
     H2["launch_revenue_per_customer_launch"],
+)
+H2_STARSHIP_REVENUE = multiply(
+    "segment.H2 2026E.starship_commercial_revenue",
+    "commercial_Starship_flights",
+    H2["starship_commercial_flights"],
+    "assumed_revenue_per_flight",
+    H2["starship_revenue_per_flight"],
 )
 H2_AVG_SUBSCRIBERS = divide(
     "segment.H2 2026E.average_subscribers_m",
@@ -344,10 +365,13 @@ H2_CONSUMER = derive(
 REVENUE_LINES["H2 2026E"] = {
     "Launch Services": H2_LAUNCH_SERVICES,
     "Launch & Development": H2["launch_development_revenue"],
+    "Starship Commercial": H2_STARSHIP_REVENUE,
     "Consumer": H2_CONSUMER,
     "Enterprise & Government": H2["enterprise_government_revenue"],
+    "Spectrum / Mobile Overlay": H2["spectrum_mobile_revenue"],
     "Advertising": H2["advertising_revenue"],
     "Solutions & Infrastructure": H2["solutions_infrastructure_revenue"],
+    "Cursor": H2["cursor_revenue"],
 }
 
 REVENUE_LINES["FY2026E"] = {}
@@ -416,13 +440,23 @@ for period, previous_period in (("FY2027E", "FY2026E"), ("FY2028E", "FY2027E")):
         },
         (REVENUE_LINES[previous_period]["Solutions & Infrastructure"] or D("0")) * (D("1") + driver["solutions_infrastructure_growth"]),
     )
+    starship_revenue = multiply(
+        f"segment.{period}.starship_commercial_revenue",
+        "commercial_Starship_flights",
+        driver["starship_commercial_flights"],
+        "assumed_revenue_per_flight",
+        driver["starship_revenue_per_flight"],
+    )
     REVENUE_LINES[period] = {
         "Launch Services": launch_services,
         "Launch & Development": launch_development,
+        "Starship Commercial": starship_revenue,
         "Consumer": consumer,
         "Enterprise & Government": enterprise,
+        "Spectrum / Mobile Overlay": driver["spectrum_mobile_revenue"],
         "Advertising": advertising,
         "Solutions & Infrastructure": solutions,
+        "Cursor": driver["cursor_revenue"],
     }
     previous_subscribers = driver["ending_subscribers_m"]
 
@@ -455,6 +489,13 @@ def forecast_segment_period(period: str, revenue_lines: dict[str, Decimal | None
                     "launch_development_cor_pct",
                     driver["space_development_cor_pct"],
                 ),
+                "starship_commercial_cor": multiply(
+                    "segment.H2 2026E.starship_commercial_cor",
+                    "starship_commercial_revenue",
+                    h2_lines["Starship Commercial"] or D("0"),
+                    "starship_commercial_cor_pct",
+                    driver["starship_cor_pct"],
+                ),
             },
         )
         h2_connectivity_cor = sum_named(
@@ -473,6 +514,13 @@ def forecast_segment_period(period: str, revenue_lines: dict[str, Decimal | None
                     h2_lines["Enterprise & Government"] or D("0"),
                     "enterprise_government_cor_pct",
                     driver["enterprise_cor_pct"],
+                ),
+                "spectrum_mobile_cor": multiply(
+                    "segment.H2 2026E.spectrum_mobile_cor",
+                    "spectrum_mobile_revenue",
+                    h2_lines["Spectrum / Mobile Overlay"] or D("0"),
+                    "spectrum_mobile_cor_pct",
+                    driver["spectrum_mobile_cor_pct"],
                 ),
             },
         )
@@ -493,63 +541,82 @@ def forecast_segment_period(period: str, revenue_lines: dict[str, Decimal | None
                     "solutions_cor_pct",
                     driver["solutions_cor_pct"],
                 ),
+                "cursor_cor": multiply(
+                    "segment.H2 2026E.cursor_cor",
+                    "Cursor_revenue",
+                    h2_lines["Cursor"] or D("0"),
+                    "Cursor_cor_pct",
+                    driver["cursor_cor_pct"],
+                ),
             },
         )
+        h2_cursor_rd = multiply("segment.H2 2026E.cursor_rd", "Cursor_revenue", h2_lines["Cursor"] or D("0"), "Cursor_rd_pct", driver["cursor_rd_pct"])
+        h2_cursor_sga = multiply("segment.H2 2026E.cursor_sga", "Cursor_revenue", h2_lines["Cursor"] or D("0"), "Cursor_sga_pct", driver["cursor_sga_pct"])
         output["Space"] = {
-            "revenue": sum_named("segment.FY2026E.space_revenue", {"launch_services": revenue_lines["Launch Services"] or D("0"), "launch_development": revenue_lines["Launch & Development"] or D("0")}),
+            "revenue": sum_named("segment.FY2026E.space_revenue", {"launch_services": revenue_lines["Launch Services"] or D("0"), "launch_development": revenue_lines["Launch & Development"] or D("0"), "starship_commercial": revenue_lines["Starship Commercial"] or D("0")}),
             "cor": sum_named("segment.FY2026E.space_cor", {"H1_actual": h1["Space"]["cor"], "H2_forecast": h2_space_cor}),
             "rd": sum_named("segment.FY2026E.space_rd", {"H1_actual": h1["Space"]["rd"], "H2_forecast": driver["space_rd"]}),
             "sga": sum_named("segment.FY2026E.space_sga", {"H1_actual": h1["Space"]["sga"], "H2_forecast": driver["space_sga"]}),
             "restruct": D("0"), "impairment": D("0"),
         }
         output["Connectivity"] = {
-            "revenue": sum_named("segment.FY2026E.connectivity_revenue", {"consumer": revenue_lines["Consumer"] or D("0"), "enterprise_government": revenue_lines["Enterprise & Government"] or D("0")}),
+            "revenue": sum_named("segment.FY2026E.connectivity_revenue", {"consumer": revenue_lines["Consumer"] or D("0"), "enterprise_government": revenue_lines["Enterprise & Government"] or D("0"), "spectrum_mobile_overlay": revenue_lines["Spectrum / Mobile Overlay"] or D("0")}),
             "cor": sum_named("segment.FY2026E.connectivity_cor", {"H1_actual": h1["Connectivity"]["cor"], "H2_forecast": h2_connectivity_cor}),
             "rd": sum_named("segment.FY2026E.connectivity_rd", {"H1_actual": h1["Connectivity"]["rd"], "H2_forecast": driver["connectivity_rd"]}),
             "sga": sum_named("segment.FY2026E.connectivity_sga", {"H1_actual": h1["Connectivity"]["sga"], "H2_forecast": driver["connectivity_sga"]}),
             "restruct": D("0"), "impairment": D("0"),
         }
         output["AI"] = {
-            "revenue": sum_named("segment.FY2026E.ai_revenue", {"advertising": revenue_lines["Advertising"] or D("0"), "solutions_infrastructure": revenue_lines["Solutions & Infrastructure"] or D("0")}),
+            "revenue": sum_named("segment.FY2026E.ai_revenue", {"advertising": revenue_lines["Advertising"] or D("0"), "solutions_infrastructure": revenue_lines["Solutions & Infrastructure"] or D("0"), "Cursor": revenue_lines["Cursor"] or D("0")}),
             "cor": sum_named("segment.FY2026E.ai_cor", {"H1_actual": h1["AI"]["cor"], "H2_forecast": h2_ai_cor}),
-            "rd": sum_named("segment.FY2026E.ai_rd", {"H1_actual": h1["AI"]["rd"], "H2_forecast": driver["ai_rd"]}),
-            "sga": sum_named("segment.FY2026E.ai_sga", {"H1_actual": h1["AI"]["sga"], "H2_forecast": driver["ai_sga"]}),
+            "rd": sum_named("segment.FY2026E.ai_rd", {"H1_actual": h1["AI"]["rd"], "H2_xAI_X_forecast": driver["ai_rd"], "H2_Cursor_forecast": h2_cursor_rd}),
+            "sga": sum_named("segment.FY2026E.ai_sga", {"H1_actual": h1["AI"]["sga"], "H2_xAI_X_forecast": driver["ai_sga"], "H2_Cursor_forecast": h2_cursor_sga}),
             "restruct": sum_named("segment.FY2026E.ai_restruct", {"H1_actual": h1["AI"]["restruct"], "H2_forecast": driver["ai_restruct"]}),
             "impairment": D("0"),
         }
     else:
+        starship_cor = multiply(f"segment.{period}.starship_commercial_cor", "starship_commercial_revenue", revenue_lines["Starship Commercial"] or D("0"), "starship_commercial_cor_pct", driver["starship_cor_pct"])
+        spectrum_cor = multiply(f"segment.{period}.spectrum_mobile_cor", "spectrum_mobile_revenue", revenue_lines["Spectrum / Mobile Overlay"] or D("0"), "spectrum_mobile_cor_pct", driver["spectrum_mobile_cor_pct"])
+        cursor_cor = multiply(f"segment.{period}.cursor_cor", "Cursor_revenue", revenue_lines["Cursor"] or D("0"), "Cursor_cor_pct", driver["cursor_cor_pct"])
+        cursor_rd = multiply(f"segment.{period}.cursor_rd", "Cursor_revenue", revenue_lines["Cursor"] or D("0"), "Cursor_rd_pct", driver["cursor_rd_pct"])
+        cursor_sga = multiply(f"segment.{period}.cursor_sga", "Cursor_revenue", revenue_lines["Cursor"] or D("0"), "Cursor_sga_pct", driver["cursor_sga_pct"])
         output["Space"] = {
-            "revenue": sum_named(f"segment.{period}.space_revenue", {"launch_services": revenue_lines["Launch Services"] or D("0"), "launch_development": revenue_lines["Launch & Development"] or D("0")}),
+            "revenue": sum_named(f"segment.{period}.space_revenue", {"launch_services": revenue_lines["Launch Services"] or D("0"), "launch_development": revenue_lines["Launch & Development"] or D("0"), "starship_commercial": revenue_lines["Starship Commercial"] or D("0")}),
             "cor": sum_named(
                 f"segment.{period}.space_cor",
                 {
                     "launch_services_cor": multiply(f"segment.{period}.launch_services_cor", "launch_services_revenue", revenue_lines["Launch Services"] or D("0"), "launch_services_cor_pct", driver["space_launch_cor_pct"]),
                     "launch_development_cor": multiply(f"segment.{period}.launch_development_cor", "launch_development_revenue", revenue_lines["Launch & Development"] or D("0"), "launch_development_cor_pct", driver["space_development_cor_pct"]),
+                    "starship_commercial_cor": starship_cor,
                 },
             ),
             "rd": driver["space_rd"], "sga": driver["space_sga"], "restruct": D("0"), "impairment": D("0"),
         }
         output["Connectivity"] = {
-            "revenue": sum_named(f"segment.{period}.connectivity_revenue", {"consumer": revenue_lines["Consumer"] or D("0"), "enterprise_government": revenue_lines["Enterprise & Government"] or D("0")}),
+            "revenue": sum_named(f"segment.{period}.connectivity_revenue", {"consumer": revenue_lines["Consumer"] or D("0"), "enterprise_government": revenue_lines["Enterprise & Government"] or D("0"), "spectrum_mobile_overlay": revenue_lines["Spectrum / Mobile Overlay"] or D("0")}),
             "cor": sum_named(
                 f"segment.{period}.connectivity_cor",
                 {
                     "consumer_cor": multiply(f"segment.{period}.consumer_cor", "consumer_revenue", revenue_lines["Consumer"] or D("0"), "consumer_cor_pct", driver["consumer_cor_pct"]),
                     "enterprise_government_cor": multiply(f"segment.{period}.enterprise_government_cor", "enterprise_government_revenue", revenue_lines["Enterprise & Government"] or D("0"), "enterprise_government_cor_pct", driver["enterprise_cor_pct"]),
+                    "spectrum_mobile_cor": spectrum_cor,
                 },
             ),
             "rd": driver["connectivity_rd"], "sga": driver["connectivity_sga"], "restruct": D("0"), "impairment": D("0"),
         }
         output["AI"] = {
-            "revenue": sum_named(f"segment.{period}.ai_revenue", {"advertising": revenue_lines["Advertising"] or D("0"), "solutions_infrastructure": revenue_lines["Solutions & Infrastructure"] or D("0")}),
+            "revenue": sum_named(f"segment.{period}.ai_revenue", {"advertising": revenue_lines["Advertising"] or D("0"), "solutions_infrastructure": revenue_lines["Solutions & Infrastructure"] or D("0"), "Cursor": revenue_lines["Cursor"] or D("0")}),
             "cor": sum_named(
                 f"segment.{period}.ai_cor",
                 {
                     "advertising_cor": multiply(f"segment.{period}.advertising_cor", "advertising_revenue", revenue_lines["Advertising"] or D("0"), "advertising_cor_pct", driver["advertising_cor_pct"]),
                     "solutions_infrastructure_cor": multiply(f"segment.{period}.solutions_infrastructure_cor", "solutions_infrastructure_revenue", revenue_lines["Solutions & Infrastructure"] or D("0"), "solutions_cor_pct", driver["solutions_cor_pct"]),
+                    "Cursor_cor": cursor_cor,
                 },
             ),
-            "rd": driver["ai_rd"], "sga": driver["ai_sga"], "restruct": driver["ai_restruct"], "impairment": D("0"),
+            "rd": sum_named(f"segment.{period}.ai_rd", {"xAI_X_R&D": driver["ai_rd"], "Cursor_R&D": cursor_rd}),
+            "sga": sum_named(f"segment.{period}.ai_sga", {"xAI_X_SG&A": driver["ai_sga"], "Cursor_SG&A": cursor_sga}),
+            "restruct": driver["ai_restruct"], "impairment": D("0"),
         }
 
     for segment, values in output.items():
@@ -725,12 +792,12 @@ BALANCE: dict[str, dict[str, Decimal]] = {}
 for period, values in ACTUAL_BALANCE.items():
     other_assets = derive(
         f"balance.{period}.other_assets",
-        "total_assets - cash - securities - accounts_receivable - inventory - PP&E",
+        "total_assets - cash - securities - accounts_receivable - inventory - PP&E - spectrum_assets",
         {
             "total_assets": values["total_assets"], "cash": values["cash"], "securities": values["securities"],
-            "accounts_receivable": values["ar"], "inventory": values["inventory"], "PP&E": values["ppe"],
+            "accounts_receivable": values["ar"], "inventory": values["inventory"], "PP&E": values["ppe"], "spectrum_assets": values["spectrum_assets"],
         },
-        values["total_assets"] - values["cash"] - values["securities"] - values["ar"] - values["inventory"] - values["ppe"],
+        values["total_assets"] - values["cash"] - values["securities"] - values["ar"] - values["inventory"] - values["ppe"] - values["spectrum_assets"],
     )
     other_liabilities = derive(
         f"balance.{period}.other_liabilities",
@@ -829,12 +896,15 @@ for period in ("H2 2026E", "FY2027E", "FY2028E"):
         {"opening_PP&E": START_PPE[period], "capital_expenditures": total_capex, "depreciation_and_amortization": driver["da"]},
         START_PPE[period] + total_capex - driver["da"],
     )
-    equity_issuance = driver.get("cursor_equity_consideration", D("0"))
+    cursor_equity_issuance = driver.get("cursor_equity_consideration", D("0"))
+    echostar_equity_issuance = driver.get("echostar_equity_consideration", D("0"))
+    spectrum_assets = driver["echostar_spectrum_assets"]
     equity = sum_named(
         f"balance.{period}.equity",
         {
             "opening_equity": START_EQUITY[period], "net_income": INCOME[income_period]["net_income"],
-            "share_based_compensation": driver["sbc"], "stock_issued_for_Cursor": equity_issuance,
+            "share_based_compensation": driver["sbc"], "stock_issued_for_Cursor": cursor_equity_issuance,
+            "pending_stock_issued_for_EchoStar": echostar_equity_issuance,
         },
     )
     debt = prior["debt"]
@@ -849,20 +919,20 @@ for period in ("H2 2026E", "FY2027E", "FY2028E"):
     )
     other_assets = derive(
         f"balance.{period}.other_assets",
-        "total_liabilities_and_equity - cash - securities - accounts_receivable - inventory - PP&E",
+        "total_liabilities_and_equity - cash - securities - accounts_receivable - inventory - PP&E - spectrum_assets",
         {
             "total_liabilities_and_equity": total_liabilities_equity, "cash": ending_cash, "securities": ending_securities,
-            "accounts_receivable": ending_ar, "inventory": ending_inventory, "PP&E": ppe,
+            "accounts_receivable": ending_ar, "inventory": ending_inventory, "PP&E": ppe, "spectrum_assets": spectrum_assets,
         },
-        total_liabilities_equity - ending_cash - ending_securities - ending_ar - ending_inventory - ppe,
+        total_liabilities_equity - ending_cash - ending_securities - ending_ar - ending_inventory - ppe - spectrum_assets,
     )
     total_assets = sum_named(
         f"balance.{period}.total_assets",
-        {"cash": ending_cash, "securities": ending_securities, "accounts_receivable": ending_ar, "inventory": ending_inventory, "PP&E": ppe, "other_assets": other_assets},
+        {"cash": ending_cash, "securities": ending_securities, "accounts_receivable": ending_ar, "inventory": ending_inventory, "PP&E": ppe, "spectrum_assets": spectrum_assets, "other_assets": other_assets},
     )
     BALANCE[period] = {
         "cash": ending_cash, "securities": ending_securities, "ar": ending_ar, "inventory": ending_inventory,
-        "ppe": ppe, "other_assets": other_assets, "total_assets": total_assets, "debt": debt,
+        "ppe": ppe, "spectrum_assets": spectrum_assets, "other_assets": other_assets, "total_assets": total_assets, "debt": debt,
         "deferred_revenue": driver["deferred_revenue"], "other_liabilities": driver["other_liabilities"],
         "total_liabilities": total_liabilities, "redeemable_preferred": preferred, "equity": equity,
     }
@@ -927,10 +997,15 @@ BASIC_SHARES = {
     "H1 2026A": D("13176"),
     "FY2026E": sum_named(
         "balance.FY2026E.basic_shares",
-        {"July_28_basic_shares_m": D("13181.779945"), "Cursor_merger_shares_m": D("389.289254"), "Cursor_vested_RSU_shares_m": D("1.752426")},
+        {
+            "July_28_basic_shares_m": D("13181.779945"),
+            "Cursor_merger_shares_m": D("389.289254"),
+            "Cursor_vested_RSU_shares_m": D("1.752426"),
+            "pending_EchoStar_shares_m": D("261.8"),
+        },
     ),
-    "FY2027E": D("13572.821625"),
-    "FY2028E": D("13572.821625"),
+    "FY2027E": D("13834.621625"),
+    "FY2028E": D("13834.621625"),
 }
 
 
@@ -986,20 +1061,26 @@ def build_segments_md() -> str:
     fy2026_formula_slug = {
         "Launch Services": "launch_services",
         "Launch & Development": "launch_and_development",
+        "Starship Commercial": "starship_commercial",
         "Consumer": "consumer",
         "Enterprise & Government": "enterprise_and_government",
+        "Spectrum / Mobile Overlay": "spectrum_/_mobile_overlay",
         "Advertising": "advertising",
         "Solutions & Infrastructure": "solutions_and_infrastructure",
+        "Cursor": "cursor",
     }
     outer_year_formula_slug = {
         "Launch Services": "launch_services_revenue",
         "Launch & Development": "launch_development_revenue",
+        "Starship Commercial": "starship_commercial_revenue",
         "Consumer": "consumer_revenue",
         "Enterprise & Government": "enterprise_government_revenue",
+        "Spectrum / Mobile Overlay": "spectrum_mobile_revenue",
         "Advertising": "advertising_revenue",
         "Solutions & Infrastructure": "solutions_infrastructure_revenue",
+        "Cursor": "cursor_revenue",
     }
-    for line in ("Launch Services", "Launch & Development", "Consumer", "Enterprise & Government", "Advertising", "Solutions & Infrastructure"):
+    for line in ("Launch Services", "Launch & Development", "Starship Commercial", "Consumer", "Enterprise & Government", "Spectrum / Mobile Overlay", "Advertising", "Solutions & Infrastructure", "Cursor"):
         row = [line]
         for period in periods:
             value = REVENUE_LINES[period][line]
@@ -1009,6 +1090,8 @@ def build_segments_md() -> str:
                 row.append(tagged(value, "FACT"))
             elif period.startswith("FY202") and period.endswith(("3", "4", "5")) and line.startswith("Launch"):
                 row.append(tagged(value, "DEDUCTED", f"segment.{period}.{historical_formula_slug[line]}"))
+            elif period in ("FY2027E", "FY2028E") and line in ("Spectrum / Mobile Overlay", "Cursor"):
+                row.append(tagged(value, "VIEW"))
             else:
                 slug = fy2026_formula_slug[line] if period == "FY2026E" else outer_year_formula_slug[line]
                 key = f"segment.{period}.{slug}"
@@ -1030,18 +1113,24 @@ def build_segments_md() -> str:
         driver_rows.extend([
             [period, "Customer / internal Falcon / Starship launches", f"{plain(d['customer_falcon_launches'])} / {plain(d['internal_falcon_launches'])} / {plain(d['starship_launches'])} [VIEW]", "`research.md` Space — Launch Services / Starship overlay"],
             [period, "Launch revenue per customer launch", f"{money(d['launch_revenue_per_customer_launch'])} [VIEW]", "`research.md` recognized revenue per customer launch; list price remains not obtained"],
+            [period, "Starship commercial flights / assumed revenue per flight", f"{plain(d['starship_commercial_flights'])} / {money(d['starship_revenue_per_flight'])} [VIEW]", "Commercial overlay; prospectus H2 2026 payload-to-orbit expectation is the start, but this is not a filing line"],
             [period, "Ending subscribers / monthly ARPU", f"{plain(d['ending_subscribers_m'])}m / {money(d['arpu_monthly'])} [VIEW]", "`research.md` Connectivity — Consumer"],
             [period, "Enterprise & Government", (money(d["enterprise_government_revenue"]) if period == "H2 2026E" else f"{number(d['enterprise_government_growth'] * D('100'))}% growth") + " [VIEW]", "`research.md` Connectivity — Enterprise & Government; no Starshield split"],
+            [period, "Pending EchoStar spectrum/mobile revenue", f"{money(d['spectrum_mobile_revenue'])} [VIEW]", "Pending spectrum-enabled mobile overlay; not a filing line"],
             [period, "Advertising", (money(d["advertising_revenue"]) if period == "H2 2026E" else f"{number(d['advertising_growth'] * D('100'))}% growth") + " [VIEW]", "`research.md` AI — Advertising"],
             [period, "Solutions & Infrastructure", (money(d["solutions_infrastructure_revenue"]) if period == "H2 2026E" else f"{number(d['solutions_infrastructure_growth'] * D('100'))}% growth") + " [VIEW]", "`research.md` AI — Solutions & Infrastructure; Customer B concentration is the named downside"],
+            [period, "Cursor revenue", f"{money(d['cursor_revenue'])} [VIEW]", "Cursor memo line rolls into AI; revenue is not obtained from a filing"],
         ])
         cost_driver_rows.extend([
             [period, "Space cost of revenue", f"{number(d['space_launch_cor_pct'] * D('100'))}% Launch Services / {number(d['space_development_cor_pct'] * D('100'))}% Launch & Development [VIEW]", "`research.md` Space segment drivers"],
+            [period, "Starship commercial cost of revenue", f"{number(d['starship_cor_pct'] * D('100'))}% of Starship commercial revenue [VIEW]", "Commercial overlay economics; not a filing line"],
             [period, "Space R&D / SG&A", f"{money(d['space_rd'])} / {money(d['space_sga'])} [VIEW]", "`research.md` Starship overlay and Corporate"],
             [period, "Connectivity cost of revenue", f"{number(d['consumer_cor_pct'] * D('100'))}% Consumer / {number(d['enterprise_cor_pct'] * D('100'))}% Enterprise & Government [VIEW]", "`research.md` Connectivity segment drivers"],
             [period, "Connectivity R&D / SG&A", f"{money(d['connectivity_rd'])} / {money(d['connectivity_sga'])} [VIEW]", "`research.md` Connectivity segment drivers"],
+            [period, "Spectrum/mobile cost of revenue", f"{number(d['spectrum_mobile_cor_pct'] * D('100'))}% of spectrum/mobile revenue [VIEW]", "Pending EchoStar overlay; not a filing line"],
             [period, "AI cost of revenue", f"{number(d['advertising_cor_pct'] * D('100'))}% Advertising / {number(d['solutions_cor_pct'] * D('100'))}% Solutions & Infrastructure [VIEW]", "`research.md` AI segment drivers"],
             [period, "AI R&D / SG&A", f"{money(d['ai_rd'])} / {money(d['ai_sga'])} [VIEW]", "`research.md` AI segment drivers"],
+            [period, "Cursor cost / R&D / SG&A", f"{number(d['cursor_cor_pct'] * D('100'))}% / {number(d['cursor_rd_pct'] * D('100'))}% / {number(d['cursor_sga_pct'] * D('100'))}% of Cursor revenue [VIEW]", "Cursor P&L view; not a filing line"],
             [period, "Capex unit drivers", f"{money(d['space_capex_per_launch'])}/launch; {money(d['connectivity_capex_per_net_add'])}/net add; AI {money(d['ai_capex'])} [VIEW]", "`research.md` Capital cycle"],
         ])
 
@@ -1062,6 +1151,8 @@ def build_segments_md() -> str:
                     cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.{segment.lower()}.ebit"))
                 elif metric in ("revenue", "cor"):
                     cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.{segment.lower()}_{metric}"))
+                elif segment == "AI" and metric in ("rd", "sga"):
+                    cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.ai_{metric}"))
                 else:
                     cells.append(tagged(values[metric], "VIEW"))
             segment_rows.append(cells)
@@ -1069,10 +1160,34 @@ def build_segments_md() -> str:
     starship_rows = [
         ["FY2025", "Starship-specific R&D", "$3,004 [FACT]", "`research.md` Starship overlay"],
         ["H1 2026A", "Space R&D, mainly Starship", "$2,006 [FACT]", "Exact Starship-only amount not obtained"],
-        ["H2 2026E", "Space R&D / Starship overlay", "$2,200 [VIEW]", "`research.md` Starship remains R&D/capex, not revenue"],
-        ["FY2027E", "Space R&D / Starship overlay", "$4,200 [VIEW]", "No Starship revenue line; commercial pricing not obtained"],
-        ["FY2028E", "Space R&D / Starship overlay", "$3,600 [VIEW]", "No Starship revenue line; commercial pricing not obtained"],
+        ["FY2026E", "Commercial overlay", f"{plain(H2['starship_commercial_flights'])} flight × {money(H2['starship_revenue_per_flight'])} = {tagged(REVENUE_LINES['FY2026E']['Starship Commercial'] or D('0'), 'DEDUCTED', 'segment.FY2026E.starship_commercial')}", "View anchored to the prospectus H2 2026 payload-to-orbit expectation; not a filing revenue line"],
+        ["FY2027E", "Commercial overlay", f"{plain(DRIVERS['FY2027E']['starship_commercial_flights'])} flights × {money(DRIVERS['FY2027E']['starship_revenue_per_flight'])} = {tagged(REVENUE_LINES['FY2027E']['Starship Commercial'] or D('0'), 'DEDUCTED', 'segment.FY2027E.starship_commercial_revenue')}", "Assumed cadence and yield; list price not obtained"],
+        ["FY2028E", "Commercial overlay", f"{plain(DRIVERS['FY2028E']['starship_commercial_flights'])} flights × {money(DRIVERS['FY2028E']['starship_revenue_per_flight'])} = {tagged(REVENUE_LINES['FY2028E']['Starship Commercial'] or D('0'), 'DEDUCTED', 'segment.FY2028E.starship_commercial_revenue')}", "Assumed cadence and yield; list price not obtained"],
+        ["FY2026E", "Space R&D / Starship overlay", tagged(FORECAST_SEGMENTS["FY2026E"]["Space"]["rd"], "DEDUCTED", "segment.FY2026E.space_rd"), "H1 actual plus H2 view"],
+        ["FY2027E", "Space R&D / Starship overlay", "$4,200 [VIEW]", "Commercial revenue does not remove development spend"],
+        ["FY2028E", "Space R&D / Starship overlay", "$3,600 [VIEW]", "Commercial revenue does not remove development spend"],
     ]
+    cursor_rows: list[list[str]] = []
+    for display_period, driver_period in (("FY2026E", "H2 2026E"), ("FY2027E", "FY2027E"), ("FY2028E", "FY2028E")):
+        d = DRIVERS[driver_period]
+        revenue = d["cursor_revenue"]
+        cursor_cor = revenue * d["cursor_cor_pct"]
+        cursor_rd = revenue * d["cursor_rd_pct"]
+        cursor_sga = revenue * d["cursor_sga_pct"]
+        cursor_ebit = derive(
+            f"segment.{display_period}.cursor_memo_ebit",
+            "Cursor_revenue - Cursor_cost_of_revenue - Cursor_R&D - Cursor_SG&A",
+            {"Cursor_revenue": revenue, "Cursor_cost_of_revenue": cursor_cor, "Cursor_R&D": cursor_rd, "Cursor_SG&A": cursor_sga},
+            revenue - cursor_cor - cursor_rd - cursor_sga,
+        )
+        cursor_rows.append([
+            display_period,
+            tagged(revenue, "VIEW"),
+            tagged(cursor_cor, "DEDUCTED", f"segment.{driver_period}.cursor_cor"),
+            tagged(cursor_rd, "DEDUCTED", f"segment.{driver_period}.cursor_rd"),
+            tagged(cursor_sga, "DEDUCTED", f"segment.{driver_period}.cursor_sga"),
+            tagged(cursor_ebit, "DEDUCTED", f"segment.{display_period}.cursor_memo_ebit"),
+        ])
 
     capex_rows: list[list[str]] = []
     for period in ("H1 2026A", "H2 2026E", "FY2026E", "FY2027E", "FY2028E"):
@@ -1090,7 +1205,7 @@ as_of: 2026-08-30
 units: USD millions unless stated otherwise
 generator: `compute.py`
 
-Forecast drivers are `[VIEW]` and implement `memory/spcx/research.md`. Historical facts point to `memory/spcx/register.md`. Internal Falcon launches and Starship launches do not create Launch Services revenue. Starshield remains a memo inside Enterprise & Government; standalone P&L is {not_obtained()}.
+Forecast drivers are `[VIEW]` and implement the captain's 2026-08-30 overlay on `memory/spcx/research.md`. Historical facts point to `memory/spcx/register.md`. Internal Falcon launches do not create Launch Services revenue. Starship commercial revenue is a separate view. Starshield remains a memo inside Enterprise & Government; standalone P&L is {not_obtained()}.
 
 ## Explicit forecast drivers
 
@@ -1100,7 +1215,7 @@ Forecast drivers are `[VIEW]` and implement `memory/spcx/research.md`. Historica
 
 {markdown_table(["period", "driver", "assumption", "research instruction"], cost_driver_rows)}
 
-Kit revenue, churn, launch list price, Falcon 9/Heavy mix, Starshield standalone results, GPU-hours and utilization remain {not_obtained()}. Consumer revenue therefore models service revenue only; kit contribution is zero `[VIEW]`, not a claim that kits have no value. Cursor P&L contribution is zero `[VIEW]` in H2 2026 because contribution is {not_obtained()}; Cursor is not back-cast.
+Kit revenue, churn, launch list price, Falcon 9/Heavy mix, Starshield standalone results, GPU-hours and utilization remain {not_obtained()}. Consumer revenue therefore models service revenue only; kit contribution is zero `[VIEW]`, not a claim that kits have no value. Cursor revenue and costs are explicit `[VIEW]` memo lines inside AI from H2 2026 onward; Cursor is not back-cast into Q2.
 
 ## Revenue lines
 
@@ -1118,7 +1233,13 @@ Corporate / eliminations operating revenue and expense are zero `[FACT]` because
 
 {markdown_table(["period", "line", "value", "treatment"], starship_rows)}
 
-Starship customer revenue, standalone capex, commercial price, payload economics and cost per test remain {not_obtained()}. Forecast launches affect Space capex and cadence only.
+Starship filing revenue, standalone capex, list price, payload economics and cost per test remain {not_obtained()}. The forecast's non-zero commercial revenue is a labeled cadence × assumed revenue-per-flight view.
+
+## Cursor memo P&L — rolls into AI
+
+{markdown_table(["period", "revenue", "cost of revenue", "R&D", "SG&A", "EBIT"], cursor_rows, ["---", "---:", "---:", "---:", "---:", "---:"])}
+
+Cursor filing revenue and margins are {not_obtained()}. These are explicit forecast views, not filing lines. The 8-K discloses the closing share consideration and implied equity value, not Cursor P&L.
 
 ## Segment capex
 
@@ -1176,7 +1297,7 @@ as_of: 2026-08-30
 units: USD millions
 generator: `compute.py`
 
-The forecast is built from the combined segment statements in `segments.md`; consolidated revenue and EBIT are not separate plugs. FY2023–FY2025 remain retrospectively recast for xAI/X. FY2026E equals H1 actual plus H2 forecast. Cursor P&L contribution is zero `[VIEW]` because it is {not_obtained()} and Cursor is not back-cast into Q2.
+The forecast is built from the combined segment statements in `segments.md`; consolidated revenue and EBIT are not separate plugs. FY2023–FY2025 remain retrospectively recast for xAI/X. FY2026E equals H1 actual plus H2 forecast. Cursor P&L is a non-zero `[VIEW]` from H2 2026 onward and is not back-cast into Q2. Starship commercial and pending EchoStar spectrum/mobile overlays are also explicit forecast views.
 
 ## Segment revenue bridge
 
@@ -1200,7 +1321,7 @@ def build_balance_md() -> str:
     periods = ["FY2025", "H1 2026A", "FY2026E", "FY2027E", "FY2028E"]
     labels = [
         ("cash", "Cash"), ("securities", "Marketable securities"), ("ar", "Accounts receivable"),
-        ("inventory", "Inventory"), ("ppe", "PP&E, net"), ("other_assets", "Other assets / purchase-accounting residual"),
+        ("inventory", "Inventory"), ("ppe", "PP&E, net"), ("spectrum_assets", "Pending EchoStar spectrum assets"), ("other_assets", "Other assets / purchase-accounting residual"),
         ("total_assets", "Total assets"), ("debt", "Debt and finance leases"),
         ("deferred_revenue", "Deferred revenue"), ("other_liabilities", "Other liabilities"),
         ("total_liabilities", "Total liabilities"), ("redeemable_preferred", "Redeemable preferred stock"),
@@ -1226,7 +1347,7 @@ def build_balance_md() -> str:
             elif metric == "inventory":
                 output_period = "H2 2026E" if period == "FY2026E" else period
                 row.append(tagged(value, "DEDUCTED", f"balance.{output_period}.inventory"))
-            elif metric in ("deferred_revenue", "other_liabilities", "redeemable_preferred"):
+            elif metric in ("deferred_revenue", "other_liabilities", "redeemable_preferred", "spectrum_assets"):
                 row.append(tagged(value, "VIEW"))
             elif metric == "debt":
                 row.append(tagged(value, "VIEW"))
@@ -1259,9 +1380,9 @@ def build_balance_md() -> str:
 
     share_rows = [
         ["H1 2026A", "13,176.0 [FACT]", "June 30 issued Class A plus Class B; July 28 count is higher"],
-        ["FY2026E", tagged(BASIC_SHARES["FY2026E"], "DEDUCTED", "balance.FY2026E.basic_shares", unit="plain"), "Post-Cursor basic shares from `research.md`; Cursor closed 2026-08-14"],
-        ["FY2027E", "13,572.8 [VIEW]", "Held flat because exercises, repurchases and fully diluted shares are not obtained"],
-        ["FY2028E", "13,572.8 [VIEW]", "Held flat because exercises, repurchases and fully diluted shares are not obtained"],
+        ["FY2026E", tagged(BASIC_SHARES["FY2026E"], "DEDUCTED", "balance.FY2026E.basic_shares", unit="plain"), "Post-Cursor plus 261.8 million pending EchoStar shares `[VIEW]`"],
+        ["FY2027E", f"{plain(BASIC_SHARES['FY2027E'])} [VIEW]", "Held flat after pending EchoStar inclusion; exercises and fully diluted shares are not obtained"],
+        ["FY2028E", f"{plain(BASIC_SHARES['FY2028E'])} [VIEW]", "Held flat after pending EchoStar inclusion; exercises and fully diluted shares are not obtained"],
     ]
     assumption_rows: list[list[str]] = []
     for period in ("H2 2026E", "FY2027E", "FY2028E"):
@@ -1272,6 +1393,7 @@ def build_balance_md() -> str:
             [period, "Debt / marketable securities", "$39,364 / $6,487 held flat [VIEW]", "`research.md` Corporate / financing; new financing not obtained"],
         ])
     assumption_rows.append(["H2 2026E", "Cursor stock consideration", f"{money(H2['cursor_equity_consideration'])} [VIEW]", "Share step-up is required by `research.md`; final purchase accounting is not obtained"])
+    assumption_rows.append(["H2 2026E", "Pending EchoStar consideration", f"{money(H2['echostar_spectrum_assets'])} spectrum asset / {money(H2['echostar_equity_consideration'])} equity / {money(H2['echostar_cash_consideration'])} cash [VIEW]", "Pending deal included in base; not a closed filing balance"])
 
     return f"""# SpaceX balance sheet
 
@@ -1289,7 +1411,7 @@ Cash ties to `cashflow.md`. Forecast PP&E uses opening PP&E + capex − D&A `[VI
 
 {markdown_table(["period", "driver", "assumption", "research instruction"], assumption_rows)}
 
-The H2 2026 Cursor bridge assumes $60,000 of stock consideration `[VIEW]` in equity and the other-assets residual; final purchase accounting and Cursor standalone net assets are {not_obtained()}. Cursor P&L contribution is zero `[VIEW]`. Debt is held flat after 2026-06-30 `[VIEW]`; refinancing, repayment and new borrowing are not obtained.
+The H2 2026 Cursor bridge assumes $60,000 of stock consideration `[VIEW]` in equity and the other-assets residual; final purchase accounting and Cursor standalone net assets are {not_obtained()}. Cursor P&L is modeled separately in AI. The pending EchoStar base view adds spectrum assets, equity shares and cash consideration while holding debt flat. Refinancing, repayment and new borrowing are not obtained.
 
 ## Balance check
 
@@ -1301,9 +1423,9 @@ The H2 2026 Cursor bridge assumes $60,000 of stock consideration `[VIEW]` in equ
 
 Point-in-time fully diluted shares and float remain {not_obtained()}. Share-based compensation is included in expense/cash-flow reconciliation, but no exercise issuance is modeled.
 
-## EchoStar scenario memo — excluded from base case
+## EchoStar pending base treatment
 
-The base case does not close EchoStar. Scenario inputs are approximately 261.8 million Class A shares and approximately $19,600 consideration (approximately $11,100 equity at $42.40 plus up to $8,500 tied to EchoStar debt payoff) `[FACT]` from `register.md`. Closing date, final cash use and purchase accounting remain {not_obtained()}.
+The base includes approximately 261.8 million Class A shares and approximately $19,600 consideration: $11,100.32 equity at $42.40 and $8,500 cash `[VIEW]`. The transaction terms are `[FACT]` in `register.md`; including the pending close in forecast shares, cash and spectrum assets is a view. Closing date, final cash use and purchase accounting remain {not_obtained()}.
 
 {formula_appendix("Formula register", ("balance.",))}
 """
@@ -1425,7 +1547,7 @@ def build_cashflow_md() -> str:
             [period, "D&A / share-based compensation", f"{money(d['da'])} / {money(d['sbc'])} [VIEW]", "`research.md` Corporate / financing"],
             [period, "Other operating items", f"{money(d['other_operating_items'])} [VIEW]", "Explicit residual for cash taxes and operating items not separately obtained"],
             [period, "AI capex", f"{money(d['ai_capex'])} [VIEW]", "`research.md` AI as residual cash bid"],
-            [period, "Incremental financing / non-capex investing", f"{money(d['noncapex_cash_flows'])} [VIEW]", "No new financing and no EchoStar close in base case"],
+            [period, "Incremental financing / non-capex investing", f"{money(d['noncapex_cash_flows'])} [VIEW]", "Pending EchoStar cash consideration included in H2 2026; no new financing"],
         ])
 
     return f"""# SpaceX cash flow
@@ -1444,13 +1566,13 @@ Free cash flow is operating cash flow minus capex, matching `register.md`. Forec
 
 {markdown_table(["period", "driver", "assumption", "research instruction"], assumption_rows)}
 
-The H1 2026 financing/non-capex line is the derived cash bridge from 2025 year-end cash to 2026-06-30 cash after FCF; it aggregates IPO/debt proceeds, repayments, non-capex investing, securities purchases and FX. Forecast periods assume zero incremental financing and no EchoStar close `[VIEW]`.
+The H1 2026 financing/non-capex line is the derived cash bridge from 2025 year-end cash to 2026-06-30 cash after FCF; it aggregates IPO/debt proceeds, repayments, non-capex investing, securities purchases and FX. H2 2026 includes $8,500 pending EchoStar cash consideration `[VIEW]`; later periods assume zero incremental financing.
 
 ## Liquidity runway from 2026-06-30
 
 {markdown_table(["through period", "starting cash + securities", "ending cash + securities", "cumulative liquidity used", "status"], runway_rows, ["---", "---:", "---:", "---:", "---"])}
 
-The base case remains cash-positive through FY2028E. This is a liquidity schedule, not a financing commitment; minimum cash, new debt, Cursor cash flows and EchoStar closing remain {not_obtained()}.
+The base case remains cash-positive through FY2028E after the pending EchoStar cash view. This is a liquidity schedule, not a financing commitment; minimum cash, new debt and final EchoStar closing mechanics remain {not_obtained()}.
 
 {formula_appendix("Formula register", ("cashflow.",))}
 """
@@ -1515,9 +1637,10 @@ def build_valuation_md() -> str:
             "enterprise_incremental_margin": D("0.60"),
             "connectivity_exit_ebit_multiple": D("70"),
             "space_exit_revenue_multiple": D("12"),
-            "starship_commercial_revenue": D("0"),
+            "starship_commercial_flights": D("50"), "starship_revenue_per_flight": D("140"),
             "ai_capital_conversion_multiple": D("2"),
             "customer_b_haircut": D("0.20"),
+            "cursor_revenue": D("5000"), "cursor_ebit_margin": D("0.15"), "cursor_exit_ebit_multiple": D("40"),
         },
         "Bull": {
             "wacc": D("0.09"),
@@ -1529,9 +1652,10 @@ def build_valuation_md() -> str:
             "enterprise_incremental_margin": D("0.60"),
             "connectivity_exit_ebit_multiple": D("95"),
             "space_exit_revenue_multiple": D("20"),
-            "starship_commercial_revenue": D("0"),
+            "starship_commercial_flights": D("100"), "starship_revenue_per_flight": D("160"),
             "ai_capital_conversion_multiple": D("7"),
             "customer_b_haircut": D("0.05"),
+            "cursor_revenue": D("8000"), "cursor_ebit_margin": D("0.25"), "cursor_exit_ebit_multiple": D("60"),
         },
         "Bear": {
             "wacc": D("0.135"),
@@ -1543,16 +1667,29 @@ def build_valuation_md() -> str:
             "enterprise_incremental_margin": D("0.60"),
             "connectivity_exit_ebit_multiple": D("40"),
             "space_exit_revenue_multiple": D("8"),
-            "starship_commercial_revenue": D("0"),
+            "starship_commercial_flights": D("10"), "starship_revenue_per_flight": D("120"),
             "ai_capital_conversion_multiple": D("0.75"),
             "customer_b_haircut": D("0.40"),
+            "cursor_revenue": D("2000"), "cursor_ebit_margin": D("-0.10"), "cursor_exit_ebit_multiple": D("20"),
         },
     }
 
     base_consumer_revenue = REVENUE_LINES["FY2028E"]["Consumer"] or D("0")
-    base_enterprise_revenue = REVENUE_LINES["FY2028E"]["Enterprise & Government"] or D("0")
+    base_enterprise_revenue = sum_named(
+        "valuation.base_enterprise_and_spectrum_revenue",
+        {
+            "Enterprise_and_Government": REVENUE_LINES["FY2028E"]["Enterprise & Government"] or D("0"),
+            "pending_spectrum_mobile_overlay": REVENUE_LINES["FY2028E"]["Spectrum / Mobile Overlay"] or D("0"),
+        },
+    )
     base_connectivity_ebit = FORECAST_SEGMENTS["FY2028E"]["Connectivity"]["ebit"]
-    base_space_revenue = FORECAST_SEGMENTS["FY2028E"]["Space"]["revenue"]
+    base_space_core_revenue = sum_named(
+        "valuation.base_space_core_revenue",
+        {
+            "Launch_Services": REVENUE_LINES["FY2028E"]["Launch Services"] or D("0"),
+            "Launch_and_Development": REVENUE_LINES["FY2028E"]["Launch & Development"] or D("0"),
+        },
+    )
 
     scenario_results: dict[str, dict[str, Decimal]] = {}
     for scenario, inputs in scenarios.items():
@@ -1615,9 +1752,16 @@ def build_valuation_md() -> str:
             "connectivity_exit_EBIT_multiple",
             inputs["connectivity_exit_ebit_multiple"],
         )
+        starship_revenue = multiply(
+            f"valuation.{slug}.starship_commercial_revenue",
+            "commercial_Starship_flights",
+            inputs["starship_commercial_flights"],
+            "assumed_revenue_per_flight",
+            inputs["starship_revenue_per_flight"],
+        )
         space_revenue = sum_named(
             f"valuation.{slug}.space_revenue",
-            {"modeled_launch_revenue": base_space_revenue, "Starship_commercial_revenue": inputs["starship_commercial_revenue"]},
+            {"modeled_launch_revenue": base_space_core_revenue, "Starship_commercial_revenue": starship_revenue},
         )
         space_value = multiply(
             f"valuation.{slug}.space_value_FY2028",
@@ -1639,9 +1783,23 @@ def build_valuation_md() -> str:
             {"AI_gross_value": ai_gross_value, "Customer_B_haircut": inputs["customer_b_haircut"]},
             ai_gross_value * (D("1") - inputs["customer_b_haircut"]),
         )
+        cursor_ebit = multiply(
+            f"valuation.{slug}.cursor_EBIT",
+            "Cursor_revenue",
+            inputs["cursor_revenue"],
+            "Cursor_EBIT_margin",
+            inputs["cursor_ebit_margin"],
+        )
+        cursor_value = multiply(
+            f"valuation.{slug}.cursor_value_FY2028",
+            "positive_Cursor_EBIT",
+            max(cursor_ebit, D("0")),
+            "Cursor_exit_EBIT_multiple",
+            inputs["cursor_exit_ebit_multiple"],
+        )
         end_fy2028_ev = sum_named(
             f"valuation.{slug}.end_FY2028_enterprise_value",
-            {"Connectivity": connectivity_value, "Space": space_value, "AI": ai_value},
+            {"Connectivity": connectivity_value, "Space": space_value, "AI_core": ai_value, "Cursor": cursor_value},
         )
         discount_factor = power(
             f"valuation.{slug}.discount_factor",
@@ -1677,15 +1835,19 @@ def build_valuation_md() -> str:
         pv_connectivity = divide(f"valuation.{slug}.pv_connectivity", "FY2028_connectivity_value", connectivity_value, "discount_factor", discount_factor)
         pv_space = divide(f"valuation.{slug}.pv_space", "FY2028_space_value", space_value, "discount_factor", discount_factor)
         pv_ai = divide(f"valuation.{slug}.pv_ai", "FY2028_AI_value", ai_value, "discount_factor", discount_factor)
+        pv_cursor = divide(f"valuation.{slug}.pv_cursor", "FY2028_Cursor_value", cursor_value, "discount_factor", discount_factor)
         scenario_results[scenario] = {
             "average_subscribers": average_subscribers,
             "consumer_revenue": consumer_revenue,
             "enterprise_revenue": enterprise_revenue,
             "connectivity_ebit": connectivity_ebit,
             "connectivity_value": connectivity_value,
+            "starship_revenue": starship_revenue,
             "space_revenue": space_revenue,
             "space_value": space_value,
             "ai_value": ai_value,
+            "cursor_ebit": cursor_ebit,
+            "cursor_value": cursor_value,
             "end_ev": end_fy2028_ev,
             "discount_factor": discount_factor,
             "target_ev": target_ev,
@@ -1695,6 +1857,7 @@ def build_valuation_md() -> str:
             "pv_connectivity": pv_connectivity,
             "pv_space": pv_space,
             "pv_ai": pv_ai,
+            "pv_cursor": pv_cursor,
         }
 
     base = scenario_results["Base"]
@@ -1807,7 +1970,7 @@ def build_valuation_md() -> str:
     dcf_exit_price = divide("valuation.dcf.exit_price_per_share", "equity_value", dcf_exit_equity, "basic_shares_m", basic_shares)
 
     CHECKS.extend([
-        ("Valuation base SOTP pieces equal target enterprise value", close(base["pv_connectivity"] + base["pv_space"] + base["pv_ai"], base["target_ev"]), f"pieces={plain(base['pv_connectivity'] + base['pv_space'] + base['pv_ai'])}; target_EV={plain(base['target_ev'])}"),
+        ("Valuation base SOTP pieces equal target enterprise value", close(base["pv_connectivity"] + base["pv_space"] + base["pv_ai"] + base["pv_cursor"], base["target_ev"]), f"pieces={plain(base['pv_connectivity'] + base['pv_space'] + base['pv_ai'] + base['pv_cursor'])}; target_EV={plain(base['target_ev'])}"),
         ("Valuation base equity bridge equals enterprise value plus net cash", close(base["target_equity"], base["target_ev"] + target_net_cash), f"equity={plain(base['target_equity'])}"),
         ("Valuation scenario ordering", scenario_results["Bull"]["price_target"] > base["price_target"] > scenario_results["Bear"]["price_target"], "bull > base > bear"),
         ("DCF terminal formula denominator positive", dcf_wacc > terminal_growth, f"WACC={exact(dcf_wacc)}; terminal_growth={exact(terminal_growth)}"),
@@ -1827,8 +1990,9 @@ def build_valuation_md() -> str:
             [scenario, "Connectivity subscribers / ARPU", f"{plain(inputs['opening_subscribers_m'])}m → {plain(inputs['ending_subscribers_m'])}m / {money(inputs['arpu'])} [VIEW]", "`research.md` explicit subscriber and ARPU paths"],
             [scenario, "Enterprise & Government factor", f"{number(inputs['enterprise_factor'] * D('100'))}% of base [VIEW]", "Starshield remains embedded; standalone P&L not obtained"],
             [scenario, "Connectivity exit EBIT multiple", f"{plain(inputs['connectivity_exit_ebit_multiple'])}× [VIEW]", "Selected SOTP input; primary-source peer multiple not obtained"],
-            [scenario, "Space exit revenue multiple / Starship revenue", f"{plain(inputs['space_exit_revenue_multiple'])}× / {money(inputs['starship_commercial_revenue'])} [VIEW]", "Starship commercial revenue stays zero"],
+            [scenario, "Space multiple / Starship flights / $ per flight", f"{plain(inputs['space_exit_revenue_multiple'])}× / {plain(inputs['starship_commercial_flights'])} / {money(inputs['starship_revenue_per_flight'])} [VIEW]", "Non-zero Starship commercial view; list price not obtained"],
             [scenario, "AI capital conversion / Customer B haircut", f"{number(inputs['ai_capital_conversion_multiple'], '0.01') if scenario == 'Bear' else plain(inputs['ai_capital_conversion_multiple'])}× / {number(inputs['customer_b_haircut'] * D('100'))}% [VIEW]", "AI capex conversion with explicit concentration haircut"],
+            [scenario, "Cursor revenue / EBIT margin / exit EBIT multiple", f"{money(inputs['cursor_revenue'])} / {number(inputs['cursor_ebit_margin'] * D('100'))}% / {plain(inputs['cursor_exit_ebit_multiple'])}× [VIEW]", "Cursor P&L and value view; no synergy premium"],
             [scenario, "WACC / years to FY2028", f"{number(inputs['wacc'] * D('100'))}% / {plain(target_years_from_fy2028)} [VIEW]", "Discount FY2028 segment values to the 12-month target date"],
         ])
 
@@ -1840,6 +2004,8 @@ def build_valuation_md() -> str:
             scenario,
             tagged(result["consumer_revenue"], "DEDUCTED", f"valuation.{slug}.consumer_revenue"),
             tagged(result["connectivity_ebit"], "DEDUCTED", f"valuation.{slug}.connectivity_ebit"),
+            tagged(result["starship_revenue"], "DEDUCTED", f"valuation.{slug}.starship_commercial_revenue"),
+            tagged(result["cursor_ebit"], "DEDUCTED", f"valuation.{slug}.cursor_EBIT"),
             tagged(result["target_ev"], "DEDUCTED", f"valuation.{slug}.target_enterprise_value"),
             tagged(result["target_equity"], "DEDUCTED", f"valuation.{slug}.target_equity_value"),
             tagged(result["price_target"], "DEDUCTED", f"valuation.{slug}.price_target"),
@@ -1848,8 +2014,9 @@ def build_valuation_md() -> str:
 
     base_bridge_rows = [
         ["Connectivity", "FY2028E scenario EBIT", tagged(base["connectivity_ebit"], "DEDUCTED", "valuation.base.connectivity_ebit"), "70× EBIT [VIEW]", tagged(base["connectivity_value"], "DEDUCTED", "valuation.base.connectivity_value_FY2028"), tagged(base["pv_connectivity"], "DEDUCTED", "valuation.base.pv_connectivity")],
-        ["Space", "FY2028E modeled revenue; Starship revenue zero", tagged(base["space_revenue"], "DEDUCTED", "valuation.base.space_revenue"), "12× revenue [VIEW]", tagged(base["space_value"], "DEDUCTED", "valuation.base.space_value_FY2028"), tagged(base["pv_space"], "DEDUCTED", "valuation.base.pv_space")],
-        ["AI", "Cumulative FY2026E–FY2028E AI capex", tagged(ai_invested_capital, "DEDUCTED", "valuation.ai_invested_capital"), "2× capital, then 20% Customer B haircut [VIEW]", tagged(base["ai_value"], "DEDUCTED", "valuation.base.ai_value_FY2028"), tagged(base["pv_ai"], "DEDUCTED", "valuation.base.pv_ai")],
+        ["Space", "FY2028E launch plus Starship commercial revenue", tagged(base["space_revenue"], "DEDUCTED", "valuation.base.space_revenue"), "12× revenue [VIEW]", tagged(base["space_value"], "DEDUCTED", "valuation.base.space_value_FY2028"), tagged(base["pv_space"], "DEDUCTED", "valuation.base.pv_space")],
+        ["AI core", "Cumulative FY2026E–FY2028E AI capex", tagged(ai_invested_capital, "DEDUCTED", "valuation.ai_invested_capital"), "2× capital, then 20% Customer B haircut [VIEW]", tagged(base["ai_value"], "DEDUCTED", "valuation.base.ai_value_FY2028"), tagged(base["pv_ai"], "DEDUCTED", "valuation.base.pv_ai")],
+        ["Cursor", "FY2028E Cursor EBIT", tagged(base["cursor_ebit"], "DEDUCTED", "valuation.base.cursor_EBIT"), "40× EBIT [VIEW]", tagged(base["cursor_value"], "DEDUCTED", "valuation.base.cursor_value_FY2028"), tagged(base["pv_cursor"], "DEDUCTED", "valuation.base.pv_cursor")],
         ["**Enterprise value**", "Sum of pieces", "", "", tagged(base["end_ev"], "DEDUCTED", "valuation.base.end_FY2028_enterprise_value"), tagged(base["target_ev"], "DEDUCTED", "valuation.base.target_enterprise_value")],
         ["Net cash", "Target-date base cash bridge", "", "", "", tagged(target_net_cash, "DEDUCTED", "valuation.target_net_cash")],
         ["**Equity value**", "Target EV + net cash", "", "", "", tagged(base["target_equity"], "DEDUCTED", "valuation.base.target_equity_value")],
@@ -1893,8 +2060,8 @@ generator: `compute.py`
 | **12-month base price target** | **{money(base['price_target'], '0.01')} [DEDUCTED {formula_id('valuation.base.price_target')}]** | Segment SOTP discounted to {target_date} |
 | Last sale | {money(last_sale, '0.01')} [FACT] | Nasdaq `lastTradeTimestamp` 2026-08-27 |
 | Implied change | {number(base['implied_change'] * D('100'))}% [DEDUCTED {formula_id('valuation.base.implied_change')}] | Price target ÷ last sale − one |
-| Basic shares | {plain(basic_shares)} million [DEDUCTED {formula_id('balance.FY2026E.basic_shares')}] | Post-Cursor; fully diluted shares not obtained |
-| Load-bearing method | SOTP | Connectivity EBIT, Space revenue with zero Starship commercial revenue, AI invested-capital conversion with Customer B haircut |
+| Basic shares | {plain(basic_shares)} million [DEDUCTED {formula_id('balance.FY2026E.basic_shares')}] | Post-Cursor plus pending EchoStar shares; fully diluted shares not obtained |
+| Load-bearing method | SOTP | Connectivity EBIT including pending spectrum/mobile, Space revenue including Starship, AI invested-capital conversion, and Cursor EBIT |
 
 The target is generated from the segment model and named valuation inputs below. It is not fitted to the last sale.
 
@@ -1902,23 +2069,23 @@ The target is generated from the segment model and named valuation inputs below.
 
 {markdown_table(["piece", "metric", "metric value", "valuation input", "FY2028 value", "12-month value"], base_bridge_rows, ["---", "---", "---:", "---", "---:", "---:"])}
 
-Target net cash uses FY2026E ending liquidity less debt and eight months of FY2027E FCF, with no new financing. EchoStar is excluded. Cursor P&L contribution and synergy premium are zero.
+Target net cash uses FY2026E ending liquidity less debt and eight months of FY2027E FCF, with no new financing. The pending EchoStar cash and share consideration is included. Cursor P&L is included; synergy premium is zero.
 
 ## Bear / base / bull assumptions
 
 {markdown_table(["scenario", "driver", "assumption", "treatment"], scenario_assumption_rows)}
 
-Starship commercial revenue is zero in every scenario. Bull and bear change Connectivity ARPU/net adds, Enterprise & Government realization, AI capex conversion, Customer B concentration haircut, exit multiples and WACC.
+Starship commercial revenue is non-zero in every scenario. Bull and bear change Starship cadence/yield, Cursor revenue/margin, Connectivity ARPU/net adds, Enterprise & Government realization, AI capex conversion, Customer B concentration haircut, exit multiples and WACC.
 
 ## Scenario outputs
 
-{markdown_table(["scenario", "FY2028 Consumer revenue", "FY2028 Connectivity EBIT", "target EV", "target equity", "price / share", "vs last sale"], scenario_output_rows, ["---", "---:", "---:", "---:", "---:", "---:", "---:"])}
+{markdown_table(["scenario", "FY2028 Consumer revenue", "FY2028 Connectivity EBIT", "Starship revenue", "Cursor EBIT", "target EV", "target equity", "price / share", "vs last sale"], scenario_output_rows, ["---", "---:", "---:", "---:", "---:", "---:", "---:", "---:", "---:"])}
 
 ## Dilution sensitivity — not known fully diluted shares
 
 | item | value | treatment |
 | --- | ---: | --- |
-| Basic shares | {plain(basic_shares)} million [DEDUCTED {formula_id('balance.FY2026E.basic_shares')}] | Base price-target denominator |
+| Basic shares | {plain(basic_shares)} million [DEDUCTED {formula_id('balance.FY2026E.basic_shares')}] | Base denominator includes pending EchoStar shares |
 | Potentially dilutive awards | {plain(potential_awards)} million [FACT] | Sensitivity only; treasury-stock-method dilution not obtained |
 | Sensitivity shares | {tagged(sensitivity_shares, 'DEDUCTED', 'valuation.dilution_sensitivity_shares', unit='plain')} million | Basic plus all potentially dilutive awards |
 | Sensitivity price / share | {tagged(diluted_sensitivity_pt, 'DEDUCTED', 'valuation.dilution_sensitivity_price')} | Same base equity value |
@@ -1932,7 +2099,7 @@ The sensitivity does not assert that the awards are fully dilutive.
 
 ## Consolidated DCF check — not load-bearing
 
-Explicit model FCF is negative through FY2027E and approximately zero in FY2028E. The extension makes the terminal auditable by fading consolidated revenue growth and FCF margins explicitly.
+Explicit model FCF is negative through FY2027E and turns positive in FY2028E. The extension makes the terminal auditable by fading consolidated revenue growth and FCF margins explicitly.
 
 {markdown_table(["period", "revenue", "fade assumption", "FCF", "PV FCF"], dcf_rows, ["---", "---:", "---", "---:", "---:"])}
 
@@ -1950,8 +2117,8 @@ No peer EV/EBITDA multiple is invented. Current and target implied multiples are
 
 ## Exclusions and gaps
 
-- EchoStar consideration and shares remain a scenario, not base.
-- Cursor P&L contribution and synergy premium are zero; standalone contribution is {not_obtained()}.
+- EchoStar consideration and shares are pending `[VIEW]` base inputs; final closing mechanics remain {not_obtained()}.
+- Cursor P&L is a forecast view inside AI; synergy premium is zero and filing revenue/margins remain {not_obtained()}.
 - Starshield standalone P&L, launch list price, GPU-hours and utilization remain {not_obtained()}.
 - Fully diluted shares remain {not_obtained()}; the award count is only a sensitivity.
 
@@ -1968,7 +2135,8 @@ def write_outputs() -> None:
         "valuation.md": build_valuation_md(),
     }
     for filename, content in outputs.items():
-        (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
+        rendered = content.replace("[VIEW]", VIEW_TAG)
+        (ROOT / filename).write_text(rendered.rstrip() + "\n", encoding="utf-8")
 
 
 def print_summary() -> None:
