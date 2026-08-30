@@ -1272,7 +1272,7 @@ def render_segments(
         or "platform EBIT flows" in row[0]
     ]
     check_rows = [
-        [name, "PASS" if passed else "FAIL", fmt(difference, 2)]
+        [name, "OK" if passed else "ERROR", fmt(difference, 2)]
         for name, passed, difference in relevant_checks
     ]
     implied_h2_deliveries = (
@@ -1384,7 +1384,7 @@ def render_income(
     ]
     historical_checks = [row for row in checks if "historical IS" in row[0]]
     check_rows = [
-        [name, "PASS" if passed else "FAIL", fmt(difference, 2)]
+        [name, "OK" if passed else "ERROR", fmt(difference, 2)]
         for name, passed, difference in historical_checks
     ]
     return f"""# Tesla income statement
@@ -1469,7 +1469,7 @@ def render_balance(
         or "retained earnings" in row[0]
     ]
     check_rows = [
-        [name, "PASS" if passed else "FAIL", fmt(difference, 2)]
+        [name, "OK" if passed else "ERROR", fmt(difference, 2)]
         for name, passed, difference in relevant_checks
     ]
     return f"""# Tesla balance sheet
@@ -1580,7 +1580,7 @@ def render_cashflow(
         if "CF ending cash" in row[0] or "cash-flow bridge" in row[0]
     ]
     check_rows = [
-        [name, "PASS" if passed else "FAIL", fmt(difference, 2)]
+        [name, "OK" if passed else "ERROR", fmt(difference, 2)]
         for name, passed, difference in relevant_checks
     ]
     return f"""# Tesla cash-flow statement
@@ -2084,7 +2084,7 @@ def main() -> None:
     print("\nTie-out checks")
     failed = False
     for name, passed, difference in checks:
-        status = "PASS" if passed else "FAIL"
+        status = "OK" if passed else "ERROR"
         print(f"{status}: {name} (difference {difference:.6f})")
         failed = failed or not passed
     if failed:
