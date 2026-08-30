@@ -81,6 +81,15 @@ def divide(output: str, numerator_name: str, numerator: Decimal, denominator_nam
     )
 
 
+def power(output: str, base_name: str, base: Decimal, exponent_name: str, exponent: Decimal) -> Decimal:
+    return derive(
+        output,
+        f"{base_name} ^ {exponent_name}",
+        {base_name: base, exponent_name: exponent},
+        base ** exponent,
+    )
+
+
 def q(value: Decimal, places: str = "0.1") -> Decimal:
     return value.quantize(D(places), rounding=ROUND_HALF_UP)
 
@@ -1447,12 +1456,516 @@ The base case remains cash-positive through FY2028E. This is a liquidity schedul
 """
 
 
+VALUATION_SUMMARY: dict[str, Decimal] = {}
+
+
+def build_valuation_md() -> str:
+    """Build a 12-month SOTP price target plus DCF and comps checks."""
+    as_of = "2026-08-30"
+    target_date = "2027-08-30"
+    last_sale = D("141.50")
+    current_market_cap = D("1920554.3")
+    basic_shares = BASIC_SHARES["FY2026E"]
+    potential_awards = D("564")
+    target_years_from_fy2028 = D("1.3333333333")
+    months_of_fy2027_burn_to_target = D("8")
+
+    current_ev = derive(
+        "valuation.current_enterprise_value",
+        "current_market_cap + debt_and_finance_leases - cash - marketable_securities",
+        {
+            "current_market_cap": current_market_cap,
+            "debt_and_finance_leases": D("39364"),
+            "cash": D("93522"),
+            "marketable_securities": D("6487"),
+        },
+        current_market_cap + D("39364") - D("93522") - D("6487"),
+    )
+    target_net_cash = derive(
+        "valuation.target_net_cash",
+        "FY2026_ending_liquidity - debt + FY2027_FCF × months_to_target ÷ twelve_months",
+        {
+            "FY2026_ending_liquidity": CASHFLOW["FY2026E"]["ending_liquidity"],
+            "debt": BALANCE["FY2026E"]["debt"],
+            "FY2027_FCF": CASHFLOW["FY2027E"]["fcf"],
+            "months_to_target": months_of_fy2027_burn_to_target,
+            "twelve_months": D("12"),
+        },
+        CASHFLOW["FY2026E"]["ending_liquidity"]
+        - BALANCE["FY2026E"]["debt"]
+        + CASHFLOW["FY2027E"]["fcf"] * months_of_fy2027_burn_to_target / D("12"),
+    )
+    ai_invested_capital = sum_named(
+        "valuation.ai_invested_capital",
+        {
+            "FY2026E_AI_capex": CAPEX["FY2026E"]["AI"],
+            "FY2027E_AI_capex": CAPEX["FY2027E"]["AI"],
+            "FY2028E_AI_capex": CAPEX["FY2028E"]["AI"],
+        },
+    )
+
+    scenarios: dict[str, dict[str, Decimal]] = {
+        "Base": {
+            "wacc": D("0.105"),
+            "opening_subscribers_m": D("18"),
+            "ending_subscribers_m": D("22.5"),
+            "arpu": D("59"),
+            "enterprise_factor": D("1.00"),
+            "consumer_incremental_margin": D("0.55"),
+            "enterprise_incremental_margin": D("0.60"),
+            "connectivity_exit_ebit_multiple": D("70"),
+            "space_exit_revenue_multiple": D("12"),
+            "starship_commercial_revenue": D("0"),
+            "ai_capital_conversion_multiple": D("2"),
+            "customer_b_haircut": D("0.20"),
+        },
+        "Bull": {
+            "wacc": D("0.09"),
+            "opening_subscribers_m": D("19"),
+            "ending_subscribers_m": D("25"),
+            "arpu": D("65"),
+            "enterprise_factor": D("1.15"),
+            "consumer_incremental_margin": D("0.55"),
+            "enterprise_incremental_margin": D("0.60"),
+            "connectivity_exit_ebit_multiple": D("95"),
+            "space_exit_revenue_multiple": D("20"),
+            "starship_commercial_revenue": D("0"),
+            "ai_capital_conversion_multiple": D("7"),
+            "customer_b_haircut": D("0.05"),
+        },
+        "Bear": {
+            "wacc": D("0.135"),
+            "opening_subscribers_m": D("17"),
+            "ending_subscribers_m": D("20"),
+            "arpu": D("54"),
+            "enterprise_factor": D("0.85"),
+            "consumer_incremental_margin": D("0.55"),
+            "enterprise_incremental_margin": D("0.60"),
+            "connectivity_exit_ebit_multiple": D("40"),
+            "space_exit_revenue_multiple": D("8"),
+            "starship_commercial_revenue": D("0"),
+            "ai_capital_conversion_multiple": D("0.75"),
+            "customer_b_haircut": D("0.40"),
+        },
+    }
+
+    base_consumer_revenue = REVENUE_LINES["FY2028E"]["Consumer"] or D("0")
+    base_enterprise_revenue = REVENUE_LINES["FY2028E"]["Enterprise & Government"] or D("0")
+    base_connectivity_ebit = FORECAST_SEGMENTS["FY2028E"]["Connectivity"]["ebit"]
+    base_space_revenue = FORECAST_SEGMENTS["FY2028E"]["Space"]["revenue"]
+
+    scenario_results: dict[str, dict[str, Decimal]] = {}
+    for scenario, inputs in scenarios.items():
+        slug = scenario.lower()
+        average_subscribers = derive(
+            f"valuation.{slug}.average_subscribers",
+            "(opening_subscribers + ending_subscribers) ÷ two",
+            {
+                "opening_subscribers_m": inputs["opening_subscribers_m"],
+                "ending_subscribers_m": inputs["ending_subscribers_m"],
+                "two": D("2"),
+            },
+            (inputs["opening_subscribers_m"] + inputs["ending_subscribers_m"]) / D("2"),
+        )
+        consumer_revenue = derive(
+            f"valuation.{slug}.consumer_revenue",
+            "average_subscribers × ARPU × twelve_months",
+            {"average_subscribers_m": average_subscribers, "ARPU": inputs["arpu"], "twelve_months": D("12")},
+            average_subscribers * inputs["arpu"] * D("12"),
+        )
+        enterprise_revenue = multiply(
+            f"valuation.{slug}.enterprise_revenue",
+            "base_enterprise_revenue",
+            base_enterprise_revenue,
+            "scenario_factor",
+            inputs["enterprise_factor"],
+        )
+        consumer_ebit_change = derive(
+            f"valuation.{slug}.consumer_ebit_change",
+            "(scenario_consumer_revenue - base_consumer_revenue) × incremental_margin",
+            {
+                "scenario_consumer_revenue": consumer_revenue,
+                "base_consumer_revenue": base_consumer_revenue,
+                "incremental_margin": inputs["consumer_incremental_margin"],
+            },
+            (consumer_revenue - base_consumer_revenue) * inputs["consumer_incremental_margin"],
+        )
+        enterprise_ebit_change = derive(
+            f"valuation.{slug}.enterprise_ebit_change",
+            "(scenario_enterprise_revenue - base_enterprise_revenue) × incremental_margin",
+            {
+                "scenario_enterprise_revenue": enterprise_revenue,
+                "base_enterprise_revenue": base_enterprise_revenue,
+                "incremental_margin": inputs["enterprise_incremental_margin"],
+            },
+            (enterprise_revenue - base_enterprise_revenue) * inputs["enterprise_incremental_margin"],
+        )
+        connectivity_ebit = sum_named(
+            f"valuation.{slug}.connectivity_ebit",
+            {
+                "base_connectivity_EBIT": base_connectivity_ebit,
+                "consumer_EBIT_change": consumer_ebit_change,
+                "enterprise_EBIT_change": enterprise_ebit_change,
+            },
+        )
+        connectivity_value = multiply(
+            f"valuation.{slug}.connectivity_value_FY2028",
+            "scenario_connectivity_EBIT",
+            connectivity_ebit,
+            "connectivity_exit_EBIT_multiple",
+            inputs["connectivity_exit_ebit_multiple"],
+        )
+        space_revenue = sum_named(
+            f"valuation.{slug}.space_revenue",
+            {"modeled_launch_revenue": base_space_revenue, "Starship_commercial_revenue": inputs["starship_commercial_revenue"]},
+        )
+        space_value = multiply(
+            f"valuation.{slug}.space_value_FY2028",
+            "space_revenue",
+            space_revenue,
+            "space_exit_revenue_multiple",
+            inputs["space_exit_revenue_multiple"],
+        )
+        ai_gross_value = multiply(
+            f"valuation.{slug}.ai_gross_value_FY2028",
+            "AI_invested_capital",
+            ai_invested_capital,
+            "AI_capital_conversion_multiple",
+            inputs["ai_capital_conversion_multiple"],
+        )
+        ai_value = derive(
+            f"valuation.{slug}.ai_value_FY2028",
+            "AI_gross_value × (one - Customer_B_haircut)",
+            {"AI_gross_value": ai_gross_value, "Customer_B_haircut": inputs["customer_b_haircut"]},
+            ai_gross_value * (D("1") - inputs["customer_b_haircut"]),
+        )
+        end_fy2028_ev = sum_named(
+            f"valuation.{slug}.end_FY2028_enterprise_value",
+            {"Connectivity": connectivity_value, "Space": space_value, "AI": ai_value},
+        )
+        discount_factor = power(
+            f"valuation.{slug}.discount_factor",
+            "one_plus_WACC",
+            D("1") + inputs["wacc"],
+            "years_from_target_to_FY2028",
+            target_years_from_fy2028,
+        )
+        target_ev = divide(
+            f"valuation.{slug}.target_enterprise_value",
+            "end_FY2028_enterprise_value",
+            end_fy2028_ev,
+            "discount_factor",
+            discount_factor,
+        )
+        target_equity = sum_named(
+            f"valuation.{slug}.target_equity_value",
+            {"target_enterprise_value": target_ev, "target_net_cash": target_net_cash},
+        )
+        price_target = divide(
+            f"valuation.{slug}.price_target",
+            "target_equity_value",
+            target_equity,
+            "basic_shares_m",
+            basic_shares,
+        )
+        implied_change = derive(
+            f"valuation.{slug}.implied_change",
+            "price_target ÷ last_sale - one",
+            {"price_target": price_target, "last_sale": last_sale, "one": D("1")},
+            price_target / last_sale - D("1"),
+        )
+        pv_connectivity = divide(f"valuation.{slug}.pv_connectivity", "FY2028_connectivity_value", connectivity_value, "discount_factor", discount_factor)
+        pv_space = divide(f"valuation.{slug}.pv_space", "FY2028_space_value", space_value, "discount_factor", discount_factor)
+        pv_ai = divide(f"valuation.{slug}.pv_ai", "FY2028_AI_value", ai_value, "discount_factor", discount_factor)
+        scenario_results[scenario] = {
+            "average_subscribers": average_subscribers,
+            "consumer_revenue": consumer_revenue,
+            "enterprise_revenue": enterprise_revenue,
+            "connectivity_ebit": connectivity_ebit,
+            "connectivity_value": connectivity_value,
+            "space_revenue": space_revenue,
+            "space_value": space_value,
+            "ai_value": ai_value,
+            "end_ev": end_fy2028_ev,
+            "discount_factor": discount_factor,
+            "target_ev": target_ev,
+            "target_equity": target_equity,
+            "price_target": price_target,
+            "implied_change": implied_change,
+            "pv_connectivity": pv_connectivity,
+            "pv_space": pv_space,
+            "pv_ai": pv_ai,
+        }
+
+    base = scenario_results["Base"]
+    sensitivity_shares = sum_named(
+        "valuation.dilution_sensitivity_shares",
+        {"basic_shares_m": basic_shares, "potentially_dilutive_awards_m": potential_awards},
+    )
+    diluted_sensitivity_pt = divide(
+        "valuation.dilution_sensitivity_price",
+        "base_target_equity_value",
+        base["target_equity"],
+        "basic_plus_potential_awards_m",
+        sensitivity_shares,
+    )
+    dilution_haircut = derive(
+        "valuation.dilution_sensitivity_haircut",
+        "one - sensitivity_price ÷ base_price_target",
+        {"one": D("1"), "sensitivity_price": diluted_sensitivity_pt, "base_price_target": base["price_target"]},
+        D("1") - diluted_sensitivity_pt / base["price_target"],
+    )
+
+    implied_target_ev_revenue = divide(
+        "valuation.base.target_EV_to_FY2028_revenue",
+        "target_enterprise_value",
+        base["target_ev"],
+        "FY2028_revenue",
+        INCOME["FY2028E"]["revenue"],
+    )
+    implied_target_ev_ebit = divide(
+        "valuation.base.target_EV_to_FY2028_EBIT",
+        "target_enterprise_value",
+        base["target_ev"],
+        "FY2028_EBIT",
+        INCOME["FY2028E"]["ebit"],
+    )
+    current_ev_revenue = divide(
+        "valuation.current_EV_to_FY2028_revenue",
+        "current_enterprise_value",
+        current_ev,
+        "FY2028_revenue",
+        INCOME["FY2028E"]["revenue"],
+    )
+    current_ev_ebit = divide(
+        "valuation.current_EV_to_FY2028_EBIT",
+        "current_enterprise_value",
+        current_ev,
+        "FY2028_EBIT",
+        INCOME["FY2028E"]["ebit"],
+    )
+    current_premium_to_base_ev = derive(
+        "valuation.current_EV_premium_to_base_target_EV",
+        "current_enterprise_value ÷ base_target_enterprise_value - one",
+        {"current_enterprise_value": current_ev, "base_target_enterprise_value": base["target_ev"], "one": D("1")},
+        current_ev / base["target_ev"] - D("1"),
+    )
+
+    # Consolidated DCF check. Explicit FCF is near zero in FY2028, so the
+    # extension uses named revenue-growth and FCF-margin fade assumptions.
+    dcf_wacc = scenarios["Base"]["wacc"]
+    terminal_growth = D("0.035")
+    exit_fcf_multiple = D("25")
+    dcf_growth = {"FY2029E": D("0.20"), "FY2030E": D("0.16"), "FY2031E": D("0.12"), "FY2032E": D("0.09"), "FY2033E": D("0.06")}
+    dcf_fcf_margin = {"FY2029E": D("0.08"), "FY2030E": D("0.16"), "FY2031E": D("0.23"), "FY2032E": D("0.28"), "FY2033E": D("0.31")}
+    dcf_time = {"FY2028E": D("1.3333333333"), "FY2029E": D("2.3333333333"), "FY2030E": D("3.3333333333"), "FY2031E": D("4.3333333333"), "FY2032E": D("5.3333333333"), "FY2033E": D("6.3333333333")}
+    dcf_rows: list[list[str]] = []
+    dcf_pv: dict[str, Decimal] = {}
+    fy2028_df = power("valuation.dcf.FY2028_discount_factor", "one_plus_WACC", D("1") + dcf_wacc, "years", dcf_time["FY2028E"])
+    dcf_pv["FY2028E"] = divide("valuation.dcf.FY2028_PV_FCF", "FY2028_FCF", CASHFLOW["FY2028E"]["fcf"], "discount_factor", fy2028_df)
+    dcf_rows.append(["FY2028E", tagged(INCOME["FY2028E"]["revenue"], "DEDUCTED", "income.FY2028E.revenue"), "model", tagged(CASHFLOW["FY2028E"]["fcf"], "DEDUCTED", "cashflow.FY2028E.fcf"), tagged(dcf_pv["FY2028E"], "DEDUCTED", "valuation.dcf.FY2028_PV_FCF")])
+    previous_revenue = INCOME["FY2028E"]["revenue"]
+    dcf_revenue: dict[str, Decimal] = {}
+    dcf_fcf: dict[str, Decimal] = {"FY2028E": CASHFLOW["FY2028E"]["fcf"]}
+    for period in ("FY2029E", "FY2030E", "FY2031E", "FY2032E", "FY2033E"):
+        revenue = derive(
+            f"valuation.dcf.{period}.revenue",
+            "prior_revenue × (one + growth)",
+            {"prior_revenue": previous_revenue, "one_plus_growth": D("1") + dcf_growth[period]},
+            previous_revenue * (D("1") + dcf_growth[period]),
+        )
+        fcf = multiply(f"valuation.dcf.{period}.FCF", "revenue", revenue, "FCF_margin", dcf_fcf_margin[period])
+        discount_factor = power(f"valuation.dcf.{period}.discount_factor", "one_plus_WACC", D("1") + dcf_wacc, "years", dcf_time[period])
+        pv_fcf = divide(f"valuation.dcf.{period}.PV_FCF", "FCF", fcf, "discount_factor", discount_factor)
+        dcf_revenue[period], dcf_fcf[period], dcf_pv[period] = revenue, fcf, pv_fcf
+        dcf_rows.append([
+            period,
+            tagged(revenue, "DEDUCTED", f"valuation.dcf.{period}.revenue"),
+            f"{number(dcf_growth[period] * D('100'))}% revenue growth / {number(dcf_fcf_margin[period] * D('100'))}% FCF margin [VIEW]",
+            tagged(fcf, "DEDUCTED", f"valuation.dcf.{period}.FCF"),
+            tagged(pv_fcf, "DEDUCTED", f"valuation.dcf.{period}.PV_FCF"),
+        ])
+        previous_revenue = revenue
+
+    terminal_value = derive(
+        "valuation.dcf.terminal_value",
+        "FY2033_FCF × (one + terminal_growth) ÷ (WACC - terminal_growth)",
+        {"FY2033_FCF": dcf_fcf["FY2033E"], "terminal_growth": terminal_growth, "WACC": dcf_wacc},
+        dcf_fcf["FY2033E"] * (D("1") + terminal_growth) / (dcf_wacc - terminal_growth),
+    )
+    terminal_df = power("valuation.dcf.terminal_discount_factor", "one_plus_WACC", D("1") + dcf_wacc, "years", dcf_time["FY2033E"])
+    pv_terminal = divide("valuation.dcf.PV_terminal_value", "terminal_value", terminal_value, "discount_factor", terminal_df)
+    dcf_ev = sum_named("valuation.dcf.enterprise_value", {f"PV_{period}_FCF": value for period, value in dcf_pv.items()} | {"PV_terminal_value": pv_terminal})
+    dcf_equity = sum_named("valuation.dcf.equity_value", {"enterprise_value": dcf_ev, "target_net_cash": target_net_cash})
+    dcf_price = divide("valuation.dcf.price_per_share", "equity_value", dcf_equity, "basic_shares_m", basic_shares)
+    terminal_share = divide("valuation.dcf.terminal_value_share", "PV_terminal_value", pv_terminal, "DCF_enterprise_value", dcf_ev)
+
+    exit_terminal_value = multiply("valuation.dcf.exit_terminal_value", "FY2033_FCF", dcf_fcf["FY2033E"], "exit_FCF_multiple", exit_fcf_multiple)
+    pv_exit_terminal = divide("valuation.dcf.PV_exit_terminal_value", "exit_terminal_value", exit_terminal_value, "discount_factor", terminal_df)
+    dcf_exit_ev = sum_named("valuation.dcf.exit_enterprise_value", {f"PV_{period}_FCF": value for period, value in dcf_pv.items()} | {"PV_exit_terminal_value": pv_exit_terminal})
+    dcf_exit_equity = sum_named("valuation.dcf.exit_equity_value", {"enterprise_value": dcf_exit_ev, "target_net_cash": target_net_cash})
+    dcf_exit_price = divide("valuation.dcf.exit_price_per_share", "equity_value", dcf_exit_equity, "basic_shares_m", basic_shares)
+
+    CHECKS.extend([
+        ("Valuation base SOTP pieces equal target enterprise value", close(base["pv_connectivity"] + base["pv_space"] + base["pv_ai"], base["target_ev"]), f"pieces={plain(base['pv_connectivity'] + base['pv_space'] + base['pv_ai'])}; target_EV={plain(base['target_ev'])}"),
+        ("Valuation base equity bridge equals enterprise value plus net cash", close(base["target_equity"], base["target_ev"] + target_net_cash), f"equity={plain(base['target_equity'])}"),
+        ("Valuation scenario ordering", scenario_results["Bull"]["price_target"] > base["price_target"] > scenario_results["Bear"]["price_target"], "bull > base > bear"),
+        ("DCF terminal formula denominator positive", dcf_wacc > terminal_growth, f"WACC={exact(dcf_wacc)}; terminal_growth={exact(terminal_growth)}"),
+    ])
+
+    VALUATION_SUMMARY.update({
+        "base_pt": base["price_target"],
+        "bull_pt": scenario_results["Bull"]["price_target"],
+        "bear_pt": scenario_results["Bear"]["price_target"],
+        "last_sale": last_sale,
+    })
+
+    scenario_assumption_rows: list[list[str]] = []
+    for scenario in ("Bear", "Base", "Bull"):
+        inputs = scenarios[scenario]
+        scenario_assumption_rows.extend([
+            [scenario, "Connectivity subscribers / ARPU", f"{plain(inputs['opening_subscribers_m'])}m → {plain(inputs['ending_subscribers_m'])}m / {money(inputs['arpu'])} [VIEW]", "`research.md` explicit subscriber and ARPU paths"],
+            [scenario, "Enterprise & Government factor", f"{number(inputs['enterprise_factor'] * D('100'))}% of base [VIEW]", "Starshield remains embedded; standalone P&L not obtained"],
+            [scenario, "Connectivity exit EBIT multiple", f"{plain(inputs['connectivity_exit_ebit_multiple'])}× [VIEW]", "Selected SOTP input; primary-source peer multiple not obtained"],
+            [scenario, "Space exit revenue multiple / Starship revenue", f"{plain(inputs['space_exit_revenue_multiple'])}× / {money(inputs['starship_commercial_revenue'])} [VIEW]", "Starship commercial revenue stays zero"],
+            [scenario, "AI capital conversion / Customer B haircut", f"{plain(inputs['ai_capital_conversion_multiple'])}× / {number(inputs['customer_b_haircut'] * D('100'))}% [VIEW]", "AI capex conversion with explicit concentration haircut"],
+            [scenario, "WACC / years to FY2028", f"{number(inputs['wacc'] * D('100'))}% / {plain(target_years_from_fy2028)} [VIEW]", "Discount FY2028 segment values to the 12-month target date"],
+        ])
+
+    scenario_output_rows: list[list[str]] = []
+    for scenario in ("Bear", "Base", "Bull"):
+        slug = scenario.lower()
+        result = scenario_results[scenario]
+        scenario_output_rows.append([
+            scenario,
+            tagged(result["consumer_revenue"], "DEDUCTED", f"valuation.{slug}.consumer_revenue"),
+            tagged(result["connectivity_ebit"], "DEDUCTED", f"valuation.{slug}.connectivity_ebit"),
+            tagged(result["target_ev"], "DEDUCTED", f"valuation.{slug}.target_enterprise_value"),
+            tagged(result["target_equity"], "DEDUCTED", f"valuation.{slug}.target_equity_value"),
+            tagged(result["price_target"], "DEDUCTED", f"valuation.{slug}.price_target"),
+            f"{number(result['implied_change'] * D('100'))}% [DEDUCTED {formula_id(f'valuation.{slug}.implied_change')}]",
+        ])
+
+    base_bridge_rows = [
+        ["Connectivity", "FY2028E scenario EBIT", tagged(base["connectivity_ebit"], "DEDUCTED", "valuation.base.connectivity_ebit"), "70× EBIT [VIEW]", tagged(base["connectivity_value"], "DEDUCTED", "valuation.base.connectivity_value_FY2028"), tagged(base["pv_connectivity"], "DEDUCTED", "valuation.base.pv_connectivity")],
+        ["Space", "FY2028E modeled revenue; Starship revenue zero", tagged(base["space_revenue"], "DEDUCTED", "valuation.base.space_revenue"), "12× revenue [VIEW]", tagged(base["space_value"], "DEDUCTED", "valuation.base.space_value_FY2028"), tagged(base["pv_space"], "DEDUCTED", "valuation.base.pv_space")],
+        ["AI", "Cumulative FY2026E–FY2028E AI capex", tagged(ai_invested_capital, "DEDUCTED", "valuation.ai_invested_capital"), "2× capital, then 20% Customer B haircut [VIEW]", tagged(base["ai_value"], "DEDUCTED", "valuation.base.ai_value_FY2028"), tagged(base["pv_ai"], "DEDUCTED", "valuation.base.pv_ai")],
+        ["**Enterprise value**", "Sum of pieces", "", "", tagged(base["end_ev"], "DEDUCTED", "valuation.base.end_FY2028_enterprise_value"), tagged(base["target_ev"], "DEDUCTED", "valuation.base.target_enterprise_value")],
+        ["Net cash", "Target-date base cash bridge", "", "", "", tagged(target_net_cash, "DEDUCTED", "valuation.target_net_cash")],
+        ["**Equity value**", "Target EV + net cash", "", "", "", tagged(base["target_equity"], "DEDUCTED", "valuation.base.target_equity_value")],
+        ["**Price target**", "Equity value ÷ basic shares", tagged(basic_shares, "DEDUCTED", "balance.FY2026E.basic_shares", unit="plain"), "", "", tagged(base["price_target"], "DEDUCTED", "valuation.base.price_target")],
+    ]
+
+    already_priced_rows = [
+        ["Last sale", money(last_sale, "0.01") + " [FACT]", "Nasdaq `lastTradeTimestamp` 2026-08-27"],
+        ["Current market capitalization", tagged(current_market_cap, "FACT"), "`register.md` What is already priced"],
+        ["Current mixed-date enterprise value", tagged(current_ev, "DEDUCTED", "valuation.current_enterprise_value"), "Market cap plus debt less cash and securities"],
+        ["Base target implied enterprise value", tagged(base["target_ev"], "DEDUCTED", "valuation.base.target_enterprise_value"), "Discounted SOTP pieces"],
+        ["Current EV / FY2028E revenue", f"{plain(current_ev_revenue)}× [DEDUCTED {formula_id('valuation.current_EV_to_FY2028_revenue')}]", "Current EV ÷ model revenue"],
+        ["Base target EV / FY2028E revenue", f"{plain(implied_target_ev_revenue)}× [DEDUCTED {formula_id('valuation.base.target_EV_to_FY2028_revenue')}]", "Target EV ÷ model revenue"],
+        ["Current EV / FY2028E EBIT", f"{plain(current_ev_ebit)}× [DEDUCTED {formula_id('valuation.current_EV_to_FY2028_EBIT')}]", "Current EV ÷ model EBIT"],
+        ["Base target EV / FY2028E EBIT", f"{plain(implied_target_ev_ebit)}× [DEDUCTED {formula_id('valuation.base.target_EV_to_FY2028_EBIT')}]", "Target EV ÷ model EBIT"],
+        ["Current EV premium to base target EV", f"{number(current_premium_to_base_ev * D('100'))}% [DEDUCTED {formula_id('valuation.current_EV_premium_to_base_target_EV')}]", "Same FY2028 model denominator"],
+    ]
+
+    dcf_output_rows = [
+        ["WACC", f"{number(dcf_wacc * D('100'))}% [VIEW]", "Named discount-rate input"],
+        ["Terminal growth", f"{number(terminal_growth * D('100'))}% [VIEW]", "Perpetuity-growth input"],
+        ["Exit FCF multiple", f"{plain(exit_fcf_multiple)}× [VIEW]", "Alternative terminal-value check"],
+        ["Perpetuity DCF enterprise value", tagged(dcf_ev, "DEDUCTED", "valuation.dcf.enterprise_value"), "Extended explicit fade plus terminal value"],
+        ["Perpetuity DCF value / share", tagged(dcf_price, "DEDUCTED", "valuation.dcf.price_per_share"), "Basic shares"],
+        ["PV terminal value / DCF EV", f"{number(terminal_share * D('100'))}% [DEDUCTED {formula_id('valuation.dcf.terminal_value_share')}]", "Shows terminal dependence"],
+        ["Exit-multiple DCF enterprise value", tagged(dcf_exit_ev, "DEDUCTED", "valuation.dcf.exit_enterprise_value"), "25× FY2033E FCF terminal"],
+        ["Exit-multiple DCF value / share", tagged(dcf_exit_price, "DEDUCTED", "valuation.dcf.exit_price_per_share"), "Basic shares"],
+    ]
+
+    return f"""# SpaceX valuation
+
+as_of: {as_of}
+target_date: {target_date}
+units: USD millions except per-share data, shares and operating drivers
+generator: `compute.py`
+
+## Price target
+
+| item | value | basis |
+| --- | ---: | --- |
+| **12-month base price target** | **{money(base['price_target'], '0.01')} [DEDUCTED {formula_id('valuation.base.price_target')}]** | Segment SOTP discounted to {target_date} |
+| Last sale | {money(last_sale, '0.01')} [FACT] | Nasdaq `lastTradeTimestamp` 2026-08-27 |
+| Implied change | {number(base['implied_change'] * D('100'))}% [DEDUCTED {formula_id('valuation.base.implied_change')}] | Price target ÷ last sale − one |
+| Basic shares | {plain(basic_shares)} million [DEDUCTED {formula_id('balance.FY2026E.basic_shares')}] | Post-Cursor; fully diluted shares not obtained |
+| Load-bearing method | SOTP | Connectivity EBIT, Space revenue with zero Starship commercial revenue, AI invested-capital conversion with Customer B haircut |
+
+The target is generated from the segment model and named valuation inputs below. It is not fitted to the last sale.
+
+## Load-bearing SOTP — base bridge
+
+{markdown_table(["piece", "metric", "metric value", "valuation input", "FY2028 value", "12-month value"], base_bridge_rows, ["---", "---", "---:", "---", "---:", "---:"])}
+
+Target net cash uses FY2026E ending liquidity less debt and eight months of FY2027E FCF, with no new financing. EchoStar is excluded. Cursor P&L contribution and synergy premium are zero.
+
+## Bear / base / bull assumptions
+
+{markdown_table(["scenario", "driver", "assumption", "treatment"], scenario_assumption_rows)}
+
+Starship commercial revenue is zero in every scenario. Bull and bear change Connectivity ARPU/net adds, Enterprise & Government realization, AI capex conversion, Customer B concentration haircut, exit multiples and WACC.
+
+## Scenario outputs
+
+{markdown_table(["scenario", "FY2028 Consumer revenue", "FY2028 Connectivity EBIT", "target EV", "target equity", "price / share", "vs last sale"], scenario_output_rows, ["---", "---:", "---:", "---:", "---:", "---:", "---:"])}
+
+## Dilution sensitivity — not known fully diluted shares
+
+| item | value | treatment |
+| --- | ---: | --- |
+| Basic shares | {plain(basic_shares)} million [DEDUCTED {formula_id('balance.FY2026E.basic_shares')}] | Base price-target denominator |
+| Potentially dilutive awards | {plain(potential_awards)} million [FACT] | Sensitivity only; treasury-stock-method dilution not obtained |
+| Sensitivity shares | {tagged(sensitivity_shares, 'DEDUCTED', 'valuation.dilution_sensitivity_shares', unit='plain')} million | Basic plus all potentially dilutive awards |
+| Sensitivity price / share | {tagged(diluted_sensitivity_pt, 'DEDUCTED', 'valuation.dilution_sensitivity_price')} | Same base equity value |
+| Price haircut | {number(dilution_haircut * D('100'))}% [DEDUCTED {formula_id('valuation.dilution_sensitivity_haircut')}] | Sensitivity price versus base |
+
+The sensitivity does not assert that the awards are fully dilutive.
+
+## What the last sale already prices
+
+{markdown_table(["measure", "value", "basis"], already_priced_rows, ["---", "---:", "---"])}
+
+## Consolidated DCF check — not load-bearing
+
+Explicit model FCF is negative through FY2027E and approximately zero in FY2028E. The extension makes the terminal auditable by fading consolidated revenue growth and FCF margins explicitly.
+
+{markdown_table(["period", "revenue", "fade assumption", "FCF", "PV FCF"], dcf_rows, ["---", "---:", "---", "---:", "---:"])}
+
+{markdown_table(["item", "value", "basis"], dcf_output_rows, ["---", "---:", "---"])}
+
+## Comps check
+
+| peer set | primary-source trading multiple | treatment |
+| --- | --- | --- |
+| Listed launch providers | {not_obtained()} | No filing/exchange-derived comparable EV multiple obtained |
+| Satellite connectivity providers | {not_obtained()} | No filing/exchange-derived comparable EV multiple obtained |
+| AI infrastructure / platform providers | {not_obtained()} | No filing/exchange-derived comparable EV multiple obtained |
+
+No peer EV/EBITDA multiple is invented. Current and target implied multiples are shown in “What the last sale already prices.”
+
+## Exclusions and gaps
+
+- EchoStar consideration and shares remain a scenario, not base.
+- Cursor P&L contribution and synergy premium are zero; standalone contribution is {not_obtained()}.
+- Starshield standalone P&L, launch list price, GPU-hours and utilization remain {not_obtained()}.
+- Fully diluted shares remain {not_obtained()}; the award count is only a sensitivity.
+
+{formula_appendix("Valuation formula register", ("valuation.",))}
+"""
+
+
 def write_outputs() -> None:
     outputs = {
         "segments.md": build_segments_md(),
         "income.md": build_income_md(),
         "balance.md": build_balance_md(),
         "cashflow.md": build_cashflow_md(),
+        "valuation.md": build_valuation_md(),
     }
     for filename, content in outputs.items():
         (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -1469,6 +1982,13 @@ def print_summary() -> None:
             f"ending_cash={plain(CASHFLOW[period]['ending_cash'])}; "
             f"basic_shares_m={plain(BASIC_SHARES[period])}"
         )
+    print(
+        "\nValuation summary: "
+        f"base_PT={money(VALUATION_SUMMARY['base_pt'], '0.01')}; "
+        f"bull={money(VALUATION_SUMMARY['bull_pt'], '0.01')}; "
+        f"bear={money(VALUATION_SUMMARY['bear_pt'], '0.01')}; "
+        f"last_sale={money(VALUATION_SUMMARY['last_sale'], '0.01')}"
+    )
 
 
 if __name__ == "__main__":

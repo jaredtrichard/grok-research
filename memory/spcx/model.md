@@ -8,8 +8,11 @@ Workbook:
 - Consolidated income statement: `models/spcx/income.md`
 - Balance sheet and share bridge: `models/spcx/balance.md`
 - Cash flow and liquidity runway: `models/spcx/cashflow.md`
+- Valuation and scenarios: `models/spcx/valuation.md`
 
-Valuation must use the consolidated Revenue and Operating income / EBIT lines in `income.md`, Free cash flow in `cashflow.md`, and Cash, Marketable securities, Debt and finance leases, and ending basic shares in `balance.md`. Fully diluted shares remain `not obtained`. EchoStar is a scenario memo, not part of the base case.
+Valuation source: `models/spcx/valuation.md` → `Price target` → `12-month base price target`.
+
+Valuation uses the consolidated Revenue and Operating income / EBIT lines in `income.md`, Free cash flow in `cashflow.md`, and Cash, Marketable securities, Debt and finance leases, and ending basic shares in `balance.md`. Fully diluted shares remain `not obtained`. EchoStar is a scenario memo, not part of the base case.
 
 Reconciliation notes:
 
