@@ -8,6 +8,7 @@ USD millions except per-share data, units, GWh and percentages.
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -325,6 +326,18 @@ ENDING_LEASE_VEHICLES = 4_253.0
 SPACEX_FAIR_VALUE = 3_007.0
 SPACEX_CASH_PURCHASE_2026 = 2_002.0
 DISCLOSED_INSTALLED_AUTO_CAPACITY_K = 2_375.0
+
+VALUATION_DATE = date(2026, 8, 29)
+LAST_PRICE_DATE = date(2026, 8, 28)
+LAST_PRICE = 348.75
+PT_SHARES = 3_949_547_394
+OFFICIAL_EBIT_MULTIPLE = 20.0
+THREE_YEAR_EBIT_MULTIPLE = 22.0
+BEAR_EBIT_MULTIPLE = 10.0
+BULL_EBIT_MULTIPLE = 30.0
+DCF_WACC = 0.10
+DCF_TERMINAL_GROWTH = 0.025
+YAHOO_TSLA_HISTORY = "https://finance.yahoo.com/quote/TSLA/history/"
 
 
 def fmt(value: Any, decimals: int = 0) -> str:
@@ -1205,12 +1218,404 @@ Forecast operating cash flow is explicitly `NI + D&A + SBC − Δ(core NWC) + ot
 """
 
 
+def valuation(
+    income: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+) -> tuple[str, dict[str, float]]:
+    """Compute and render the prescribed valuation and non-official checks."""
+
+    shares_m = PT_SHARES / 1_000_000.0
+
+    official_ebit = income["FY2027E"]["operating_income"]
+    official_operating_ev = official_ebit * OFFICIAL_EBIT_MULTIPLE
+    official_net_cash = (
+        balances["FY2026E"]["cash"]
+        + balances["FY2026E"]["short_investments"]
+        - balances["FY2026E"]["debt"]
+    )
+    official_equity_value = (
+        official_operating_ev + official_net_cash + SPACEX_FAIR_VALUE
+    )
+    official_pt = official_equity_value / shares_m
+
+    three_year_operating_ev = (
+        income["FY2028E"]["operating_income"] * THREE_YEAR_EBIT_MULTIPLE
+    )
+    exit_net_cash = (
+        balances["FY2028E"]["cash"]
+        + balances["FY2028E"]["short_investments"]
+        - balances["FY2028E"]["debt"]
+    )
+    three_year_equity_value = (
+        three_year_operating_ev + exit_net_cash + SPACEX_FAIR_VALUE
+    )
+    three_year_value = three_year_equity_value / shares_m
+
+    bear_operating_ev = income["FY2027E"]["operating_income"] * BEAR_EBIT_MULTIPLE
+    bear_equity_value = bear_operating_ev + official_net_cash + SPACEX_FAIR_VALUE
+    bear_value = bear_equity_value / shares_m
+
+    bull_operating_ev = income["FY2028E"]["operating_income"] * BULL_EBIT_MULTIPLE
+    bull_equity_value = bull_operating_ev + exit_net_cash + SPACEX_FAIR_VALUE
+    bull_value = bull_equity_value / shares_m
+
+    residual_per_share = LAST_PRICE - official_pt
+    market_cap = LAST_PRICE * PT_SHARES / 1_000_000.0
+    q2_net_cash = (
+        HIST_BALANCE["1H2026A"]["cash"]
+        + HIST_BALANCE["1H2026A"]["short_investments"]
+        - (
+            HIST_BALANCE["1H2026A"]["debt_current"]
+            + HIST_BALANCE["1H2026A"]["debt_long"]
+        )
+    )
+    current_operating_ev = market_cap - q2_net_cash - SPACEX_FAIR_VALUE
+    current_multiples: dict[str, float] = {}
+    for period in ("FY2026E", "FY2028E"):
+        current_multiples[f"{period}_revenue"] = (
+            current_operating_ev / income[period]["total_revenue"]
+        )
+        current_multiples[f"{period}_ebit"] = (
+            current_operating_ev / income[period]["operating_income"]
+        )
+        current_multiples[f"{period}_ni"] = (
+            current_operating_ev / income[period]["common_net_income"]
+        )
+
+    fy25_tax_rate = HIST_INCOME["FY2025A"]["tax"] / (
+        HIST_INCOME["FY2025A"]["net_income"] + HIST_INCOME["FY2025A"]["tax"]
+    )
+    ufcf: dict[str, float] = {}
+    for period in FORECAST_PERIODS:
+        after_tax_interest_expense = (
+            income[period]["interest_expense"] * (1.0 - fy25_tax_rate)
+        )
+        after_tax_interest_income = (
+            income[period]["interest_income"] * (1.0 - fy25_tax_rate)
+        )
+        ufcf[period] = (
+            cashflow[period]["fcf"]
+            + after_tax_interest_expense
+            - after_tax_interest_income
+        )
+
+    # FY2026 uses the midpoint of the remaining period after the valuation date.
+    cash_flow_dates = {
+        "FY2026E": date(2026, 10, 31),
+        "FY2027E": date(2027, 6, 30),
+        "FY2028E": date(2028, 6, 30),
+    }
+    discount_years = {
+        period: (cash_flow_dates[period] - VALUATION_DATE).days / 365.0
+        for period in FORECAST_PERIODS
+    }
+    discount_factors = {
+        period: (1.0 + DCF_WACC) ** discount_years[period]
+        for period in FORECAST_PERIODS
+    }
+    pv_ufcf = {
+        period: ufcf[period] / discount_factors[period]
+        for period in FORECAST_PERIODS
+    }
+    terminal_nopat = income["FY2028E"]["operating_income"] * (
+        1.0 - fy25_tax_rate
+    )
+    terminal_value = (
+        terminal_nopat
+        * (1.0 + DCF_TERMINAL_GROWTH)
+        / (DCF_WACC - DCF_TERMINAL_GROWTH)
+    )
+    terminal_date = date(2028, 12, 31)
+    terminal_years = (terminal_date - VALUATION_DATE).days / 365.0
+    pv_terminal = terminal_value / ((1.0 + DCF_WACC) ** terminal_years)
+    dcf_enterprise_value = sum(pv_ufcf.values()) + pv_terminal
+    dcf_equity_value = dcf_enterprise_value + official_net_cash + SPACEX_FAIR_VALUE
+    dcf_value = dcf_equity_value / shares_m
+    terminal_share_of_positive_components = pv_terminal / (
+        pv_terminal + official_net_cash + SPACEX_FAIR_VALUE
+    )
+
+    bridge_rows = [
+        [
+            "FY2027E operating income",
+            "income.md",
+            fmt(official_ebit, 1),
+        ],
+        ["Selected EV / EBIT", "[VIEW]", f"{OFFICIAL_EBIT_MULTIPLE:.1f}x"],
+        [
+            "Operating enterprise value",
+            "EBIT × multiple",
+            fmt(official_operating_ev, 1),
+        ],
+        [
+            "YE2026E cash + short-term investments − debt",
+            "balance.md",
+            fmt(official_net_cash, 1),
+        ],
+        ["Tesla-held SpaceX stake", "R6.2; held at filing FV", fmt(SPACEX_FAIR_VALUE, 1)],
+        ["Equity value", "EV + net cash + stake", fmt(official_equity_value, 1)],
+        ["Shares outstanding (m)", "R5.3; not diluted WAS", fmt(shares_m, 3)],
+        ["Official 12-month PT / share", "Equity value ÷ shares", f"${official_pt:.2f}"],
+    ]
+
+    setup_rows = [
+        ["Valuation as-of", VALUATION_DATE.isoformat()],
+        ["Last close", f"${LAST_PRICE:.2f} on {LAST_PRICE_DATE.isoformat()}"],
+        [
+            "Last-price source",
+            f"[Yahoo Finance historical]({YAHOO_TSLA_HISTORY})",
+        ],
+        ["PT denominator", f"{PT_SHARES:,} shares outstanding on 2026-07-16 (R5.3)"],
+        [
+            "Method",
+            "20.0× FY2027E operating income + YE2026E net cash + SpaceX filing FV",
+        ],
+    ]
+
+    check_rows = [
+        [
+            "3-year / FY2028 exit",
+            f"{THREE_YEAR_EBIT_MULTIPLE:.1f}× FY2028E EBIT + YE2028E net cash + stake",
+            f"${three_year_value:.2f}",
+        ],
+        [
+            "Bear",
+            f"{BEAR_EBIT_MULTIPLE:.1f}× FY2027E EBIT + YE2026E net cash + stake",
+            f"${bear_value:.2f}",
+        ],
+        [
+            "Bull — modeled businesses only",
+            f"{BULL_EBIT_MULTIPLE:.1f}× FY2028E EBIT + YE2028E net cash + stake",
+            f"${bull_value:.2f}",
+        ],
+        [
+            "DCF",
+            f"{pct(DCF_WACC)} WACC; {pct(DCF_TERMINAL_GROWTH)} terminal growth",
+            f"${dcf_value:.2f}",
+        ],
+    ]
+
+    current_multiple_rows = [
+        [
+            "Market capitalization",
+            "Last price × filing shares",
+            fmt(market_cap, 1),
+        ],
+        [
+            "2026-06-30 net cash",
+            "Cash + STI − debt",
+            fmt(q2_net_cash, 1),
+        ],
+        ["SpaceX stake", "R6.2", fmt(SPACEX_FAIR_VALUE, 1)],
+        [
+            "Current operating EV",
+            "Market cap − net cash − stake",
+            fmt(current_operating_ev, 1),
+        ],
+        [
+            "EV / FY2026E revenue",
+            "Current operating EV ÷ revenue",
+            f"{current_multiples['FY2026E_revenue']:.1f}x",
+        ],
+        [
+            "EV / FY2028E revenue",
+            "Current operating EV ÷ revenue",
+            f"{current_multiples['FY2028E_revenue']:.1f}x",
+        ],
+        [
+            "EV / FY2026E EBIT",
+            "Current operating EV ÷ operating income",
+            f"{current_multiples['FY2026E_ebit']:.1f}x",
+        ],
+        [
+            "EV / FY2028E EBIT",
+            "Current operating EV ÷ operating income",
+            f"{current_multiples['FY2028E_ebit']:.1f}x",
+        ],
+        [
+            "EV / FY2026E common NI",
+            "Current operating EV ÷ common NI",
+            f"{current_multiples['FY2026E_ni']:.1f}x",
+        ],
+        [
+            "EV / FY2028E common NI",
+            "Current operating EV ÷ common NI",
+            f"{current_multiples['FY2028E_ni']:.1f}x",
+        ],
+    ]
+
+    dcf_rows = []
+    for period in FORECAST_PERIODS:
+        dcf_rows.append(
+            [
+                period,
+                fmt(cashflow[period]["fcf"], 1),
+                fmt(
+                    income[period]["interest_expense"]
+                    * (1.0 - fy25_tax_rate),
+                    1,
+                ),
+                fmt(
+                    -income[period]["interest_income"]
+                    * (1.0 - fy25_tax_rate),
+                    1,
+                ),
+                fmt(ufcf[period], 1),
+                f"{discount_years[period]:.3f}",
+                fmt(pv_ufcf[period], 1),
+            ]
+        )
+    dcf_rows.extend(
+        [
+            [
+                "Terminal",
+                "—",
+                "—",
+                "—",
+                fmt(terminal_value, 1),
+                f"{terminal_years:.3f}",
+                fmt(pv_terminal, 1),
+            ],
+            [
+                "DCF enterprise value",
+                "—",
+                "—",
+                "—",
+                "—",
+                "—",
+                fmt(dcf_enterprise_value, 1),
+            ],
+            [
+                "DCF equity value",
+                "add YE2026E net cash + stake",
+                "—",
+                "—",
+                "—",
+                "—",
+                fmt(dcf_equity_value, 1),
+            ],
+        ]
+    )
+
+    peer_rows = [
+        [
+            "GM",
+            "0.5x",
+            "51.1x",
+            "2026-08-07",
+            "[ValueSense](https://valuesense.io/ticker/gm/intrinsic-value)",
+        ],
+        [
+            "F",
+            "1.0x",
+            "(26.7x)",
+            "2026-08-25",
+            "[ValueSense](https://valuesense.io/ticker/f/intrinsic-value)",
+        ],
+        [
+            "TM",
+            "1.34x",
+            "18.95x",
+            "retrieved 2026-08-29",
+            "[StockAnalysis](https://stockanalysis.com/stocks/tm/statistics/)",
+        ],
+        [
+            "BYD (1211.HK)",
+            "1.04x",
+            "18.93x",
+            "retrieved 2026-08-29",
+            "[StockAnalysis](https://stockanalysis.com/quote/hkg/1211/statistics/)",
+        ],
+        [
+            "RIVN",
+            "3.5x",
+            "(5.8x)",
+            "2026-08-13",
+            "[ValueSense](https://valuesense.io/ticker/rivn/intrinsic-value)",
+        ],
+        [
+            "FLNC — storage",
+            "0.80x",
+            "not obtained",
+            "2026-08-28",
+            "[StockAnalysis](https://stockanalysis.com/stocks/flnc/statistics/)",
+        ],
+        [
+            "ENPH — solar/storage",
+            "3.50x",
+            "40.07x",
+            "2026-08-28",
+            "[StockAnalysis](https://stockanalysis.com/stocks/enph/statistics/)",
+        ],
+    ]
+
+    content = f"""# Tesla valuation
+
+At the ${LAST_PRICE:.2f} last close, the modeled-business official 12-month value in the bridge leaves most of the market price as unmodeled optionality rather than earnings included in this model.
+
+## Official method and as-of
+
+{markdown_table(["item", "value"], setup_rows)}
+
+Robotaxi, incremental FSD and Optimus commercial revenue remain zero. No NPV for those businesses enters the official method.
+
+## Official EV bridge
+
+{markdown_table(["item", "basis", "$m except per share"], bridge_rows)}
+
+The 20.0× FY2027E EBIT multiple is a `[VIEW]`: a premium to mature global auto framing, but not a software multiple. The modeled earned profit comes from Automotive, Energy and Services, while AI opex and capex compress FY2026–FY2027 EBIT and free cash flow.
+
+## Checks — not additional official targets
+
+{markdown_table(["check", "method", "value / share"], check_rows)}
+
+The 3-year, bear and bull checks contain only the modeled businesses, net cash and Tesla-held SpaceX stake. They contain no autonomous-driving, FSD or Optimus NPV.
+
+## DCF check
+
+{markdown_table(["period", "FCF", "after-tax interest expense", "after-tax interest income", "UFCF / terminal value", "discount years", "present value"], dcf_rows)}
+
+UFCF equals `FCF + after-tax interest expense − after-tax interest income`. FY2026 uses the midpoint of the remaining period after 2026-08-29; FY2027 and FY2028 use fiscal mid-year dates. Terminal value equals `FY2028E NOPAT × (1 + g) ÷ (WACC − g)`, where NOPAT uses the model’s FY2025 effective tax rate. Terminal value is {terminal_share_of_positive_components * 100:.1f}% of the positive terminal/net-cash/stake components because every explicit-year UFCF is negative; the DCF is therefore terminal-dominated and does not replace the official method.
+
+## Current market-implied checks
+
+{markdown_table(["item", "formula", "$m or multiple"], current_multiple_rows)}
+
+**[DEDUCTED] Unmodeled residual per share:** `${LAST_PRICE:.2f} − modeled official value = ${residual_per_share:.2f}`. This is an arithmetic residual, not a Robotaxi valuation and not evidence that any specific optional business earns that amount.
+
+## Comparable-company snapshot
+
+{markdown_table(["company", "EV / Sales", "EV / EBIT", "as-of", "market source"], peer_rows)}
+
+Negative peer EV/EBIT observations reflect negative trailing EBIT and are not economically meaningful positive valuation anchors. Fluence’s market page reports EV/EBIT as unavailable. The peer set is a framing check only; differing finance-company debt, leases, accounting, geography and business mix limit comparability.
+
+## What would move the official value
+
+- A sourced Robotaxi, FSD or Optimus P&L that can be added to the earned-profit model.
+- A change in the FY2027E EBIT path generated by the segment and opex assumptions.
+- A change in YE2026E cash, short-term investments or debt.
+- A change in the selected 20.0× EBIT multiple.
+"""
+
+    summary = {
+        "official_pt": official_pt,
+        "residual": residual_per_share,
+        "three_year": three_year_value,
+        "bear": bear_value,
+        "bull": bull_value,
+        "dcf": dcf_value,
+    }
+    return content, summary
+
+
 def main() -> None:
     historical_segments = derived_historical_segments()
     forecast_segments, fy25_quotient, q2_quotient = build_forecast_segments()
     segments = {**historical_segments, **forecast_segments}
     balances, income, cashflow = build_forecast(segments)
     checks = build_checks(segments, income, balances, cashflow)
+    valuation_markdown, valuation_summary = valuation(income, balances, cashflow)
 
     outputs = {
         "segments.md": render_segments(
@@ -1219,6 +1624,7 @@ def main() -> None:
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, income, checks),
         "cashflow.md": render_cashflow(balances, cashflow, checks),
+        "valuation.md": valuation_markdown,
     }
     for filename, content in outputs.items():
         (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -1234,6 +1640,13 @@ def main() -> None:
             f"{cashflow[period]['fcf']:.1f} | "
             f"{income[period]['diluted_eps']:.2f}"
         )
+    print("\nValuation outputs")
+    print(f"Official 12-month PT | ${valuation_summary['official_pt']:.2f}")
+    print(f"Unmodeled residual | ${valuation_summary['residual']:.2f}")
+    print(f"3-year check | ${valuation_summary['three_year']:.2f}")
+    print(f"Bear check | ${valuation_summary['bear']:.2f}")
+    print(f"Bull check | ${valuation_summary['bull']:.2f}")
+    print(f"DCF check | ${valuation_summary['dcf']:.2f}")
     print("\nTie-out checks")
     failed = False
     for name, passed, difference in checks:
