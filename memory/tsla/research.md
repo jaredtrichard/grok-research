@@ -29,6 +29,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 2. **[DEDUCTED] FSD revenue bridge:** eligible fleet × paid attach × monthly/upfront mix × net price × recognition period. Churn, regional price and standalone revenue are not obtained (R8.3).
 3. **[DEDUCTED] Robotaxi revenue bridge:** active commercial fleet × paid miles/vehicle × revenue/mile. Costs should include cleaning/service, energy, insurance, remote assistance/safety operations, depreciation and payment/platform expense.
 4. **[FACT] Robotaxi numeric revenue, cost, fleet and paid-mile inputs are not obtained (R3.5).** Do not convert coverage announcements into modeled commercial scale without a sourced input.
+5. **[VIEW]** Researcher-specified autonomy scenarios live only in [`models/tsla/inputs.md`](../../models/tsla/inputs.md) and are not filing facts.
 
 ### 2.3 Energy generation and storage
 

@@ -50,7 +50,50 @@ As of 2026-08-29. USD millions except per-share data, vehicles, GWh and percenta
 | Diluted WAS (m) | 3,620 | 3,700 | 3,780 | [VIEW] |
 | Dividend | 0 | 0 | 0 | [VIEW] |
 | Buyback | 0 | 0 | 0 | [VIEW] |
-| Robotaxi / incremental FSD / Optimus revenue | 0 | 0 | 0 | [VIEW]; R8.3 not obtained |
+
+## Platform `[VIEW]` assumptions
+
+These are researcher-specified assumptions, never filing facts. FSD revenue is incremental above the filing-derived Automotive/Services revenue quotient to limit double counting.
+
+### FSD incremental
+
+| input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Revenue | [VIEW] 2,000 | [VIEW] 3,500 | [VIEW] 5,500 | [VIEW] 7,500 | [VIEW] 9,500 | [VIEW] 11,500 | [VIEW] 13,000 |
+| EBIT margin | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% | [VIEW] 70% |
+
+FSD UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 90%.
+
+### Robotaxi
+
+| input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Average paid fleet (k) | [VIEW] 5 | [VIEW] 30 | [VIEW] 100 | [VIEW] 220 | [VIEW] 400 | [VIEW] 600 | [VIEW] 800 |
+| Revenue / vehicle ($k) | [VIEW] 28 | [VIEW] 32 | [VIEW] 36 | [VIEW] 37 | [VIEW] 38 | [VIEW] 38 | [VIEW] 38 |
+| EBIT margin | [VIEW] 30% | [VIEW] 45% | [VIEW] 55% | [VIEW] 50% | [VIEW] 45% | [VIEW] 42% | [VIEW] 40% |
+
+Robotaxi revenue `[VIEW]` equals average fleet (k) × revenue/vehicle ($k). Fleet-growth capex `[VIEW]` is $25k per incremental average-fleet unit versus the prior year. UFCF `[VIEW]` equals after-tax EBIT less fleet-growth capex. Cybercab additions are capped at 125k per year; the script separately identifies any Model Y reallocation required to reconcile the specified combined Cybercab/Model Y paid fleet. R3.2 is installed capacity, not current output.
+
+### Optimus
+
+| input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Units (k) | [VIEW] 0 | [VIEW] 5 | [VIEW] 40 | [VIEW] 80 | [VIEW] 120 | [VIEW] 160 | [VIEW] 200 |
+| ASP ($k) | [VIEW] — | [VIEW] 30 | [VIEW] 30 | [VIEW] 28 | [VIEW] 26 | [VIEW] 25 | [VIEW] 25 |
+| EBIT margin | [VIEW] — | [VIEW] 5% | [VIEW] 15% | [VIEW] 18% | [VIEW] 20% | [VIEW] 20% | [VIEW] 20% |
+
+Optimus UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 70%.
+
+### SOTP
+
+| input | treatment | class |
+|---|---|---|
+| Core | 20.0× FY2027E operating income excluding platform wedges + core YE2026E net cash + SpaceX filing FV | [VIEW] |
+| Platform discount rate | 10.0%, mid-year convention from 2026-08-29 | [VIEW] |
+| Platform terminal | 16.0× FY2032 platform EBIT | [VIEW] |
+| Bear check | Core + 0.50× total platform EV | [VIEW] |
+| Bull check | Core + 1.75× total platform EV | [VIEW] |
+| Three-year check | 22.0× FY2028E core operating income + core YE2028E net cash + SpaceX + remaining platform value from YE2028 | [VIEW] |
 
 ## Completion assumptions
 
@@ -73,6 +116,6 @@ As of 2026-08-29. USD millions except per-share data, vehicles, GWh and percenta
 - Period-end basic shares for FY2026–FY2028: `not obtained`; the model uses the specified diluted WAS only.
 - Credit cost: `not obtained`; 100% incremental gross margin is a `[VIEW]`.
 - Segment capex, assets, liabilities and cash flow: `not obtained` (R8.5); no allocation is fabricated.
-- Robotaxi, incremental FSD and Optimus revenue/cost/unit economics: `not obtained` (R8.3); base revenue is zero.
+- Filing-based Robotaxi, incremental FSD and Optimus revenue/cost/unit economics: `not obtained` (R8.3); the model uses only the explicitly labeled researcher `[VIEW]` tables above.
 - Product-level Energy units, realized pricing and cost/MWh: `not obtained` (R8.2); researcher-specified aggregate deployment and revenue assumptions govern.
 - Forecast lease additions, depreciation and residual losses: `not obtained`; lease-fleet assets are held at the 2026-06-30 balance.

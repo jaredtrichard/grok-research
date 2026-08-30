@@ -2,8 +2,8 @@
 """Tesla segment three-statement model.
 
 All arithmetic for the markdown model lives here. Running this file rewrites
-segments.md, income.md, balance.md and cashflow.md, then prints tie-out checks.
-USD millions except per-share data, units, GWh and percentages.
+segments.md, income.md, balance.md, cashflow.md and valuation.md, then prints
+tie-out checks. USD millions except per-share data, units, GWh and percentages.
 """
 
 from __future__ import annotations
@@ -17,6 +17,15 @@ ROOT = Path(__file__).resolve().parent
 HIST_PERIODS = ["FY2023A", "FY2024A", "FY2025A", "1H2026A"]
 FORECAST_PERIODS = ["FY2026E", "FY2027E", "FY2028E"]
 ALL_PERIODS = HIST_PERIODS + FORECAST_PERIODS
+PLATFORM_PERIODS = [
+    "FY2026E",
+    "FY2027E",
+    "FY2028E",
+    "FY2029E",
+    "FY2030E",
+    "FY2031E",
+    "FY2032E",
+]
 
 S1 = "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm"
 S3 = "https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm"
@@ -314,6 +323,80 @@ ASSUMPTIONS = {
     },
 }
 
+# Researcher-specified platform assumptions. Every value is a [VIEW].
+PLATFORM_ASSUMPTIONS = {
+    "FY2026E": {
+        "fsd_revenue": 2_000.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 5.0,
+        "robotaxi_revenue_per_vehicle_k": 28.0,
+        "robotaxi_ebit_margin": 0.30,
+        "optimus_units_k": 0.0,
+        "optimus_asp_k": 0.0,
+        "optimus_ebit_margin": 0.0,
+    },
+    "FY2027E": {
+        "fsd_revenue": 3_500.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 30.0,
+        "robotaxi_revenue_per_vehicle_k": 32.0,
+        "robotaxi_ebit_margin": 0.45,
+        "optimus_units_k": 5.0,
+        "optimus_asp_k": 30.0,
+        "optimus_ebit_margin": 0.05,
+    },
+    "FY2028E": {
+        "fsd_revenue": 5_500.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 100.0,
+        "robotaxi_revenue_per_vehicle_k": 36.0,
+        "robotaxi_ebit_margin": 0.55,
+        "optimus_units_k": 40.0,
+        "optimus_asp_k": 30.0,
+        "optimus_ebit_margin": 0.15,
+    },
+    "FY2029E": {
+        "fsd_revenue": 7_500.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 220.0,
+        "robotaxi_revenue_per_vehicle_k": 37.0,
+        "robotaxi_ebit_margin": 0.50,
+        "optimus_units_k": 80.0,
+        "optimus_asp_k": 28.0,
+        "optimus_ebit_margin": 0.18,
+    },
+    "FY2030E": {
+        "fsd_revenue": 9_500.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 400.0,
+        "robotaxi_revenue_per_vehicle_k": 38.0,
+        "robotaxi_ebit_margin": 0.45,
+        "optimus_units_k": 120.0,
+        "optimus_asp_k": 26.0,
+        "optimus_ebit_margin": 0.20,
+    },
+    "FY2031E": {
+        "fsd_revenue": 11_500.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 600.0,
+        "robotaxi_revenue_per_vehicle_k": 38.0,
+        "robotaxi_ebit_margin": 0.42,
+        "optimus_units_k": 160.0,
+        "optimus_asp_k": 25.0,
+        "optimus_ebit_margin": 0.20,
+    },
+    "FY2032E": {
+        "fsd_revenue": 13_000.0,
+        "fsd_ebit_margin": 0.70,
+        "robotaxi_avg_fleet_k": 800.0,
+        "robotaxi_revenue_per_vehicle_k": 38.0,
+        "robotaxi_ebit_margin": 0.40,
+        "optimus_units_k": 200.0,
+        "optimus_asp_k": 25.0,
+        "optimus_ebit_margin": 0.20,
+    },
+}
+
 # Additional [VIEW] assumptions needed to complete the three statements.
 SBC_AS_PERCENT_OF_RD_AND_SGA = 0.25
 DA_RATE_ON_AVERAGE_PPE = 0.12
@@ -333,10 +416,12 @@ LAST_PRICE = 348.75
 PT_SHARES = 3_949_547_394
 OFFICIAL_EBIT_MULTIPLE = 20.0
 THREE_YEAR_EBIT_MULTIPLE = 22.0
-BEAR_EBIT_MULTIPLE = 10.0
-BULL_EBIT_MULTIPLE = 30.0
 DCF_WACC = 0.10
-DCF_TERMINAL_GROWTH = 0.025
+PLATFORM_TERMINAL_EBIT_MULTIPLE = 16.0
+ROBOTAXI_FLEET_CAPEX_PER_INCREMENTAL_AVG_UNIT_K = 25.0
+CYBERCAB_ANNUAL_ADDITION_CEILING_K = 125.0
+FSD_UFCF_CONVERSION = 0.90
+OPTIMUS_UFCF_CONVERSION = 0.70
 YAHOO_TSLA_HISTORY = "https://finance.yahoo.com/quote/TSLA/history/"
 
 
@@ -362,6 +447,99 @@ def markdown_table(headers: list[str], rows: list[list[Any]]) -> str:
     return "\n".join([top, separator, *body])
 
 
+def build_platforms() -> dict[str, dict[str, float]]:
+    """Build all researcher-specified [VIEW] platform lines."""
+
+    tax_rate = HIST_INCOME["FY2025A"]["tax"] / (
+        HIST_INCOME["FY2025A"]["net_income"] + HIST_INCOME["FY2025A"]["tax"]
+    )
+    output: dict[str, dict[str, float]] = {}
+    previous_avg_fleet = 0.0
+    previous_year_end_fleet = 0.0
+    for period in PLATFORM_PERIODS:
+        assumption = PLATFORM_ASSUMPTIONS[period]
+
+        fsd_revenue = assumption["fsd_revenue"]
+        fsd_ebit = fsd_revenue * assumption["fsd_ebit_margin"]
+        fsd_after_tax_ebit = fsd_ebit * (1.0 - tax_rate)
+        fsd_ufcf = fsd_after_tax_ebit * FSD_UFCF_CONVERSION
+        fsd_reinvestment = fsd_after_tax_ebit - fsd_ufcf
+
+        avg_fleet = assumption["robotaxi_avg_fleet_k"]
+        robotaxi_revenue = (
+            avg_fleet * assumption["robotaxi_revenue_per_vehicle_k"]
+        )
+        robotaxi_ebit = robotaxi_revenue * assumption["robotaxi_ebit_margin"]
+        average_fleet_growth = avg_fleet - previous_avg_fleet
+        robotaxi_fleet_capex = (
+            average_fleet_growth
+            * ROBOTAXI_FLEET_CAPEX_PER_INCREMENTAL_AVG_UNIT_K
+        )
+        robotaxi_ufcf = (
+            robotaxi_ebit * (1.0 - tax_rate) - robotaxi_fleet_capex
+        )
+        # With additions spread evenly through the year:
+        # average fleet = (beginning fleet + ending fleet) / 2.
+        robotaxi_year_end_fleet = 2.0 * avg_fleet - previous_year_end_fleet
+        total_fleet_additions = (
+            robotaxi_year_end_fleet - previous_year_end_fleet
+        )
+        cybercab_additions = min(
+            total_fleet_additions, CYBERCAB_ANNUAL_ADDITION_CEILING_K
+        )
+        model_y_reallocation = max(
+            total_fleet_additions - cybercab_additions, 0.0
+        )
+
+        optimus_revenue = (
+            assumption["optimus_units_k"] * assumption["optimus_asp_k"]
+        )
+        optimus_ebit = optimus_revenue * assumption["optimus_ebit_margin"]
+        optimus_after_tax_ebit = optimus_ebit * (1.0 - tax_rate)
+        optimus_ufcf = optimus_after_tax_ebit * OPTIMUS_UFCF_CONVERSION
+        optimus_reinvestment = optimus_after_tax_ebit - optimus_ufcf
+
+        output[period] = {
+            "fsd_revenue": fsd_revenue,
+            "fsd_ebit_margin": assumption["fsd_ebit_margin"],
+            "fsd_ebit": fsd_ebit,
+            "fsd_ufcf": fsd_ufcf,
+            "fsd_reinvestment": fsd_reinvestment,
+            "robotaxi_avg_fleet_k": avg_fleet,
+            "robotaxi_revenue_per_vehicle_k": assumption[
+                "robotaxi_revenue_per_vehicle_k"
+            ],
+            "robotaxi_revenue": robotaxi_revenue,
+            "robotaxi_ebit_margin": assumption["robotaxi_ebit_margin"],
+            "robotaxi_ebit": robotaxi_ebit,
+            "robotaxi_average_fleet_growth_k": average_fleet_growth,
+            "robotaxi_fleet_capex": robotaxi_fleet_capex,
+            "robotaxi_ufcf": robotaxi_ufcf,
+            "robotaxi_year_end_fleet_k": robotaxi_year_end_fleet,
+            "robotaxi_total_additions_k": total_fleet_additions,
+            "robotaxi_cybercab_additions_k": cybercab_additions,
+            "robotaxi_model_y_reallocation_k": model_y_reallocation,
+            "optimus_units_k": assumption["optimus_units_k"],
+            "optimus_asp_k": assumption["optimus_asp_k"],
+            "optimus_revenue": optimus_revenue,
+            "optimus_ebit_margin": assumption["optimus_ebit_margin"],
+            "optimus_ebit": optimus_ebit,
+            "optimus_ufcf": optimus_ufcf,
+            "optimus_reinvestment": optimus_reinvestment,
+            "total_revenue": fsd_revenue + robotaxi_revenue + optimus_revenue,
+            "total_ebit": fsd_ebit + robotaxi_ebit + optimus_ebit,
+            "total_ufcf": fsd_ufcf + robotaxi_ufcf + optimus_ufcf,
+            "total_reinvestment": (
+                fsd_reinvestment
+                + robotaxi_fleet_capex
+                + optimus_reinvestment
+            ),
+        }
+        previous_avg_fleet = avg_fleet
+        previous_year_end_fleet = robotaxi_year_end_fleet
+    return output
+
+
 def derived_historical_segments() -> dict[str, dict[str, float]]:
     output: dict[str, dict[str, float]] = {}
     for period, raw in HIST_SEGMENTS.items():
@@ -372,23 +550,36 @@ def derived_historical_segments() -> dict[str, dict[str, float]]:
             "auto_revenue": auto_revenue,
             "auto_gp": auto_gp,
             "credits_gp": raw["credits_revenue"],
-            "total_revenue": (
+            "core_total_revenue": (
                 auto_revenue
                 + raw["credits_revenue"]
                 + raw["energy_revenue"]
                 + raw["services_revenue"]
             ),
-            "total_gp": (
+            "core_total_gp": (
                 auto_gp
                 + raw["credits_revenue"]
                 + raw["energy_gp"]
                 + raw["services_gp"]
             ),
+            "fsd_revenue": 0.0,
+            "fsd_gp": 0.0,
+            "fsd_ebit": 0.0,
+            "robotaxi_revenue": 0.0,
+            "robotaxi_gp": 0.0,
+            "robotaxi_ebit": 0.0,
+            "optimus_revenue": 0.0,
+            "optimus_gp": 0.0,
+            "optimus_ebit": 0.0,
         }
+        output[period]["total_revenue"] = output[period]["core_total_revenue"]
+        output[period]["total_gp"] = output[period]["core_total_gp"]
     return output
 
 
-def build_forecast_segments() -> tuple[dict[str, dict[str, float]], float, float]:
+def build_forecast_segments(
+    platforms: dict[str, dict[str, float]] | None = None,
+) -> tuple[dict[str, dict[str, float]], float, float]:
     fy25 = HIST_SEGMENTS["FY2025A"]
     q2_total_auto_revenue = 20_516.0
     q2_deliveries_k = 480.126
@@ -413,6 +604,21 @@ def build_forecast_segments() -> tuple[dict[str, dict[str, float]], float, float
         credits_gp = assumption["credits_revenue"]
         energy_gp = energy_revenue * assumption["energy_margin"]
         services_gp = assumption["services_revenue"] * assumption["services_margin"]
+        platform = platforms[period] if platforms else {
+            "fsd_revenue": 0.0,
+            "fsd_ebit": 0.0,
+            "robotaxi_revenue": 0.0,
+            "robotaxi_ebit": 0.0,
+            "optimus_revenue": 0.0,
+            "optimus_ebit": 0.0,
+        }
+        core_total_revenue = (
+            auto_revenue
+            + assumption["credits_revenue"]
+            + energy_revenue
+            + assumption["services_revenue"]
+        )
+        core_total_gp = auto_gp + credits_gp + energy_gp + services_gp
         output[period] = {
             "deliveries_k": assumption["deliveries_k"],
             "production_k": 0.0,
@@ -426,13 +632,21 @@ def build_forecast_segments() -> tuple[dict[str, dict[str, float]], float, float
             "energy_gp": energy_gp,
             "services_revenue": assumption["services_revenue"],
             "services_gp": services_gp,
-            "total_revenue": (
-                auto_revenue
-                + assumption["credits_revenue"]
-                + energy_revenue
-                + assumption["services_revenue"]
-            ),
-            "total_gp": auto_gp + credits_gp + energy_gp + services_gp,
+            "core_total_revenue": core_total_revenue,
+            "core_total_gp": core_total_gp,
+            "fsd_revenue": platform["fsd_revenue"],
+            "fsd_gp": platform["fsd_ebit"],
+            "fsd_ebit": platform["fsd_ebit"],
+            "robotaxi_revenue": platform["robotaxi_revenue"],
+            "robotaxi_gp": platform["robotaxi_ebit"],
+            "robotaxi_ebit": platform["robotaxi_ebit"],
+            "optimus_revenue": platform["optimus_revenue"],
+            "optimus_gp": platform["optimus_ebit"],
+            "optimus_ebit": platform["optimus_ebit"],
+            "total_revenue": core_total_revenue + platform["fsd_revenue"]
+            + platform["robotaxi_revenue"] + platform["optimus_revenue"],
+            "total_gp": core_total_gp + platform["fsd_ebit"]
+            + platform["robotaxi_ebit"] + platform["optimus_ebit"],
         }
     return output, fy25_revenue_per_delivery, q2_revenue_per_delivery
 
@@ -456,6 +670,15 @@ def build_historical_income(
             **raw,
             "total_revenue": segment["total_revenue"],
             "total_gp": segment["total_gp"],
+            "core_total_revenue": segment["core_total_revenue"],
+            "core_total_gp": segment["core_total_gp"],
+            "fsd_revenue": 0.0,
+            "robotaxi_revenue": 0.0,
+            "optimus_revenue": 0.0,
+            "core_operating_income": operating_income,
+            "fsd_ebit": 0.0,
+            "robotaxi_ebit": 0.0,
+            "optimus_ebit": 0.0,
             "total_opex": total_opex,
             "operating_income": operating_income,
             "pretax_income": pretax,
@@ -482,6 +705,7 @@ def historical_balance_with_derived() -> dict[str, dict[str, float]]:
         output[period] = {
             **raw,
             "debt": debt,
+            "platform_investment_assets": 0.0,
             "other_assets": other_assets,
             "other_liabilities": other_liabilities,
             "total_liabilities_and_equity": (
@@ -495,6 +719,7 @@ def historical_balance_with_derived() -> dict[str, dict[str, float]]:
 
 def build_forecast(
     segments: dict[str, dict[str, float]],
+    platforms: dict[str, dict[str, float]] | None = None,
 ) -> tuple[
     dict[str, dict[str, float]],
     dict[str, dict[str, float]],
@@ -520,6 +745,12 @@ def build_forecast(
     for period in FORECAST_PERIODS:
         segment = segments[period]
         assumption = ASSUMPTIONS[period]
+        platform = platforms[period] if platforms else {
+            "fsd_reinvestment": 0.0,
+            "robotaxi_fleet_capex": 0.0,
+            "optimus_reinvestment": 0.0,
+            "total_reinvestment": 0.0,
+        }
         is_fy26 = period == "FY2026E"
         previous = balances["1H2026A"] if is_fy26 else balances[
             FORECAST_PERIODS[FORECAST_PERIODS.index(period) - 1]
@@ -577,6 +808,7 @@ def build_forecast(
         spacex_investment = SPACEX_FAIR_VALUE
 
         total_opex = assumption["rd"] + assumption["sga"]
+        core_operating_income = segment["core_total_gp"] - total_opex
         operating_income = segment["total_gp"] - total_opex
         interest_income = (
             HIST_INCOME["1H2026A"]["interest_income"]
@@ -608,6 +840,15 @@ def build_forecast(
         income[period] = {
             "total_revenue": segment["total_revenue"],
             "total_gp": segment["total_gp"],
+            "core_total_revenue": segment["core_total_revenue"],
+            "core_total_gp": segment["core_total_gp"],
+            "fsd_revenue": segment["fsd_revenue"],
+            "robotaxi_revenue": segment["robotaxi_revenue"],
+            "optimus_revenue": segment["optimus_revenue"],
+            "core_operating_income": core_operating_income,
+            "fsd_ebit": segment["fsd_ebit"],
+            "robotaxi_ebit": segment["robotaxi_ebit"],
+            "optimus_ebit": segment["optimus_ebit"],
             "rd": assumption["rd"],
             "sga": assumption["sga"],
             "restructuring": 0.0,
@@ -641,7 +882,10 @@ def build_forecast(
             + rollforward_sbc
             - rollforward_delta_nwc
         )
-        rollforward_fcf = rollforward_ocf - rollforward_capex
+        platform_reinvestment = platform["total_reinvestment"]
+        rollforward_fcf = (
+            rollforward_ocf - rollforward_capex - platform_reinvestment
+        )
         pre_funding_cash = (
             previous["cash"]
             + rollforward_fcf
@@ -664,6 +908,9 @@ def build_forecast(
         aoci = previous["aoci"]
         stockholders_equity = common_stock + apic + aoci + retained_earnings
         other_assets = previous["other_assets"]
+        platform_investment_assets = (
+            previous["platform_investment_assets"] + platform_reinvestment
+        )
         other_liabilities = previous["other_liabilities"]
         total_assets = (
             cash
@@ -673,6 +920,7 @@ def build_forecast(
             + lease_vehicles
             + ppe
             + spacex_investment
+            + platform_investment_assets
             + other_assets
         )
         total_liabilities = ap + debt + other_liabilities
@@ -688,6 +936,7 @@ def build_forecast(
             "lease_vehicles": lease_vehicles,
             "ppe": ppe,
             "spacex_investment": spacex_investment,
+            "platform_investment_assets": platform_investment_assets,
             "other_assets": other_assets,
             "total_assets": total_assets,
             "ap": ap,
@@ -711,7 +960,9 @@ def build_forecast(
             if is_fy26
             else rollforward_ocf
         )
-        annual_fcf = annual_ocf - assumption["capex"]
+        annual_fcf = (
+            annual_ocf - assumption["capex"] - platform_reinvestment
+        )
         other_operating_adjustments = (
             annual_ocf
             - net_income
@@ -747,7 +998,12 @@ def build_forecast(
             "delta_nwc": annual_delta_nwc,
             "other_operating_adjustments": other_operating_adjustments,
             "ocf": annual_ocf,
-            "capex": assumption["capex"],
+            "core_capex": assumption["capex"],
+            "fsd_reinvestment": platform["fsd_reinvestment"],
+            "robotaxi_fleet_capex": platform["robotaxi_fleet_capex"],
+            "optimus_reinvestment": platform["optimus_reinvestment"],
+            "platform_reinvestment": platform_reinvestment,
+            "capex": assumption["capex"] + platform_reinvestment,
             "fcf": annual_fcf,
             "spacex_purchase": (
                 SPACEX_CASH_PURCHASE_2026 if is_fy26 else 0.0
@@ -775,6 +1031,7 @@ def build_checks(
     income: dict[str, dict[str, float]],
     balances: dict[str, dict[str, float]],
     cashflow: dict[str, dict[str, float]],
+    platforms: dict[str, dict[str, float]] | None = None,
 ) -> list[tuple[str, bool, float]]:
     checks: list[tuple[str, bool, float]] = []
     tolerance = 0.02
@@ -785,12 +1042,18 @@ def build_checks(
             + segment["credits_revenue"]
             + segment["energy_revenue"]
             + segment["services_revenue"]
+            + segment["fsd_revenue"]
+            + segment["robotaxi_revenue"]
+            + segment["optimus_revenue"]
         )
         gp_sum = (
             segment["auto_gp"]
             + segment["credits_gp"]
             + segment["energy_gp"]
             + segment["services_gp"]
+            + segment["fsd_gp"]
+            + segment["robotaxi_gp"]
+            + segment["optimus_gp"]
         )
         checks.append(
             (f"{period}: segment revenue = company revenue", abs(revenue_sum - income[period]["total_revenue"]) < tolerance, revenue_sum - income[period]["total_revenue"])
@@ -807,6 +1070,51 @@ def build_checks(
                     f"{period}: deliveries do not exceed disclosed installed capacity",
                     capacity_headroom >= 0.0,
                     capacity_headroom,
+                )
+            )
+            platform_ebit = (
+                segment["fsd_ebit"]
+                + segment["robotaxi_ebit"]
+                + segment["optimus_ebit"]
+            )
+            ebit_flow_difference = (
+                income[period]["operating_income"]
+                - income[period]["core_operating_income"]
+                - platform_ebit
+            )
+            checks.append(
+                (
+                    f"{period}: platform EBIT flows into company operating income",
+                    abs(ebit_flow_difference) < tolerance,
+                    ebit_flow_difference,
+                )
+            )
+            if platforms:
+                cybercab_headroom = (
+                    CYBERCAB_ANNUAL_ADDITION_CEILING_K
+                    - platforms[period]["robotaxi_cybercab_additions_k"]
+                )
+                checks.append(
+                    (
+                        f"{period}: Cybercab additions respect capacity ceiling",
+                        cybercab_headroom >= 0.0,
+                        cybercab_headroom,
+                    )
+                )
+
+    if platforms:
+        for period in PLATFORM_PERIODS:
+            if period in FORECAST_PERIODS:
+                continue
+            cybercab_headroom = (
+                CYBERCAB_ANNUAL_ADDITION_CEILING_K
+                - platforms[period]["robotaxi_cybercab_additions_k"]
+            )
+            checks.append(
+                (
+                    f"{period}: Cybercab additions respect capacity ceiling",
+                    cybercab_headroom >= 0.0,
+                    cybercab_headroom,
                 )
             )
 
@@ -884,6 +1192,7 @@ def build_checks(
 
 def render_segments(
     segments: dict[str, dict[str, float]],
+    platforms: dict[str, dict[str, float]],
     fy25_quotient: float,
     q2_quotient: float,
     checks: list[tuple[str, bool, float]],
@@ -898,11 +1207,39 @@ def render_segments(
         ("Energy gross profit", "energy_gp"),
         ("Services and other revenue", "services_revenue"),
         ("Services and other gross profit", "services_gp"),
+        ("[VIEW] FSD incremental revenue", "fsd_revenue"),
+        ("[VIEW] FSD gross profit / EBIT contribution", "fsd_gp"),
+        ("[VIEW] Robotaxi revenue", "robotaxi_revenue"),
+        ("[VIEW] Robotaxi gross profit / EBIT contribution", "robotaxi_gp"),
+        ("[VIEW] Optimus revenue", "optimus_revenue"),
+        ("[VIEW] Optimus gross profit / EBIT contribution", "optimus_gp"),
         ("Company revenue", "total_revenue"),
         ("Company gross profit", "total_gp"),
     ]
     for label, key in segment_rows:
-        rows.append([label] + [fmt(segments[p][key]) for p in ALL_PERIODS])
+        values = []
+        for period in ALL_PERIODS:
+            if key in {
+                "fsd_revenue",
+                "fsd_gp",
+                "robotaxi_revenue",
+                "robotaxi_gp",
+                "optimus_revenue",
+                "optimus_gp",
+            } and period in HIST_PERIODS:
+                values.append("—")
+            elif key in {
+                "fsd_revenue",
+                "fsd_gp",
+                "robotaxi_revenue",
+                "robotaxi_gp",
+                "optimus_revenue",
+                "optimus_gp",
+            }:
+                values.append(f"[VIEW] {fmt(segments[period][key])}")
+            else:
+                values.append(fmt(segments[period][key]))
+        rows.append([label, *values])
 
     driver_rows = []
     for period in ALL_PERIODS:
@@ -931,6 +1268,8 @@ def render_segments(
         if "segment revenue" in row[0]
         or "segment GP" in row[0]
         or "installed capacity" in row[0]
+        or "Cybercab additions" in row[0]
+        or "platform EBIT flows" in row[0]
     ]
     check_rows = [
         [name, "PASS" if passed else "FAIL", fmt(difference, 2)]
@@ -965,7 +1304,7 @@ Energy unit conversion is dimensionally:
 `$m = GWh × 1,000,000 kWh/GWh × $/kWh ÷ 1,000,000 $/$m = GWh × $/kWh`.
 Multiplying the final simplified expression by another 1,000 would overstate revenue 1,000-fold.
 
-Robotaxi, incremental FSD and Optimus commercial revenue are zero in the base forecast because standalone economics are `not obtained` (R8.3).
+Every FSD, Robotaxi and Optimus cell is a researcher-specified `[VIEW]`, not a filing fact. Because only platform EBIT margins were supplied, each platform’s modeled gross-profit contribution equals its EBIT contribution and all platform operating costs are embedded there; no separate platform opex is invented. FSD is incremental to the filing-based Automotive/Services quotient to limit double counting.
 
 ## Segment tie checks
 
@@ -995,8 +1334,26 @@ def render_income(
             continue
         rows.append([label] + [fmt(income[p][key]) for p in ALL_PERIODS])
 
+    def platform_values(key: str) -> list[str]:
+        return [
+            "—" if p in HIST_PERIODS else f"[VIEW] {fmt(income[p][key])}"
+            for p in ALL_PERIODS
+        ]
+
     detailed_rows = [
+        ["Core filed-business revenue"]
+        + [fmt(income[p]["core_total_revenue"]) for p in ALL_PERIODS],
+        ["[VIEW] FSD incremental revenue"] + platform_values("fsd_revenue"),
+        ["[VIEW] Robotaxi revenue"] + platform_values("robotaxi_revenue"),
+        ["[VIEW] Optimus revenue"] + platform_values("optimus_revenue"),
         ["Total revenue"] + [fmt(income[p]["total_revenue"]) for p in ALL_PERIODS],
+        ["Core filed-business gross profit"]
+        + [fmt(income[p]["core_total_gp"]) for p in ALL_PERIODS],
+        ["[VIEW] FSD GP / EBIT contribution"] + platform_values("fsd_ebit"),
+        ["[VIEW] Robotaxi GP / EBIT contribution"]
+        + platform_values("robotaxi_ebit"),
+        ["[VIEW] Optimus GP / EBIT contribution"]
+        + platform_values("optimus_ebit"),
         ["Total gross profit"] + [fmt(income[p]["total_gp"]) for p in ALL_PERIODS],
         ["R&D"] + [fmt(income[p]["rd"]) for p in ALL_PERIODS],
         ["SG&A"] + [fmt(income[p]["sga"]) for p in ALL_PERIODS],
@@ -1004,6 +1361,8 @@ def render_income(
         + [fmt(income[p]["restructuring"]) for p in ALL_PERIODS],
         ["Total operating expense"]
         + [fmt(income[p]["total_opex"]) for p in ALL_PERIODS],
+        ["Core operating income excluding platform [VIEW]s"]
+        + [fmt(income[p]["core_operating_income"]) for p in ALL_PERIODS],
         ["Operating income"]
         + [fmt(income[p]["operating_income"]) for p in ALL_PERIODS],
         ["Interest income"]
@@ -1032,7 +1391,7 @@ def render_income(
 
 Generated by `compute.py`; do not hand-edit. USD millions except per-share data.
 
-Company revenue and gross profit are sourced only from the four segment lines in [`segments.md`](segments.md); there is no revenue or gross-profit plug.
+Company revenue and gross profit sum the four filed-business lines plus the three explicitly labeled platform `[VIEW]` lines in [`segments.md`](segments.md); there is no revenue or gross-profit plug. Platform GP equals platform EBIT contribution because no separate platform opex split was specified.
 
 {markdown_table(["line", *ALL_PERIODS], detailed_rows)}
 
@@ -1060,6 +1419,13 @@ def render_balance(
         ["PP&E, net"] + [fmt(balances[p]["ppe"]) for p in ALL_PERIODS],
         ["SpaceX investment"]
         + [fmt(balances[p]["spacex_investment"]) for p in ALL_PERIODS],
+        ["[VIEW] Platform reinvestment assets"]
+        + [
+            "—"
+            if p in HIST_PERIODS
+            else f"[VIEW] {fmt(balances[p]['platform_investment_assets'])}"
+            for p in ALL_PERIODS
+        ],
         ["Other assets"] + [fmt(balances[p]["other_assets"]) for p in ALL_PERIODS],
         ["Total assets"] + [fmt(balances[p]["total_assets"]) for p in ALL_PERIODS],
         ["Accounts payable"] + [fmt(balances[p]["ap"]) for p in ALL_PERIODS],
@@ -1166,7 +1532,11 @@ def render_cashflow(
         ("Less: increase in core NWC", "delta_nwc"),
         ("Other operating / noncash adjustments", "other_operating_adjustments"),
         ("Operating cash flow", "ocf"),
-        ("Less: capex", "capex"),
+        ("Less: core corporate capex", "core_capex"),
+        ("Less: [VIEW] FSD reinvestment", "fsd_reinvestment"),
+        ("Less: [VIEW] Robotaxi fleet-growth capex", "robotaxi_fleet_capex"),
+        ("Less: [VIEW] Optimus reinvestment", "optimus_reinvestment"),
+        ("Total core + platform cash investment", "capex"),
         ("Free cash flow", "fcf"),
         ("Less: SpaceX investment purchase", "spacex_purchase"),
         ("Other investing / financing / FX", "other_post_fcf"),
@@ -1183,13 +1553,24 @@ def render_cashflow(
             value = cashflow[p][key]
             if key in {
                 "delta_nwc",
+                "core_capex",
+                "fsd_reinvestment",
+                "robotaxi_fleet_capex",
+                "optimus_reinvestment",
                 "capex",
                 "spacex_purchase",
                 "dividends",
                 "buybacks",
             }:
                 value = -value
-            values.append(fmt(value))
+            rendered = fmt(value)
+            if key in {
+                "fsd_reinvestment",
+                "robotaxi_fleet_capex",
+                "optimus_reinvestment",
+            }:
+                rendered = f"[VIEW] {rendered}"
+            values.append(rendered)
         rows.append([label, "—", "—", "—", "—", *values])
 
     wc = cashflow["_working_capital_days"]
@@ -1210,7 +1591,7 @@ Generated by `compute.py`; do not hand-edit. USD millions.
 
 Historical figures are reported cash-flow lines from [S1]({S1}) and [S3]({S3}); restricted cash reconciles the filed cash-flow ending balance to balance-sheet cash.
 
-Forecast operating cash flow is explicitly `NI + D&A + SBC − Δ(core NWC) + other operating/noncash adjustments`. Core NWC is `accounts receivable + inventory − accounts payable`. Forecast days held from 2026-06-30 are: receivables `{wc["ar_days"]:.2f}`, inventory `{wc["inventory_days"]:.2f}`, payables `{wc["ap_days"]:.2f}`. FY2026 combines reported 1H operating cash flow with an explicit 2H roll-forward; its “other” lines aggregate the already-reported 1H non-core operating, investing, financing, FX and restricted-cash movements. FCF is operating cash flow less capex. Post-FCF cash flows separately show the actual-2026 SpaceX purchase, investment liquidation and required debt funding. Dividend and buyback assumptions are zero.
+Forecast operating cash flow is explicitly `NI + D&A + SBC − Δ(core NWC) + other operating/noncash adjustments`. Core NWC is `accounts receivable + inventory − accounts payable`. Forecast days held from 2026-06-30 are: receivables `{wc["ar_days"]:.2f}`, inventory `{wc["inventory_days"]:.2f}`, payables `{wc["ap_days"]:.2f}`. FY2026 combines reported 1H operating cash flow with an explicit 2H roll-forward; its “other” lines aggregate the already-reported 1H non-core operating, investing, financing, FX and restricted-cash movements. FCF deducts unchanged core corporate capex plus separately labeled `[VIEW]` FSD cash reinvestment, Robotaxi fleet-growth capex and Optimus cash reinvestment. Post-FCF cash flows separately show the actual-2026 SpaceX purchase, investment liquidation and required debt funding. Dividend and buyback assumptions are zero.
 
 ## Cash tie checks
 
@@ -1219,46 +1600,102 @@ Forecast operating cash flow is explicitly `NI + D&A + SBC − Δ(core NWC) + ot
 
 
 def valuation(
+    core_income: dict[str, dict[str, float]],
+    core_balances: dict[str, dict[str, float]],
     income: dict[str, dict[str, float]],
     balances: dict[str, dict[str, float]],
     cashflow: dict[str, dict[str, float]],
+    platforms: dict[str, dict[str, float]],
 ) -> tuple[str, dict[str, float]]:
-    """Compute and render the prescribed valuation and non-official checks."""
+    """Compute and render the prescribed platform-inclusive SOTP."""
 
     shares_m = PT_SHARES / 1_000_000.0
+    core_ebit = core_income["FY2027E"]["operating_income"]
+    core_operating_ev = core_ebit * OFFICIAL_EBIT_MULTIPLE
+    core_net_cash = (
+        core_balances["FY2026E"]["cash"]
+        + core_balances["FY2026E"]["short_investments"]
+        - core_balances["FY2026E"]["debt"]
+    )
+    core_equity_value = core_operating_ev + core_net_cash + SPACEX_FAIR_VALUE
 
-    official_ebit = income["FY2027E"]["operating_income"]
-    official_operating_ev = official_ebit * OFFICIAL_EBIT_MULTIPLE
-    official_net_cash = (
-        balances["FY2026E"]["cash"]
-        + balances["FY2026E"]["short_investments"]
-        - balances["FY2026E"]["debt"]
-    )
-    official_equity_value = (
-        official_operating_ev + official_net_cash + SPACEX_FAIR_VALUE
-    )
+    cash_flow_dates = {
+        "FY2026E": date(2026, 10, 31),
+        "FY2027E": date(2027, 6, 30),
+        "FY2028E": date(2028, 6, 30),
+        "FY2029E": date(2029, 6, 30),
+        "FY2030E": date(2030, 6, 30),
+        "FY2031E": date(2031, 6, 30),
+        "FY2032E": date(2032, 6, 30),
+    }
+    discount_years = {
+        period: (cash_flow_dates[period] - VALUATION_DATE).days / 365.0
+        for period in PLATFORM_PERIODS
+    }
+    platform_values: dict[str, dict[str, float]] = {}
+    for name in ("fsd", "robotaxi", "optimus"):
+        pv_ufcf = sum(
+            platforms[period][f"{name}_ufcf"]
+            / ((1.0 + DCF_WACC) ** discount_years[period])
+            for period in PLATFORM_PERIODS
+        )
+        terminal_value = (
+            platforms["FY2032E"][f"{name}_ebit"]
+            * PLATFORM_TERMINAL_EBIT_MULTIPLE
+        )
+        terminal_date = date(2032, 12, 31)
+        terminal_years = (terminal_date - VALUATION_DATE).days / 365.0
+        pv_terminal = terminal_value / (
+            (1.0 + DCF_WACC) ** terminal_years
+        )
+        platform_values[name] = {
+            "pv_ufcf": pv_ufcf,
+            "terminal_value": terminal_value,
+            "pv_terminal": pv_terminal,
+            "ev": pv_ufcf + pv_terminal,
+        }
+
+    total_platform_ev = sum(item["ev"] for item in platform_values.values())
+    official_equity_value = core_equity_value + total_platform_ev
     official_pt = official_equity_value / shares_m
 
-    three_year_operating_ev = (
-        income["FY2028E"]["operating_income"] * THREE_YEAR_EBIT_MULTIPLE
+    bear_equity_value = core_equity_value + 0.5 * total_platform_ev
+    bear_value = bear_equity_value / shares_m
+    bull_equity_value = core_equity_value + 1.75 * total_platform_ev
+    bull_value = bull_equity_value / shares_m
+
+    core_exit_operating_ev = (
+        core_income["FY2028E"]["operating_income"] * THREE_YEAR_EBIT_MULTIPLE
     )
-    exit_net_cash = (
-        balances["FY2028E"]["cash"]
-        + balances["FY2028E"]["short_investments"]
-        - balances["FY2028E"]["debt"]
+    core_exit_net_cash = (
+        core_balances["FY2028E"]["cash"]
+        + core_balances["FY2028E"]["short_investments"]
+        - core_balances["FY2028E"]["debt"]
     )
+    core_exit_equity = (
+        core_exit_operating_ev + core_exit_net_cash + SPACEX_FAIR_VALUE
+    )
+    remaining_platform_value_at_fy28 = 0.0
+    for name in ("fsd", "robotaxi", "optimus"):
+        remaining_ufcf = sum(
+            platforms[period][f"{name}_ufcf"]
+            / ((1.0 + DCF_WACC) ** (year_index + 0.5))
+            for year_index, period in enumerate(
+                ("FY2029E", "FY2030E", "FY2031E", "FY2032E")
+            )
+        )
+        remaining_terminal = (
+            platforms["FY2032E"][f"{name}_ebit"]
+            * PLATFORM_TERMINAL_EBIT_MULTIPLE
+            / ((1.0 + DCF_WACC) ** 4.0)
+        )
+        remaining_platform_value_at_fy28 += (
+            remaining_ufcf + remaining_terminal
+        )
     three_year_equity_value = (
-        three_year_operating_ev + exit_net_cash + SPACEX_FAIR_VALUE
+        core_exit_equity + remaining_platform_value_at_fy28
     )
     three_year_value = three_year_equity_value / shares_m
-
-    bear_operating_ev = income["FY2027E"]["operating_income"] * BEAR_EBIT_MULTIPLE
-    bear_equity_value = bear_operating_ev + official_net_cash + SPACEX_FAIR_VALUE
-    bear_value = bear_equity_value / shares_m
-
-    bull_operating_ev = income["FY2028E"]["operating_income"] * BULL_EBIT_MULTIPLE
-    bull_equity_value = bull_operating_ev + exit_net_cash + SPACEX_FAIR_VALUE
-    bull_value = bull_equity_value / shares_m
 
     residual_per_share = LAST_PRICE - official_pt
     market_cap = LAST_PRICE * PT_SHARES / 1_000_000.0
@@ -1283,78 +1720,29 @@ def valuation(
             current_operating_ev / income[period]["common_net_income"]
         )
 
-    fy25_tax_rate = HIST_INCOME["FY2025A"]["tax"] / (
-        HIST_INCOME["FY2025A"]["net_income"] + HIST_INCOME["FY2025A"]["tax"]
-    )
-    ufcf: dict[str, float] = {}
-    for period in FORECAST_PERIODS:
-        after_tax_interest_expense = (
-            income[period]["interest_expense"] * (1.0 - fy25_tax_rate)
-        )
-        after_tax_interest_income = (
-            income[period]["interest_income"] * (1.0 - fy25_tax_rate)
-        )
-        ufcf[period] = (
-            cashflow[period]["fcf"]
-            + after_tax_interest_expense
-            - after_tax_interest_income
-        )
-
-    # FY2026 uses the midpoint of the remaining period after the valuation date.
-    cash_flow_dates = {
-        "FY2026E": date(2026, 10, 31),
-        "FY2027E": date(2027, 6, 30),
-        "FY2028E": date(2028, 6, 30),
-    }
-    discount_years = {
-        period: (cash_flow_dates[period] - VALUATION_DATE).days / 365.0
-        for period in FORECAST_PERIODS
-    }
-    discount_factors = {
-        period: (1.0 + DCF_WACC) ** discount_years[period]
-        for period in FORECAST_PERIODS
-    }
-    pv_ufcf = {
-        period: ufcf[period] / discount_factors[period]
-        for period in FORECAST_PERIODS
-    }
-    terminal_nopat = income["FY2028E"]["operating_income"] * (
-        1.0 - fy25_tax_rate
-    )
-    terminal_value = (
-        terminal_nopat
-        * (1.0 + DCF_TERMINAL_GROWTH)
-        / (DCF_WACC - DCF_TERMINAL_GROWTH)
-    )
-    terminal_date = date(2028, 12, 31)
-    terminal_years = (terminal_date - VALUATION_DATE).days / 365.0
-    pv_terminal = terminal_value / ((1.0 + DCF_WACC) ** terminal_years)
-    dcf_enterprise_value = sum(pv_ufcf.values()) + pv_terminal
-    dcf_equity_value = dcf_enterprise_value + official_net_cash + SPACEX_FAIR_VALUE
-    dcf_value = dcf_equity_value / shares_m
-    terminal_share_of_positive_components = pv_terminal / (
-        pv_terminal + official_net_cash + SPACEX_FAIR_VALUE
-    )
-
     bridge_rows = [
         [
-            "FY2027E operating income",
-            "income.md",
-            fmt(official_ebit, 1),
+            "Core FY2027E operating income",
+            "income.md; excludes platform [VIEW]s",
+            fmt(core_ebit, 1),
         ],
-        ["Selected EV / EBIT", "[VIEW]", f"{OFFICIAL_EBIT_MULTIPLE:.1f}x"],
+        ["Core selected EV / EBIT", "[VIEW]", f"{OFFICIAL_EBIT_MULTIPLE:.1f}x"],
         [
-            "Operating enterprise value",
-            "EBIT × multiple",
-            fmt(official_operating_ev, 1),
+            "Core operating enterprise value",
+            "Core EBIT × multiple",
+            fmt(core_operating_ev, 1),
         ],
         [
-            "YE2026E cash + short-term investments − debt",
-            "balance.md",
-            fmt(official_net_cash, 1),
+            "Core YE2026E net cash",
+            "Core cash + STI − debt; excludes Robotaxi fleet capex",
+            fmt(core_net_cash, 1),
         ],
         ["Tesla-held SpaceX stake", "R6.2; held at filing FV", fmt(SPACEX_FAIR_VALUE, 1)],
-        ["Equity value", "EV + net cash + stake", fmt(official_equity_value, 1)],
+        ["A. Core equity value", "Core EV + core net cash + stake", fmt(core_equity_value, 1)],
+        ["B. [VIEW] FSD EV", "PV FY2026–FY2032 UFCF + terminal", f"[VIEW] {fmt(platform_values['fsd']['ev'], 1)}"],
+        ["C. [VIEW] Robotaxi EV", "PV FY2026–FY2032 UFCF + terminal", f"[VIEW] {fmt(platform_values['robotaxi']['ev'], 1)}"],
+        ["D. [VIEW] Optimus EV", "PV FY2026–FY2032 UFCF + terminal", f"[VIEW] {fmt(platform_values['optimus']['ev'], 1)}"],
+        ["Official equity value", "A + B + C + D", fmt(official_equity_value, 1)],
         ["Shares outstanding (m)", "R5.3; not diluted WAS", fmt(shares_m, 3)],
         ["Official 12-month PT / share", "Equity value ÷ shares", f"${official_pt:.2f}"],
     ]
@@ -1369,30 +1757,25 @@ def valuation(
         ["PT denominator", f"{PT_SHARES:,} shares outstanding on 2026-07-16 (R5.3)"],
         [
             "Method",
-            "20.0× FY2027E operating income + YE2026E net cash + SpaceX filing FV",
+            "Core equity + separately discounted [VIEW] FSD, Robotaxi and Optimus",
         ],
     ]
 
     check_rows = [
         [
             "3-year / FY2028 exit",
-            f"{THREE_YEAR_EBIT_MULTIPLE:.1f}× FY2028E EBIT + YE2028E net cash + stake",
+            "22.0× FY2028E core EBIT + core net cash + stake + FY2029–FY2032 platform PV",
             f"${three_year_value:.2f}",
         ],
         [
             "Bear",
-            f"{BEAR_EBIT_MULTIPLE:.1f}× FY2027E EBIT + YE2026E net cash + stake",
+            "A + 0.50× (B + C + D)",
             f"${bear_value:.2f}",
         ],
         [
-            "Bull — modeled businesses only",
-            f"{BULL_EBIT_MULTIPLE:.1f}× FY2028E EBIT + YE2028E net cash + stake",
+            "Bull",
+            "A + 1.75× (B + C + D)",
             f"${bull_value:.2f}",
-        ],
-        [
-            "DCF",
-            f"{pct(DCF_WACC)} WACC; {pct(DCF_TERMINAL_GROWTH)} terminal growth",
-            f"${dcf_value:.2f}",
         ],
     ]
 
@@ -1445,58 +1828,73 @@ def valuation(
         ],
     ]
 
-    dcf_rows = []
-    for period in FORECAST_PERIODS:
-        dcf_rows.append(
+    def view(value: float, decimals: int = 1) -> str:
+        return f"[VIEW] {fmt(value, decimals)}"
+
+    platform_forecast_rows = []
+    platform_dcf_rows = []
+    capacity_rows = []
+    for period in PLATFORM_PERIODS:
+        platform = platforms[period]
+        discount_factor = (1.0 + DCF_WACC) ** discount_years[period]
+        platform_forecast_rows.append(
             [
                 period,
-                fmt(cashflow[period]["fcf"], 1),
-                fmt(
-                    income[period]["interest_expense"]
-                    * (1.0 - fy25_tax_rate),
-                    1,
-                ),
-                fmt(
-                    -income[period]["interest_income"]
-                    * (1.0 - fy25_tax_rate),
-                    1,
-                ),
-                fmt(ufcf[period], 1),
-                f"{discount_years[period]:.3f}",
-                fmt(pv_ufcf[period], 1),
+                view(platform["fsd_revenue"]),
+                view(platform["fsd_ebit"]),
+                view(platform["fsd_ufcf"]),
+                view(platform["robotaxi_avg_fleet_k"]),
+                view(platform["robotaxi_revenue"]),
+                view(platform["robotaxi_ebit"]),
+                view(platform["robotaxi_fleet_capex"]),
+                view(platform["robotaxi_ufcf"]),
+                view(platform["optimus_units_k"]),
+                view(platform["optimus_revenue"]),
+                view(platform["optimus_ebit"]),
+                view(platform["optimus_ufcf"]),
             ]
         )
-    dcf_rows.extend(
-        [
+        platform_dcf_rows.append(
             [
-                "Terminal",
-                "—",
-                "—",
-                "—",
-                fmt(terminal_value, 1),
-                f"{terminal_years:.3f}",
-                fmt(pv_terminal, 1),
-            ],
+                period,
+                f"{discount_years[period]:.3f}",
+                view(platform["fsd_ufcf"]),
+                view(platform["fsd_ufcf"] / discount_factor),
+                view(platform["robotaxi_ufcf"]),
+                view(platform["robotaxi_ufcf"] / discount_factor),
+                view(platform["optimus_ufcf"]),
+                view(platform["optimus_ufcf"] / discount_factor),
+            ]
+        )
+        capacity_rows.append(
             [
-                "DCF enterprise value",
-                "—",
-                "—",
-                "—",
-                "—",
-                "—",
-                fmt(dcf_enterprise_value, 1),
-            ],
+                period,
+                view(platform["robotaxi_avg_fleet_k"]),
+                view(platform["robotaxi_year_end_fleet_k"]),
+                view(platform["robotaxi_total_additions_k"]),
+                view(platform["robotaxi_cybercab_additions_k"]),
+                view(platform["robotaxi_model_y_reallocation_k"]),
+            ]
+        )
+
+    platform_value_rows = []
+    for label, name in (
+        ("B. FSD", "fsd"),
+        ("C. Robotaxi", "robotaxi"),
+        ("D. Optimus", "optimus"),
+    ):
+        value_item = platform_values[name]
+        platform_value_rows.append(
             [
-                "DCF equity value",
-                "add YE2026E net cash + stake",
-                "—",
-                "—",
-                "—",
-                "—",
-                fmt(dcf_equity_value, 1),
-            ],
-        ]
-    )
+                f"[VIEW] {label}",
+                view(value_item["pv_ufcf"]),
+                view(platforms["FY2032E"][f"{name}_ebit"]),
+                f"[VIEW] {PLATFORM_TERMINAL_EBIT_MULTIPLE:.1f}x",
+                view(value_item["terminal_value"]),
+                view(value_item["pv_terminal"]),
+                view(value_item["ev"]),
+            ]
+        )
 
     peer_rows = [
         [
@@ -1550,39 +1948,56 @@ def valuation(
         ],
     ]
 
+    residual_message = (
+        "the last price still implies a larger platform outcome than this base"
+        if residual_per_share > 0.0
+        else "the base SOTP meets or exceeds the last price"
+    )
     content = f"""# Tesla valuation
 
-At the ${LAST_PRICE:.2f} last close, the modeled-business official 12-month value in the bridge leaves most of the market price as unmodeled optionality rather than earnings included in this model.
+At the ${LAST_PRICE:.2f} last close, the official SOTP combines the filed-business core with numbered `[VIEW]` FSD, Robotaxi and Optimus values; {residual_message}.
 
 ## Official method and as-of
 
 {markdown_table(["item", "value"], setup_rows)}
 
-Robotaxi, incremental FSD and Optimus commercial revenue remain zero. No NPV for those businesses enters the official method.
-
-## Official EV bridge
+## Official SOTP bridge
 
 {markdown_table(["item", "basis", "$m except per share"], bridge_rows)}
 
-The 20.0× FY2027E EBIT multiple is a `[VIEW]`: a premium to mature global auto framing, but not a software multiple. The modeled earned profit comes from Automotive, Energy and Services, while AI opex and capex compress FY2026–FY2027 EBIT and free cash flow.
+Core uses 20.0× FY2027E operating income excluding all three platform `[VIEW]` wedges, plus core YE2026E net cash and the Tesla-held SpaceX stake at filing fair value. The 20.0× multiple is a `[VIEW]`: a premium to mature global auto framing, not a software multiple. Robotaxi fleet capex does not reduce core net cash.
+
+## Platform `[VIEW]` operating paths
+
+{markdown_table(["[VIEW] year", "[VIEW] FSD revenue", "[VIEW] FSD EBIT", "[VIEW] FSD UFCF", "[VIEW] Robotaxi avg fleet (k)", "[VIEW] Robotaxi revenue", "[VIEW] Robotaxi EBIT", "[VIEW] Robotaxi fleet capex", "[VIEW] Robotaxi UFCF", "[VIEW] Optimus units (k)", "[VIEW] Optimus revenue", "[VIEW] Optimus EBIT", "[VIEW] Optimus UFCF"], platform_forecast_rows)}
+
+FSD revenue is incremental above the filing Automotive/Services quotient to limit double counting. FSD UFCF equals after-tax EBIT times 90%. Robotaxi revenue equals average paid fleet in thousands times revenue per vehicle in thousands; UFCF equals after-tax EBIT less fleet-growth capex. Optimus revenue equals units in thousands times ASP in thousands; UFCF equals after-tax EBIT times 70%. Every cell is a researcher-specified `[VIEW]`, never a filing fact.
+
+## Robotaxi capacity bridge
+
+{markdown_table(["[VIEW] year", "[VIEW] avg paid fleet (k)", "[VIEW] implied YE fleet (k)", "[VIEW] total additions (k)", "[VIEW] Cybercab additions (k)", "[VIEW] Model Y reallocation (k)"], capacity_rows)}
+
+The implied year-end fleet assumes additions occur evenly through each year. Cybercab additions are capped at 125k annually, using the disclosed `>125k` installed capacity as the conservative ceiling; any additions above that ceiling are explicit `[VIEW]` Model Y reallocations because the specified paid fleet includes both Cybercab and Model Y. Installed capacity is not current output (R3.2).
+
+## Platform DCF and terminal bridges
+
+{markdown_table(["[VIEW] year", "discount years", "[VIEW] FSD UFCF", "[VIEW] FSD PV", "[VIEW] Robotaxi UFCF", "[VIEW] Robotaxi PV", "[VIEW] Optimus UFCF", "[VIEW] Optimus PV"], platform_dcf_rows)}
+
+{markdown_table(["component", "[VIEW] PV UFCF", "[VIEW] FY2032 EBIT", "[VIEW] terminal multiple", "[VIEW] terminal value", "[VIEW] PV terminal", "[VIEW] EV"], platform_value_rows)}
+
+Platform values use a 10.0% WACC, mid-year convention and a 16.0× FY2032 EBIT terminal. FY2026 uses the midpoint of the remaining period after 2026-08-29. No full FY2029–FY2032 core income statement is invented.
 
 ## Checks — not additional official targets
 
 {markdown_table(["check", "method", "value / share"], check_rows)}
 
-The 3-year, bear and bull checks contain only the modeled businesses, net cash and Tesla-held SpaceX stake. They contain no autonomous-driving, FSD or Optimus NPV.
-
-## DCF check
-
-{markdown_table(["period", "FCF", "after-tax interest expense", "after-tax interest income", "UFCF / terminal value", "discount years", "present value"], dcf_rows)}
-
-UFCF equals `FCF + after-tax interest expense − after-tax interest income`. FY2026 uses the midpoint of the remaining period after 2026-08-29; FY2027 and FY2028 use fiscal mid-year dates. Terminal value equals `FY2028E NOPAT × (1 + g) ÷ (WACC − g)`, where NOPAT uses the model’s FY2025 effective tax rate. Terminal value is {terminal_share_of_positive_components * 100:.1f}% of the positive terminal/net-cash/stake components because every explicit-year UFCF is negative; the DCF is therefore terminal-dominated and does not replace the official method.
+The 3-year check values the core at 22.0× FY2028E core operating income, adds core YE2028E net cash and the filing-value SpaceX stake, then adds the FY2029–FY2032 platform UFCFs and terminals discounted back to YE2028. Bear and bull scale only the platform values.
 
 ## Current market-implied checks
 
 {markdown_table(["item", "formula", "$m or multiple"], current_multiple_rows)}
 
-**[DEDUCTED] Unmodeled residual per share:** `${LAST_PRICE:.2f} − modeled official value = ${residual_per_share:.2f}`. This is an arithmetic residual, not a Robotaxi valuation and not evidence that any specific optional business earns that amount.
+**[DEDUCTED] Tape residual per share:** `${LAST_PRICE:.2f} − official SOTP = ${residual_per_share:.2f}`. This is the gap after the three platform `[VIEW]`s; it is not a substitute valuation for any one platform.
 
 ## Comparable-company snapshot
 
@@ -1592,34 +2007,50 @@ Negative peer EV/EBIT observations reflect negative trailing EBIT and are not ec
 
 ## What would move the official value
 
-- A sourced Robotaxi, FSD or Optimus P&L that can be added to the earned-profit model.
-- A change in the FY2027E EBIT path generated by the segment and opex assumptions.
-- A change in YE2026E cash, short-term investments or debt.
-- A change in the selected 20.0× EBIT multiple.
+- A sourced platform P&L that replaces one or more `[VIEW]` paths.
+- A change in the core FY2027E operating-income path or 20.0× core multiple.
+- A change in core net cash or the filing-value SpaceX stake.
+- A change in platform UFCF, WACC or terminal EBIT multiple.
 """
 
     summary = {
+        "core": core_equity_value,
+        "fsd": platform_values["fsd"]["ev"],
+        "robotaxi": platform_values["robotaxi"]["ev"],
+        "optimus": platform_values["optimus"]["ev"],
         "official_pt": official_pt,
         "residual": residual_per_share,
         "three_year": three_year_value,
         "bear": bear_value,
         "bull": bull_value,
-        "dcf": dcf_value,
     }
     return content, summary
 
 
 def main() -> None:
     historical_segments = derived_historical_segments()
-    forecast_segments, fy25_quotient, q2_quotient = build_forecast_segments()
+    platforms = build_platforms()
+    core_forecast_segments, _, _ = build_forecast_segments()
+    forecast_segments, fy25_quotient, q2_quotient = build_forecast_segments(
+        platforms
+    )
+    core_segments = {**historical_segments, **core_forecast_segments}
     segments = {**historical_segments, **forecast_segments}
-    balances, income, cashflow = build_forecast(segments)
-    checks = build_checks(segments, income, balances, cashflow)
-    valuation_markdown, valuation_summary = valuation(income, balances, cashflow)
+    core_balances, core_income, _ = build_forecast(core_segments)
+    balances, income, cashflow = build_forecast(segments, platforms)
+    checks = build_checks(segments, income, balances, cashflow, platforms)
+    valuation_markdown, valuation_summary = valuation(
+        core_income,
+        core_balances,
+        income,
+        balances,
+        cashflow,
+        platforms,
+    )
 
     outputs = {
         "segments.md": render_segments(
-            segments, fy25_quotient, q2_quotient, checks
+            segments, platforms, fy25_quotient, q2_quotient, checks
         ),
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, income, checks),
@@ -1641,12 +2072,15 @@ def main() -> None:
             f"{income[period]['diluted_eps']:.2f}"
         )
     print("\nValuation outputs")
+    print(f"Core equity | ${valuation_summary['core']:.1f}m")
+    print(f"[VIEW] FSD EV | ${valuation_summary['fsd']:.1f}m")
+    print(f"[VIEW] Robotaxi EV | ${valuation_summary['robotaxi']:.1f}m")
+    print(f"[VIEW] Optimus EV | ${valuation_summary['optimus']:.1f}m")
     print(f"Official 12-month PT | ${valuation_summary['official_pt']:.2f}")
     print(f"Unmodeled residual | ${valuation_summary['residual']:.2f}")
     print(f"3-year check | ${valuation_summary['three_year']:.2f}")
     print(f"Bear check | ${valuation_summary['bear']:.2f}")
     print(f"Bull check | ${valuation_summary['bull']:.2f}")
-    print(f"DCF check | ${valuation_summary['dcf']:.2f}")
     print("\nTie-out checks")
     failed = False
     for name, passed, difference in checks:
