@@ -1,0 +1,1478 @@
+#!/usr/bin/env python3
+"""Build the SpaceX segment-led three-statement model.
+
+All material arithmetic is performed here. The script writes the four markdown
+workbook files beside itself and exits non-zero if a reconciliation fails.
+Units are USD millions unless a driver explicitly says otherwise.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from decimal import Decimal, ROUND_HALF_UP
+from pathlib import Path
+from typing import Iterable
+
+
+D = Decimal
+ROOT = Path(__file__).resolve().parent
+TOLERANCE = D("0.000001")
+
+
+@dataclass(frozen=True)
+class Formula:
+    formula_id: str
+    output: str
+    expression: str
+    inputs: dict[str, Decimal]
+    result: Decimal
+
+
+FORMULAS: list[Formula] = []
+
+
+def derive(
+    output: str,
+    expression: str,
+    inputs: dict[str, Decimal],
+    result: Decimal,
+) -> Decimal:
+    """Record a derived value and the named inputs used to compute it."""
+    formula_id = f"F{len(FORMULAS) + 1:03d}"
+    FORMULAS.append(Formula(formula_id, output, expression, dict(inputs), result))
+    return result
+
+
+def formula_id(output: str) -> str:
+    matches = [item.formula_id for item in FORMULAS if item.output == output]
+    if len(matches) != 1:
+        raise ValueError(f"Expected one formula for {output}, found {len(matches)}")
+    return matches[0]
+
+
+def sum_named(output: str, inputs: dict[str, Decimal]) -> Decimal:
+    return derive(output, " + ".join(inputs), inputs, sum(inputs.values(), D("0")))
+
+
+def subtract(output: str, minuend_name: str, minuend: Decimal, subtrahend_name: str, subtrahend: Decimal) -> Decimal:
+    return derive(
+        output,
+        f"{minuend_name} - {subtrahend_name}",
+        {minuend_name: minuend, subtrahend_name: subtrahend},
+        minuend - subtrahend,
+    )
+
+
+def multiply(output: str, left_name: str, left: Decimal, right_name: str, right: Decimal) -> Decimal:
+    return derive(
+        output,
+        f"{left_name} × {right_name}",
+        {left_name: left, right_name: right},
+        left * right,
+    )
+
+
+def divide(output: str, numerator_name: str, numerator: Decimal, denominator_name: str, denominator: Decimal) -> Decimal:
+    return derive(
+        output,
+        f"{numerator_name} ÷ {denominator_name}",
+        {numerator_name: numerator, denominator_name: denominator},
+        numerator / denominator,
+    )
+
+
+def q(value: Decimal, places: str = "0.1") -> Decimal:
+    return value.quantize(D(places), rounding=ROUND_HALF_UP)
+
+
+def number(value: Decimal, places: str = "0.1") -> str:
+    rounded = q(value, places)
+    return f"{rounded:,.{abs(D(places).as_tuple().exponent)}f}"
+
+
+def money(value: Decimal, places: str = "0.1") -> str:
+    if value < 0:
+        return f"$({number(-value, places)})"
+    return f"${number(value, places)}"
+
+
+def plain(value: Decimal, places: str = "0.1") -> str:
+    if value < 0:
+        return f"({number(-value, places)})"
+    return number(value, places)
+
+
+def exact(value: Decimal) -> str:
+    text = format(value, "f")
+    if "." in text:
+        text = text.rstrip("0").rstrip(".")
+    return f"({text})" if value < 0 else text
+
+
+def tagged(value: Decimal, classification: str, output: str | None = None, unit: str = "money") -> str:
+    rendered = money(value) if unit == "money" else plain(value)
+    if classification == "DEDUCTED":
+        if output is None:
+            raise ValueError("Derived cells require an output/formula name")
+        return f"{rendered} [DEDUCTED {formula_id(output)}]"
+    return f"{rendered} [{classification}]"
+
+
+def not_obtained() -> str:
+    return "**not obtained**"
+
+
+def markdown_table(headers: list[str], rows: Iterable[list[str]], aligns: list[str] | None = None) -> str:
+    if aligns is None:
+        aligns = ["---"] * len(headers)
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join(aligns) + " |",
+    ]
+    lines.extend("| " + " | ".join(row) + " |" for row in rows)
+    return "\n".join(lines)
+
+
+def formula_appendix(title: str, prefixes: tuple[str, ...]) -> str:
+    selected = [item for item in FORMULAS if item.output.startswith(prefixes)]
+    rows: list[list[str]] = []
+    for item in selected:
+        inputs = "; ".join(f"{name}={exact(value)}" for name, value in item.inputs.items())
+        rows.append([item.formula_id, f"`{item.output}`", item.expression, inputs, plain(item.result)])
+    return f"""## {title}
+
+Every `[DEDUCTED]` cell above points to one of these formulas.
+
+{markdown_table(["id", "output", "expression", "named inputs", "result"], rows)}
+"""
+
+
+def close(left: Decimal, right: Decimal) -> bool:
+    return abs(left - right) <= TOLERANCE
+
+
+# ---------------------------------------------------------------------------
+# Source facts: register.md and its catalogued 424B4 / 10-Q / 8-K sources.
+# ---------------------------------------------------------------------------
+
+ACTUAL_SEGMENTS: dict[str, dict[str, dict[str, Decimal]]] = {
+    "FY2023": {
+        "Space": {"revenue": D("3557"), "cor": D("1669"), "rd": D("1538"), "sga": D("351"), "restruct": D("0"), "impairment": D("0")},
+        "Connectivity": {"revenue": D("3869"), "cor": D("2786"), "rd": D("381"), "sga": D("233"), "restruct": D("0"), "impairment": D("0")},
+        "AI": {"revenue": D("2961"), "cor": D("1655"), "rd": D("186"), "sga": D("1081"), "restruct": D("237"), "impairment": D("3775")},
+    },
+    "FY2024": {
+        "Space": {"revenue": D("3796"), "cor": D("1541"), "rd": D("1835"), "sga": D("375"), "restruct": D("0"), "impairment": D("24")},
+        "Connectivity": {"revenue": D("7599"), "cor": D("4768"), "rd": D("453"), "sga": D("333"), "restruct": D("0"), "impairment": D("39")},
+        "AI": {"revenue": D("2620"), "cor": D("1687"), "rd": D("1176"), "sga": D("1105"), "restruct": D("213"), "impairment": D("0")},
+    },
+    "FY2025": {
+        "Space": {"revenue": D("4086"), "cor": D("1352"), "rd": D("3004"), "sga": D("349"), "restruct": D("0"), "impairment": D("38")},
+        "Connectivity": {"revenue": D("11387"), "cor": D("5921"), "rd": D("575"), "sga": D("468"), "restruct": D("0"), "impairment": D("0")},
+        "AI": {"revenue": D("3201"), "cor": D("2178"), "rd": D("5064"), "sga": D("1827"), "restruct": D("487"), "impairment": D("0")},
+    },
+    "H1 2026A": {
+        "Space": {"revenue": D("1581"), "cor": D("610"), "rd": D("2006"), "sga": D("169"), "restruct": D("0"), "impairment": D("0")},
+        "Connectivity": {"revenue": D("7548"), "cor": D("3711"), "rd": D("499"), "sga": D("494"), "restruct": D("0"), "impairment": D("0")},
+        "AI": {"revenue": D("3379"), "cor": D("1562"), "rd": D("4557"), "sga": D("995"), "restruct": D("-9"), "impairment": D("0")},
+    },
+}
+
+REPORTED_CONSOLIDATED: dict[str, dict[str, Decimal]] = {
+    "FY2023": {"revenue": D("10387"), "cor": D("6110"), "rd": D("2105"), "sga": D("1665"), "restruct": D("237"), "impairment": D("3775"), "ebit": D("-3505")},
+    "FY2024": {"revenue": D("14015"), "cor": D("7996"), "rd": D("3464"), "sga": D("1813"), "restruct": D("213"), "impairment": D("63"), "ebit": D("466")},
+    "FY2025": {"revenue": D("18674"), "cor": D("9451"), "rd": D("8643"), "sga": D("2644"), "restruct": D("487"), "impairment": D("38"), "ebit": D("-2589")},
+    "H1 2026A": {"revenue": D("12508"), "cor": D("5883"), "rd": D("7062"), "sga": D("1658"), "restruct": D("-9"), "impairment": D("0"), "ebit": D("-2086")},
+}
+
+ACTUAL_FINANCE: dict[str, dict[str, Decimal]] = {
+    "FY2023": {"interest_expense": D("1693"), "interest_income": D("249"), "other_income": D("-42"), "tax": D("-363"), "net_income": D("-4628")},
+    "FY2024": {"interest_expense": D("1580"), "interest_income": D("371"), "other_income": D("985"), "tax": D("-549"), "net_income": D("791")},
+    "FY2025": {"interest_expense": D("1945"), "interest_income": D("492"), "other_income": D("-177"), "tax": D("718"), "net_income": D("-4937")},
+    "H1 2026A": {"interest_expense": D("1293"), "interest_income": D("553"), "other_income": D("-1962"), "tax": D("29"), "net_income": D("-4817")},
+}
+
+ACTUAL_CASHFLOW: dict[str, dict[str, Decimal]] = {
+    "FY2023": {"ocf": D("4520"), "capex": D("4415")},
+    "FY2024": {"ocf": D("5776"), "capex": D("11163")},
+    "FY2025": {"ocf": D("6785"), "capex": D("20737")},
+    "H1 2026A": {"ocf": D("3466"), "capex": D("28476")},
+}
+
+ACTUAL_BALANCE: dict[str, dict[str, Decimal]] = {
+    "FY2025": {
+        "cash": D("24747"), "securities": D("0"), "ar": D("1579"), "inventory": D("2416"),
+        "ppe": D("42602"), "total_assets": D("92079"), "debt": D("22896"),
+        "deferred_revenue": D("12116"), "total_liabilities": D("50754"),
+        "redeemable_preferred": D("38752"), "equity": D("2573"),
+    },
+    "H1 2026A": {
+        "cash": D("93522"), "securities": D("6487"), "ar": D("3596"), "inventory": D("2718"),
+        "ppe": D("65736"), "total_assets": D("192770"), "debt": D("39364"),
+        "deferred_revenue": D("14286"), "total_liabilities": D("65546"),
+        "redeemable_preferred": D("0"), "equity": D("127224"),
+    },
+}
+
+
+# ---------------------------------------------------------------------------
+# Forecast drivers. Every forecast driver is a [VIEW] implementing research.md.
+# ---------------------------------------------------------------------------
+
+DRIVERS: dict[str, dict[str, Decimal]] = {
+    "H2 2026E": {
+        "customer_falcon_launches": D("22"), "internal_falcon_launches": D("58"), "starship_launches": D("2"),
+        "launch_revenue_per_customer_launch": D("65"), "launch_development_revenue": D("700"),
+        "ending_subscribers_m": D("14"), "arpu_monthly": D("64"), "enterprise_government_revenue": D("3300"),
+        "advertising_revenue": D("760"), "solutions_infrastructure_revenue": D("5000"),
+        "space_launch_cor_pct": D("0.35"), "space_development_cor_pct": D("0.45"), "space_rd": D("2200"), "space_sga": D("200"),
+        "consumer_cor_pct": D("0.50"), "enterprise_cor_pct": D("0.32"), "connectivity_rd": D("350"), "connectivity_sga": D("350"),
+        "advertising_cor_pct": D("0.30"), "solutions_cor_pct": D("0.45"), "ai_rd": D("4500"), "ai_sga": D("1100"), "ai_restruct": D("0"),
+        "interest_expense": D("1500"), "interest_income": D("1800"), "other_income": D("0"), "tax": D("0"),
+        "da": D("6500"), "sbc": D("1800"), "other_operating_items": D("-3000"),
+        "space_capex_per_launch": D("28.54"), "connectivity_capex_per_net_add": D("822"), "ai_capex": D("18000"),
+        "ar_pct_revenue": D("0.15"), "inventory_pct_revenue": D("0.10"),
+        "deferred_revenue": D("16000"), "other_liabilities": D("13000"),
+        "cursor_equity_consideration": D("60000"), "noncapex_cash_flows": D("0"),
+    },
+    "FY2027E": {
+        "customer_falcon_launches": D("45"), "internal_falcon_launches": D("130"), "starship_launches": D("5"),
+        "launch_revenue_per_customer_launch": D("67"), "launch_development_growth": D("0.12"),
+        "ending_subscribers_m": D("18"), "arpu_monthly": D("61"), "enterprise_government_growth": D("0.30"),
+        "advertising_growth": D("0.10"), "solutions_infrastructure_growth": D("0.45"),
+        "space_launch_cor_pct": D("0.34"), "space_development_cor_pct": D("0.44"), "space_rd": D("4200"), "space_sga": D("220"),
+        "consumer_cor_pct": D("0.47"), "enterprise_cor_pct": D("0.30"), "connectivity_rd": D("1000"), "connectivity_sga": D("1100"),
+        "advertising_cor_pct": D("0.28"), "solutions_cor_pct": D("0.40"), "ai_rd": D("8000"), "ai_sga": D("2500"), "ai_restruct": D("0"),
+        "interest_expense": D("2500"), "interest_income": D("3000"), "other_income": D("0"), "tax_rate": D("0.17"),
+        "da": D("15000"), "sbc": D("4000"), "other_operating_items": D("-2000"),
+        "space_capex_per_launch": D("27"), "connectivity_capex_per_net_add": D("800"), "ai_capex": D("30000"),
+        "ar_pct_revenue": D("0.14"), "inventory_pct_revenue": D("0.09"),
+        "deferred_revenue": D("18500"), "other_liabilities": D("15000"), "noncapex_cash_flows": D("0"),
+    },
+    "FY2028E": {
+        "customer_falcon_launches": D("50"), "internal_falcon_launches": D("140"), "starship_launches": D("10"),
+        "launch_revenue_per_customer_launch": D("69"), "launch_development_growth": D("0.12"),
+        "ending_subscribers_m": D("22.5"), "arpu_monthly": D("59"), "enterprise_government_growth": D("0.25"),
+        "advertising_growth": D("0.08"), "solutions_infrastructure_growth": D("0.30"),
+        "space_launch_cor_pct": D("0.32"), "space_development_cor_pct": D("0.42"), "space_rd": D("3600"), "space_sga": D("230"),
+        "consumer_cor_pct": D("0.45"), "enterprise_cor_pct": D("0.29"), "connectivity_rd": D("1200"), "connectivity_sga": D("1300"),
+        "advertising_cor_pct": D("0.27"), "solutions_cor_pct": D("0.36"), "ai_rd": D("8500"), "ai_sga": D("2900"), "ai_restruct": D("0"),
+        "interest_expense": D("2400"), "interest_income": D("2500"), "other_income": D("0"), "tax_rate": D("0.20"),
+        "da": D("18000"), "sbc": D("5000"), "other_operating_items": D("-2000"),
+        "space_capex_per_launch": D("25"), "connectivity_capex_per_net_add": D("750"), "ai_capex": D("25000"),
+        "ar_pct_revenue": D("0.13"), "inventory_pct_revenue": D("0.08"),
+        "deferred_revenue": D("21000"), "other_liabilities": D("17000"), "noncapex_cash_flows": D("0"),
+    },
+}
+
+
+# ---------------------------------------------------------------------------
+# Revenue build.
+# ---------------------------------------------------------------------------
+
+REVENUE_LINES: dict[str, dict[str, Decimal | None]] = {}
+
+for period, launch_mix in (("FY2023", D("0.552")), ("FY2024", D("0.682")), ("FY2025", D("0.630"))):
+    space_revenue = ACTUAL_SEGMENTS[period]["Space"]["revenue"]
+    launch_services = multiply(
+        f"segment.{period}.launch_services_revenue",
+        "reported_space_revenue",
+        space_revenue,
+        "rounded_launch_services_mix",
+        launch_mix,
+    )
+    launch_development = subtract(
+        f"segment.{period}.launch_development_revenue",
+        "reported_space_revenue",
+        space_revenue,
+        "derived_launch_services_revenue",
+        launch_services,
+    )
+    REVENUE_LINES[period] = {
+        "Launch Services": launch_services,
+        "Launch & Development": launch_development,
+        "Consumer": None,
+        "Enterprise & Government": None,
+        "Advertising": None,
+        "Solutions & Infrastructure": None,
+    }
+
+REVENUE_LINES["H1 2026A"] = {
+    "Launch Services": D("978"),
+    "Launch & Development": D("603"),
+    "Consumer": D("4633"),
+    "Enterprise & Government": D("2915"),
+    "Advertising": D("710"),
+    "Solutions & Infrastructure": D("2669"),
+}
+
+H1_SUBSCRIBERS = D("12")
+H2 = DRIVERS["H2 2026E"]
+H2_LAUNCH_SERVICES = multiply(
+    "segment.H2 2026E.launch_services_revenue",
+    "customer_falcon_launches",
+    H2["customer_falcon_launches"],
+    "launch_revenue_per_customer_launch",
+    H2["launch_revenue_per_customer_launch"],
+)
+H2_AVG_SUBSCRIBERS = divide(
+    "segment.H2 2026E.average_subscribers_m",
+    "opening_plus_ending_subscribers",
+    H1_SUBSCRIBERS + H2["ending_subscribers_m"],
+    "two",
+    D("2"),
+)
+H2_CONSUMER = derive(
+    "segment.H2 2026E.consumer_revenue",
+    "average_subscribers_m × monthly_ARPU × six_months",
+    {
+        "average_subscribers_m": H2_AVG_SUBSCRIBERS,
+        "monthly_ARPU": H2["arpu_monthly"],
+        "six_months": D("6"),
+    },
+    H2_AVG_SUBSCRIBERS * H2["arpu_monthly"] * D("6"),
+)
+REVENUE_LINES["H2 2026E"] = {
+    "Launch Services": H2_LAUNCH_SERVICES,
+    "Launch & Development": H2["launch_development_revenue"],
+    "Consumer": H2_CONSUMER,
+    "Enterprise & Government": H2["enterprise_government_revenue"],
+    "Advertising": H2["advertising_revenue"],
+    "Solutions & Infrastructure": H2["solutions_infrastructure_revenue"],
+}
+
+REVENUE_LINES["FY2026E"] = {}
+for line in REVENUE_LINES["H1 2026A"]:
+    REVENUE_LINES["FY2026E"][line] = sum_named(
+        f"segment.FY2026E.{line.lower().replace(' ', '_').replace('&', 'and')}",
+        {"H1_2026_actual": REVENUE_LINES["H1 2026A"][line] or D("0"), "H2_2026_forecast": REVENUE_LINES["H2 2026E"][line] or D("0")},
+    )
+
+previous_subscribers = H2["ending_subscribers_m"]
+for period, previous_period in (("FY2027E", "FY2026E"), ("FY2028E", "FY2027E")):
+    driver = DRIVERS[period]
+    launch_services = multiply(
+        f"segment.{period}.launch_services_revenue",
+        "customer_falcon_launches",
+        driver["customer_falcon_launches"],
+        "launch_revenue_per_customer_launch",
+        driver["launch_revenue_per_customer_launch"],
+    )
+    launch_development = derive(
+        f"segment.{period}.launch_development_revenue",
+        "prior_launch_development_revenue × (one + growth)",
+        {
+            "prior_launch_development_revenue": REVENUE_LINES[previous_period]["Launch & Development"] or D("0"),
+            "one_plus_growth": D("1") + driver["launch_development_growth"],
+        },
+        (REVENUE_LINES[previous_period]["Launch & Development"] or D("0")) * (D("1") + driver["launch_development_growth"]),
+    )
+    avg_subscribers = divide(
+        f"segment.{period}.average_subscribers_m",
+        "opening_plus_ending_subscribers",
+        previous_subscribers + driver["ending_subscribers_m"],
+        "two",
+        D("2"),
+    )
+    consumer = derive(
+        f"segment.{period}.consumer_revenue",
+        "average_subscribers_m × monthly_ARPU × twelve_months",
+        {"average_subscribers_m": avg_subscribers, "monthly_ARPU": driver["arpu_monthly"], "twelve_months": D("12")},
+        avg_subscribers * driver["arpu_monthly"] * D("12"),
+    )
+    enterprise = derive(
+        f"segment.{period}.enterprise_government_revenue",
+        "prior_enterprise_government_revenue × (one + growth)",
+        {
+            "prior_enterprise_government_revenue": REVENUE_LINES[previous_period]["Enterprise & Government"] or D("0"),
+            "one_plus_growth": D("1") + driver["enterprise_government_growth"],
+        },
+        (REVENUE_LINES[previous_period]["Enterprise & Government"] or D("0")) * (D("1") + driver["enterprise_government_growth"]),
+    )
+    advertising = derive(
+        f"segment.{period}.advertising_revenue",
+        "prior_advertising_revenue × (one + growth)",
+        {
+            "prior_advertising_revenue": REVENUE_LINES[previous_period]["Advertising"] or D("0"),
+            "one_plus_growth": D("1") + driver["advertising_growth"],
+        },
+        (REVENUE_LINES[previous_period]["Advertising"] or D("0")) * (D("1") + driver["advertising_growth"]),
+    )
+    solutions = derive(
+        f"segment.{period}.solutions_infrastructure_revenue",
+        "prior_solutions_infrastructure_revenue × (one + growth)",
+        {
+            "prior_solutions_infrastructure_revenue": REVENUE_LINES[previous_period]["Solutions & Infrastructure"] or D("0"),
+            "one_plus_growth": D("1") + driver["solutions_infrastructure_growth"],
+        },
+        (REVENUE_LINES[previous_period]["Solutions & Infrastructure"] or D("0")) * (D("1") + driver["solutions_infrastructure_growth"]),
+    )
+    REVENUE_LINES[period] = {
+        "Launch Services": launch_services,
+        "Launch & Development": launch_development,
+        "Consumer": consumer,
+        "Enterprise & Government": enterprise,
+        "Advertising": advertising,
+        "Solutions & Infrastructure": solutions,
+    }
+    previous_subscribers = driver["ending_subscribers_m"]
+
+
+# ---------------------------------------------------------------------------
+# Forecast segment income statements.
+# ---------------------------------------------------------------------------
+
+def forecast_segment_period(period: str, revenue_lines: dict[str, Decimal | None]) -> dict[str, dict[str, Decimal]]:
+    driver = DRIVERS[period if period != "FY2026E" else "H2 2026E"]
+    output: dict[str, dict[str, Decimal]] = {}
+
+    if period == "FY2026E":
+        h1 = ACTUAL_SEGMENTS["H1 2026A"]
+        h2_lines = REVENUE_LINES["H2 2026E"]
+        h2_space_cor = sum_named(
+            "segment.H2 2026E.space_cor",
+            {
+                "launch_services_cor": multiply(
+                    "segment.H2 2026E.launch_services_cor",
+                    "launch_services_revenue",
+                    h2_lines["Launch Services"] or D("0"),
+                    "launch_services_cor_pct",
+                    driver["space_launch_cor_pct"],
+                ),
+                "launch_development_cor": multiply(
+                    "segment.H2 2026E.launch_development_cor",
+                    "launch_development_revenue",
+                    h2_lines["Launch & Development"] or D("0"),
+                    "launch_development_cor_pct",
+                    driver["space_development_cor_pct"],
+                ),
+            },
+        )
+        h2_connectivity_cor = sum_named(
+            "segment.H2 2026E.connectivity_cor",
+            {
+                "consumer_cor": multiply(
+                    "segment.H2 2026E.consumer_cor",
+                    "consumer_revenue",
+                    h2_lines["Consumer"] or D("0"),
+                    "consumer_cor_pct",
+                    driver["consumer_cor_pct"],
+                ),
+                "enterprise_government_cor": multiply(
+                    "segment.H2 2026E.enterprise_government_cor",
+                    "enterprise_government_revenue",
+                    h2_lines["Enterprise & Government"] or D("0"),
+                    "enterprise_government_cor_pct",
+                    driver["enterprise_cor_pct"],
+                ),
+            },
+        )
+        h2_ai_cor = sum_named(
+            "segment.H2 2026E.ai_cor",
+            {
+                "advertising_cor": multiply(
+                    "segment.H2 2026E.advertising_cor",
+                    "advertising_revenue",
+                    h2_lines["Advertising"] or D("0"),
+                    "advertising_cor_pct",
+                    driver["advertising_cor_pct"],
+                ),
+                "solutions_infrastructure_cor": multiply(
+                    "segment.H2 2026E.solutions_infrastructure_cor",
+                    "solutions_infrastructure_revenue",
+                    h2_lines["Solutions & Infrastructure"] or D("0"),
+                    "solutions_cor_pct",
+                    driver["solutions_cor_pct"],
+                ),
+            },
+        )
+        output["Space"] = {
+            "revenue": sum_named("segment.FY2026E.space_revenue", {"launch_services": revenue_lines["Launch Services"] or D("0"), "launch_development": revenue_lines["Launch & Development"] or D("0")}),
+            "cor": sum_named("segment.FY2026E.space_cor", {"H1_actual": h1["Space"]["cor"], "H2_forecast": h2_space_cor}),
+            "rd": sum_named("segment.FY2026E.space_rd", {"H1_actual": h1["Space"]["rd"], "H2_forecast": driver["space_rd"]}),
+            "sga": sum_named("segment.FY2026E.space_sga", {"H1_actual": h1["Space"]["sga"], "H2_forecast": driver["space_sga"]}),
+            "restruct": D("0"), "impairment": D("0"),
+        }
+        output["Connectivity"] = {
+            "revenue": sum_named("segment.FY2026E.connectivity_revenue", {"consumer": revenue_lines["Consumer"] or D("0"), "enterprise_government": revenue_lines["Enterprise & Government"] or D("0")}),
+            "cor": sum_named("segment.FY2026E.connectivity_cor", {"H1_actual": h1["Connectivity"]["cor"], "H2_forecast": h2_connectivity_cor}),
+            "rd": sum_named("segment.FY2026E.connectivity_rd", {"H1_actual": h1["Connectivity"]["rd"], "H2_forecast": driver["connectivity_rd"]}),
+            "sga": sum_named("segment.FY2026E.connectivity_sga", {"H1_actual": h1["Connectivity"]["sga"], "H2_forecast": driver["connectivity_sga"]}),
+            "restruct": D("0"), "impairment": D("0"),
+        }
+        output["AI"] = {
+            "revenue": sum_named("segment.FY2026E.ai_revenue", {"advertising": revenue_lines["Advertising"] or D("0"), "solutions_infrastructure": revenue_lines["Solutions & Infrastructure"] or D("0")}),
+            "cor": sum_named("segment.FY2026E.ai_cor", {"H1_actual": h1["AI"]["cor"], "H2_forecast": h2_ai_cor}),
+            "rd": sum_named("segment.FY2026E.ai_rd", {"H1_actual": h1["AI"]["rd"], "H2_forecast": driver["ai_rd"]}),
+            "sga": sum_named("segment.FY2026E.ai_sga", {"H1_actual": h1["AI"]["sga"], "H2_forecast": driver["ai_sga"]}),
+            "restruct": sum_named("segment.FY2026E.ai_restruct", {"H1_actual": h1["AI"]["restruct"], "H2_forecast": driver["ai_restruct"]}),
+            "impairment": D("0"),
+        }
+    else:
+        output["Space"] = {
+            "revenue": sum_named(f"segment.{period}.space_revenue", {"launch_services": revenue_lines["Launch Services"] or D("0"), "launch_development": revenue_lines["Launch & Development"] or D("0")}),
+            "cor": sum_named(
+                f"segment.{period}.space_cor",
+                {
+                    "launch_services_cor": multiply(f"segment.{period}.launch_services_cor", "launch_services_revenue", revenue_lines["Launch Services"] or D("0"), "launch_services_cor_pct", driver["space_launch_cor_pct"]),
+                    "launch_development_cor": multiply(f"segment.{period}.launch_development_cor", "launch_development_revenue", revenue_lines["Launch & Development"] or D("0"), "launch_development_cor_pct", driver["space_development_cor_pct"]),
+                },
+            ),
+            "rd": driver["space_rd"], "sga": driver["space_sga"], "restruct": D("0"), "impairment": D("0"),
+        }
+        output["Connectivity"] = {
+            "revenue": sum_named(f"segment.{period}.connectivity_revenue", {"consumer": revenue_lines["Consumer"] or D("0"), "enterprise_government": revenue_lines["Enterprise & Government"] or D("0")}),
+            "cor": sum_named(
+                f"segment.{period}.connectivity_cor",
+                {
+                    "consumer_cor": multiply(f"segment.{period}.consumer_cor", "consumer_revenue", revenue_lines["Consumer"] or D("0"), "consumer_cor_pct", driver["consumer_cor_pct"]),
+                    "enterprise_government_cor": multiply(f"segment.{period}.enterprise_government_cor", "enterprise_government_revenue", revenue_lines["Enterprise & Government"] or D("0"), "enterprise_government_cor_pct", driver["enterprise_cor_pct"]),
+                },
+            ),
+            "rd": driver["connectivity_rd"], "sga": driver["connectivity_sga"], "restruct": D("0"), "impairment": D("0"),
+        }
+        output["AI"] = {
+            "revenue": sum_named(f"segment.{period}.ai_revenue", {"advertising": revenue_lines["Advertising"] or D("0"), "solutions_infrastructure": revenue_lines["Solutions & Infrastructure"] or D("0")}),
+            "cor": sum_named(
+                f"segment.{period}.ai_cor",
+                {
+                    "advertising_cor": multiply(f"segment.{period}.advertising_cor", "advertising_revenue", revenue_lines["Advertising"] or D("0"), "advertising_cor_pct", driver["advertising_cor_pct"]),
+                    "solutions_infrastructure_cor": multiply(f"segment.{period}.solutions_infrastructure_cor", "solutions_infrastructure_revenue", revenue_lines["Solutions & Infrastructure"] or D("0"), "solutions_cor_pct", driver["solutions_cor_pct"]),
+                },
+            ),
+            "rd": driver["ai_rd"], "sga": driver["ai_sga"], "restruct": driver["ai_restruct"], "impairment": D("0"),
+        }
+
+    for segment, values in output.items():
+        expenses = sum_named(
+            f"segment.{period}.{segment.lower()}.operating_expenses",
+            {"cost_of_revenue": values["cor"], "rd": values["rd"], "sga": values["sga"], "restructuring": values["restruct"], "impairment": values["impairment"]},
+        )
+        values["ebit"] = subtract(f"segment.{period}.{segment.lower()}.ebit", "revenue", values["revenue"], "operating_expenses", expenses)
+    return output
+
+
+FORECAST_SEGMENTS = {
+    period: forecast_segment_period(period, REVENUE_LINES[period])
+    for period in ("FY2026E", "FY2027E", "FY2028E")
+}
+ALL_SEGMENTS = {**ACTUAL_SEGMENTS, **FORECAST_SEGMENTS}
+
+for period in ACTUAL_SEGMENTS:
+    for segment, values in ACTUAL_SEGMENTS[period].items():
+        expenses = values["cor"] + values["rd"] + values["sga"] + values["restruct"] + values["impairment"]
+        values["ebit"] = values["revenue"] - expenses
+
+
+# ---------------------------------------------------------------------------
+# Consolidated income statement, calculated from segments.
+# ---------------------------------------------------------------------------
+
+INCOME: dict[str, dict[str, Decimal]] = {}
+for period, segments in ALL_SEGMENTS.items():
+    statement: dict[str, Decimal] = {}
+    for metric in ("revenue", "cor", "rd", "sga", "restruct", "impairment", "ebit"):
+        statement[metric] = sum_named(
+            f"income.{period}.{metric}",
+            {segment.lower(): values[metric] for segment, values in segments.items()},
+        )
+    statement["gross_profit"] = subtract(f"income.{period}.gross_profit", "revenue", statement["revenue"], "cost_of_revenue", statement["cor"])
+    INCOME[period] = statement
+
+H2_SEGMENTS: dict[str, dict[str, Decimal]] = {}
+for segment in ("Space", "Connectivity", "AI"):
+    H2_SEGMENTS[segment] = {}
+    for metric in ("revenue", "cor", "rd", "sga", "restruct", "impairment", "ebit"):
+        H2_SEGMENTS[segment][metric] = subtract(
+            f"segment.H2 2026E.{segment.lower()}.{metric}",
+            "FY2026_forecast",
+            FORECAST_SEGMENTS["FY2026E"][segment][metric],
+            "H1_2026_actual",
+            ACTUAL_SEGMENTS["H1 2026A"][segment][metric],
+        )
+
+INCOME["H2 2026E"] = {}
+for metric in ("revenue", "cor", "rd", "sga", "restruct", "impairment", "ebit"):
+    INCOME["H2 2026E"][metric] = sum_named(
+        f"income.H2 2026E.{metric}",
+        {segment.lower(): values[metric] for segment, values in H2_SEGMENTS.items()},
+    )
+INCOME["H2 2026E"]["gross_profit"] = subtract(
+    "income.H2 2026E.gross_profit",
+    "revenue",
+    INCOME["H2 2026E"]["revenue"],
+    "cost_of_revenue",
+    INCOME["H2 2026E"]["cor"],
+)
+
+for period in ("FY2023", "FY2024", "FY2025", "H1 2026A"):
+    finance = ACTUAL_FINANCE[period]
+    INCOME[period].update(finance)
+    INCOME[period]["pretax"] = derive(
+        f"income.{period}.pretax",
+        "EBIT - interest_expense + interest_income + other_income",
+        {
+            "EBIT": INCOME[period]["ebit"], "interest_expense": finance["interest_expense"],
+            "interest_income": finance["interest_income"], "other_income": finance["other_income"],
+        },
+        INCOME[period]["ebit"] - finance["interest_expense"] + finance["interest_income"] + finance["other_income"],
+    )
+
+H2_FINANCE = {key: H2[key] for key in ("interest_expense", "interest_income", "other_income", "tax")}
+H2_PRETAX = derive(
+    "income.H2 2026E.pretax",
+    "EBIT - interest_expense + interest_income + other_income",
+    {"EBIT": INCOME["H2 2026E"]["ebit"], **{k: H2_FINANCE[k] for k in ("interest_expense", "interest_income", "other_income")}},
+    INCOME["H2 2026E"]["ebit"] - H2_FINANCE["interest_expense"] + H2_FINANCE["interest_income"] + H2_FINANCE["other_income"],
+)
+H2_NET_INCOME = subtract("income.H2 2026E.net_income", "pretax_income", H2_PRETAX, "tax_provision", H2_FINANCE["tax"])
+INCOME["H2 2026E"].update(H2_FINANCE | {"pretax": H2_PRETAX, "net_income": H2_NET_INCOME})
+
+for key in ("interest_expense", "interest_income", "other_income", "tax", "net_income"):
+    INCOME["FY2026E"][key] = sum_named(
+        f"income.FY2026E.{key}",
+        {"H1_2026_actual": INCOME["H1 2026A"][key], "H2_2026_forecast": INCOME["H2 2026E"][key]},
+    )
+INCOME["FY2026E"]["pretax"] = derive(
+    "income.FY2026E.pretax",
+    "EBIT - interest_expense + interest_income + other_income",
+    {
+        "EBIT": INCOME["FY2026E"]["ebit"], "interest_expense": INCOME["FY2026E"]["interest_expense"],
+        "interest_income": INCOME["FY2026E"]["interest_income"], "other_income": INCOME["FY2026E"]["other_income"],
+    },
+    INCOME["FY2026E"]["ebit"] - INCOME["FY2026E"]["interest_expense"] + INCOME["FY2026E"]["interest_income"] + INCOME["FY2026E"]["other_income"],
+)
+
+for period in ("FY2027E", "FY2028E"):
+    driver = DRIVERS[period]
+    INCOME[period]["interest_expense"] = driver["interest_expense"]
+    INCOME[period]["interest_income"] = driver["interest_income"]
+    INCOME[period]["other_income"] = driver["other_income"]
+    pretax = derive(
+        f"income.{period}.pretax",
+        "EBIT - interest_expense + interest_income + other_income",
+        {
+            "EBIT": INCOME[period]["ebit"], "interest_expense": driver["interest_expense"],
+            "interest_income": driver["interest_income"], "other_income": driver["other_income"],
+        },
+        INCOME[period]["ebit"] - driver["interest_expense"] + driver["interest_income"] + driver["other_income"],
+    )
+    tax = multiply(f"income.{period}.tax", "positive_pretax_income", max(pretax, D("0")), "tax_rate", driver["tax_rate"])
+    net_income = subtract(f"income.{period}.net_income", "pretax_income", pretax, "tax_provision", tax)
+    INCOME[period].update({"pretax": pretax, "tax": tax, "net_income": net_income})
+
+
+# ---------------------------------------------------------------------------
+# Capex, cash flow and balance sheet.
+# ---------------------------------------------------------------------------
+
+CAPEX: dict[str, dict[str, Decimal]] = {
+    "H1 2026A": {"Space": D("2226"), "Connectivity": D("2699"), "AI": D("23551")},
+}
+
+subscriber_openings = {"H2 2026E": H1_SUBSCRIBERS, "FY2027E": H2["ending_subscribers_m"], "FY2028E": DRIVERS["FY2027E"]["ending_subscribers_m"]}
+for period in ("H2 2026E", "FY2027E", "FY2028E"):
+    driver = DRIVERS[period]
+    total_launches = sum_named(
+        f"cashflow.{period}.total_launches",
+        {
+            "customer_falcon_launches": driver["customer_falcon_launches"],
+            "internal_falcon_launches": driver["internal_falcon_launches"],
+            "starship_launches": driver["starship_launches"],
+        },
+    )
+    space_capex = multiply(
+        f"cashflow.{period}.space_capex",
+        "total_launches",
+        total_launches,
+        "space_capex_per_launch",
+        driver["space_capex_per_launch"],
+    )
+    net_adds = subtract(
+        f"cashflow.{period}.subscriber_net_adds_m",
+        "ending_subscribers_m",
+        driver["ending_subscribers_m"],
+        "opening_subscribers_m",
+        subscriber_openings[period],
+    )
+    connectivity_capex = multiply(
+        f"cashflow.{period}.connectivity_capex",
+        "subscriber_net_adds_m",
+        net_adds,
+        "capex_per_net_add",
+        driver["connectivity_capex_per_net_add"],
+    )
+    CAPEX[period] = {"Space": space_capex, "Connectivity": connectivity_capex, "AI": driver["ai_capex"]}
+
+CAPEX["FY2026E"] = {
+    segment: sum_named(
+        f"cashflow.FY2026E.{segment.lower()}_capex",
+        {"H1_2026_actual": CAPEX["H1 2026A"][segment], "H2_2026_forecast": CAPEX["H2 2026E"][segment]},
+    )
+    for segment in ("Space", "Connectivity", "AI")
+}
+
+BALANCE: dict[str, dict[str, Decimal]] = {}
+for period, values in ACTUAL_BALANCE.items():
+    other_assets = derive(
+        f"balance.{period}.other_assets",
+        "total_assets - cash - securities - accounts_receivable - inventory - PP&E",
+        {
+            "total_assets": values["total_assets"], "cash": values["cash"], "securities": values["securities"],
+            "accounts_receivable": values["ar"], "inventory": values["inventory"], "PP&E": values["ppe"],
+        },
+        values["total_assets"] - values["cash"] - values["securities"] - values["ar"] - values["inventory"] - values["ppe"],
+    )
+    other_liabilities = derive(
+        f"balance.{period}.other_liabilities",
+        "total_liabilities - debt_and_finance_leases - deferred_revenue",
+        {
+            "total_liabilities": values["total_liabilities"], "debt_and_finance_leases": values["debt"],
+            "deferred_revenue": values["deferred_revenue"],
+        },
+        values["total_liabilities"] - values["debt"] - values["deferred_revenue"],
+    )
+    BALANCE[period] = values | {"other_assets": other_assets, "other_liabilities": other_liabilities}
+
+H1_OTHER_NONCASH = sum_named(
+    "cashflow.H1 2026A.other_noncash",
+    {"deferred_tax": D("-9"), "digital_asset_loss": D("539"), "impairment_disposals": D("40"), "debt_extinguishment": D("1545"), "other": D("-72")},
+)
+H1_PREPAIDS_AP = sum_named(
+    "cashflow.H1 2026A.prepaids_ap_contribution",
+    {"prepaids_and_other_assets": D("102"), "accounts_payable": D("-88")},
+)
+H1_CF_DETAIL = {
+    "net_income": D("-4817"), "da": D("5290"), "sbc": D("1470"), "other_noncash": H1_OTHER_NONCASH,
+    "ar_contribution": D("-2003"), "inventory_contribution": D("-827"), "prepaids_ap_contribution": H1_PREPAIDS_AP,
+    "deferred_revenue_contribution": D("2169"), "other_liabilities_contribution": D("127"),
+}
+H1_CF_DETAIL["ocf"] = sum_named("cashflow.H1 2026A.ocf", H1_CF_DETAIL)
+H1_CF_DETAIL["total_capex"] = sum_named("cashflow.H1 2026A.total_capex", {k.lower(): v for k, v in CAPEX["H1 2026A"].items()})
+H1_CF_DETAIL["fcf"] = subtract("cashflow.H1 2026A.fcf", "operating_cash_flow", H1_CF_DETAIL["ocf"], "capital_expenditures", H1_CF_DETAIL["total_capex"])
+
+CASHFLOW: dict[str, dict[str, Decimal]] = {"H1 2026A": H1_CF_DETAIL}
+
+START_BALANCE_PERIOD = {"H2 2026E": "H1 2026A", "FY2027E": "FY2026E", "FY2028E": "FY2027E"}
+START_CASH = {"H2 2026E": BALANCE["H1 2026A"]["cash"]}
+START_SECURITIES = {"H2 2026E": BALANCE["H1 2026A"]["securities"]}
+START_EQUITY = {"H2 2026E": BALANCE["H1 2026A"]["equity"]}
+START_PPE = {"H2 2026E": BALANCE["H1 2026A"]["ppe"]}
+
+for period in ("H2 2026E", "FY2027E", "FY2028E"):
+    driver = DRIVERS[period]
+    income_period = "H2 2026E" if period == "H2 2026E" else period
+    prior_balance_key = START_BALANCE_PERIOD[period]
+    prior = BALANCE[prior_balance_key]
+    annual_revenue = INCOME["FY2026E"]["revenue"] if period == "H2 2026E" else INCOME[period]["revenue"]
+    ending_ar = multiply(f"balance.{period}.accounts_receivable", "annual_revenue", annual_revenue, "accounts_receivable_pct_revenue", driver["ar_pct_revenue"])
+    ending_inventory = multiply(f"balance.{period}.inventory", "annual_revenue", annual_revenue, "inventory_pct_revenue", driver["inventory_pct_revenue"])
+    ar_contribution = derive(
+        f"cashflow.{period}.accounts_receivable_contribution",
+        "negative(ending_accounts_receivable - opening_accounts_receivable)",
+        {"ending_accounts_receivable": ending_ar, "opening_accounts_receivable": prior["ar"]},
+        -(ending_ar - prior["ar"]),
+    )
+    inventory_contribution = derive(
+        f"cashflow.{period}.inventory_contribution",
+        "negative(ending_inventory - opening_inventory)",
+        {"ending_inventory": ending_inventory, "opening_inventory": prior["inventory"]},
+        -(ending_inventory - prior["inventory"]),
+    )
+    deferred_contribution = subtract(
+        f"cashflow.{period}.deferred_revenue_contribution",
+        "ending_deferred_revenue",
+        driver["deferred_revenue"],
+        "opening_deferred_revenue",
+        prior["deferred_revenue"],
+    )
+    other_liability_contribution = subtract(
+        f"cashflow.{period}.other_liabilities_contribution",
+        "ending_other_liabilities",
+        driver["other_liabilities"],
+        "opening_other_liabilities",
+        prior["other_liabilities"],
+    )
+    ocf = sum_named(
+        f"cashflow.{period}.ocf",
+        {
+            "net_income": INCOME[income_period]["net_income"], "depreciation_and_amortization": driver["da"],
+            "share_based_compensation": driver["sbc"], "accounts_receivable_contribution": ar_contribution,
+            "inventory_contribution": inventory_contribution, "deferred_revenue_contribution": deferred_contribution,
+            "other_liabilities_contribution": other_liability_contribution, "other_operating_items": driver["other_operating_items"],
+        },
+    )
+    total_capex = sum_named(f"cashflow.{period}.total_capex", {k.lower(): v for k, v in CAPEX[period].items()})
+    fcf = subtract(f"cashflow.{period}.fcf", "operating_cash_flow", ocf, "capital_expenditures", total_capex)
+    opening_cash = START_CASH[period]
+    ending_cash = sum_named(
+        f"cashflow.{period}.ending_cash",
+        {"opening_cash": opening_cash, "free_cash_flow": fcf, "net_financing_noncapex_investing": driver["noncapex_cash_flows"]},
+    )
+    ending_securities = START_SECURITIES[period]
+    ending_liquidity = sum_named(
+        f"cashflow.{period}.ending_liquidity",
+        {"ending_cash": ending_cash, "marketable_securities": ending_securities},
+    )
+    ppe = derive(
+        f"balance.{period}.PP&E",
+        "opening_PP&E + capital_expenditures - depreciation_and_amortization",
+        {"opening_PP&E": START_PPE[period], "capital_expenditures": total_capex, "depreciation_and_amortization": driver["da"]},
+        START_PPE[period] + total_capex - driver["da"],
+    )
+    equity_issuance = driver.get("cursor_equity_consideration", D("0"))
+    equity = sum_named(
+        f"balance.{period}.equity",
+        {
+            "opening_equity": START_EQUITY[period], "net_income": INCOME[income_period]["net_income"],
+            "share_based_compensation": driver["sbc"], "stock_issued_for_Cursor": equity_issuance,
+        },
+    )
+    debt = prior["debt"]
+    preferred = D("0")
+    total_liabilities = sum_named(
+        f"balance.{period}.total_liabilities",
+        {"debt_and_finance_leases": debt, "deferred_revenue": driver["deferred_revenue"], "other_liabilities": driver["other_liabilities"]},
+    )
+    total_liabilities_equity = sum_named(
+        f"balance.{period}.total_liabilities_and_equity",
+        {"total_liabilities": total_liabilities, "redeemable_preferred": preferred, "shareholders_equity": equity},
+    )
+    other_assets = derive(
+        f"balance.{period}.other_assets",
+        "total_liabilities_and_equity - cash - securities - accounts_receivable - inventory - PP&E",
+        {
+            "total_liabilities_and_equity": total_liabilities_equity, "cash": ending_cash, "securities": ending_securities,
+            "accounts_receivable": ending_ar, "inventory": ending_inventory, "PP&E": ppe,
+        },
+        total_liabilities_equity - ending_cash - ending_securities - ending_ar - ending_inventory - ppe,
+    )
+    total_assets = sum_named(
+        f"balance.{period}.total_assets",
+        {"cash": ending_cash, "securities": ending_securities, "accounts_receivable": ending_ar, "inventory": ending_inventory, "PP&E": ppe, "other_assets": other_assets},
+    )
+    BALANCE[period] = {
+        "cash": ending_cash, "securities": ending_securities, "ar": ending_ar, "inventory": ending_inventory,
+        "ppe": ppe, "other_assets": other_assets, "total_assets": total_assets, "debt": debt,
+        "deferred_revenue": driver["deferred_revenue"], "other_liabilities": driver["other_liabilities"],
+        "total_liabilities": total_liabilities, "redeemable_preferred": preferred, "equity": equity,
+    }
+    CASHFLOW[period] = {
+        "net_income": INCOME[income_period]["net_income"], "da": driver["da"], "sbc": driver["sbc"],
+        "other_noncash": D("0"), "ar_contribution": ar_contribution, "inventory_contribution": inventory_contribution,
+        "prepaids_ap_contribution": D("0"), "deferred_revenue_contribution": deferred_contribution,
+        "other_liabilities_contribution": other_liability_contribution, "other_operating_items": driver["other_operating_items"],
+        "ocf": ocf, "total_capex": total_capex, "fcf": fcf, "noncapex_cash_flows": driver["noncapex_cash_flows"],
+        "ending_cash": ending_cash, "ending_securities": ending_securities, "ending_liquidity": ending_liquidity,
+    }
+    if period == "H2 2026E":
+        BALANCE["FY2026E"] = BALANCE.pop(period)
+        CASHFLOW["H2 2026E"] = CASHFLOW.pop(period)
+        balance_key = "FY2026E"
+    else:
+        balance_key = period
+    if period == "H2 2026E":
+        START_CASH["FY2027E"] = BALANCE[balance_key]["cash"]
+        START_SECURITIES["FY2027E"] = BALANCE[balance_key]["securities"]
+        START_EQUITY["FY2027E"] = BALANCE[balance_key]["equity"]
+        START_PPE["FY2027E"] = BALANCE[balance_key]["ppe"]
+    elif period == "FY2027E":
+        START_CASH["FY2028E"] = BALANCE[balance_key]["cash"]
+        START_SECURITIES["FY2028E"] = BALANCE[balance_key]["securities"]
+        START_EQUITY["FY2028E"] = BALANCE[balance_key]["equity"]
+        START_PPE["FY2028E"] = BALANCE[balance_key]["ppe"]
+
+# FY2026 cash flow equals H1 actual plus H2 forecast.
+CASHFLOW["FY2026E"] = {}
+for metric in ("net_income", "da", "sbc", "other_noncash", "ar_contribution", "inventory_contribution", "prepaids_ap_contribution", "deferred_revenue_contribution", "other_liabilities_contribution", "ocf", "total_capex", "fcf"):
+    CASHFLOW["FY2026E"][metric] = sum_named(
+        f"cashflow.FY2026E.{metric}",
+        {"H1_2026_actual": CASHFLOW["H1 2026A"][metric], "H2_2026_forecast": CASHFLOW["H2 2026E"][metric]},
+    )
+CASHFLOW["FY2026E"]["other_operating_items"] = CASHFLOW["H2 2026E"]["other_operating_items"]
+H1_NONCAPEX = derive(
+    "cashflow.H1 2026A.noncapex_cash_flows",
+    "ending_cash - opening_cash - free_cash_flow",
+    {"ending_cash": D("93522"), "opening_cash": D("24747"), "free_cash_flow": CASHFLOW["H1 2026A"]["fcf"]},
+    D("93522") - D("24747") - CASHFLOW["H1 2026A"]["fcf"],
+)
+CASHFLOW["H1 2026A"]["noncapex_cash_flows"] = H1_NONCAPEX
+CASHFLOW["H1 2026A"]["ending_cash"] = BALANCE["H1 2026A"]["cash"]
+CASHFLOW["H1 2026A"]["ending_securities"] = BALANCE["H1 2026A"]["securities"]
+CASHFLOW["H1 2026A"]["ending_liquidity"] = sum_named(
+    "cashflow.H1 2026A.ending_liquidity",
+    {"ending_cash": BALANCE["H1 2026A"]["cash"], "marketable_securities": BALANCE["H1 2026A"]["securities"]},
+)
+CASHFLOW["FY2026E"]["noncapex_cash_flows"] = sum_named(
+    "cashflow.FY2026E.noncapex_cash_flows",
+    {"H1_actual_derived": H1_NONCAPEX, "H2_forecast": CASHFLOW["H2 2026E"]["noncapex_cash_flows"]},
+)
+CASHFLOW["FY2026E"]["ending_cash"] = BALANCE["FY2026E"]["cash"]
+CASHFLOW["FY2026E"]["ending_securities"] = BALANCE["FY2026E"]["securities"]
+CASHFLOW["FY2026E"]["ending_liquidity"] = sum_named(
+    "cashflow.FY2026E.ending_liquidity",
+    {"ending_cash": BALANCE["FY2026E"]["cash"], "marketable_securities": BALANCE["FY2026E"]["securities"]},
+)
+
+BASIC_SHARES = {
+    "H1 2026A": D("13176"),
+    "FY2026E": sum_named(
+        "balance.FY2026E.basic_shares",
+        {"July_28_basic_shares_m": D("13181.779945"), "Cursor_merger_shares_m": D("389.289254"), "Cursor_vested_RSU_shares_m": D("1.752426")},
+    ),
+    "FY2027E": D("13572.821625"),
+    "FY2028E": D("13572.821625"),
+}
+
+
+# ---------------------------------------------------------------------------
+# Reconciliation checks.
+# ---------------------------------------------------------------------------
+
+CHECKS: list[tuple[str, bool, str]] = []
+for period in ("FY2023", "FY2024", "FY2025", "H1 2026A"):
+    for metric in ("revenue", "cor", "rd", "sga", "restruct", "impairment", "ebit"):
+        CHECKS.append((
+            f"{period} segment {metric} equals reported consolidated",
+            close(INCOME[period][metric], REPORTED_CONSOLIDATED[period][metric]),
+            f"segments={plain(INCOME[period][metric])}; reported={plain(REPORTED_CONSOLIDATED[period][metric])}",
+        ))
+
+for period in ("FY2026E", "FY2027E", "FY2028E"):
+    revenue_sum = sum((REVENUE_LINES[period][line] or D("0")) for line in REVENUE_LINES[period])
+    CHECKS.append((f"{period} segment revenue lines equal consolidated revenue", close(revenue_sum, INCOME[period]["revenue"]), f"lines={plain(revenue_sum)}; consolidated={plain(INCOME[period]['revenue'])}"))
+    ebit_sum = sum(FORECAST_SEGMENTS[period][segment]["ebit"] for segment in FORECAST_SEGMENTS[period])
+    CHECKS.append((f"{period} segment EBIT equals consolidated EBIT", close(ebit_sum, INCOME[period]["ebit"]), f"segments={plain(ebit_sum)}; consolidated={plain(INCOME[period]['ebit'])}"))
+    calculated_ebit = INCOME[period]["revenue"] - INCOME[period]["cor"] - INCOME[period]["rd"] - INCOME[period]["sga"] - INCOME[period]["restruct"] - INCOME[period]["impairment"]
+    CHECKS.append((f"{period} income statement operating lines reconcile", close(calculated_ebit, INCOME[period]["ebit"]), f"calculated={plain(calculated_ebit)}; EBIT={plain(INCOME[period]['ebit'])}"))
+    CHECKS.append((f"{period} income net income equals cash-flow net income", close(INCOME[period]["net_income"], CASHFLOW[period]["net_income"]), f"income={plain(INCOME[period]['net_income'])}; cashflow={plain(CASHFLOW[period]['net_income'])}"))
+    CHECKS.append((f"{period} balance cash equals cash-flow ending cash", close(BALANCE[period]["cash"], CASHFLOW[period]["ending_cash"]), f"balance={plain(BALANCE[period]['cash'])}; cashflow={plain(CASHFLOW[period]['ending_cash'])}"))
+    CHECKS.append((f"{period} balance sheet balances", close(BALANCE[period]["total_assets"], BALANCE[period]["total_liabilities"] + BALANCE[period]["redeemable_preferred"] + BALANCE[period]["equity"]), f"assets={plain(BALANCE[period]['total_assets'])}; liabilities+equity={plain(BALANCE[period]['total_liabilities'] + BALANCE[period]['redeemable_preferred'] + BALANCE[period]['equity'])}"))
+    fcf_check = CASHFLOW[period]["ocf"] - CASHFLOW[period]["total_capex"]
+    CHECKS.append((f"{period} FCF equals operating cash flow less capex", close(fcf_check, CASHFLOW[period]["fcf"]), f"calculated={plain(fcf_check)}; FCF={plain(CASHFLOW[period]['fcf'])}"))
+
+CHECKS.append((
+    "FY2026E equals H1 actual plus H2 forecast",
+    all(close(INCOME["FY2026E"][metric], INCOME["H1 2026A"][metric] + INCOME["H2 2026E"][metric]) for metric in ("revenue", "cor", "rd", "sga", "restruct", "impairment", "ebit", "net_income")),
+    "income statement key lines checked",
+))
+CHECKS.append((
+    "Launch Services revenue uses customer launches only",
+    close(H2_LAUNCH_SERVICES, H2["customer_falcon_launches"] * H2["launch_revenue_per_customer_launch"]),
+    "internal Falcon and Starship launches excluded from revenue formula",
+))
+
+
+# ---------------------------------------------------------------------------
+# Markdown writers.
+# ---------------------------------------------------------------------------
+
+def build_segments_md() -> str:
+    periods = ["FY2023", "FY2024", "FY2025", "H1 2026A", "FY2026E", "FY2027E", "FY2028E"]
+    revenue_rows: list[list[str]] = []
+    historical_formula_slug = {
+        "Launch Services": "launch_services_revenue",
+        "Launch & Development": "launch_development_revenue",
+    }
+    fy2026_formula_slug = {
+        "Launch Services": "launch_services",
+        "Launch & Development": "launch_and_development",
+        "Consumer": "consumer",
+        "Enterprise & Government": "enterprise_and_government",
+        "Advertising": "advertising",
+        "Solutions & Infrastructure": "solutions_and_infrastructure",
+    }
+    outer_year_formula_slug = {
+        "Launch Services": "launch_services_revenue",
+        "Launch & Development": "launch_development_revenue",
+        "Consumer": "consumer_revenue",
+        "Enterprise & Government": "enterprise_government_revenue",
+        "Advertising": "advertising_revenue",
+        "Solutions & Infrastructure": "solutions_infrastructure_revenue",
+    }
+    for line in ("Launch Services", "Launch & Development", "Consumer", "Enterprise & Government", "Advertising", "Solutions & Infrastructure"):
+        row = [line]
+        for period in periods:
+            value = REVENUE_LINES[period][line]
+            if value is None:
+                row.append(not_obtained())
+            elif period in ("H1 2026A",):
+                row.append(tagged(value, "FACT"))
+            elif period.startswith("FY202") and period.endswith(("3", "4", "5")) and line.startswith("Launch"):
+                row.append(tagged(value, "DEDUCTED", f"segment.{period}.{historical_formula_slug[line]}"))
+            else:
+                slug = fy2026_formula_slug[line] if period == "FY2026E" else outer_year_formula_slug[line]
+                key = f"segment.{period}.{slug}"
+                row.append(tagged(value, "DEDUCTED", key))
+        revenue_rows.append(row)
+    for segment, label in (("Space", "Space revenue"), ("Connectivity", "Connectivity revenue"), ("AI", "AI revenue")):
+        row = [f"**{label}**"]
+        for period in periods:
+            if period in ACTUAL_SEGMENTS:
+                row.append(tagged(ACTUAL_SEGMENTS[period][segment]["revenue"], "FACT"))
+            else:
+                row.append(tagged(FORECAST_SEGMENTS[period][segment]["revenue"], "DEDUCTED", f"segment.{period}.{segment.lower()}_revenue"))
+        revenue_rows.append(row)
+
+    driver_rows: list[list[str]] = []
+    cost_driver_rows: list[list[str]] = []
+    for period in ("H2 2026E", "FY2027E", "FY2028E"):
+        d = DRIVERS[period]
+        driver_rows.extend([
+            [period, "Customer / internal Falcon / Starship launches", f"{plain(d['customer_falcon_launches'])} / {plain(d['internal_falcon_launches'])} / {plain(d['starship_launches'])} [VIEW]", "`research.md` Space — Launch Services / Starship overlay"],
+            [period, "Launch revenue per customer launch", f"{money(d['launch_revenue_per_customer_launch'])} [VIEW]", "`research.md` recognized revenue per customer launch; list price remains not obtained"],
+            [period, "Ending subscribers / monthly ARPU", f"{plain(d['ending_subscribers_m'])}m / {money(d['arpu_monthly'])} [VIEW]", "`research.md` Connectivity — Consumer"],
+            [period, "Enterprise & Government", (money(d["enterprise_government_revenue"]) if period == "H2 2026E" else f"{number(d['enterprise_government_growth'] * D('100'))}% growth") + " [VIEW]", "`research.md` Connectivity — Enterprise & Government; no Starshield split"],
+            [period, "Advertising", (money(d["advertising_revenue"]) if period == "H2 2026E" else f"{number(d['advertising_growth'] * D('100'))}% growth") + " [VIEW]", "`research.md` AI — Advertising"],
+            [period, "Solutions & Infrastructure", (money(d["solutions_infrastructure_revenue"]) if period == "H2 2026E" else f"{number(d['solutions_infrastructure_growth'] * D('100'))}% growth") + " [VIEW]", "`research.md` AI — Solutions & Infrastructure; Customer B concentration is the named downside"],
+        ])
+        cost_driver_rows.extend([
+            [period, "Space cost of revenue", f"{number(d['space_launch_cor_pct'] * D('100'))}% Launch Services / {number(d['space_development_cor_pct'] * D('100'))}% Launch & Development [VIEW]", "`research.md` Space segment drivers"],
+            [period, "Space R&D / SG&A", f"{money(d['space_rd'])} / {money(d['space_sga'])} [VIEW]", "`research.md` Starship overlay and Corporate"],
+            [period, "Connectivity cost of revenue", f"{number(d['consumer_cor_pct'] * D('100'))}% Consumer / {number(d['enterprise_cor_pct'] * D('100'))}% Enterprise & Government [VIEW]", "`research.md` Connectivity segment drivers"],
+            [period, "Connectivity R&D / SG&A", f"{money(d['connectivity_rd'])} / {money(d['connectivity_sga'])} [VIEW]", "`research.md` Connectivity segment drivers"],
+            [period, "AI cost of revenue", f"{number(d['advertising_cor_pct'] * D('100'))}% Advertising / {number(d['solutions_cor_pct'] * D('100'))}% Solutions & Infrastructure [VIEW]", "`research.md` AI segment drivers"],
+            [period, "AI R&D / SG&A", f"{money(d['ai_rd'])} / {money(d['ai_sga'])} [VIEW]", "`research.md` AI segment drivers"],
+            [period, "Capex unit drivers", f"{money(d['space_capex_per_launch'])}/launch; {money(d['connectivity_capex_per_net_add'])}/net add; AI {money(d['ai_capex'])} [VIEW]", "`research.md` Capital cycle"],
+        ])
+
+    segment_rows: list[list[str]] = []
+    for period in periods:
+        for segment in ("Space", "Connectivity", "AI"):
+            values = ALL_SEGMENTS[period][segment]
+            is_actual = period in ACTUAL_SEGMENTS
+            cells = [period, segment]
+            for metric in ("revenue", "cor", "rd", "sga", "restruct", "impairment", "ebit"):
+                if is_actual:
+                    cells.append(tagged(values[metric], "FACT"))
+                elif period == "FY2026E" and metric in ("revenue", "cor", "rd", "sga"):
+                    cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.{segment.lower()}_{metric}"))
+                elif period == "FY2026E" and segment == "AI" and metric == "restruct":
+                    cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.ai_restruct"))
+                elif metric == "ebit":
+                    cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.{segment.lower()}.ebit"))
+                elif metric in ("revenue", "cor"):
+                    cells.append(tagged(values[metric], "DEDUCTED", f"segment.{period}.{segment.lower()}_{metric}"))
+                else:
+                    cells.append(tagged(values[metric], "VIEW"))
+            segment_rows.append(cells)
+
+    starship_rows = [
+        ["FY2025", "Starship-specific R&D", "$3,004 [FACT]", "`research.md` Starship overlay"],
+        ["H1 2026A", "Space R&D, mainly Starship", "$2,006 [FACT]", "Exact Starship-only amount not obtained"],
+        ["H2 2026E", "Space R&D / Starship overlay", "$2,200 [VIEW]", "`research.md` Starship remains R&D/capex, not revenue"],
+        ["FY2027E", "Space R&D / Starship overlay", "$4,200 [VIEW]", "No Starship revenue line; commercial pricing not obtained"],
+        ["FY2028E", "Space R&D / Starship overlay", "$3,600 [VIEW]", "No Starship revenue line; commercial pricing not obtained"],
+    ]
+
+    capex_rows: list[list[str]] = []
+    for period in ("H1 2026A", "H2 2026E", "FY2026E", "FY2027E", "FY2028E"):
+        row = [period]
+        for segment in ("Space", "Connectivity", "AI"):
+            if period == "H1 2026A":
+                row.append(tagged(CAPEX[period][segment], "FACT"))
+            else:
+                row.append(tagged(CAPEX[period][segment], "DEDUCTED" if segment != "AI" or period == "FY2026E" else "VIEW", f"cashflow.{period}.{segment.lower()}_capex" if not (segment == "AI" and period != "FY2026E") else None))
+        capex_rows.append(row)
+
+    return f"""# SpaceX segment model
+
+as_of: 2026-08-30
+units: USD millions unless stated otherwise
+generator: `compute.py`
+
+Forecast drivers are `[VIEW]` and implement `memory/spcx/research.md`. Historical facts point to `memory/spcx/register.md`. Internal Falcon launches and Starship launches do not create Launch Services revenue. Starshield remains a memo inside Enterprise & Government; standalone P&L is {not_obtained()}.
+
+## Explicit forecast drivers
+
+{markdown_table(["period", "driver", "assumption", "research instruction"], driver_rows)}
+
+## Forecast cost and capital drivers
+
+{markdown_table(["period", "driver", "assumption", "research instruction"], cost_driver_rows)}
+
+Kit revenue, churn, launch list price, Falcon 9/Heavy mix, Starshield standalone results, GPU-hours and utilization remain {not_obtained()}. Consumer revenue therefore models service revenue only; kit contribution is zero `[VIEW]`, not a claim that kits have no value. Cursor P&L contribution is zero `[VIEW]` in H2 2026 because contribution is {not_obtained()}; Cursor is not back-cast.
+
+## Revenue lines
+
+{markdown_table(["line", *periods], revenue_rows, ["---", *["---:"] * len(periods)])}
+
+Historical Connectivity and AI sub-lines that were not disclosed as absolute annual values remain {not_obtained()}; reportable-segment totals are shown as `[FACT]`. Historical Launch Services uses the rounded disclosed mix and is therefore `[DEDUCTED]`.
+
+## Reportable-segment operating statements
+
+{markdown_table(["period", "segment", "revenue", "cost of revenue", "R&D", "SG&A", "restructuring", "impairment", "EBIT"], segment_rows, ["---", "---", *["---:"] * 7])}
+
+Corporate / eliminations operating revenue and expense are zero `[FACT]` because the filed reportable segments reconcile to consolidated EBIT. Financing sits below EBIT in `income.md`.
+
+## Starship overlay
+
+{markdown_table(["period", "line", "value", "treatment"], starship_rows)}
+
+Starship customer revenue, standalone capex, commercial price, payload economics and cost per test remain {not_obtained()}. Forecast launches affect Space capex and cadence only.
+
+## Segment capex
+
+{markdown_table(["period", "Space", "Connectivity", "AI"], capex_rows, ["---", "---:", "---:", "---:"])}
+
+Space capex = total launches × capex per launch. Connectivity capex = subscriber net adds × capex per net add. AI capex is the residual cash bid `[VIEW]` from `research.md` Capital cycle.
+
+{formula_appendix("Formula register", ("segment.", "cashflow.H2 2026E.total_launches", "cashflow.FY2027E.total_launches", "cashflow.FY2028E.total_launches", "cashflow.H2 2026E.subscriber", "cashflow.FY2027E.subscriber", "cashflow.FY2028E.subscriber", "cashflow.H2 2026E.space_capex", "cashflow.FY2027E.space_capex", "cashflow.FY2028E.space_capex", "cashflow.H2 2026E.connectivity_capex", "cashflow.FY2027E.connectivity_capex", "cashflow.FY2028E.connectivity_capex", "cashflow.FY2026E.space_capex", "cashflow.FY2026E.connectivity_capex", "cashflow.FY2026E.ai_capex"))}
+"""
+
+
+def build_income_md() -> str:
+    periods = ["FY2023", "FY2024", "FY2025", "H1 2026A", "FY2026E", "FY2027E", "FY2028E"]
+    labels = [
+        ("revenue", "Revenue"), ("cor", "Cost of revenue"), ("gross_profit", "Gross profit"),
+        ("rd", "Research and development"), ("sga", "Selling, general and administrative"),
+        ("restruct", "Restructuring"), ("impairment", "Impairment"), ("ebit", "Operating income / EBIT"),
+        ("interest_expense", "Interest expense"), ("interest_income", "Interest income"),
+        ("other_income", "Other income / (expense)"), ("pretax", "Pretax income"),
+        ("tax", "Tax provision / (benefit)"), ("net_income", "Net income"),
+    ]
+    rows: list[list[str]] = []
+    for metric, label in labels:
+        row = [label]
+        for period in periods:
+            value = INCOME[period][metric]
+            if period in ("FY2023", "FY2024", "FY2025", "H1 2026A") and metric not in ("gross_profit", "pretax"):
+                row.append(tagged(value, "FACT"))
+            elif period in ("FY2027E", "FY2028E") and metric in ("interest_expense", "interest_income", "other_income"):
+                row.append(tagged(value, "VIEW"))
+            else:
+                row.append(tagged(value, "DEDUCTED", f"income.{period}.{metric}"))
+        rows.append(row)
+
+    source_rows: list[list[str]] = []
+    for period in periods:
+        values = ALL_SEGMENTS[period]
+        source_rows.append([
+            period,
+            tagged(values["Space"]["revenue"], "FACT") if period in ACTUAL_SEGMENTS else tagged(values["Space"]["revenue"], "DEDUCTED", f"segment.{period}.space_revenue"),
+            tagged(values["Connectivity"]["revenue"], "FACT") if period in ACTUAL_SEGMENTS else tagged(values["Connectivity"]["revenue"], "DEDUCTED", f"segment.{period}.connectivity_revenue"),
+            tagged(values["AI"]["revenue"], "FACT") if period in ACTUAL_SEGMENTS else tagged(values["AI"]["revenue"], "DEDUCTED", f"segment.{period}.ai_revenue"),
+            tagged(INCOME[period]["revenue"], "DEDUCTED", f"income.{period}.revenue"),
+        ])
+
+    finance_rows = [
+        ["H2 2026E", "Interest expense / income / other income / tax", f"{money(H2['interest_expense'])} / {money(H2['interest_income'])} / {money(H2['other_income'])} / {money(H2['tax'])} [VIEW]", "`research.md` Corporate / financing; tax attributes not obtained"],
+        ["FY2027E", "Interest expense / income / other income / tax rate", f"{money(DRIVERS['FY2027E']['interest_expense'])} / {money(DRIVERS['FY2027E']['interest_income'])} / {money(DRIVERS['FY2027E']['other_income'])} / {number(DRIVERS['FY2027E']['tax_rate'] * D('100'))}% [VIEW]", "`research.md` Corporate / financing"],
+        ["FY2028E", "Interest expense / income / other income / tax rate", f"{money(DRIVERS['FY2028E']['interest_expense'])} / {money(DRIVERS['FY2028E']['interest_income'])} / {money(DRIVERS['FY2028E']['other_income'])} / {number(DRIVERS['FY2028E']['tax_rate'] * D('100'))}% [VIEW]", "`research.md` Corporate / financing"],
+    ]
+
+    return f"""# SpaceX consolidated income statement
+
+as_of: 2026-08-30
+units: USD millions
+generator: `compute.py`
+
+The forecast is built from the combined segment statements in `segments.md`; consolidated revenue and EBIT are not separate plugs. FY2023–FY2025 remain retrospectively recast for xAI/X. FY2026E equals H1 actual plus H2 forecast. Cursor P&L contribution is zero `[VIEW]` because it is {not_obtained()} and Cursor is not back-cast into Q2.
+
+## Segment revenue bridge
+
+{markdown_table(["period", "Space", "Connectivity", "AI", "consolidated"], source_rows, ["---", "---:", "---:", "---:", "---:"])}
+
+## Consolidated statement
+
+{markdown_table(["line", *periods], rows, ["---", *["---:"] * len(periods)])}
+
+## Below-EBIT forecast drivers
+
+{markdown_table(["period", "driver", "assumption", "research instruction"], finance_rows)}
+
+FY2027E and FY2028E tax provisions apply the explicit `[VIEW]` rates in `compute.py` to positive pretax income. FY2026E includes the H1 actual tax provision plus a zero H2 cash/book provision `[VIEW]` because utilization of tax attributes is not obtained. Fully diluted EPS is not presented because fully diluted shares are {not_obtained()}.
+
+{formula_appendix("Formula register", ("income.",))}
+"""
+
+
+def build_balance_md() -> str:
+    periods = ["FY2025", "H1 2026A", "FY2026E", "FY2027E", "FY2028E"]
+    labels = [
+        ("cash", "Cash"), ("securities", "Marketable securities"), ("ar", "Accounts receivable"),
+        ("inventory", "Inventory"), ("ppe", "PP&E, net"), ("other_assets", "Other assets / purchase-accounting residual"),
+        ("total_assets", "Total assets"), ("debt", "Debt and finance leases"),
+        ("deferred_revenue", "Deferred revenue"), ("other_liabilities", "Other liabilities"),
+        ("total_liabilities", "Total liabilities"), ("redeemable_preferred", "Redeemable preferred stock"),
+        ("equity", "Shareholders' equity"),
+    ]
+    rows: list[list[str]] = []
+    for metric, label in labels:
+        row = [label]
+        for period in periods:
+            value = BALANCE[period][metric]
+            if period in ("FY2025", "H1 2026A") and metric not in ("other_assets", "other_liabilities"):
+                row.append(tagged(value, "FACT"))
+            elif period in ("FY2025", "H1 2026A"):
+                row.append(tagged(value, "DEDUCTED", f"balance.{period}.{metric}"))
+            elif metric == "cash":
+                output_period = "H2 2026E" if period == "FY2026E" else period
+                row.append(tagged(value, "DEDUCTED", f"cashflow.{output_period}.ending_cash"))
+            elif metric == "securities":
+                row.append(tagged(value, "VIEW"))
+            elif metric == "ar":
+                output_period = "H2 2026E" if period == "FY2026E" else period
+                row.append(tagged(value, "DEDUCTED", f"balance.{output_period}.accounts_receivable"))
+            elif metric == "inventory":
+                output_period = "H2 2026E" if period == "FY2026E" else period
+                row.append(tagged(value, "DEDUCTED", f"balance.{output_period}.inventory"))
+            elif metric in ("deferred_revenue", "other_liabilities", "redeemable_preferred"):
+                row.append(tagged(value, "VIEW"))
+            elif metric == "debt":
+                row.append(tagged(value, "VIEW"))
+            else:
+                formula_name = f"balance.{period if period != 'FY2026E' else 'H2 2026E'}.{metric if metric != 'ppe' else 'PP&E'}"
+                row.append(tagged(value, "DEDUCTED", formula_name))
+        rows.append(row)
+
+    total_rows: list[list[str]] = []
+    for period in periods:
+        if period in ("FY2025", "H1 2026A"):
+            right = sum_named(
+                f"balance.{period}.total_liabilities_and_equity",
+                {
+                    "total_liabilities": BALANCE[period]["total_liabilities"],
+                    "redeemable_preferred": BALANCE[period]["redeemable_preferred"],
+                    "shareholders_equity": BALANCE[period]["equity"],
+                },
+            )
+        else:
+            right = BALANCE[period]["total_liabilities"] + BALANCE[period]["redeemable_preferred"] + BALANCE[period]["equity"]
+        if period in ("FY2025", "H1 2026A"):
+            right_cell = tagged(right, "DEDUCTED", f"balance.{period}.total_liabilities_and_equity")
+            asset_cell = tagged(BALANCE[period]["total_assets"], "FACT")
+        else:
+            output_period = "H2 2026E" if period == "FY2026E" else period
+            right_cell = tagged(right, "DEDUCTED", f"balance.{output_period}.total_liabilities_and_equity")
+            asset_cell = tagged(BALANCE[period]["total_assets"], "DEDUCTED", f"balance.{output_period}.total_assets")
+        total_rows.append([period, asset_cell, right_cell, plain(BALANCE[period]["total_assets"] - right)])
+
+    share_rows = [
+        ["H1 2026A", "13,176.0 [FACT]", "June 30 issued Class A plus Class B; July 28 count is higher"],
+        ["FY2026E", tagged(BASIC_SHARES["FY2026E"], "DEDUCTED", "balance.FY2026E.basic_shares", unit="plain"), "Post-Cursor basic shares from `research.md`; Cursor closed 2026-08-14"],
+        ["FY2027E", "13,572.8 [VIEW]", "Held flat because exercises, repurchases and fully diluted shares are not obtained"],
+        ["FY2028E", "13,572.8 [VIEW]", "Held flat because exercises, repurchases and fully diluted shares are not obtained"],
+    ]
+    assumption_rows: list[list[str]] = []
+    for period in ("H2 2026E", "FY2027E", "FY2028E"):
+        d = DRIVERS[period]
+        assumption_rows.extend([
+            [period, "Accounts receivable / inventory", f"{number(d['ar_pct_revenue'] * D('100'))}% / {number(d['inventory_pct_revenue'] * D('100'))}% of annual revenue [VIEW]", "`research.md` Working capital"],
+            [period, "Deferred revenue / other liabilities", f"{money(d['deferred_revenue'])} / {money(d['other_liabilities'])} [VIEW]", "`research.md` Backlog and deferred revenue as constraints"],
+            [period, "Debt / marketable securities", "$39,364 / $6,487 held flat [VIEW]", "`research.md` Corporate / financing; new financing not obtained"],
+        ])
+    assumption_rows.append(["H2 2026E", "Cursor stock consideration", f"{money(H2['cursor_equity_consideration'])} [VIEW]", "Share step-up is required by `research.md`; final purchase accounting is not obtained"])
+
+    return f"""# SpaceX balance sheet
+
+as_of: 2026-08-30
+units: USD millions except shares
+generator: `compute.py`
+
+Cash ties to `cashflow.md`. Forecast PP&E uses opening PP&E + capex − D&A `[VIEW]`; this simplifying bridge treats all D&A as PP&E depreciation because an intangible-amortization forecast is {not_obtained()}. Other assets are the explicit balancing residual and include Cursor purchase accounting, goodwill/intangibles and other items not separately forecast.
+
+## Balance sheet
+
+{markdown_table(["line", *periods], rows, ["---", *["---:"] * len(periods)])}
+
+## Forecast balance drivers
+
+{markdown_table(["period", "driver", "assumption", "research instruction"], assumption_rows)}
+
+The H2 2026 Cursor bridge assumes $60,000 of stock consideration `[VIEW]` in equity and the other-assets residual; final purchase accounting and Cursor standalone net assets are {not_obtained()}. Cursor P&L contribution is zero `[VIEW]`. Debt is held flat after 2026-06-30 `[VIEW]`; refinancing, repayment and new borrowing are not obtained.
+
+## Balance check
+
+{markdown_table(["period", "total assets", "liabilities + preferred + equity", "difference"], total_rows, ["---", "---:", "---:", "---:"])}
+
+## Basic shares
+
+{markdown_table(["period", "ending basic shares (millions)", "treatment"], share_rows)}
+
+Point-in-time fully diluted shares and float remain {not_obtained()}. Share-based compensation is included in expense/cash-flow reconciliation, but no exercise issuance is modeled.
+
+## EchoStar scenario memo — excluded from base case
+
+The base case does not close EchoStar. Scenario inputs are approximately 261.8 million Class A shares and approximately $19,600 consideration (approximately $11,100 equity at $42.40 plus up to $8,500 tied to EchoStar debt payoff) `[FACT]` from `register.md`. Closing date, final cash use and purchase accounting remain {not_obtained()}.
+
+{formula_appendix("Formula register", ("balance.",))}
+"""
+
+
+def build_cashflow_md() -> str:
+    periods = ["FY2023", "FY2024", "FY2025", "H1 2026A", "H2 2026E", "FY2026E", "FY2027E", "FY2028E"]
+    labels = [
+        ("net_income", "Net income"), ("da", "Depreciation and amortization"), ("sbc", "Share-based compensation"),
+        ("other_noncash", "Other non-cash items"), ("ar_contribution", "Accounts receivable contribution"),
+        ("inventory_contribution", "Inventory contribution"), ("prepaids_ap_contribution", "Prepaids / payables contribution"),
+        ("deferred_revenue_contribution", "Deferred revenue contribution"),
+        ("other_liabilities_contribution", "Other liabilities contribution"), ("other_operating_items", "Other operating items"),
+        ("ocf", "Operating cash flow"), ("space_capex", "Space capex"), ("connectivity_capex", "Connectivity capex"),
+        ("ai_capex", "AI capex"), ("total_capex", "Total capex"), ("fcf", "Free cash flow"),
+        ("noncapex_cash_flows", "Financing and non-capex investing / FX"), ("ending_cash", "Ending cash"),
+        ("ending_securities", "Ending marketable securities"), ("ending_liquidity", "Ending cash + securities"),
+    ]
+
+    rows: list[list[str]] = []
+    for metric, label in labels:
+        row = [label]
+        for period in periods:
+            if period in ("FY2023", "FY2024", "FY2025"):
+                if metric == "net_income":
+                    row.append(tagged(ACTUAL_FINANCE[period]["net_income"], "FACT"))
+                elif metric == "ocf":
+                    row.append(tagged(ACTUAL_CASHFLOW[period]["ocf"], "FACT"))
+                elif metric == "total_capex":
+                    row.append(tagged(ACTUAL_CASHFLOW[period]["capex"], "FACT"))
+                elif metric == "fcf":
+                    fcf = subtract(f"cashflow.{period}.fcf", "operating_cash_flow", ACTUAL_CASHFLOW[period]["ocf"], "capital_expenditures", ACTUAL_CASHFLOW[period]["capex"])
+                    row.append(tagged(fcf, "DEDUCTED", f"cashflow.{period}.fcf"))
+                elif metric == "ending_cash" and period == "FY2025":
+                    row.append(tagged(BALANCE["FY2025"]["cash"], "FACT"))
+                elif metric == "ending_securities" and period == "FY2025":
+                    row.append(tagged(BALANCE["FY2025"]["securities"], "FACT"))
+                elif metric == "ending_liquidity" and period == "FY2025":
+                    liquidity = sum_named("cashflow.FY2025.ending_liquidity", {"cash": BALANCE["FY2025"]["cash"], "securities": BALANCE["FY2025"]["securities"]})
+                    row.append(tagged(liquidity, "DEDUCTED", "cashflow.FY2025.ending_liquidity"))
+                else:
+                    row.append(not_obtained())
+                continue
+
+            data = CASHFLOW[period]
+            if metric == "space_capex":
+                capex_period = period
+                value = CAPEX[capex_period]["Space"]
+                if period == "H1 2026A":
+                    row.append(tagged(value, "FACT"))
+                else:
+                    row.append(tagged(value, "DEDUCTED", f"cashflow.{period}.space_capex"))
+            elif metric == "connectivity_capex":
+                value = CAPEX[period]["Connectivity"]
+                if period == "H1 2026A":
+                    row.append(tagged(value, "FACT"))
+                else:
+                    row.append(tagged(value, "DEDUCTED", f"cashflow.{period}.connectivity_capex"))
+            elif metric == "ai_capex":
+                value = CAPEX[period]["AI"]
+                if period == "H1 2026A":
+                    row.append(tagged(value, "FACT"))
+                elif period == "FY2026E":
+                    row.append(tagged(value, "DEDUCTED", "cashflow.FY2026E.ai_capex"))
+                else:
+                    row.append(tagged(value, "VIEW"))
+            elif metric in data:
+                value = data[metric]
+                if period == "H1 2026A":
+                    if metric in ("net_income", "da", "sbc", "ar_contribution", "inventory_contribution", "deferred_revenue_contribution", "other_liabilities_contribution"):
+                        row.append(tagged(value, "FACT"))
+                    elif metric in ("other_noncash", "prepaids_ap_contribution"):
+                        row.append(tagged(value, "DEDUCTED", f"cashflow.H1 2026A.{metric}"))
+                    elif metric in ("ocf", "total_capex"):
+                        row.append(tagged(value, "FACT"))
+                    elif metric == "fcf":
+                        row.append(tagged(value, "DEDUCTED", "cashflow.H1 2026A.fcf"))
+                    elif metric == "noncapex_cash_flows":
+                        row.append(tagged(value, "DEDUCTED", "cashflow.H1 2026A.noncapex_cash_flows"))
+                    elif metric in ("ending_cash", "ending_securities"):
+                        row.append(tagged(value, "FACT"))
+                    elif metric == "ending_liquidity":
+                        row.append(tagged(value, "DEDUCTED", "cashflow.H1 2026A.ending_liquidity"))
+                    else:
+                        row.append(not_obtained())
+                elif metric == "net_income":
+                    row.append(tagged(value, "DEDUCTED", f"income.{period}.net_income"))
+                elif metric in ("da", "sbc", "other_noncash", "prepaids_ap_contribution", "other_operating_items", "noncapex_cash_flows") and period != "FY2026E":
+                    row.append(tagged(value, "VIEW"))
+                elif period == "FY2026E" and metric == "other_operating_items":
+                    row.append(tagged(value, "VIEW"))
+                elif metric in ("ending_cash", "ending_securities"):
+                    if metric == "ending_securities":
+                        row.append(tagged(value, "VIEW"))
+                    else:
+                        output_period = "H2 2026E" if period == "FY2026E" else period
+                        row.append(tagged(value, "DEDUCTED", f"cashflow.{output_period}.ending_cash"))
+                elif metric == "ending_liquidity":
+                    row.append(tagged(value, "DEDUCTED", f"cashflow.{period}.ending_liquidity"))
+                elif metric == "ar_contribution" and period != "FY2026E":
+                    row.append(tagged(value, "DEDUCTED", f"cashflow.{period}.accounts_receivable_contribution"))
+                else:
+                    row.append(tagged(value, "DEDUCTED", f"cashflow.{period}.{metric}"))
+            else:
+                row.append(not_obtained())
+        rows.append(row)
+
+    runway_rows: list[list[str]] = []
+    starting_liquidity = sum_named("cashflow.runway.starting_liquidity", {"cash": D("93522"), "marketable_securities": D("6487")})
+    for period in ("FY2026E", "FY2027E", "FY2028E"):
+        ending = CASHFLOW[period]["ending_liquidity"]
+        used = subtract(f"cashflow.runway.{period}.liquidity_used", "starting_liquidity", starting_liquidity, "ending_liquidity", ending)
+        runway_rows.append([period, tagged(starting_liquidity, "DEDUCTED", "cashflow.runway.starting_liquidity"), tagged(ending, "DEDUCTED", f"cashflow.{period}.ending_liquidity"), tagged(used, "DEDUCTED", f"cashflow.runway.{period}.liquidity_used"), "positive" if ending > 0 else "exhausted"])
+
+    assumption_rows: list[list[str]] = []
+    for period in ("H2 2026E", "FY2027E", "FY2028E"):
+        d = DRIVERS[period]
+        assumption_rows.extend([
+            [period, "D&A / share-based compensation", f"{money(d['da'])} / {money(d['sbc'])} [VIEW]", "`research.md` Corporate / financing"],
+            [period, "Other operating items", f"{money(d['other_operating_items'])} [VIEW]", "Explicit residual for cash taxes and operating items not separately obtained"],
+            [period, "AI capex", f"{money(d['ai_capex'])} [VIEW]", "`research.md` AI as residual cash bid"],
+            [period, "Incremental financing / non-capex investing", f"{money(d['noncapex_cash_flows'])} [VIEW]", "No new financing and no EchoStar close in base case"],
+        ])
+
+    return f"""# SpaceX cash flow
+
+as_of: 2026-08-30
+units: USD millions
+generator: `compute.py`
+
+Free cash flow is operating cash flow minus capex, matching `register.md`. Forecast working-capital contributions tie to the ending balance-sheet accounts. AI capex is the residual cash bid `[VIEW]`; Space capex is launch-driven and Connectivity capex is net-add-driven.
+
+## Cash-flow statement and runway
+
+{markdown_table(["line", *periods], rows, ["---", *["---:"] * len(periods)])}
+
+## Forecast cash-flow drivers
+
+{markdown_table(["period", "driver", "assumption", "research instruction"], assumption_rows)}
+
+The H1 2026 financing/non-capex line is the derived cash bridge from 2025 year-end cash to 2026-06-30 cash after FCF; it aggregates IPO/debt proceeds, repayments, non-capex investing, securities purchases and FX. Forecast periods assume zero incremental financing and no EchoStar close `[VIEW]`.
+
+## Liquidity runway from 2026-06-30
+
+{markdown_table(["through period", "starting cash + securities", "ending cash + securities", "cumulative liquidity used", "status"], runway_rows, ["---", "---:", "---:", "---:", "---"])}
+
+The base case remains cash-positive through FY2028E. This is a liquidity schedule, not a financing commitment; minimum cash, new debt, Cursor cash flows and EchoStar closing remain {not_obtained()}.
+
+{formula_appendix("Formula register", ("cashflow.",))}
+"""
+
+
+def write_outputs() -> None:
+    outputs = {
+        "segments.md": build_segments_md(),
+        "income.md": build_income_md(),
+        "balance.md": build_balance_md(),
+        "cashflow.md": build_cashflow_md(),
+    }
+    for filename, content in outputs.items():
+        (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
+
+
+def print_summary() -> None:
+    for name, passed, detail in CHECKS:
+        print(f"{'pass' if passed else 'fail'}: {name} ({detail})")
+    print("\nForecast summary (USD millions except shares):")
+    for period in ("FY2026E", "FY2027E", "FY2028E"):
+        print(
+            f"{period}: revenue={plain(INCOME[period]['revenue'])}; "
+            f"EBIT={plain(INCOME[period]['ebit'])}; FCF={plain(CASHFLOW[period]['fcf'])}; "
+            f"ending_cash={plain(CASHFLOW[period]['ending_cash'])}; "
+            f"basic_shares_m={plain(BASIC_SHARES[period])}"
+        )
+
+
+if __name__ == "__main__":
+    write_outputs()
+    print_summary()
+    if not all(passed for _, passed, _ in CHECKS):
+        raise SystemExit(1)
