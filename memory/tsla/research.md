@@ -32,7 +32,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 
 ### 2.3 Energy generation and storage
 
-1. **[DEDUCTED] Revenue bridge:** Megapack deployed GWh × realized revenue/GWh + Powerwall units × ASP + solar + services/incentives + lease revenue. Tesla publishes aggregate deployed GWh, not the full product bridge (R3 and R8.2).
+1. **[DEDUCTED] Revenue bridge:** Megapack deployed GWh × realized revenue/GWh + Powerwall units × ASP + solar + services/incentives + lease revenue. Tesla publishes aggregate deployed GWh, not the full product bridge; deployment timing follows R3.7 (R3 and R8.2).
 2. **[FACT] Key operating drivers:** deployments, Megapack/Powerwall mix, realized ASP, manufacturing mix, warranty, logistics/installation, tariffs, incentive treatment and production ramp. The latest filing’s direction is summarized in R2.5 and R7.5.
 3. **[DEDUCTED] Backlog conversion:** opening remaining performance obligations + bookings/price changes − recognized revenue − cancellations/adjustments. Use R5.6; one-year-or-less arrangements are subject to a disclosure expedient.
 4. **[DEDUCTED] Gross profit bridge:** deployments × `(realized revenue/MWh − cost/MWh)` plus services/incentives and lease margin, less warranty/ramp effects. Product ASP and cost/MWh are not obtained (R8.2).
@@ -109,6 +109,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 4. **[FACT] Warranty.** Reserve, provision and claims are in R5.4.
 5. **[FACT] Contract liabilities/RPO.** Automotive/software, regulatory-credit and Energy obligations are in R5.5–R5.6.
 6. **[FACT] Segment balance sheets/capex are not obtained (R8.5).**
+7. **[FACT] Quarterly cash conversion and 2026 aggregate capex outlook are in R5.8; the Q2 AI hardware acquisition is in R5.9.**
 
 ## 10. Musk-entity related parties
 
@@ -159,7 +160,8 @@ Values live only in the register. “Take” means link the model assumption to 
 | FSD / Robotaxi / insurance / charging standalone economics | R8.3 | through 2026-08-29 | **not obtained** |
 | R&D, SG&A, total opex | R2.6 | S3 2026-06-30 | obtained |
 | Cash, investments, receivables, inventory, payables, debt | R5.1 | S3 2026-06-30 | obtained |
-| Capex, SBC, D&A, operating cash flow | R5.2 | S3 1H 2026 | obtained |
+| Capex, SBC, D&A, operating cash flow | R5.2, R5.8 | S3/S6 Q2 and 1H 2026 | obtained |
+| FY2026 aggregate capex outlook | R5.8 | S3 2026-06-30 | obtained; no segment split |
 | Diluted / outstanding shares | R5.3 | S3 Q2 / 2026-07-16 | obtained |
 | Warranty reserve/provision/claims | R5.4 | S3 2026-06-30 | obtained |
 | Automotive and Energy performance obligations | R5.5–R5.6 | S3 2026-06-30 | obtained |

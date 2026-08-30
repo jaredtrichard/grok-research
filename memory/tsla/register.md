@@ -13,6 +13,7 @@ As of 2026-08-29. USD in millions unless stated otherwise. Each material item is
 - **S7** — [Tesla Q2 2026 production, deliveries and deployments release](https://www.sec.gov/Archives/edgar/data/1318605/000162828026046717/exhibit99111111.htm), dated 2026-07-02.
 - **S8** — [Tesla FY2025 Form 10-K/A](https://www.sec.gov/Archives/edgar/data/1318605/000110465926053166/tm2611837d1_10ka.htm), filed 2026-04-30.
 - **S9** — [Tesla Q2 2026 official webcast archive](https://ir.tesla.com/webcast-2026-07-22). A written company transcript was **not obtained**; the archive is video only.
+- **S10** — [Tesla 2025 definitive proxy](https://www.sec.gov/Archives/edgar/data/1318605/000110465925090866/tm252289-12_def14a.htm), filed 2025-09-17; the SEC’s [cutoff-date DEF 14A listing](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=DEF%2014A&dateb=20260829&owner=exclude&count=40&output=atom) shows no 2026 definitive proxy by 2026-08-29.
 
 ## R1 — Reporting perimeter and products
 
@@ -68,6 +69,7 @@ Sources: [S4, pp. 6–7](https://ir.tesla.com/_flysystem/s3/sec/0001628280260038
 - **R3.4 [FACT]** Tesla said battery-pack capacity remained the limiting factor for global vehicle-production ramp in Q2 2026. [S6, p. 7](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 - **R3.5 [FACT]** Q2 2026 Robotaxi disclosure: Cybercab production had started; Austin, Dallas, Houston, Miami, Orlando and Tampa were described as ramping unsupervised, while Bay Area service used a safety driver. Robotaxi revenue, cost, fleet count and paid miles were **not obtained** as numeric financial disclosures. [S6, pp. 3, 9](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 - **R3.6 [FACT]** Tesla did not disclose factory utilization by site. It stated it was focused on maximum capacity utilization and that output depends on demand, supply-chain readiness, allocation, uptime, components, upgrades and regulation. [S6, pp. 6, 10](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
+- **R3.7 [FACT]** Tesla counts storage deployment when customer units are installed and equipment-sale units are delivered; deployed GWh is therefore not purely commissioned end-customer capacity. [S6, p. 32](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 
 ## R4 — Geography
 
@@ -88,6 +90,9 @@ Sources: [S1, Note 16, p. 92](https://www.sec.gov/Archives/edgar/data/1318605/00
 - **R5.5 [FACT]** Automotive deferred revenue tied mainly to connectivity, FSD maintenance, free Supercharging and OTA updates was 4,050 at 2026-06-30; 962 was expected in the next 12 months. Regulatory-credit contracts longer than one year had 287 of unsatisfied/partly unsatisfied performance obligations, 220 expected within 12 months. [S3, Note 2, pp. 10–11](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
 - **R5.6 [FACT]** Energy contracts longer than one year had 10,050 of unsatisfied/partly unsatisfied performance obligations at 2026-06-30, with 4,560 expected in the next 12 months. [S3, Note 2, p. 12](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
 - **R5.7 [FACT]** Residual-value guarantee liabilities were immaterial at 2026-06-30; maximum exposure was 4,070. Tesla separately carried 4,253 of operating-lease vehicles. [S3, pp. 3 and 10–11](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
+- **R5.8 [FACT]** Q2 2026 operating cash flow was 4,697; capex was 5,789; free cash flow was negative 1,092; D&A and impairment was 1,619; and SBC was 1,151. Tesla expected 2026 capex above 25,000 for AI compute/data centers, manufacturing and R&D lines, company-operated AI assets, and retail/service/charging infrastructure. [S3, pp. 30, 34](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm); [S6, pp. 4, 27–31](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
+- **R5.9 [FACT]** Tesla acquired an unnamed AI hardware company in Q2 2026 for 1,950 in common stock/equity awards: 1,730 was subject to service/performance conditions and 222 was allocated to patents/developed technology; no performance-award expense was recognized because achievement was considered improbable. [S3, Note 3, p. 16](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm)
+- **R5.10 [FACT]** No 2026 definitive proxy had been filed by the cutoff; Tesla supplied FY2025 Part III through its 2026-04-30 10-K/A. The latest definitive proxy was filed 2025-09-17. Share counts for the model should use the newer 10-K/10-Q facts in R5.3, not the older proxy denominator. [S8](https://www.sec.gov/Archives/edgar/data/1318605/000110465926053166/tm2611837d1_10ka.htm); [S10](https://www.sec.gov/Archives/edgar/data/1318605/000110465925090866/tm252289-12_def14a.htm)
 
 ## R6 — Related parties in Tesla filings only
 
