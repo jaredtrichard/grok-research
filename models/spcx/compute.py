@@ -1086,6 +1086,8 @@ def build_segments_md() -> str:
             value = REVENUE_LINES[period][line]
             if value is None:
                 row.append(not_obtained())
+            elif period == "H1 2026A" and line == "Starship Commercial":
+                row.append("**not obtained** (one H1 Starship launch classified internal [FACT])")
             elif period in ("H1 2026A",):
                 row.append(tagged(value, "FACT"))
             elif period.startswith("FY202") and period.endswith(("3", "4", "5")) and line.startswith("Launch"):
@@ -1222,6 +1224,8 @@ Kit revenue, churn, launch list price, Falcon 9/Heavy mix, Starshield standalone
 {markdown_table(["line", *periods], revenue_rows, ["---", *["---:"] * len(periods)])}
 
 Historical Connectivity and AI sub-lines that were not disclosed as absolute annual values remain {not_obtained()}; reportable-segment totals are shown as `[FACT]`. Historical Launch Services uses the rounded disclosed mix and is therefore `[DEDUCTED]`.
+
+The H1 2026 Starship commercial filing line is {not_obtained()}. The roll-forward uses zero recognized commercial contribution because the one H1 Starship launch was classified internal `[FACT]`; this is not a `[FACT]` that a reported commercial-revenue line existed at zero.
 
 ## Reportable-segment operating statements
 

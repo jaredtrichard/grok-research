@@ -294,7 +294,7 @@ This is a modeling organization, not a claim that these are all reportable segme
 4. **Connectivity — Enterprise & Government** [VIEW], including aviation, maritime, land mobility, Starlink Mobile and Starshield; keep Starshield as a memo split until standalone disclosure is obtained.
 5. **AI — Advertising** [VIEW].
 6. **AI — Solutions & Infrastructure** [VIEW], including subscriptions, data/API and cloud infrastructure.
-7. **Starship development overlay** [VIEW], modeled as Space R&D/capex and milestone/cadence assumptions, not revenue before a disclosed commercial line.
+7. **Starship development overlay** [VIEW], modeled as Space R&D/capex, cadence, and a labeled commercial-revenue [VIEW] in the workbook (flights × assumed $/flight). Filing commercial revenue is **not obtained**; do not treat that silence as zero enterprise value. H1 2026 launches were classified internal [FACT].
 8. **Corporate / eliminations / financing** [VIEW], including central interest, taxes, share compensation, related-party financing and acquisition dilution.
 
 ## Primary-document catalog

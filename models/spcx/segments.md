@@ -81,7 +81,7 @@ Kit revenue, churn, launch list price, Falcon 9/Heavy mix, Starshield standalone
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Launch Services | $1,963.5 [DEDUCTED F001] | $2,588.9 [DEDUCTED F003] | $2,574.2 [DEDUCTED F005] | $978.0 [FACT] | $2,408.0 [DEDUCTED F011] | $3,015.0 [DEDUCTED F020] | $3,450.0 [DEDUCTED F028] |
 | Launch & Development | $1,593.5 [DEDUCTED F002] | $1,207.1 [DEDUCTED F004] | $1,511.8 [DEDUCTED F006] | $603.0 [FACT] | $1,303.0 [DEDUCTED F012] | $1,459.4 [DEDUCTED F021] | $1,634.5 [DEDUCTED F029] |
-| Starship Commercial | **not obtained** | **not obtained** | **not obtained** | $0.0 [FACT] | $150.0 [DEDUCTED F013] | $1,800.0 [DEDUCTED F027] | $7,000.0 [DEDUCTED F035] |
+| Starship Commercial | **not obtained** | **not obtained** | **not obtained** | **not obtained** (one H1 Starship launch classified internal [FACT]) | $150.0 [DEDUCTED F013] | $1,800.0 [DEDUCTED F027] | $7,000.0 [DEDUCTED F035] |
 | Consumer | **not obtained** | **not obtained** | **not obtained** | $4,633.0 [FACT] | $9,625.0 [DEDUCTED F014] | $11,712.0 [DEDUCTED F023] | $14,337.0 [DEDUCTED F031] |
 | Enterprise & Government | **not obtained** | **not obtained** | **not obtained** | $2,915.0 [FACT] | $6,215.0 [DEDUCTED F015] | $8,079.5 [DEDUCTED F024] | $10,099.4 [DEDUCTED F032] |
 | Spectrum / Mobile Overlay | **not obtained** | **not obtained** | **not obtained** | $0.0 [FACT] | $100.0 [DEDUCTED F016] | $1,000.0 [VIEW; as_of 2026-08-30; not a filing line] | $2,500.0 [VIEW; as_of 2026-08-30; not a filing line] |
@@ -93,6 +93,8 @@ Kit revenue, churn, launch list price, Falcon 9/Heavy mix, Starshield standalone
 | **AI revenue** | $2,961.0 [FACT] | $2,620.0 [FACT] | $3,201.0 [FACT] | $3,379.0 [FACT] | $10,139.0 [DEDUCTED F058] | $15,737.1 [DEDUCTED F082] | $21,202.4 [DEDUCTED F107] |
 
 Historical Connectivity and AI sub-lines that were not disclosed as absolute annual values remain **not obtained**; reportable-segment totals are shown as `[FACT]`. Historical Launch Services uses the rounded disclosed mix and is therefore `[DEDUCTED]`.
+
+The H1 2026 Starship commercial filing line is **not obtained**. The roll-forward uses zero recognized commercial contribution because the one H1 Starship launch was classified internal `[FACT]`; this is not a `[FACT]` that a reported commercial-revenue line existed at zero.
 
 ## Reportable-segment operating statements
 
