@@ -103,11 +103,11 @@ Unit: recognized infrastructure / subscription / API revenue, with compute capac
 | Concentration | Customer B 19.5% of consolidated Q2 revenue, 12.2% of H1 | customer identity and term: not obtained |
 | AI capex | $15,828 Q2; AI capex / AI revenue 618% [DEDUCTED] | build vs buy, useful life, utilization ramp: not obtained |
 
-This is where Q2 cash went. The model cannot treat AI as optionality sitting off the statements. Cursor is incremental to this segment after 2026-08-14; Q2 does not include it. Cursor contribution, margin, and overlapping AI product: **not obtained**.
+This is where Q2 cash went. The model cannot treat AI as optionality sitting off the statements. Cursor is incremental to this segment after 2026-08-14; Q2 does not include it. Cursor contribution, margin, and overlapping AI product: **not obtained**. Captain send-back: Cursor P&L is a base `[VIEW]` from H2 2026 in `models/spcx/segments.md`, not a filing, and is not back-cast into Q2.
 
 ### 7. Starship overlay (not a reportable segment)
 
-Do not forecast Starship revenue until a commercial line is disclosed. Overlay is Space R&D, Space capex, and cadence.
+Filings have no Starship commercial line. Captain send-back (2026-08-29): the stock is not valued at zero for that omission. The workbook carries a labeled `[VIEW]` commercial overlay (flights × assumed $/flight) in base, bull, and bear; list price remains **not obtained**. Overlay is still Space R&D, Space capex, cadence, plus that view.
 
 | driver | obtained | gap |
 | --- | --- | --- |
@@ -132,11 +132,11 @@ Required forecast drivers (use register history; mark **not obtained** rather th
 3. Starlink ending lines and ARPU; consumer revenue as lines × ARPU plus kit (kit **not obtained**).
 4. Enterprise & Government connectivity growth without a fake Starshield split.
 5. Advertising vs Solutions & Infrastructure separately; Customer B concentration as a named risk, not a hidden growth rate.
-6. Starship as R&D/capex/cadence, not revenue, until disclosed.
+6. Starship as R&D/capex/cadence plus a labeled commercial-revenue `[VIEW]` in the workbook; do not treat filing silence as zero value.
 7. Segment capex: Connectivity per net add, Space per launch, AI as the residual cash bid. H1 2026 FCF was $(25,010) million because capex was $28,476 million against $3,466 million operating cash flow. Cash + marketable securities $100,009 million at 2026-06-30 funds the bid for now.
-8. Shares: start from 13,572,821,625 post-Cursor basic; layer EchoStar ~261.8 million if/when closed; do not pretend fully diluted is known.
+8. Shares: start from 13,572,821,625 post-Cursor basic; EchoStar pending is in the base share count, cash, and spectrum asset as `[VIEW]` / pending; drop it only if the deal breaks. Do not pretend fully diluted is known.
 9. Backlog $47,461 million and deferred revenue $14,286 million as working-capital constraints, not as a revenue plug. Segment backlog: **not obtained**.
-10. Recast history includes xAI/X; Cursor is a H2 2026 step-up with **not obtained** contribution. Do not back-cast Cursor into Q2.
+10. Recast history includes xAI/X; Cursor is a H2 2026 step-up. Filing contribution is **not obtained**; the workbook still carries an explicit P&L `[VIEW]`. Do not back-cast Cursor into Q2.
 
 Annual history to seed the workbook (all $ millions; FCF = OCF − capex):
 
