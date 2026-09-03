@@ -1,8 +1,8 @@
 # Tesla fact register
 
-As of 2026-08-29. USD in millions unless stated otherwise. Each material item is tagged `[FACT]`, `[DEDUCTED]`, or `[VIEW]`. `not obtained` means no usable figure was found in the primary-source set below.
+As of 2026-09-03. USD in millions unless stated otherwise. Each material item is tagged `[FACT]`, `[DEDUCTED]`, or `[VIEW]`. `not obtained` means no usable figure was found in the source set below.
 
-## Primary-source set
+## Source set
 
 - **S1** — [Tesla FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm), especially pp. 2–9, 31–43, 46–62 and Note 16 pp. 91–92.
 - **S2** — [Tesla Q1 2026 Form 10-Q](https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/tsla-20260331.htm), filed 2026-04-23.
@@ -14,6 +14,9 @@ As of 2026-08-29. USD in millions unless stated otherwise. Each material item is
 - **S8** — [Tesla FY2025 Form 10-K/A](https://www.sec.gov/Archives/edgar/data/1318605/000110465926053166/tm2611837d1_10ka.htm), filed 2026-04-30.
 - **S9** — [Tesla Q2 2026 official webcast archive](https://ir.tesla.com/webcast-2026-07-22). A written company transcript was **not obtained**; the archive is video only.
 - **S10** — [Tesla 2025 definitive proxy](https://www.sec.gov/Archives/edgar/data/1318605/000110465925090866/tm252289-12_def14a.htm), filed 2025-09-17; the SEC’s [cutoff-date DEF 14A listing](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=DEF%2014A&dateb=20260829&owner=exclude&count=40&output=atom) shows no 2026 definitive proxy by 2026-08-29.
+- **S11** — [Electrek contemporaneous read of Tesla’s Q2 2026 paid-mile chart](https://electrek.co/2026/07/22/tesla-robotaxi-growth-flat-own-chart-q2-2026/), dated 2026-07-22.
+- **S12** — [TechCrunch contemporaneous coverage of Tesla’s Q2 2026 webcast](https://techcrunch.com/2026/07/23/teslas-robotaxis-are-moving-in-reverse/), dated 2026-07-23.
+- **S13** — [TeslaNorth coverage of the Texas automated-vehicle registry](https://teslanorth.com/2026/09/02/tesla-robotaxi-texas-420/), dated 2026-09-02.
 
 ## R1 — Reporting perimeter and products
 
@@ -67,7 +70,7 @@ Sources: [S4, pp. 6–7](https://ir.tesla.com/_flysystem/s3/sec/0001628280260038
 - **R3.2 [FACT]** Q2 2026 installed annual automotive capacity/status: California Model 3/Y `>550k` production; Shanghai Model 3/Y `>950k` production; Berlin Model Y `>375k` production; Texas Model Y `>250k`, Cybertruck `>125k`, and Cybercab `>125k`, all production; Nevada Semi commissioning; Roadster design development. [S6, p. 6](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 - **R3.3 [FACT]** Q2 2026 installed energy capacity/status: California Megapack 40 GWh production; Nevada Powerwall `>6 GWh` production; Shanghai Megapack 20 GWh production; Texas Megapack commissioning. Tesla cautions installed capacity is not current production rate. [S6, p. 6](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 - **R3.4 [FACT]** Tesla said battery-pack capacity remained the limiting factor for global vehicle-production ramp in Q2 2026. [S6, p. 7](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
-- **R3.5 [FACT]** Q2 2026 Robotaxi disclosure: Cybercab production had started; Austin, Dallas, Houston, Miami, Orlando and Tampa were described as ramping unsupervised, while Bay Area service used a safety driver. Robotaxi revenue, cost, fleet count and paid miles were **not obtained** as numeric financial disclosures. [S6, pp. 3, 9](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
+- **R3.5 [FACT]** Q2 2026 Robotaxi disclosure: Cybercab production had started; Austin, Dallas, Houston, Miami, Orlando and Tampa were described as ramping unsupervised, while Bay Area service used a safety driver. Tesla’s “Cumulative Paid Robotaxi Miles” area chart runs monthly from June 2025 through June 2026 on a 0–2,500,000 axis in 500,000-mile increments. The June endpoint is not data-labeled; contemporaneous coverage reads it as approximately 2.4 million cumulative paid miles, so no more exact company figure or company Q1/Q2 split is asserted. On the official webcast, VP of AI Ashok Elluswamy said, “We have driven more than 380,000 miles of unsupervised robotaxi now across six cities in two different states”; contemporaneous coverage describes these as miles without a safety operator onboard. The webcast figure is an unsupervised subset, not a replacement for the cumulative paid-mile chart. [S6, p. 9](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm); [S9](https://ir.tesla.com/webcast-2026-07-22); [S11](https://electrek.co/2026/07/22/tesla-robotaxi-growth-flat-own-chart-q2-2026/); [S12](https://techcrunch.com/2026/07/23/teslas-robotaxis-are-moving-in-reverse/)
 - **R3.6 [FACT]** Tesla did not disclose factory utilization by site. It stated it was focused on maximum capacity utilization and that output depends on demand, supply-chain readiness, allocation, uptime, components, upgrades and regulation. [S6, pp. 6, 10](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 - **R3.7 [FACT]** Tesla counts storage deployment when customer units are installed and equipment-sale units are delivered; deployed GWh is therefore not purely commissioned end-customer capacity. [S6, p. 32](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm)
 
@@ -113,7 +116,7 @@ Sources: [S1, Note 16, p. 92](https://www.sec.gov/Archives/edgar/data/1318605/00
 
 - **R8.1 [FACT]** Dollar automotive ASP and clean vehicle cost per delivered unit: **not obtained**. Filing commentary gives direction/mix, not a standalone figure, and automotive sales includes ancillary/software revenue.
 - **R8.2 [FACT]** Megapack/Powerwall unit ASP, cost per MWh, product mix and factory utilization: **not obtained**.
-- **R8.3 [FACT]** FSD, Robotaxi, Supercharging, insurance, warranty and used-vehicle standalone revenue/gross profit: **not obtained**.
+- **R8.3 [FACT]** FSD, Robotaxi, Supercharging, insurance, warranty and used-vehicle standalone revenue/gross profit: **not obtained**. Robotaxi paid miles are no longer wholly `not obtained`: R3.5 records the unlabeled chart endpoint at approximately 2.4 million cumulative through June 2026 and the separate `>380,000` unsupervised-mile statement. Active paid fleet, fares, Robotaxi revenue, cost and margin remain **not obtained**, as do company-reported Q1 and Q2 paid-mile splits. The roughly 420 vehicles on Texas’s automated-vehicle registry around 2026-09-02 (45 Cybercabs and the remainder Model Ys) are an authorization roster, not an active or paid-fleet disclosure, and are not used as the model’s paid fleet. [S13](https://teslanorth.com/2026/09/02/tesla-robotaxi-texas-420/)
 - **R8.4 [FACT]** Services attach rate other than the disclosed North American Q2 FSD attach indicator, service-center count and mobile-service fleet for Q2 2026: **not obtained**.
 - **R8.5 [FACT]** Segment operating income, segment opex, segment assets/liabilities and segment capex: **not obtained**; CODM uses gross profit and does not evaluate segments on assets/liabilities.
 - **R8.6 [FACT]** Official written Q1/Q2 2026 earnings-call transcripts: **not obtained**. Tesla IR supplied archived official webcasts, not written transcripts.

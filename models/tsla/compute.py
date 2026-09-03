@@ -328,8 +328,8 @@ PLATFORM_ASSUMPTIONS = {
     "FY2026E": {
         "fsd_revenue": 3_000.0,
         "fsd_ebit_margin": 0.72,
-        "robotaxi_avg_fleet_k": 15.0,
-        "robotaxi_revenue_per_vehicle_k": 30.0,
+        "robotaxi_avg_fleet_k": 0.40,
+        "robotaxi_revenue_per_vehicle_k": 20.0,
         "robotaxi_ebit_margin": 0.25,
         "optimus_units_k": 0.0,
         "optimus_asp_k": 0.0,
@@ -410,9 +410,9 @@ SPACEX_FAIR_VALUE = 3_007.0
 SPACEX_CASH_PURCHASE_2026 = 2_002.0
 DISCLOSED_INSTALLED_AUTO_CAPACITY_K = 2_375.0
 
-VALUATION_DATE = date(2026, 8, 29)
-LAST_PRICE_DATE = date(2026, 8, 28)
-LAST_PRICE = 348.75
+VALUATION_DATE = date(2026, 9, 3)
+LAST_PRICE_DATE = date(2026, 9, 2)
+LAST_PRICE = 357.01
 PT_SHARES = 3_949_547_394
 OFFICIAL_EBIT_MULTIPLE = 20.0
 THREE_YEAR_EBIT_MULTIPLE = 22.0
@@ -2009,7 +2009,7 @@ At the ${LAST_PRICE:.2f} last close, the official SOTP combines the filed-busine
 
 {markdown_table(["item", "formula", "$m or percentage"], tape_rows)}
 
-The implied platform hole is not Energy, which is already in core, and it is not primarily dilution: the script shows the effect of another 500m shares relative to the filing denominator. At tape scale, the operating `[VIEW]` requires (1) a multi-plant Cybercab build plus Model Y network vehicles, (2) FSD as a high-ARPU unsupervised software layer rather than a fixed small revenue ceiling, (3) Optimus at manufacturing scale, and (4) software/network terminal multiples above the industrial core multiple. The filing facts establish direction and the current subscription/capacity references, not these platform economics.
+The implied platform hole is not Energy, which is already in core, and it is not primarily dilution: the script shows the effect of another 500m shares relative to the filing denominator. At tape scale, the operating `[VIEW]` requires (1) a multi-plant Cybercab build plus Model Y network vehicles, (2) FSD as a high-ARPU unsupervised software layer rather than a fixed small revenue ceiling, (3) Optimus at manufacturing scale, and (4) software/network terminal multiples above the industrial core multiple. The filing facts establish direction and the current subscription, capacity and paid-mile references, not these platform economics.
 
 ## Official SOTP bridge
 

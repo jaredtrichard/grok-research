@@ -1,12 +1,13 @@
 # Tesla model inputs
 
-As of 2026-08-29. USD millions except per-share data, vehicles, GWh and percentages. Arithmetic and derived values live only in [`compute.py`](compute.py). `[VIEW]` is the researcher-specified base forecast; `not obtained` is never replaced with a guess.
+As of 2026-09-03. USD millions except per-share data, vehicles, GWh and percentages. Arithmetic and derived values live only in [`compute.py`](compute.py). `[VIEW]` is the researcher-specified base forecast; `not obtained` is never replaced with a guess.
 
 ## Source map
 
 | source | use |
 |---|---|
 | [Register R2/R3](../../memory/tsla/register.md#r2--historical-economics) | segment revenue/gross profit; production, deliveries, storage |
+| [Register R3.5/R8.3](../../memory/tsla/register.md#r3--volumes-infrastructure-and-capacity) | Robotaxi cumulative paid-mile and unsupervised-mile disclosures; remaining operating gaps |
 | [Register R5](../../memory/tsla/register.md#r5--balance-sheet-cash-flow-and-obligations) | Q2/1H balance sheet, cash flow, shares, capex outlook |
 | [Tesla FY2025 10-K S1](https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm) | FY2023–FY2025 income/cash flow; FY2024–FY2025 balance sheets |
 | [Tesla Q2 2026 10-Q S3](https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm) | 1H 2026 income/cash flow; 2026-06-30 balance sheet |
@@ -68,11 +69,11 @@ FSD UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 90%.
 
 | input | FY2026 | FY2027 | FY2028 | FY2029 | FY2030 | FY2031 | FY2032 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Average paid fleet (k) | [VIEW] 15 | [VIEW] 80 | [VIEW] 250 | [VIEW] 650 | [VIEW] 1,400 | [VIEW] 2,500 | [VIEW] 3,500 |
-| Revenue / vehicle ($k) | [VIEW] 30 | [VIEW] 34 | [VIEW] 38 | [VIEW] 40 | [VIEW] 41 | [VIEW] 42 | [VIEW] 42 |
+| Average paid fleet (k) | [VIEW] 0.40 | [VIEW] 80 | [VIEW] 250 | [VIEW] 650 | [VIEW] 1,400 | [VIEW] 2,500 | [VIEW] 3,500 |
+| Revenue / vehicle ($k) | [VIEW] 20 | [VIEW] 34 | [VIEW] 38 | [VIEW] 40 | [VIEW] 41 | [VIEW] 42 | [VIEW] 42 |
 | EBIT margin | [VIEW] 25% | [VIEW] 40% | [VIEW] 50% | [VIEW] 50% | [VIEW] 48% | [VIEW] 45% | [VIEW] 43% |
 
-Robotaxi revenue `[VIEW]` equals average fleet (k) × revenue/vehicle ($k). Fleet-growth capex `[VIEW]` is $22k per incremental average-fleet unit versus the prior year. UFCF `[VIEW]` equals after-tax EBIT less fleet-growth capex. The path requires `[VIEW]` multi-plant Cybercab capacity and Model Y network reallocations; the script compares implied additions with the single disclosed Texas `>125k` line. R3.2 is installed capacity, not current output.
+The FY2026 re-underwrite retires the former 15k-fleet / $450m revenue base and uses 400 average paid vehicles at $20k revenue per vehicle, consistent with the approximately 2.4 million cumulative paid-mile disclosure without inventing fares or utilization. FY2027–FY2032 are unchanged. Robotaxi revenue `[VIEW]` equals average fleet (k) × revenue/vehicle ($k). Fleet-growth capex `[VIEW]` is $22k per incremental average-fleet unit versus the prior year, beginning from zero in FY2026. UFCF `[VIEW]` equals after-tax EBIT less fleet-growth capex. The Texas registry’s roughly 420 authorized vehicles are not substituted for active paid fleet. The path requires `[VIEW]` multi-plant Cybercab capacity and Model Y network reallocations; the script compares implied additions with the single disclosed Texas `>125k` line. R3.2 is installed capacity, not current output.
 
 ### Optimus
 
@@ -89,7 +90,7 @@ Optimus UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 70%.
 | input | treatment | class |
 |---|---|---|
 | Core | 20.0× FY2027E operating income excluding platform wedges + core YE2026E net cash + SpaceX filing FV | [VIEW] |
-| Platform discount rate | 10.0%, mid-year convention from 2026-08-29 | [VIEW] |
+| Platform discount rate | 10.0%, mid-year convention from 2026-09-03 | [VIEW] |
 | Platform terminal | 20.0× FSD, 18.0× Robotaxi and 18.0× Optimus FY2032 EBIT | [VIEW] |
 | Bear check | Core + 0.50× total platform EV | [VIEW] |
 | Bull check | Core + 1.50× total platform EV | [VIEW] |
@@ -116,6 +117,6 @@ Optimus UFCF `[VIEW]` equals EBIT × `(1 − FY2025 effective tax rate)` × 70%.
 - Period-end basic shares for FY2026–FY2028: `not obtained`; the model uses the specified diluted WAS only.
 - Credit cost: `not obtained`; 100% incremental gross margin is a `[VIEW]`.
 - Segment capex, assets, liabilities and cash flow: `not obtained` (R8.5); no allocation is fabricated.
-- Filing-based Robotaxi, incremental FSD and Optimus revenue/cost/unit economics: `not obtained` (R8.3); the model uses only the explicitly labeled researcher `[VIEW]` tables above.
+- Filing-based Robotaxi revenue, cost, margin, fares and active paid fleet remain `not obtained` (R8.3); only cumulative paid miles and a separate unsupervised-mile subset are obtained. The model uses only the explicitly labeled researcher `[VIEW]` tables above.
 - Product-level Energy units, realized pricing and cost/MWh: `not obtained` (R8.2); researcher-specified aggregate deployment and revenue assumptions govern.
 - Forecast lease additions, depreciation and residual losses: `not obtained`; lease-fleet assets are held at the 2026-06-30 balance.
