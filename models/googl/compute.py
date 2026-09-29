@@ -103,6 +103,7 @@ HIST_INCOME = {
         "preferred_dividends": 0.0,
         "common_net_income": 73_795.0,
         "diluted_shares": 12_722.0,
+        "diluted_eps": 5.80,
     },
     "FY2024A": {
         "revenue": 350_018.0,
@@ -118,6 +119,7 @@ HIST_INCOME = {
         "preferred_dividends": 0.0,
         "common_net_income": 100_118.0,
         "diluted_shares": 12_447.0,
+        "diluted_eps": 8.04,
     },
     "FY2025A": {
         "revenue": 402_836.0,
@@ -133,6 +135,7 @@ HIST_INCOME = {
         "preferred_dividends": 0.0,
         "common_net_income": 132_170.0,
         "diluted_shares": 12_230.0,
+        "diluted_eps": 10.81,
     },
     "1H2026A": {
         "revenue": 229_692.0,
@@ -148,6 +151,7 @@ HIST_INCOME = {
         "preferred_dividends": 86.0,
         "common_net_income": 174_685.0,
         "diluted_shares": 12_274.0,
+        "diluted_eps": 14.24,
     },
 }
 
@@ -159,6 +163,7 @@ HIST_BALANCE = {
         "inventory": 0.0,
         "other_current_assets": 12_650.0,
         "nonmarketable": 31_008.0,
+        "deferred_tax_asset": 12_169.0,
         "ppe": 134_345.0,
         "lease_assets": 14_091.0,
         "goodwill_intangibles": 29_198.0,
@@ -190,6 +195,7 @@ HIST_BALANCE = {
         "inventory": 0.0,
         "other_current_assets": 15_714.0,
         "nonmarketable": 37_982.0,
+        "deferred_tax_asset": 17_180.0,
         "ppe": 171_036.0,
         "lease_assets": 13_588.0,
         "goodwill_intangibles": 31_885.0,
@@ -221,6 +227,7 @@ HIST_BALANCE = {
         "inventory": 2_439.0,
         "other_current_assets": 13_870.0,
         "nonmarketable": 68_687.0,
+        "deferred_tax_asset": 9_113.0,
         "ppe": 246_597.0,
         "lease_assets": 15_221.0,
         "goodwill_intangibles": 34_663.0,
@@ -252,6 +259,7 @@ HIST_BALANCE = {
         "inventory": 9_991.0,
         "other_current_assets": 21_884.0,
         "nonmarketable": 131_461.0,
+        "deferred_tax_asset": 1_448.0,
         "ppe": 321_212.0,
         "lease_assets": 17_694.0,
         "goodwill_intangibles": 66_933.0,
@@ -283,6 +291,8 @@ HIST_CASHFLOW = {
         "net_income": 73_795.0,
         "da": 11_946.0,
         "sbc": 22_460.0,
+        "deferred_tax": -7_763.0,
+        "investment_gain_adjustment": -823.0,
         "ocf": 101_746.0,
         "capex": 32_251.0,
         "acquisitions": 495.0,
@@ -299,6 +309,8 @@ HIST_CASHFLOW = {
         "net_income": 100_118.0,
         "da": 15_311.0,
         "sbc": 22_785.0,
+        "deferred_tax": -5_257.0,
+        "investment_gain_adjustment": 2_671.0,
         "ocf": 125_299.0,
         "capex": 52_535.0,
         "acquisitions": 2_931.0,
@@ -315,6 +327,8 @@ HIST_CASHFLOW = {
         "net_income": 132_170.0,
         "da": 21_136.0,
         "sbc": 24_953.0,
+        "deferred_tax": 8_348.0,
+        "investment_gain_adjustment": 24_620.0,
         "ocf": 164_713.0,
         "capex": 91_447.0,
         "acquisitions": 1_592.0,
@@ -621,9 +635,7 @@ def build_model(
         cogs = segment["total_revenue"] - segment["operating_income"] - opex
 
         interest_income = (
-            HIST_CASHFLOW["1H2026A"]["net_income"] * 0.0
-            + HIST_INCOME["1H2026A"]["other_income"] * 0.0
-            + 2_811.0
+            2_811.0
             + (previous["cash"] + previous["marketable"])
             * INTEREST_INCOME_RATE
             / 2.0
@@ -789,6 +801,7 @@ def build_model(
             "inventory": target["inventory"],
             "other_current_assets": target["other_current_assets"],
             "nonmarketable": previous["nonmarketable"],
+            "deferred_tax_asset": previous["deferred_tax_asset"],
             "ppe": ppe,
             "lease_assets": previous["lease_assets"],
             "goodwill_intangibles": previous["goodwill_intangibles"],
@@ -817,6 +830,7 @@ def build_model(
             + balance["inventory"]
             + balance["other_current_assets"]
             + balance["nonmarketable"]
+            + balance["deferred_tax_asset"]
             + balance["ppe"]
             + balance["lease_assets"]
             + balance["goodwill_intangibles"]
@@ -828,7 +842,6 @@ def build_model(
             + balance["accrued_current"]
             + balance["accrued_revenue_share"]
             + balance["deferred_revenue"]
-            + balance["current_debt"]
             + balance["long_debt"]
             + balance["tax_payable"]
             + balance["deferred_tax_liability"]
@@ -1209,8 +1222,16 @@ def render_segments(
         margin_rows.append(
             [
                 period,
-                pct(segments[period]["services_margin"]),
-                pct(segments[period]["cloud_margin"]),
+                (
+                    f"[DEDUCTED] {pct(segments[period]['services_margin'])}"
+                    if period in HIST_PERIODS
+                    else f"[VIEW] {pct(segments[period]['services_margin'])}"
+                ),
+                (
+                    f"[DEDUCTED] {pct(segments[period]['cloud_margin'])}"
+                    if period in HIST_PERIODS
+                    else f"[VIEW] {pct(segments[period]['cloud_margin'])}"
+                ),
             ]
         )
     check_rows = [
@@ -1248,7 +1269,7 @@ def render_income(
     lines = [
         ("Revenue", "revenue"),
         ("[DEDUCTED] Cost of revenue", "cogs"),
-        ("Gross profit", "gross_profit"),
+        ("[DEDUCTED] Gross profit", "gross_profit"),
         ("R&D", "rd"),
         ("Sales and marketing", "sales_marketing"),
         ("G&A", "ga"),
@@ -1286,7 +1307,9 @@ def render_income(
         for period in ALL_PERIODS:
             value = income[period].get(key)
             rendered = fmt(value, 2 if key == "diluted_eps" else 0)
-            if period in FORECAST_PERIODS and key in {
+            if key == "gross_profit":
+                rendered = f"[DEDUCTED] {rendered}"
+            elif period in FORECAST_PERIODS and key in {
                 "cogs",
                 "recurring_net_income",
             }:
@@ -1328,6 +1351,7 @@ def render_balance(
         ("Inventory", "inventory"),
         ("Other current assets", "other_current_assets"),
         ("Non-marketable securities", "nonmarketable"),
+        ("Deferred-tax assets", "deferred_tax_asset"),
         ("PP&E, net", "ppe"),
         ("Operating-lease assets", "lease_assets"),
         ("Goodwill and intangibles", "goodwill_intangibles"),
@@ -1338,7 +1362,7 @@ def render_balance(
         ("Accrued expenses and other current liabilities", "accrued_current"),
         ("Accrued revenue share", "accrued_revenue_share"),
         ("Deferred revenue", "deferred_revenue"),
-        ("Current debt", "current_debt"),
+        ("Current debt (memo; included in accrued current liabilities)", "current_debt"),
         ("Long-term debt", "long_debt"),
         ("Income taxes payable", "tax_payable"),
         ("Deferred tax liability", "deferred_tax_liability"),
