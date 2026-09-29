@@ -8,6 +8,7 @@ Consolidated revenue and operating income are built **only** from reported segme
 |---|---|---|---|---|---|---|---|
 | Total revenue (segment sum) | 22,680 | 25,785 | 34,639 | 21,789 | 49,461 | 82,038 | 107,773 |
 | Data Center operating income | 1,267 | 3,482 | 3,603 | 3,702 | 8,883 | 18,817 | 27,194 |
+| Gross margin | 46.1% | 49.4% | 49.5% | 53.3% | 54.0% | 55.0% | 55.0% |
 | Client + Gaming operating income | 925 | 1,187 | 2,855 | 1,157 | 2,541 | 2,885 | 3,253 |
 | Embedded operating income | 2,628 | 1,421 | 1,243 | 724 | 1,549 | 1,704 | 1,793 |
 | All Other operating loss | (4,419) | (4,190) | (4,007) | (2,117) | (5,100) | (5,800) | (6,400) |

@@ -10,7 +10,7 @@ Three-statement segment workbook: [`models/amd/`](../models/amd/).
 | [`income.md`](../models/amd/income.md) | consolidated IS built from segment operating income sum |
 | [`balance.md`](../models/amd/balance.md) | balance sheet |
 | [`cashflow.md`](../models/amd/cashflow.md) | cash flow and FCF bridge |
-| [`valuation.md`](../models/amd/valuation.md) | **stub** — valuation gate not started |
+| [`valuation.md`](../models/amd/valuation.md) | DCF + segment SOTP price target (gate 3); regenerate via `compute.py` |
 
 ## Reconciliation
 

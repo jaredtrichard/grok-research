@@ -8,6 +8,7 @@ prints tie-out checks. USD millions except per-share data and percentages.
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -293,6 +294,31 @@ ASSUMPTIONS: dict[str, dict[str, float]] = {
 
 MINIMUM_CASH = 4_000.0
 INTEREST_INCOME_RATE = 0.03
+
+# Valuation — researcher [VIEW] unless noted [FACT].
+VALUATION_AS_OF = date(2026, 9, 29)
+LAST_CLOSE_DATE = date(2026, 9, 29)
+LAST_CLOSE = 607.57
+LAST_CLOSE_SOURCE = (
+    "https://finance.yahoo.com/quote/AMD/history/"
+    " (Yahoo Finance chart API regularMarketPrice, 2026-09-29)"
+)
+SHARES_OUTSTANDING_M = 1_632.475042  # [FACT] R6.5 basic shares on 2026-07-29
+PT_DILUTED_SHARES_M = ASSUMPTIONS["FY2028E"]["diluted_shares"]  # [VIEW] forward WAS
+DCF_WACC = 0.095  # [VIEW] fabless high-growth semi; balances AI upside vs cyclicality
+DCF_TERMINAL_GROWTH = 0.025  # [VIEW] long-run nominal GDP+ share gain fade
+DCF_TERMINAL_FCF_MULTIPLE = 24.0  # [VIEW] cross-check to Gordon; high-growth exit
+SOTP_DC_EBIT_MULTIPLE = 26.0  # [VIEW] AI accelerator / server CPU mix premium
+SOTP_CG_EBIT_MULTIPLE = 14.0  # [VIEW] PC/console cyclicality
+SOTP_EMB_EBIT_MULTIPLE = 17.0  # [VIEW] FPGA/adaptive industrial multiple
+OFFICIAL_DCF_WEIGHT = 0.65  # [VIEW] primary: cash earnings path from model FCF
+OFFICIAL_SOTP_WEIGHT = 0.35  # [VIEW] segment OI cross-check
+FCF_DISCOUNT_DATES = {
+    "FY2026E": date(2026, 12, 26),
+    "FY2027E": date(2027, 12, 25),
+    "FY2028E": date(2028, 12, 29),
+}
+TERMINAL_DATE = date(2029, 6, 30)  # [VIEW] mid-year after FY2028 FCF year
 
 
 def fmt(value: Any, decimals: int = 0) -> str:
@@ -825,12 +851,304 @@ Working-capital days from 1H2026 annualized revenue/COGS: AR `{wc["ar_days"]:.1f
 """
 
 
-def render_valuation_stub() -> str:
-    return """# AMD valuation
+def discount_years(payment_date: date) -> float:
+    return (payment_date - VALUATION_AS_OF).days / 365.0
 
-Valuation not started; awaits completed three-statement model review and valuation gate.
 
-The segment three-statement workbook lives under `models/amd/`. Do not infer price targets from forecast tables until `valuation.md` is built in a later gate.
+def build_valuation(
+    income: dict[str, dict[str, float]],
+    segments: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+) -> dict[str, Any]:
+    """DCF on model FCF plus segment SOTP cross-check."""
+
+    net_cash = (
+        balances["1H2026A"]["cash"]
+        + balances["1H2026A"]["sti"]
+        - balances["1H2026A"]["debt"]
+    )
+    dcf_rows: list[dict[str, float]] = []
+    pv_fcf = 0.0
+    for period in FORECAST_PERIODS:
+        fcf = cashflow[period]["fcf"]
+        years = discount_years(FCF_DISCOUNT_DATES[period])
+        discount_factor = (1.0 + DCF_WACC) ** years
+        pv = fcf / discount_factor
+        pv_fcf += pv
+        dcf_rows.append(
+            {
+                "period": period,
+                "fcf": fcf,
+                "years": years,
+                "pv": pv,
+            }
+        )
+
+    terminal_fcf = cashflow["FY2028E"]["fcf"] * (1.0 + DCF_TERMINAL_GROWTH)
+    gordon_terminal = terminal_fcf / (DCF_WACC - DCF_TERMINAL_GROWTH)
+    multiple_terminal = cashflow["FY2028E"]["fcf"] * DCF_TERMINAL_FCF_MULTIPLE
+    terminal_value = (gordon_terminal + multiple_terminal) / 2.0
+    terminal_years = discount_years(TERMINAL_DATE)
+    pv_terminal = terminal_value / ((1.0 + DCF_WACC) ** terminal_years)
+    dcf_equity = pv_fcf + pv_terminal + net_cash
+    dcf_pt = dcf_equity / PT_DILUTED_SHARES_M
+
+    fy28 = segments["FY2028E"]
+    sotp_operating_ev = (
+        fy28["dc_oi"] * SOTP_DC_EBIT_MULTIPLE
+        + fy28["cg_oi"] * SOTP_CG_EBIT_MULTIPLE
+        + fy28["emb_oi"] * SOTP_EMB_EBIT_MULTIPLE
+        + fy28["all_other_oi"] * SOTP_CG_EBIT_MULTIPLE
+    )
+    sotp_equity = sotp_operating_ev + net_cash
+    sotp_pt = sotp_equity / PT_DILUTED_SHARES_M
+
+    official_equity = (
+        OFFICIAL_DCF_WEIGHT * dcf_equity + OFFICIAL_SOTP_WEIGHT * sotp_equity
+    )
+    official_pt = official_equity / PT_DILUTED_SHARES_M
+    upside_diluted = (official_pt - LAST_CLOSE) / LAST_CLOSE
+    market_cap = LAST_CLOSE * SHARES_OUTSTANDING_M
+    upside_basic = (official_pt - LAST_CLOSE) / LAST_CLOSE
+
+    sensitivities: list[dict[str, Any]] = []
+    for label, wacc in [("WACC 8.5%", 0.085), ("WACC 10.5%", 0.105)]:
+        pv = sum(
+            row["fcf"] / ((1.0 + wacc) ** row["years"]) for row in dcf_rows
+        )
+        tv = terminal_value / ((1.0 + wacc) ** terminal_years)
+        eq = pv + tv + net_cash
+        sensitivities.append(
+            {
+                "case": label,
+                "pt": eq / PT_DILUTED_SHARES_M,
+                "delta_vs_base": eq / PT_DILUTED_SHARES_M - dcf_pt,
+            }
+        )
+    for label, mult in [("Terminal FCF 20×", 20.0), ("Terminal FCF 28×", 28.0)]:
+        tv = cashflow["FY2028E"]["fcf"] * mult
+        tv_blend = (gordon_terminal + tv) / 2.0
+        pv = pv_fcf + tv_blend / ((1.0 + DCF_WACC) ** terminal_years) + net_cash
+        sensitivities.append(
+            {
+                "case": label,
+                "pt": pv / PT_DILUTED_SHARES_M,
+                "delta_vs_base": pv / PT_DILUTED_SHARES_M - dcf_pt,
+            }
+        )
+    fy27_dc_down = segments["FY2027E"]["dc_rev"] * 0.80
+    fy27_dc_oi = fy27_dc_down * ASSUMPTIONS["FY2027E"]["dc_oi_margin"]
+    dc_oi_hit = fy27_dc_oi - segments["FY2027E"]["dc_oi"]
+    oi_hit = income["FY2027E"]["operating_income"] + dc_oi_hit
+    fcf_hit = cashflow["FY2027E"]["fcf"] + dc_oi_hit * 0.70
+    row27 = next(r for r in dcf_rows if r["period"] == "FY2027E")
+    pv_hit = (
+        dcf_rows[0]["fcf"] / ((1.0 + DCF_WACC) ** dcf_rows[0]["years"])
+        + fcf_hit / ((1.0 + DCF_WACC) ** row27["years"])
+        + cashflow["FY2028E"]["fcf"]
+        / ((1.0 + DCF_WACC) ** dcf_rows[2]["years"])
+    )
+    eq_hit = pv_hit + pv_terminal + net_cash
+    sensitivities.append(
+        {
+            "case": "FY2027 DC revenue −20%",
+            "pt": eq_hit / PT_DILUTED_SHARES_M,
+            "delta_vs_base": eq_hit / PT_DILUTED_SHARES_M - dcf_pt,
+        }
+    )
+    warrant_dilution_m = 320.0
+    pt_warrants = official_equity / (PT_DILUTED_SHARES_M + warrant_dilution_m)
+    sensitivities.append(
+        {
+            "case": "OpenAI+Meta warrants +320m shares",
+            "pt": pt_warrants,
+            "delta_vs_base": pt_warrants - official_pt,
+        }
+    )
+
+    return {
+        "net_cash": net_cash,
+        "dcf_rows": dcf_rows,
+        "pv_fcf": pv_fcf,
+        "terminal_fcf": terminal_fcf,
+        "gordon_terminal": gordon_terminal,
+        "multiple_terminal": multiple_terminal,
+        "terminal_value": terminal_value,
+        "pv_terminal": pv_terminal,
+        "dcf_equity": dcf_equity,
+        "dcf_pt": dcf_pt,
+        "sotp_operating_ev": sotp_operating_ev,
+        "sotp_equity": sotp_equity,
+        "sotp_pt": sotp_pt,
+        "official_equity": official_equity,
+        "official_pt": official_pt,
+        "upside": upside_diluted,
+        "market_cap": market_cap,
+        "fy28_oi": income["FY2028E"]["operating_income"],
+        "fy28_fcf": cashflow["FY2028E"]["fcf"],
+        "fy28_ni": income["FY2028E"]["net_income"],
+        "sensitivities": sensitivities,
+    }
+
+
+def render_valuation(
+    income: dict[str, dict[str, float]],
+    segments: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+) -> str:
+    val = build_valuation(income, segments, cashflow, balances)
+    setup_rows = [
+        ["Valuation as-of", VALUATION_AS_OF.isoformat()],
+        ["Last close", f"${LAST_CLOSE:.2f} on {LAST_CLOSE_DATE.isoformat()}"],
+        ["Last-price source", LAST_CLOSE_SOURCE],
+        [
+            "Official 12-month price target / share",
+            f"${val['official_pt']:.2f}",
+        ],
+        [
+            "Implied change vs last close",
+            f"{val['upside'] * 100:.1f}% (PT ÷ last close − 1)",
+        ],
+        [
+            "PT denominator (diluted WAS)",
+            f"{PT_DILUTED_SHARES_M:,.0f}m — FY2028E [VIEW] in inputs.md; "
+            "matches forward NI/EPS path; warrants not in base",
+        ],
+        [
+            "Market-cap cross-check shares",
+            f"{SHARES_OUTSTANDING_M:,.3f}m basic — [FACT] R6.5 on 2026-07-29",
+        ],
+        [
+            "Method",
+            f"{OFFICIAL_DCF_WEIGHT:.0%} unlevered FCF DCF + "
+            f"{OFFICIAL_SOTP_WEIGHT:.0%} FY2028 segment EBIT SOTP",
+        ],
+    ]
+    dcf_bridge = [
+        ["PV explicit FCF (FY2026–FY2028)", fmt(val["pv_fcf"])],
+        ["PV terminal value", fmt(val["pv_terminal"])],
+        ["Plus: net cash (1H2026)", fmt(val["net_cash"])],
+        ["DCF equity value", fmt(val["dcf_equity"])],
+        ["DCF PT / share (diluted)", f"${val['dcf_pt']:.2f}"],
+    ]
+    dcf_detail = [
+        [
+            row["period"],
+            fmt(row["fcf"]),
+            f"{row['years']:.2f}",
+            f"[VIEW] {DCF_WACC:.1%}",
+            fmt(row["pv"]),
+        ]
+        for row in val["dcf_rows"]
+    ]
+    terminal_rows = [
+        ["Terminal FCF (FY2028 FCF × (1+g))", fmt(val["terminal_fcf"])],
+        ["Gordon terminal @ g", fmt(val["gordon_terminal"])],
+        [
+            f"Exit FCF multiple ({DCF_TERMINAL_FCF_MULTIPLE:.0f}× FY2028)",
+            fmt(val["multiple_terminal"]),
+        ],
+        ["Blended terminal value", fmt(val["terminal_value"])],
+        ["Discount to", TERMINAL_DATE.isoformat()],
+        ["PV terminal", fmt(val["pv_terminal"])],
+    ]
+    sotp_rows = [
+        ["Data Center FY2028 OI", fmt(segments["FY2028E"]["dc_oi"])],
+        [f"[VIEW] × {SOTP_DC_EBIT_MULTIPLE:.0f}× EBIT", ""],
+        ["Client + Gaming FY2028 OI", fmt(segments["FY2028E"]["cg_oi"])],
+        [f"[VIEW] × {SOTP_CG_EBIT_MULTIPLE:.0f}× EBIT", ""],
+        ["Embedded FY2028 OI", fmt(segments["FY2028E"]["emb_oi"])],
+        [f"[VIEW] × {SOTP_EMB_EBIT_MULTIPLE:.0f}× EBIT", ""],
+        ["All Other FY2028 OI", fmt(segments["FY2028E"]["all_other_oi"])],
+        [
+            f"At Client+Gaming multiple ({SOTP_CG_EBIT_MULTIPLE:.0f}×)",
+            "unallocated costs",
+        ],
+        ["Segment operating EV", fmt(val["sotp_operating_ev"])],
+        ["Plus: net cash", fmt(val["net_cash"])],
+        ["SOTP equity value", fmt(val["sotp_equity"])],
+        ["SOTP PT / share", f"${val['sotp_pt']:.2f}"],
+    ]
+    official_rows = [
+        ["DCF equity × weight", fmt(val["dcf_equity"] * OFFICIAL_DCF_WEIGHT)],
+        ["SOTP equity × weight", fmt(val["sotp_equity"] * OFFICIAL_SOTP_WEIGHT)],
+        ["Official equity value", fmt(val["official_equity"])],
+        ["Official PT / share", f"${val['official_pt']:.2f}"],
+        ["Last close", f"${LAST_CLOSE:.2f}"],
+        ["Implied % vs last close", f"{val['upside'] * 100:.1f}%"],
+    ]
+    sens_rows = [
+        [s["case"], f"${s['pt']:.2f}", f"${s['delta_vs_base']:+.2f} vs anchor"]
+        for s in val["sensitivities"]
+    ]
+    implied_rows = [
+        [
+            "FY2028 model operating income",
+            fmt(val["fy28_oi"]),
+            f"EV/OI @ PT: {val['official_equity'] / val['fy28_oi']:.1f}×",
+        ],
+        [
+            "FY2028 model FCF",
+            fmt(val["fy28_fcf"]),
+            f"FCF yield on equity @ PT: {val['fy28_fcf'] / val['official_equity'] * 100:.1f}%",
+        ],
+        [
+            "FY2028 model net income",
+            fmt(val["fy28_ni"]),
+            f"Implied P/E @ PT: {val['official_pt'] / (val['fy28_ni'] / PT_DILUTED_SHARES_M):.1f}×",
+        ],
+    ]
+    return f"""# AMD valuation
+
+Generated by `compute.py`; do not hand-edit. USD millions except per-share data and multiples.
+
+## Investment idea the target prices
+
+The target prices **scaled AI data-center earnings and cash generation** in the segment model (Instinct/EPYC-led Data Center ramp in [`segments.md`](segments.md)), with Client+Gaming and Embedded as supporting profit pools—not a separate “story stock” layer. World Labs ([R1.9]({REGISTER})) is **excluded** until close and purchase accounting is filed. OpenAI/Meta warrant dilution is **not** in the base share count ([R6.5]({REGISTER})).
+
+## Official method and as-of
+
+{markdown_table(["item", "value"], setup_rows)}
+
+WACC `[VIEW]` {DCF_WACC:.1%}: fabless semi with AI growth but no foundry moat—between mature semi and hyperscaler software. Terminal `g` `[VIEW]` {DCF_TERMINAL_GROWTH:.1%}: long-run nominal growth after AI capex normalizes. Terminal value blends Gordon on terminal FCF with an exit FCF multiple `[VIEW]` {DCF_TERMINAL_FCF_MULTIPLE:.0f}× on FY2028 model FCF. Segment multiples `[VIEW]` reflect DC premium vs PC/console and industrial embedded comps.
+
+## Unlevered FCF DCF (primary, {OFFICIAL_DCF_WEIGHT:.0%} weight)
+
+Explicit flows are **model FCF** from [`cashflow.md`](cashflow.md) (FY2026E–FY2028E). Net cash is cash + short-term investments − debt at 2026-06-30 ([R6.1]({REGISTER})).
+
+{markdown_table(["item", "$m"], dcf_bridge)}
+
+{markdown_table(["period", "model FCF", f"years to {VALUATION_AS_OF.isoformat()}", "WACC", "PV"], dcf_detail)}
+
+### Terminal value
+
+{markdown_table(["item", "$m"], terminal_rows)}
+
+## Segment EBIT SOTP cross-check ({OFFICIAL_SOTP_WEIGHT:.0%} weight)
+
+FY2028 segment operating income from [`segments.md`](segments.md); multiples are `[VIEW]` one-line comp anchors, not filing facts.
+
+{markdown_table(["line", "value / note"], sotp_rows)}
+
+## Official price target bridge
+
+{markdown_table(["item", "value"], official_rows)}
+
+## Implied multiples at the target
+
+{markdown_table(["metric", "model value", "at official PT"], implied_rows)}
+
+## Sensitivity — what moves the target most
+
+{markdown_table(["case", "DCF-style PT / share", "Δ vs base"], sens_rows)}
+
+Anchor for Δ: DCF PT ${val['dcf_pt']:.2f} or official PT for warrant row. **Killing gaps:** FY2027 Data Center revenue miss (no contracted GW→$ bridge, R9.10), higher WACC if rates/AI risk premia rise, lower terminal multiple if FCF conversion disappoints, warrant vesting (+320m shares scenario), World Labs close economics, lease/investment commitments (R6.6–R6.7) not in FCF.
+
+## What is not in this file
+
+No `thesis.md` update, no LONG/SHORT/PASS label, no Street consensus (R9.9). Re-run `python3 models/amd/compute.py` after changing `inputs.md` assumptions or valuation constants at top of `compute.py`.
 """
 
 
@@ -842,12 +1160,14 @@ def main() -> None:
     balances, cashflow = build_balance_and_cashflow(income)
     checks = build_checks(segments, income, balances)
 
+    valuation = build_valuation(income, segments, cashflow, balances)
+
     outputs = {
         "segments.md": render_segments(segments, checks),
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances),
         "cashflow.md": render_cashflow(cashflow, balances),
-        "valuation.md": render_valuation_stub(),
+        "valuation.md": render_valuation(income, segments, cashflow, balances),
     }
     for name, content in outputs.items():
         (ROOT / name).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -860,6 +1180,11 @@ def main() -> None:
             f"NI {income[period]['net_income']:.0f} | "
             f"FCF {cashflow[period]['fcf']:.0f}"
         )
+    print("\nValuation")
+    print(f"Last close ${LAST_CLOSE:.2f} ({LAST_CLOSE_DATE})")
+    print(f"Official PT ${valuation['official_pt']:.2f} ({valuation['upside']*100:.1f}% vs last)")
+    print(f"DCF PT ${valuation['dcf_pt']:.2f} | SOTP PT ${valuation['sotp_pt']:.2f}")
+
     print("\nTie-out checks")
     failed = False
     for name, passed, diff in checks:

@@ -55,10 +55,22 @@ Segment revenue growth is applied to the prior fiscal year for FY2026 and to the
 
 Working capital: AR, inventory and AP days `[DEDUCTED]` from 1H 2026 balance sheet and annualized 1H revenue/COGS (see `cashflow.md`). Minimum cash balance `[VIEW]` $4,000m.
 
-## Gaps that block valuation
+## Valuation `[VIEW]` (see `compute.py` constants)
+
+| input | value | rationale |
+| --- | --- | --- |
+| WACC | 9.5% | Fabless high-growth semi risk blend |
+| Terminal g | 2.5% | Long-run fade after AI capex cycle |
+| Terminal FCF multiple | 24× FY2028 FCF | Exit cross-check vs Gordon |
+| SOTP EBIT multiples | DC 26× / C+G 14× / Emb 17× | Segment comp anchors |
+| Official blend | 65% DCF / 35% SOTP | Cash path primary, segments check |
+| PT shares | FY2028E diluted WAS (1,680m) | Forward NI denominator; basic 1,632.475m for market-cap vs last close (R6.5) |
+| Last close | $607.57 on 2026-09-29 | Yahoo Finance (cited in `valuation.md`) |
+
+## Gaps that block a higher-confidence target
 
 - Segment gross profit and product-level units/ASP: R9.1–R9.5.
-- Contracted AI deployment dollars and warrant dilution: R9.10, R6.5.
+- Contracted AI deployment dollars and warrant dilution: R9.10, R6.5 (sensitivity only).
 - World Labs close effects: R1.9.
-- Street consensus / market price: R9.9; `valuation.md` not started.
-- Lease guarantees and strategic investment funding (R6.6–R6.7) not in balance sheet roll-forward.
+- Street consensus: R9.9.
+- Lease guarantees and strategic investment funding (R6.6–R6.7) not in FCF.
