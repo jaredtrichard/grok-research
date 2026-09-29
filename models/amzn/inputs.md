@@ -68,6 +68,26 @@ Segment revenue grows from FY2025 base revenue; segment operating income equals 
 | Diluted WAS (forecast) | 10,950 / 11,000 / 11,050 | [VIEW] |
 | Dividends / buybacks | zero | [VIEW] |
 
+## Valuation `[VIEW]` assumptions (gate 3)
+
+Official 12-month PT is computed in [`compute.py`](compute.py) and written to [`valuation.md`](valuation.md).
+
+| input | treatment | class |
+|---|---|---|
+| Valuation as-of | 2026-09-29 | [FACT] task date |
+| Last close | $246.67 on 2026-09-29 | [FACT] [Yahoo Finance historical](https://finance.yahoo.com/quote/AMZN/history/) |
+| PT share denominator | 10,786,313,572 shares on 2026-07-22 (10-Q cover) | [FACT] R6.4 |
+| Segment OI multiple year | FY2027E segment operating income | [VIEW] |
+| Net cash for PT | FY2026E cash + STI − debt − lease liabilities | [DEDUCTED] from model balance |
+| AWS EV / segment OI | 17.0× | [VIEW] |
+| North America EV / segment OI | 12.0× | [VIEW] |
+| International EV / segment OI | 10.0× | [VIEW] |
+| Strategic stake fair value in official PT | excluded; balance-sheet FV | **not obtained** |
+| R6.5 capex outlook mapping | FY2026E net cash capex 200,000 | [VIEW] see valuation.md |
+| Bear / bull sensitivity | 0.85× / 1.15× segment multiples on same OI | [VIEW] check only |
+| Bull strategic uplift | 50% of R7.2 named cash deployed | [VIEW] check only |
+| Consolidated FCF DCF check | 9.0% WACC; 3.0% terminal growth on FY2028 FCF | [VIEW] check only |
+
 ## Gaps
 
 - Sales-group operating income and advertising/subscription standalone margins: **not obtained** (R8.2–R8.4); forecast uses segment operating income only.

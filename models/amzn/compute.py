@@ -2,12 +2,14 @@
 """Amazon segment three-statement model.
 
 All arithmetic for the markdown model lives here. Running this file rewrites
-segments.md, income.md, balance.md and cashflow.md, then prints tie-out checks.
+segments.md, income.md, balance.md, cashflow.md and valuation.md, then prints
+tie-out checks.
 USD millions except per-share data and percentages.
 """
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -290,6 +292,29 @@ DIVIDENDS = 0.0
 BUYBACKS = 0.0
 OPENAI_REMAINING_CASH_2026 = 21_300.0
 HOLD_OTHER_INCOME_1H_ONLY_2026 = True
+
+# Valuation inputs. Segment multiples and DCF parameters are [VIEW].
+VALUATION_DATE = date(2026, 9, 29)
+LAST_PRICE_DATE = date(2026, 9, 29)
+LAST_PRICE = 246.67
+YAHOO_AMZN_HISTORY = "https://finance.yahoo.com/quote/AMZN/history/"
+PT_SHARES = 10_786_313_572
+R65_CAPEX_OUTLOOK = 200_000.0
+SEGMENT_OI_MULTIPLE_YEAR = "FY2027E"
+NET_CASH_BALANCE_YEAR = "FY2026E"
+SEGMENT_EBIT_MULTIPLES = {
+    "aws": 17.0,
+    "na": 12.0,
+    "intl": 10.0,
+}
+BEAR_MULTIPLE_SCALE = 0.85
+BULL_MULTIPLE_SCALE = 1.15
+THREE_YEAR_EXIT_YEAR = "FY2028E"
+DCF_WACC = 0.09
+DCF_TERMINAL_GROWTH = 0.03
+STRATEGIC_CASH_DEPLOYED_R72 = 28_700.0 + 10_000.0 + 21_300.0
+STRATEGIC_FAIR_VALUE_BALANCE_SHEET = None
+BULL_STRATEGIC_UPLIFT_FRACTION = 0.50
 
 
 def fmt(value: Any, decimals: int = 0) -> str:
@@ -1091,18 +1116,418 @@ Forecast operating cash flow is `NI + D&A + SBC − Δ(core NWC) + other operati
 """
 
 
+def net_cash(balance: dict[str, float]) -> float:
+    return (
+        balance["cash"]
+        + balance["short_investments"]
+        - balance["debt"]
+        - balance["lease_liabilities"]
+    )
+
+
+def segment_operating_ev(
+    segments: dict[str, dict[str, float]],
+    period: str,
+    multiples: dict[str, float],
+) -> dict[str, float]:
+    segment = segments[period]
+    aws_ev = segment["aws_oi"] * multiples["aws"]
+    na_ev = segment["na_oi"] * multiples["na"]
+    intl_ev = segment["intl_oi"] * multiples["intl"]
+    return {
+        "aws_oi": segment["aws_oi"],
+        "na_oi": segment["na_oi"],
+        "intl_oi": segment["intl_oi"],
+        "aws_ev": aws_ev,
+        "na_ev": na_ev,
+        "intl_ev": intl_ev,
+        "operating_ev": aws_ev + na_ev + intl_ev,
+    }
+
+
+def valuation(
+    segments: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    income: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+) -> tuple[str, dict[str, float]]:
+    shares_m = PT_SHARES / 1_000_000.0
+    base = segment_operating_ev(
+        segments, SEGMENT_OI_MULTIPLE_YEAR, SEGMENT_EBIT_MULTIPLES
+    )
+    net_cash_official = net_cash(balances[NET_CASH_BALANCE_YEAR])
+    operating_equity = base["operating_ev"] + net_cash_official
+    official_pt = operating_equity / shares_m
+
+    bear_ev = base["operating_ev"] * BEAR_MULTIPLE_SCALE
+    bear_equity = bear_ev + net_cash_official
+    bear_pt = bear_equity / shares_m
+
+    bull_ev = base["operating_ev"] * BULL_MULTIPLE_SCALE
+    strategic_uplift = STRATEGIC_CASH_DEPLOYED_R72 * BULL_STRATEGIC_UPLIFT_FRACTION
+    bull_equity = bull_ev + net_cash_official + strategic_uplift
+    bull_pt = bull_equity / shares_m
+
+    exit_base = segment_operating_ev(
+        segments, THREE_YEAR_EXIT_YEAR, SEGMENT_EBIT_MULTIPLES
+    )
+    exit_net_cash = net_cash(balances[THREE_YEAR_EXIT_YEAR])
+    three_year_equity = exit_base["operating_ev"] + exit_net_cash
+    three_year_pt = three_year_equity / shares_m
+
+    cash_flow_dates = {
+        "FY2027E": date(2027, 6, 30),
+        "FY2028E": date(2028, 6, 30),
+    }
+    discount_years = {
+        period: (cash_flow_dates[period] - VALUATION_DATE).days / 365.0
+        for period in cash_flow_dates
+    }
+    pv_fcf = sum(
+        cashflow[period]["fcf"] / ((1.0 + DCF_WACC) ** discount_years[period])
+        for period in cash_flow_dates
+    )
+    terminal_fcf = cashflow["FY2028E"]["fcf"] * (1.0 + DCF_TERMINAL_GROWTH)
+    terminal_value = terminal_fcf / (DCF_WACC - DCF_TERMINAL_GROWTH)
+    terminal_years = (date(2028, 6, 30) - VALUATION_DATE).days / 365.0
+    pv_terminal = terminal_value / ((1.0 + DCF_WACC) ** terminal_years)
+    dcf_equity = pv_fcf + pv_terminal + net_cash(balances["1H2026A"])
+    dcf_pt = dcf_equity / shares_m
+
+    model_net_capex_26 = ASSUMPTIONS["FY2026E"]["net_cash_capex"]
+    implied_gross_capex_26 = model_net_capex_26 / (1.0 - CAPEX_PROCEEDS_RATE)
+    implied_proceeds_26 = implied_gross_capex_26 * CAPEX_PROCEEDS_RATE
+
+    q2_net_cash = net_cash(balances["1H2026A"])
+    market_cap = LAST_PRICE * PT_SHARES / 1_000_000.0
+    tape_operating_ev = market_cap - q2_net_cash
+    residual_per_share = LAST_PRICE - official_pt
+    implied_operating_ev_to_model = market_cap - operating_equity
+
+    tape_multiples = {}
+    for period in ("FY2026E", "FY2028E"):
+        tape_multiples[f"{period}_rev"] = tape_operating_ev / income[period]["total_revenue"]
+        tape_multiples[f"{period}_oi"] = tape_operating_ev / income[period]["operating_income"]
+
+    setup_rows = [
+        ["Valuation as-of", VALUATION_DATE.isoformat()],
+        ["Last close", f"${LAST_PRICE:.2f} on {LAST_PRICE_DATE.isoformat()}"],
+        ["Last-price source", f"[Yahoo Finance historical]({YAHOO_AMZN_HISTORY})"],
+        [
+            "PT denominator",
+            f"{PT_SHARES:,} shares outstanding on 2026-07-22 (R6.4; 10-Q cover)",
+        ],
+        [
+            "Method",
+            "Operating segment SOTP on FY2027E segment OI + FY2026E net cash; "
+            "excludes strategic-investment marks",
+        ],
+    ]
+
+    capex_rows = [
+        [
+            "R6.5 company outlook (FY2026)",
+            "[FACT] ~200,000; definition not tied to cash-flow line",
+            fmt(R65_CAPEX_OUTLOOK),
+        ],
+        [
+            "Model FY2026E net cash capex",
+            "[VIEW] mapped to outlook; purchases − proceeds/incentives",
+            f"[VIEW] {fmt(model_net_capex_26)}",
+        ],
+        [
+            "Implied gross purchases (model)",
+            "Net ÷ (1 − FY2025 proceeds rate)",
+            fmt(implied_gross_capex_26, 1),
+        ],
+        [
+            "Implied proceeds/incentives (model)",
+            "Gross × FY2025 proceeds rate",
+            fmt(implied_proceeds_26, 1),
+        ],
+        [
+            "TTM net cash capex (register R6)",
+            "[FACT] through 2026-06-30",
+            "169,007",
+        ],
+    ]
+
+    bridge_rows = [
+        [
+            "1. AWS FY2027E operating income",
+            "segments.md; operating only",
+            fmt(base["aws_oi"], 1),
+        ],
+        ["AWS selected EV / segment OI", "[VIEW]", f"{SEGMENT_EBIT_MULTIPLES['aws']:.1f}x"],
+        ["AWS operating enterprise value", "AWS OI × multiple", fmt(base["aws_ev"], 1)],
+        [
+            "2. North America FY2027E operating income",
+            "segments.md",
+            fmt(base["na_oi"], 1),
+        ],
+        ["NA selected EV / segment OI", "[VIEW]", f"{SEGMENT_EBIT_MULTIPLES['na']:.1f}x"],
+        ["North America operating EV", "NA OI × multiple", fmt(base["na_ev"], 1)],
+        [
+            "3. International FY2027E operating income",
+            "segments.md",
+            fmt(base["intl_oi"], 1),
+        ],
+        [
+            "Intl selected EV / segment OI",
+            "[VIEW]",
+            f"{SEGMENT_EBIT_MULTIPLES['intl']:.1f}x",
+        ],
+        ["International operating EV", "Intl OI × multiple", fmt(base["intl_ev"], 1)],
+        ["Operating enterprise value (1+2+3)", "Sum of segment EVs", fmt(base["operating_ev"], 1)],
+        [
+            "4. FY2026E net cash",
+            "Cash + marketable securities − debt − lease liabilities",
+            fmt(net_cash_official, 1),
+        ],
+        [
+            "Strategic stakes (Anthropic/OpenAI marks)",
+            "R7.1–R7.2; excluded from official PT",
+            "not obtained at fair value",
+        ],
+        [
+            "Official operating equity value",
+            "Operating EV + net cash",
+            fmt(operating_equity, 1),
+        ],
+        ["Shares outstanding (m)", "R6.4 filing count", fmt(shares_m, 3)],
+        ["Official 12-month PT / share", "Operating equity ÷ shares", f"${official_pt:.2f}"],
+    ]
+
+    strategic_rows = [
+        [
+            "1H 2026 pre-tax other income (Anthropic marks, etc.)",
+            "R7.1; non-operating",
+            "69,062",
+        ],
+        [
+            "Cash deployed — OpenAI preferred (1H + post-Q2)",
+            "R7.2",
+            fmt(28_700.0 + 21_300.0),
+        ],
+        ["Cash deployed — Anthropic preferred (Q2)", "R7.2", fmt(10_000.0)],
+        [
+            "Total strategic cash deployed (named)",
+            "Sum of R7.2 items",
+            fmt(STRATEGIC_CASH_DEPLOYED_R72),
+        ],
+        [
+            "Balance-sheet fair value of stakes",
+            "Separate line in other assets",
+            "not obtained",
+        ],
+        [
+            "Official PT treatment",
+            "Segment OI multiples exclude marks; net cash excludes stake FV",
+            "Operating-only",
+        ],
+    ]
+
+    tape_rows = [
+        ["Last-price market capitalization", "Last close × R6.4 shares", fmt(market_cap, 1)],
+        ["2026-06-30 net cash", "Cash + STI − debt − leases", fmt(q2_net_cash, 1)],
+        [
+            "Last-price operating EV (proxy)",
+            "Market cap − Q2 net cash; marks remain inside EV",
+            fmt(tape_operating_ev, 1),
+        ],
+        [
+            "Official operating equity value",
+            "Accepted method",
+            fmt(operating_equity, 1),
+        ],
+        [
+            "[DEDUCTED] Implied gap to tape",
+            "Market cap − official operating equity",
+            fmt(implied_operating_ev_to_model, 1),
+        ],
+    ]
+
+    check_rows = [
+        [
+            "3-year / FY2028 segment exit",
+            "Same [VIEW] multiples on FY2028E segment OI + FY2028E net cash",
+            f"${three_year_pt:.2f}",
+        ],
+        [
+            "Bear sensitivity",
+            f"{BEAR_MULTIPLE_SCALE:.2f}× segment multiples + FY2026E net cash",
+            f"${bear_pt:.2f}",
+        ],
+        [
+            "Bull sensitivity",
+            f"{BULL_MULTIPLE_SCALE:.2f}× segment EV + net cash + "
+            f"{BULL_STRATEGIC_UPLIFT_FRACTION:.0%}× R7.2 cash deployed",
+            f"${bull_pt:.2f}",
+        ],
+        [
+            "Consolidated FCF DCF (non-official)",
+            f"PV FY2027–FY2028 FCF + terminal; {DCF_WACC:.0%} WACC; "
+            f"+ Q2 net cash",
+            f"${dcf_pt:.2f}",
+        ],
+    ]
+
+    dcf_rows = [
+        [
+            "FY2027E",
+            f"{discount_years['FY2027E']:.3f}",
+            fmt(cashflow["FY2027E"]["fcf"], 1),
+            fmt(
+                cashflow["FY2027E"]["fcf"]
+                / ((1.0 + DCF_WACC) ** discount_years["FY2027E"]),
+                1,
+            ),
+        ],
+        [
+            "FY2028E",
+            f"{discount_years['FY2028E']:.3f}",
+            fmt(cashflow["FY2028E"]["fcf"], 1),
+            fmt(
+                cashflow["FY2028E"]["fcf"]
+                / ((1.0 + DCF_WACC) ** discount_years["FY2028E"]),
+                1,
+            ),
+        ],
+        [
+            "Terminal (FY2028 FCF growing)",
+            f"{terminal_years:.3f}",
+            fmt(terminal_fcf, 1),
+            fmt(pv_terminal, 1),
+        ],
+    ]
+
+    hole_rows = [
+        ["1. AWS operating EV", fmt(base["aws_ev"], 1), pct(base["aws_ev"] / market_cap)],
+        ["2. North America operating EV", fmt(base["na_ev"], 1), pct(base["na_ev"] / market_cap)],
+        [
+            "3. International operating EV",
+            fmt(base["intl_ev"], 1),
+            pct(base["intl_ev"] / market_cap),
+        ],
+        ["4. FY2026E net cash", fmt(net_cash_official, 1), pct(net_cash_official / market_cap)],
+        [
+            "[DEDUCTED] Residual vs official PT",
+            fmt(implied_operating_ev_to_model, 1),
+            pct(implied_operating_ev_to_model / market_cap),
+        ],
+    ]
+
+    multiple_rows = [
+        ["EV / FY2026E revenue", fmt(tape_multiples["FY2026E_rev"], 1) + "x"],
+        ["EV / FY2028E revenue", fmt(tape_multiples["FY2028E_rev"], 1) + "x"],
+        ["EV / FY2026E operating income", fmt(tape_multiples["FY2026E_oi"], 1) + "x"],
+        ["EV / FY2028E operating income", fmt(tape_multiples["FY2028E_oi"], 1) + "x"],
+    ]
+
+    residual_msg = (
+        "the last close sits above the official operating SOTP"
+        if residual_per_share > 0.0
+        else "the official operating SOTP meets or exceeds the last close"
+    )
+
+    content = f"""# Amazon valuation
+
+At the ${LAST_PRICE:.2f} last close, the official 12-month price target values reportable **operating** segments at FY2027E operating income; {residual_msg}. Strategic-investment marks (R7.1) and stake fair values are shown separately and are **not** in the official PT.
+
+## Official method and as-of
+
+{markdown_table(["item", "value"], setup_rows)}
+
+## FY2026 capex outlook vs model cash capex
+
+{markdown_table(["item", "basis", "$m"], capex_rows)}
+
+The company’s ~$200bn R6.5 outlook is not defined as gross purchases, net cash capex or PPE additions. The model maps it to **net** cash capex (purchases of property and equipment less proceeds and incentives), consistent with register R6 and [`cashflow.md`](cashflow.md). Segment PPE additions in R4.3 are not interchangeable with this cash definition.
+
+## Official operating SOTP bridge
+
+{markdown_table(["item", "basis", "$m except per share"], bridge_rows)}
+
+Segment operating income is the only segment P&L anchor disclosed (R1.5, R8.2). Advertising, Prime and seller-service economics are embedded in North America and International segments, not valued as standalone sales-group margins. AWS operating income excludes non-operating Anthropic/OpenAI marks in income.md.
+
+## Strategic investments — separate from operating AWS
+
+{markdown_table(["item", "basis", "$m"], strategic_rows)}
+
+Q2 2026 net income and FY2026E net income are not suitable valuation anchors because 1H other income includes large observable-price adjustments (R7.1). The official PT uses segment operating income and cash only.
+
+## What the tape implies
+
+{markdown_table(["item", "formula", "$m"], tape_rows)}
+
+The tape embeds AWS AI optimism, Stores margin debate and strategic-investment marks in one price. R8.8 sell-side segment splits are **not obtained**, so this table is a mechanical gap check, not proof of what the market “should” pay for each segment.
+
+## Consolidated FCF DCF — check only
+
+{markdown_table(["period", "discount years", "FCF", "PV"], dcf_rows)}
+
+PV of terminal uses FY2028E model FCF growing at {DCF_TERMINAL_GROWTH:.0%} and {DCF_WACC:.0%} WACC, plus 2026-06-30 net cash. This path inherits consolidated FCF (including modeled FY2026E strategic cash outflows in the bridge year) and is **not** the official PT.
+
+## Checks — not additional official targets
+
+{markdown_table(["check", "method", "value / share"], check_rows)}
+
+## Hole anatomy (operating SOTP vs market cap)
+
+{markdown_table(["piece", "$m of last-price equity", "% of market cap"], hole_rows)}
+
+**[DEDUCTED] Tape residual per share:** `${LAST_PRICE:.2f} − official PT = ${residual_per_share:.2f}`. Positive means the market prices more than the operating segment SOTP plus modeled net cash; it does not identify which segment or stake the market is emphasizing (R8.8).
+
+## Current market-implied multiples (proxy operating EV)
+
+| item | multiple |
+|---|---|
+| EV / FY2026E revenue | {multiple_rows[0][1]} |
+| EV / FY2028E revenue | {multiple_rows[1][1]} |
+| EV / FY2026E operating income | {multiple_rows[2][1]} |
+| EV / FY2028E operating income | {multiple_rows[3][1]} |
+
+Proxy EV subtracts Q2 net cash from market cap and still includes unstaked mark-to-market and other assets inside the equity price.
+
+## What would move the official value
+
+- A sourced change in FY2027E segment operating income paths in [`segments.md`](segments.md).
+- A change in any `[VIEW]` segment EV / operating-income multiple or in FY2026E net cash.
+- A explicit, sourced fair value for Anthropic/OpenAI stakes that the user chooses to add to (or subtract from) operating equity.
+- A revised mapping between R6.5 capex language and modeled net cash capex that alters FCF and net cash roll-forwards.
+- Post-Q2 consensus or segment-level market data (R8.8) that would justify retuning multiples — still **not obtained**.
+"""
+
+    summary = {
+        "official_pt": official_pt,
+        "last_price": LAST_PRICE,
+        "residual": residual_per_share,
+        "operating_equity": operating_equity,
+        "bear": bear_pt,
+        "bull": bull_pt,
+        "three_year": three_year_pt,
+        "dcf_check": dcf_pt,
+        "market_cap": market_cap,
+    }
+    return content, summary
+
+
 def main() -> None:
     historical_segments = enrich_historical_segments()
     forecast_segments = build_forecast_segments(historical_segments)
     segments = {**historical_segments, **forecast_segments}
     balances, income, cashflow = build_forecast(segments)
     checks = build_checks(segments, income, balances, cashflow)
+    valuation_markdown, valuation_summary = valuation(
+        segments, balances, income, cashflow
+    )
 
     outputs = {
         "segments.md": render_segments(segments, checks),
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, checks),
         "cashflow.md": render_cashflow(balances, cashflow, checks),
+        "valuation.md": valuation_markdown,
     }
     for filename, content in outputs.items():
         (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -1125,6 +1550,15 @@ def main() -> None:
         failed = failed or not passed
     if failed:
         raise SystemExit("One or more model checks failed")
+
+    print("\nValuation outputs")
+    print(f"Official 12-month PT | ${valuation_summary['official_pt']:.2f}")
+    print(f"Last close | ${valuation_summary['last_price']:.2f}")
+    print(f"[DEDUCTED] PT vs last close | ${valuation_summary['residual']:.2f}")
+    print(f"Bear check | ${valuation_summary['bear']:.2f}")
+    print(f"Bull check | ${valuation_summary['bull']:.2f}")
+    print(f"3-year check | ${valuation_summary['three_year']:.2f}")
+    print(f"DCF check (non-official) | ${valuation_summary['dcf_check']:.2f}")
 
 
 if __name__ == "__main__":
