@@ -1,0 +1,162 @@
+# AMD fact register
+
+As of 2026-09-29. USD in millions unless stated otherwise. Each material item is tagged `[FACT]`, `[DEDUCTED]`, or `[VIEW]`. `not obtained` means no usable figure was found in the primary-source set below. Financial periods follow AMD's 52/53-week fiscal calendar.
+
+## Source set
+
+- **S1** — [AMD FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm), filed 2026-02-04; especially Business pp. 2–14, MD&A pp. 47–57, financial statements pp. 58–63 and Notes 3–4, 10–13.
+- **S2** — [AMD FY2025 Form 10-K/A](https://www.sec.gov/Archives/edgar/data/2488/000000248826000021/amd-20251227.htm), filed 2026-02-10; corrects the FY2025 Client unit-shipment and ASP changes in MD&A.
+- **S3** — [AMD Q1 2026 Form 10-Q](https://www.sec.gov/Archives/edgar/data/2488/000000248826000076/amd-20260328.htm), filed 2026-05-06.
+- **S4** — [AMD Q1 2026 earnings release, Exhibit 99.1](https://ir.amd.com/financial-information/sec-filings/content/0000002488-26-000072/q12026991.htm), dated 2026-05-05.
+- **S5** — [AMD Q2 2026 Form 10-Q](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm), filed 2026-08-05; especially pp. 3–6, Note 4 pp. 10–11, Notes 7 and 10–12, and MD&A pp. 22–29.
+- **S6** — [AMD Q2 2026 earnings release, Exhibit 99.1](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm), dated 2026-08-04.
+- **S7** — [AMD Q2 2026 earnings presentation, Exhibit 99.2](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/amdq22026earningsslidesf.htm), dated 2026-08-04.
+- **S8** — [AMD 2025 Financial Analyst Day release](https://ir.amd.com/news-events/press-releases/detail/1266/amd-unveils-strategy-to-lead-the-1-trillion-compute-market-and-accelerate-next-phase-of-growth), dated 2025-11-11. These are company targets, not Street consensus.
+- **S9** — [AMD/OpenAI agreement Form 8-K](https://www.sec.gov/Archives/edgar/data/2488/000119312525230895/d28189d8k.htm), filed 2025-10-06, and [official release](https://ir.amd.com/news-events/press-releases/detail/1260/amd-and-openai-announce-strategic-partnership-to-deploy-6-gigawatts-of-amd-gpus).
+- **S10** — [AMD/Meta agreement Form 8-K](https://www.sec.gov/Archives/edgar/data/2488/000000248826000045/amd-20260223.htm), filed 2026-02-24, and [official release](https://www.sec.gov/Archives/edgar/data/2488/000000248826000045/pressreleasedatedfebruary2.htm).
+- **S11** — [AMD Advancing AI 2026 release](https://ir.amd.com/news-events/press-releases/detail/1294/aai-2026-amd-delivers-full-stack-compute-for-the-agentic-ai-era), dated 2026-06-11.
+- **S12** — [AMD IR analyst-coverage page](https://ir.amd.com/stock-data/analyst-coverage), accessed 2026-09-29.
+- **S13** — [AMD Q2 2026 official earnings event page](https://ir.amd.com/news-events/ir-calendar/detail/20260804-amd-fiscal-second-quarter-2026-financial-results), dated 2026-08-04.
+
+## R1 — Reporting perimeter, products and customers
+
+- **R1.1 [FACT]** Beginning in fiscal Q1 2025, AMD combined Client and Gaming into one reportable segment and retrospectively recast prior periods. The current reportable segments are Data Center, Client and Gaming, and Embedded. Client and Gaming do not separately qualify as reportable operating segments, but AMD continues to disclose each business's revenue. [S1, pp. 2, 47 and Note 4 pp. 70–72](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [S5, Note 4](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R1.2 [FACT]** The CODM is the CEO and receives segment net revenue, cost of sales and operating expenses, and operating income. Segment costs primarily include materials, external manufacturing, labor, and marketing/advertising. All Other is not a reportable segment and primarily holds acquisition-intangible amortization, stock-based compensation, acquisition-related and other costs. Segment assets, liabilities and capex are not discretely allocated or used by the CODM. [S1, Note 4 pp. 70–72](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [S5, Note 4](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R1.3 [FACT]** Data Center includes AI accelerators, server CPUs, GPUs/APUs, DPUs, AI NICs, FPGAs and adaptive SoCs. Named families include EPYC server CPUs, Instinct accelerators, Pensando networking, Solarflare low-latency networking, Alveo accelerator cards, and Xilinx FPGA/adaptive products. [S1, pp. 3–5](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R1.4 [FACT]** Client and Gaming includes desktop/notebook CPUs, APUs and chipsets, discrete GPUs, and semi-custom SoCs and development services. Named families include Ryzen, Ryzen AI/PRO/Threadripper and Radeon; semi-custom SoCs power Sony PlayStation 5, Microsoft Xbox Series S/X and the announced Valve Steam Machine PC. [S1, pp. 5–7](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R1.5 [FACT]** Embedded includes embedded CPUs/APUs, FPGAs, SOMs and adaptive SoCs sold into aerospace/defense, automotive, industrial, vision/healthcare, communications, test/measurement, emulation/prototyping, audio/video/broadcast and data-center applications. Named families include EPYC Embedded, Ryzen Embedded, Versal, Zynq and Kria. [S1, pp. 7–9](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R1.6 [FACT]** Data Center customers primarily comprise hyperscale data centers, OEMs, ODMs, system integrators and distributors. Client and Gaming customers include PC OEMs, distributors, motherboard ODMs, AIBs, console/portable-device makers and contract manufacturers. Embedded sells directly and through distributors and OEM partners. [S1, pp. 10–11](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R1.7 [FACT]** Substantially all revenue is product sales. Standard products are generally recognized when shipped; qualifying custom products, mainly in Client and Gaming, are recognized over production under non-cancellable purchase orders; development/IP arrangements depend on whether the license is distinct. [S1, Note 2 pp. 64–66](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+
+## R2 — Historical and latest reported economics
+
+### Annual reported segments
+
+| $m except margins | FY2023 revenue | FY2023 operating income | FY2024 revenue | FY2024 operating income | FY2025 revenue | FY2025 operating income | basis |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Data Center **[FACT]** | 6,496 | 1,267 | 12,579 | 3,482 | 16,635 | 3,603 | S1 Note 4 |
+| Client **[FACT]** | 4,651 | not obtained | 7,054 | not obtained | 10,640 | not obtained | revenue disclosed separately; no standalone OI |
+| Gaming **[FACT]** | 6,212 | not obtained | 2,595 | not obtained | 3,910 | not obtained | revenue disclosed separately; no standalone OI |
+| Client and Gaming reportable segment **[FACT]** | 10,863 | 925 | 9,649 | 1,187 | 14,550 | 2,855 | S1 Note 4 |
+| Embedded **[FACT]** | 5,321 | 2,628 | 3,557 | 1,421 | 3,454 | 1,243 | S1 Note 4 |
+| All Other **[FACT]** | — | (4,419) | — | (4,190) | — | (4,007) | not a reportable segment |
+| Consolidated **[FACT]** | 22,680 | 401 | 25,785 | 1,900 | 34,639 | 3,694 | S1 statements / Note 4 |
+
+Source: [S1 Note 4, pp. 70–72](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm). Operating income includes management allocations; gross profit by segment is not disclosed.
+
+| reported segment margin **[DEDUCTED]** | FY2023 | FY2024 | FY2025 | formula |
+|---|---:|---:|---:|---|
+| Data Center operating margin | 19.5% | 27.7% | 21.7% | segment OI / segment revenue |
+| Client and Gaming operating margin | 8.5% | 12.3% | 19.6% | segment OI / segment revenue |
+| Embedded operating margin | 49.4% | 40.0% | 36.0% | segment OI / segment revenue |
+
+Source inputs: annual reported-segment table above. Rounded to one decimal.
+
+### Latest quarters and first half
+
+| $m | Q1 2026 revenue | Q1 2026 operating income | Q2 2026 revenue | Q2 2026 operating income | 1H 2026 revenue | 1H 2026 operating income | basis |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Data Center **[FACT]** | 5,775 | 1,599 | 6,718 | 2,103 | 12,493 | 3,702 | S5/S6 |
+| Client **[FACT]** | 2,885 | not obtained | 3,062 | not obtained | 5,947 | not obtained | revenue only |
+| Gaming **[FACT]** | 720 | not obtained | 779 | not obtained | 1,499 | not obtained | revenue only |
+| Client and Gaming reportable segment **[FACT]** | 3,605 | 575 | 3,841 | 582 | 7,446 | 1,157 | S5/S6 |
+| Embedded **[FACT]** | 873 | 338 | 977 | 386 | 1,850 | 724 | S5/S6 |
+| All Other **[FACT]** | — | (1,036) | — | (1,081) | — | (2,117) | not a reportable segment |
+| Consolidated **[FACT]** | 10,253 | 1,476 | 11,536 | 1,990 | 21,789 | 3,466 | S5/S6 |
+
+Sources: [S5 Note 4 and MD&A](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm); [S6 selected corporate data](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm).
+
+| reported segment margin **[DEDUCTED]** | Q1 2026 | Q2 2026 | 1H 2026 | formula |
+|---|---:|---:|---:|---|
+| Data Center operating margin | 27.7% | 31.3% | 29.6% | segment OI / segment revenue |
+| Client and Gaming operating margin | 16.0% | 15.2% | 15.5% | segment OI / segment revenue |
+| Embedded operating margin | 38.7% | 39.5% | 39.1% | segment OI / segment revenue |
+
+Source inputs: latest-period table above. Rounded to one decimal.
+
+### Consolidated history
+
+| $m except margins and EPS **[FACT]** | FY2023 | FY2024 | FY2025 | Q1 2026 | Q2 2026 | 1H 2026 |
+|---|---:|---:|---:|---:|---:|---:|
+| Revenue | 22,680 | 25,785 | 34,639 | 10,253 | 11,536 | 21,789 |
+| Gross profit | 10,460 | 12,725 | 17,152 | 5,416 | 6,203 | 11,619 |
+| Gross margin | 46% | 49% | 50% | 53% | 54% | 53% |
+| R&D | 5,872 | 6,456 | 8,091 | 2,397 | 2,528 | 4,925 |
+| MG&A | 2,318 | 2,735 | 4,144 | 1,253 | 1,401 | 2,654 |
+| Total operating expense | 10,059 | 10,825 | 13,458 | 3,940 | 4,213 | 8,153 |
+| Operating income | 401 | 1,900 | 3,694 | 1,476 | 1,990 | 3,466 |
+| Net income | 854 | 1,641 | 4,335 | 1,383 | 2,297 | 3,680 |
+| Diluted EPS ($) | 0.53 | 1.00 | 2.65 | 0.84 | 1.38 | 2.22 |
+
+Sources: [S1 statements pp. 58–62](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [S6](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm). Annual and quarterly figures are GAAP; FY2025 net income includes discontinued operations.
+
+- **R2.1 [FACT]** FY2025 gross margin included $440 million of net inventory and related charges for MI308 export controls: approximately $800 million recorded in Q2 and approximately $360 million reversed in Q4 after licenses and shipments to certain China customers. [S1, MD&A pp. 47–52 and Note 3](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R2.2 [FACT]** Q2 2026 Data Center revenue increased 107% year over year on EPYC and Instinct MI350 demand; Client revenue increased 23%; Gaming fell 31% mainly on lower semi-custom revenue; Embedded increased 19% as demand strengthened across end markets. [S5, MD&A pp. 24–25](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R2.3 [FACT]** Q2 2026 All Other operating loss consisted primarily of $544 million of acquisition-intangible amortization and $503 million of SBC; 1H amounts were $1,095 million and $990 million. [S5, Note 4 and MD&A](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+
+## R3 — Units, ASP, mix, visibility and concentration
+
+- **R3.1 [FACT]** Corrected FY2025 Client growth reflected a 31% increase in processor unit shipments and a 15% increase in processor ASP versus FY2024, driven by desktop and mobile Ryzen demand. The original 10-K transposed the percentages; the 10-K/A is controlling. [S2](https://www.sec.gov/Archives/edgar/data/2488/000000248826000021/amd-20251227.htm)
+- **R3.2 [FACT]** Q2 2026 Client revenue growth reflected 34% higher processor units, partly offset by a 6% ASP decline; 1H reflected 29% higher units and a 3% ASP decline. AMD attributed unit growth mainly to Ryzen mobile and the ASP declines mainly to mix, including lower Ryzen desktop sales. [S5, MD&A p. 25](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R3.3 [FACT]** FY2025 Gaming growth came from semi-custom and Radeon demand. Q2/1H 2026 Gaming declines came mainly from lower semi-custom revenue, with higher Radeon sales providing a partial offset in 1H. Product units, ASPs and console-customer splits were not disclosed. [S1, MD&A p. 50](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [S5, MD&A p. 25](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R3.4 [FACT]** FY2025 Embedded revenue declined 3% as end-market demand remained mixed. Q2 and 1H 2026 revenue increased 19% and 12%, respectively, as demand strengthened across end markets; no end-market, unit, ASP or backlog bridge was disclosed. [S1, MD&A p. 50](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [S5, MD&A p. 25](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R3.5 [FACT]** At 2026-06-27, transaction price allocated to remaining performance obligations on contracts originally longer than one year was $222 million, with $144 million expected in the next 12 months. The measure excludes contracts originally one year or less. Revenue recognized over time from custom products and development services was approximately 4% of Q2 and 1H revenue. [S5, Note 3](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R3.6 [FACT]** AMD says product forecasts generally are not minimum purchase commitments; standard-product orders can generally be cancelled more than 30 days before shipment without significant fees, and backlog/orders may be revised or cancelled. [S1, pp. 9, 13 and risk factors](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R3.7 [FACT]** No customer represented at least 10% of consolidated revenue in FY2025 or FY2024; one Client and Gaming customer represented 18% in FY2023. At FY2025 year-end, one customer represented about 11% of receivables; the prior-year comparator was another customer at 24%. [S1, Notes 4 and 11](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R3.8 [FACT]** The OpenAI definitive agreement contemplates 6 GW of AMD GPU deployments across multiple generations, beginning with an initial 1 GW of MI450-series deployment in 2H 2026. A warrant covers up to 160 million AMD shares at $0.01 exercise price, with vesting tied to deployment/purchase milestones, AMD share-price targets and technical/commercial conditions. No warrant shares had vested by 2026-06-27. [S9](https://www.sec.gov/Archives/edgar/data/2488/000119312525230895/d28189d8k.htm); [S5, Note 12](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R3.9 [FACT]** Meta made a binding commitment for the initial 1 GW equivalent of specified Instinct GPU products; full warrant vesting up to 160 million shares at $0.01 depends on purchases scaling to 6 GW plus stock-price and technical/commercial conditions. No warrant shares had vested by 2026-06-27. [S10](https://www.sec.gov/Archives/edgar/data/2488/000000248826000045/amd-20260223.htm); [S5, Note 12](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R3.10 [FACT]** AMD announced an Anthropic collaboration to deploy up to 2 GW of MI450-series GPUs in Helios racks and a software collaboration using Claude. The reviewed filing set did not provide committed purchase value, timing by quarter, cancellation terms or accounting backlog. [S6](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm); [S11](https://ir.amd.com/news-events/press-releases/detail/1294/aai-2026-amd-delivers-full-stack-compute-for-the-agentic-ai-era)
+- **R3.11 [FACT]** In its 2025 Financial Analyst Day targets for the next three to five years, AMD stated company revenue CAGR above 35%, non-GAAP operating margin above 35%, non-GAAP EPS above $20, Data Center revenue CAGR above 60%, Data Center AI revenue CAGR above 80%, and Embedded plus Client and Gaming revenue CAGR above 10%. These are management targets, not guidance for a specific fiscal year and not consensus. [S8](https://ir.amd.com/news-events/press-releases/detail/1266/amd-unveils-strategy-to-lead-the-1-trillion-compute-market-and-accelerate-next-phase-of-growth)
+
+## R4 — Foundry, packaging and supply-chain exposure
+
+- **R4.1 [FACT]** AMD is fabless. TSMC produces all AMD microprocessor and GPU wafers at 7 nm or smaller nodes; GlobalFoundries primarily supplies microprocessor/GPU wafers above 7 nm. AMD also uses TSMC, UMC and Samsung for programmable-logic ICs. The GF wafer-supply agreement provided minimum annual capacity allocation and set pricing through 2026. [S1, pp. 12–13 and risk factors](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R4.2 [FACT]** Packaging/test is outsourced in Asia-Pacific. AMD identifies its Tongfu ATMP joint ventures, SPIL and KYEC; the filing says the majority of ATMP services are provided by the Tongfu JVs. [S1, p. 13 and risk factors](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R4.3 [FACT]** Purchases from equity-method ATMP related parties were $594 million in Q2 2026 and $1.2 billion in 1H 2026; related payables were $569 million at 2026-06-27. FY2025 purchases from the ATMP JVs were $2.0 billion and year-end payables were $408 million. [S5, Note 7](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm); [S1, Note 7](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R4.4 [FACT]** Unconditional commitments at 2026-06-27 totaled $30,276 million: $17,386 million in the remainder of 2026, $5,474 million in 2027, $2,851 million in 2028, $2,528 million in 2029, $1,471 million in 2030 and $566 million thereafter. They primarily cover wafers, substrates, components, cloud-compute capacity, software and technology licenses and carry significant cancellation penalties. [S5, Note 10 and MD&A](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R4.5 [FACT]** AMD relies on limited or sole sources for some packages, memory, PCBs, interposers, substrates and capacitors. The filing identifies capacity, yield, advanced packaging, memory supply, power/water interruption and Taiwan geopolitical/natural-disaster exposure as material manufacturing risks. [S1, risk factors pp. 24–29, 43–44](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+
+## R5 — Cost structure, R&D, opex and capex
+
+- **R5.1 [FACT]** FY2025 R&D was $8,091 million, up 25%, mainly from employee costs/headcount supporting AI strategy. MG&A was $4,144 million, up 52%, mainly from go-to-market activity. FY2025 SBC was $1,638 million, including $1,287 million in R&D and $325 million in MG&A. [S1, MD&A pp. 51–52 and Note 13](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R5.2 [FACT]** Q2 2026 R&D was $2,528 million and MG&A $1,401 million; 1H amounts were $4,925 million and $2,654 million. Year-over-year increases were attributed to AI-related headcount and go-to-market activity. [S5, statements and MD&A pp. 26–27](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R5.3 [FACT]** Purchases of property and equipment were $546 million, $636 million and $974 million in FY2023–FY2025; $389 million in Q1 2026, $808 million in Q2 and $1,197 million in 1H. [S1, cash-flow statement p. 62](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [S6 selected corporate data](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm)
+- **R5.4 [FACT]** Net PP&E was $3,439 million at 2026-06-27, including $1,148 million of construction in progress, versus $2,312 million and $508 million at FY2025 year-end. AMD did not provide full-year capex guidance in the reviewed set. [S5, Note 3](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R5.5 [FACT]** Inventory was $8,468 million at 2026-06-27: $946 million raw materials, $5,265 million work in process and $2,257 million finished goods. The FY2025 balance was $7,920 million. [S5, balance sheet and Note 3](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+
+## R6 — Balance sheet, cash flow and capital return
+
+- **R6.1 [FACT]** At 2026-06-27 AMD held $5,086 million cash, $8,025 million short-term investments, $7,281 million receivables, $8,468 million inventory and $5,359 million payables. Current and long-term debt were $875 million and $2,351 million; principal debt was $3,250 million. [S5, pp. 5 and Notes 8–9](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R6.2 [FACT]** 1H 2026 continuing-operations OCF was $5,321 million and capex was $1,197 million; company-defined free cash flow was $4,124 million. Q2 OCF, capex and FCF were $2,366 million, $808 million and $1,558 million. [S6, cash flow and selected corporate data](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm)
+- **R6.3 [DEDUCTED]** FY2025 continuing-operations free cash flow was $5,519 million, calculated as $6,493 million continuing-operations OCF less $974 million purchases of PP&E. This is consistent with AMD's quarterly FCF definition but was not presented as a named FY2025 GAAP measure. [S1, cash-flow statement and MD&A](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R6.4 [FACT]** AMD repurchased 1.1 million shares for $221 million in 1H 2026, leaving $9.2 billion of authority at quarter-end. FY2025 repurchases were 12 million shares for $1,316 million. The program has no termination date and does not obligate AMD to buy shares. [S5, Note 12](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm); [S1, Note 13](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R6.5 [FACT]** Q2/1H diluted weighted-average shares were 1,659/1,655 million; shares outstanding were 1,632,475,042 on 2026-07-29. The OpenAI and Meta warrants each cover up to 160 million shares but none had vested or become exercisable by quarter-end. [S5, cover and Notes 11–12](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+- **R6.6 [FACT]** AMD disclosed maximum gross exposure of $4.1 billion under commercial-partner data-center lease guarantees, $4.5 billion of not-yet-commenced leases at quarter-end, and an additional $9.5 billion of long-term data-center leases entered after quarter-end. [S5, Notes 8 and 10](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+
+## R7 — Recent prints and company guidance
+
+- **R7.1 [FACT]** Q1 2026 GAAP revenue was $10,253 million, gross margin 53%, operating income $1,476 million and diluted EPS $0.84. Non-GAAP gross margin was 55%, operating income $2,540 million and diluted EPS $1.37. AMD guided Q2 revenue to $11,200 million ± $300 million and non-GAAP gross margin to about 56%. [S4](https://ir.amd.com/financial-information/sec-filings/content/0000002488-26-000072/q12026991.htm)
+- **R7.2 [FACT]** Q2 2026 GAAP revenue was $11,536 million, gross margin 54%, operating income $1,990 million and diluted EPS $1.38. Non-GAAP gross margin was 56%, operating income $3,094 million and diluted EPS $1.66. [S6](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm)
+- **R7.3 [DEDUCTED]** Q2 revenue exceeded the midpoint of AMD's prior guidance by $336 million and exceeded the top of the range by $36 million, using R7.1 and R7.2.
+- **R7.4 [FACT]** For Q3 2026 AMD guided revenue to $13,000 million ± $300 million, non-GAAP gross margin to about 56%, non-GAAP opex to about $3,650 million, other income net of interest expense to about $55 million, non-GAAP tax to 13% of pretax income and diluted shares to about 1,660 million. [S6](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm); [S7](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/amdq22026earningsslidesf.htm)
+- **R7.5 [FACT]** AMD stated that Data Center represented 58% of Q2 revenue and expected Data Center sales to accelerate in 2H 2026 as EPYC demand accelerated, Instinct deployments scaled and Helios began to ramp. This is management guidance/commentary, not a quantified segment guide. [S6](https://www.sec.gov/Archives/edgar/data/2488/000000248826000121/q22026991.htm)
+
+## R8 — Competition, geography and regulation
+
+- **R8.1 [FACT]** AMD names Intel and Nvidia as primary Data Center CPU/GPU/DPU/AI-NIC competitors, Altera in data-center FPGA/adaptive SoCs, and customer-designed accelerators and Arm CPUs as additional competition. It names Intel in client CPUs, Nvidia and Intel in discrete graphics, and Altera/Lattice/Microsemi plus ASIC/ASSP vendors in Embedded. [S1, pp. 11–12](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R8.2 [FACT]** AMD identifies performance, total cost of ownership, product timing, reliability, energy efficiency, price/cost, standards, software/hardware compatibility, software completeness, brand and availability as competitive dimensions. The filing specifically identifies Nvidia's data-center GPU position and proprietary software ecosystem and Intel's CPU position/pricing. [S1, pp. 11–12 and risk factors](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R8.3 [FACT]** FY2025 revenue by customer billing location was: U.S. $11,363 million, China/Hong Kong $7,751 million, Taiwan $5,186 million, Singapore $4,284 million and other regions $6,055 million. Geography is billing location and does not establish end use. [S1, Note 4](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm)
+- **R8.4 [FACT]** Q2/1H 2026 international sales were 70%/72% of revenue. AMD's MI308 sales into China require licenses and depend on customer demand and China's import controls; broader U.S. controls also affect certain Instinct and Versal products. [S5, MD&A and risk factors](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/amd-20260627.htm)
+
+## R9 — Explicit numbered gaps
+
+- **R9.1 [FACT]** Data Center product-level revenue split among EPYC, Instinct, networking and adaptive products; units, ASPs, accelerator shipment value, booked backlog and customer-level gross margin: **not obtained**.
+- **R9.2 [FACT]** Client absolute processor units, dollar ASP, OEM/channel inventory, AI-PC unit or revenue attach, market share and product-level gross margin: **not obtained**. Only period-over-period unit and ASP changes in R3.1–R3.2 were obtained.
+- **R9.3 [FACT]** Gaming absolute GPU/console units and ASPs, Radeon versus semi-custom revenue, console-customer split, and standalone Gaming operating income/margin: **not obtained**.
+- **R9.4 [FACT]** Embedded units, ASPs, backlog, book-to-bill, end-market revenue mix, design-win conversion timing and product-level margin: **not obtained**.
+- **R9.5 [FACT]** Segment gross profit, capex, assets, liabilities, SBC and acquisition-intangible amortization: **not obtained**. Segment operating income includes allocated cost of sales and opex; Client and Gaming standalone operating income is also **not obtained**.
+- **R9.6 [FACT]** TSMC/GF wafer volumes, node mix, wafer pricing, foundry allocation by product, advanced-packaging capacity and product yields: **not obtained**. Aggregate commitments in R4.4 are not a foundry-only measure.
+- **R9.7 [FACT]** Full-year 2026 company or segment revenue, GAAP/non-GAAP opex, capex and free-cash-flow guidance: **not obtained**. AMD supplied Q3 guidance in R7.4.
+- **R9.8 [FACT]** Official written Q1/Q2 2026 earnings-call transcripts: **not obtained**. AMD IR supplied official earnings releases, slides and webcast/event pages, but no company-authored verbatim transcript was found.
+- **R9.9 [FACT]** Current company-compiled sell-side consensus, analyst price-target distribution and market-implied revenue/EPS/segment values: **not obtained**. AMD's analyst page lists firms but disclaims endorsement; management targets in R3.11 are not consensus.
+- **R9.10 [FACT]** Contracted dollar revenue, ASP, margin, quarterly ramp, cancellation rights and accounting backlog for the OpenAI, Meta and Anthropic deployments: **not obtained** beyond the milestones and terms in R3.8–R3.10.
