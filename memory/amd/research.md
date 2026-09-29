@@ -10,6 +10,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 2. **[FACT] Customers.** The paying nodes include hyperscalers, OEMs, ODMs, system integrators, distributors, add-in-board partners, console makers and embedded-equipment manufacturers. The economic customer and billing-location customer can differ when an ODM or distributor sits between AMD and end deployment. See R1.6 and R8.3.
 3. **[FACT] Route to revenue.** Standard products generally recognize revenue on shipment; qualifying custom products recognize over production; development and IP licensing follow performance-obligation transfer. This matters most for semi-custom cadence and for interpreting RPO. See R1.7 and R3.5.
 4. **[DEDUCTED] Economic perimeter.** AMD monetizes architecture, silicon design, chiplets/advanced packaging, software enablement and customer co-design while foundries and packaging partners own most physical production. ZT design capabilities move AMD further into rack/system architecture, but the manufacturing operation was divested. See R1.8 and R4.
+5. **[FACT] Pending model research M&A.** AMD announced an all-stock acquisition of World Labs (spatial-intelligence models and simulation) expected to close by end-2026; segment, revenue and opex effects are **not obtained** until close and filing. See R1.9.
 
 ## 2. Segment map and historical financial skeleton
 
@@ -41,7 +42,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 4. **[FACT] CPU drivers.** EPYC demand depends on hyperscaler and enterprise platform qualification, server refresh, cloud instances, workload performance, performance per watt, total cost of ownership and Intel/Arm alternatives. Current filed demand direction is in R2.2 and product/customer scope in R1.3/R1.6.
 5. **[FACT] Accelerator drivers.** Instinct demand depends on customer deployment schedules, model-training/inference demand, rack power and data-center readiness, memory/advanced packaging, ROCm/framework maturity, networking and competitive performance/economics versus Nvidia and custom accelerators. Export controls can strand inventory or constrain reachable demand. See R2.1, R3.8–R3.10, R4.5 and R8.4.
 6. **[DEDUCTED] AI revenue bridge.** Available accelerator/rack supply × shippable customer deployments × AMD silicon/system content × realized price, adjusted for deployment timing, acceptance, export licenses, mix and customer incentives. Gigawatts announced by customers are not revenue, backlog, shipment units or recognized capacity.
-7. **[FACT] Backlog/visibility.** OpenAI and Meta filings provide deployment/purchase milestones; Anthropic is an announced collaboration. Filed RPO captures only a narrow contract subset and excludes shorter-duration obligations. Use R3.5 and R3.8–R3.10; do not convert headline gigawatts into revenue without explicit `[VIEW]` inputs.
+7. **[FACT] Backlog/visibility.** OpenAI and Meta filings provide deployment/purchase milestones; Anthropic is an announced collaboration. Filed RPO captures only a narrow contract subset and excludes shorter-duration obligations. Management on recent calls cited growing visibility for Helios/MI450 deployments and 2027 HBM allocation but did not quantify contracted dollars. Use R3.5, R3.8–R3.10 and R7.8–R7.9; do not convert headline gigawatts into revenue without explicit `[VIEW]` inputs.
 8. **[DEDUCTED] Margin bridge.** Product mix and realized price less wafers, HBM/memory, substrates, advanced packaging/test, boards/rack content, freight, warranty and customer-support cost; then subtract allocated R&D and go-to-market expense to reach reported segment operating income. The filed segment margin history is in R2.
 9. **[FACT] Customer concentration.** AMD's consolidated annual revenue did not cross the named customer threshold in the latest two fiscal years, but filings still warn that a small number of customers account for a substantial share of business and receivables. Deployment agreements can increase economic concentration before annual disclosure identifies it; a Data Center-specific percentage is **not obtained**. See R3.7–R3.10 and R9.1.
 10. **[FACT] Competitive position.** The relevant sets are Nvidia in AI/data-center GPUs and software, Intel and Arm alternatives in server CPUs, Altera in adaptive products, customer-designed accelerators, and smaller specialist silicon firms. AMD identifies software completeness, availability, energy efficiency and TCO alongside silicon performance. See R8.1–R8.2.
@@ -50,7 +51,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 ### 3.2 Client
 
 1. **[DEDUCTED] Revenue bridge.** Ryzen processor units × realized processor ASP + chipset and ancillary revenue, adjusted for OEM/distributor rebates, price protection, returns and channel inventory.
-2. **[FACT] Volume drivers.** PC sell-through, OEM design wins, commercial refresh, notebook/desktop mix, distributor inventory, platform availability and AI-PC adoption. Filed period-over-period unit changes are in R3.1–R3.2; absolute units are not obtained.
+2. **[FACT] Volume drivers.** PC sell-through, OEM design wins, commercial refresh, notebook/desktop mix, distributor inventory, platform availability and AI-PC adoption. Filed period-over-period unit changes are in R3.1–R3.2; absolute units are not obtained. Management planned for a softer PC market in 2H 2026 from memory and component costs while expecting Client to outperform the market (R7.8).
 3. **[FACT] ASP/mix drivers.** Desktop versus mobile, premium versus mainstream, consumer versus commercial, Ryzen AI/PRO/Threadripper mix, product transitions and competitive pricing against Intel and Arm-based PCs. Filed ASP direction is in R3.1–R3.2; dollar ASP is not obtained.
 4. **[DEDUCTED] Gross-profit bridge.** Units × `(realized ASP − wafer/package/test and other unit cost)` less channel provisions and product-transition reserves. Client gross profit is not reported separately (R9.2).
 5. **[FACT] Visibility.** Customer forecasts usually lack minimum purchase commitments and standard-product orders retain cancellation flexibility. Treat OEM design wins as opportunity, not backlog. See R3.6.
@@ -114,7 +115,8 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 2. **[FACT] Q2.** GAAP/non-GAAP results are stored in R7.2; the segment bridge is in R2's latest table and R2.2.
 3. **[DEDUCTED] Guide comparison.** Q2 revenue finished above the prior range; the exact comparison lives in R7.3. This establishes execution against that quarter's top-line guide, not future conversion or margin durability.
 4. **[FACT] Current guide.** Q3 revenue, non-GAAP gross margin, opex, below-the-line, tax and share-count assumptions are stored in R7.4. AMD did not provide the full-year or segment guide listed in R9.7.
-5. **[FACT] Management frame.** AMD expects second-half Data Center acceleration tied to EPYC, Instinct and Helios, but did not quantify segment revenue. See R7.5.
+5. **[FACT] Management frame.** AMD expects second-half Data Center acceleration tied to EPYC, Instinct and Helios; the Q2 call added 2027 segment-level growth language, server CPU growth expectations and initial Helios shipment timing. See R7.5 and R7.8.
+6. **[FACT] Call archive.** Official verbatim transcripts for Q4/FY2025 through Q2 2026 are cataloged in S14–S16; prior-quarter guides and qualitative segment bridges from those calls are in R7.6–R7.9.
 
 ## 8. Node map
 
@@ -128,6 +130,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 | AMD → TSMC/GF/other foundries **[FACT]** | wafer purchases and capacity commitments | process technology, yield and capacity; AMD architecture/chiplets | node/yield delay, allocation, geopolitics, power/water event (R4.1, R4.4–R4.5) |
 | AMD → ATMP/memory/substrate partners **[FACT]** | packaging, test, HBM/memory and materials | advanced package integration and scarce supply | memory/package constraints, cost inflation, quality/yield failure (R4.2–R4.5) |
 | AMD → software/cloud/EDA ecosystem **[FACT]** | licenses, cloud capacity, engineering and ecosystem investment | developer adoption, ROCm/framework support, design productivity | ecosystem gaps, commitment under-use, proprietary-stack lock-in (R4.4, R5.1–R5.2) |
+| AMD ↔ World Labs (pending) **[FACT]** | announced all-stock acquisition of spatial-intelligence model research | workload insight for future AI hardware/software/systems roadmaps | deal close delay, integration distraction, undisclosed economics until filed (R1.9) |
 | AMD → customer via warrant/guarantee **[FACT]** | potential equity dilution and commercial support tied to deployment | alignment and deployment scale | milestones fail, economics disappoint, dilution or guarantee obligation rises (R3.8–R3.9, R6.5–R6.6) |
 
 **[DEDUCTED] Value concentration.** Observable value is currently reported in product revenue and segment operating income. Announced deployment scale becomes economically measurable only when shipment timing, AMD content, realized price, margin and cash terms are disclosed or explicitly modeled as `[VIEW]`.
@@ -141,6 +144,6 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 5. **[FACT] Segment gross profit, capital and balance sheets — not obtained.** Scope: R9.5.
 6. **[FACT] Foundry/node/package volume, price, allocation and yield — not obtained.** Scope: R9.6.
 7. **[FACT] Full-year company/segment guidance — not obtained.** Scope: R9.7.
-8. **[FACT] Official written recent call transcripts — not obtained.** Scope: R9.8.
+8. **[FACT] Official written call transcripts after Q2 2026 — not obtained.** Scope: R9.8. Q4/FY2025–Q2 2026 transcripts are obtained (S14–S16).
 9. **[FACT] Current company-compiled consensus and market-implied segment values — not obtained.** Scope: R9.9 and [`consensus.md`](consensus.md).
 10. **[FACT] Contracted dollars and economics for headline AI deployments — not obtained.** Scope: R9.10.
