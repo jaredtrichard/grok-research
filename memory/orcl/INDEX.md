@@ -5,6 +5,6 @@ Read this first. Open only the home you need.
 |---|---|
 | research.md | research file; business, segment drivers and node map |
 | register.md | facts, KPIs, historical tables, citations and explicit gaps |
-| model.md | pending model pointer |
-| consensus.md | pending consensus work |
-| thesis.md | pending working thesis |
+| model.md | model, valuation, and memory pointers |
+| consensus.md | what is priced; views around the name |
+| thesis.md | working thesis and killing conditions |
