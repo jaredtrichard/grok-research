@@ -72,7 +72,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 | Advertising, FoA Other, RL revenue | R2 | obtained |
 | FoA and RL operating contribution | R2 | obtained |
 | Impressions and price growth | R3.1–R3.2 | growth rates obtained; absolute levels **not obtained** |
-| DAP / ARPP | R3.3–R3.4 | obtained; Facebook DAU/MAU and Family MAP **not obtained** |
+| DAP / ARPP / product engagement | R3.3–R3.4 | Family DAP/ARPP and selected product milestones obtained; WhatsApp/Messenger DAU/MAP and Family MAP **not obtained** |
 | Functional opex, SBC, D&A | R4 | obtained at company level |
 | Capex and expense outlook | R4.3 | obtained at company level |
 | OCF, capex, FCF, repurchases | R5 | obtained |

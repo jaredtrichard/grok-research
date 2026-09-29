@@ -9,6 +9,7 @@ GF-META-1 · as of 2026-09-29 · name id `meta`. USD millions unless stated othe
 - **S3** — [Meta Q2 2026 Form 10-Q](https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm), filed 2026-07-30.
 - **S4** — [Meta Q2 2026 results release](https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Second-Quarter-2026-Results/), dated 2026-07-29; [SEC-filed Exhibit 99.1](https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm).
 - **S5** — [Meta Q2 2026 official earnings-call page](https://investor.atmeta.com/investor-events/event-details/2026/Q2-2026-Earnings-Call/default.aspx), including company-posted earnings and follow-up call transcripts.
+- **S6** — [Meta Q2 2026 official earnings-call transcript](https://s21.q4cdn.com/399680738/files/doc_financials/2026/q2/META-Q2-2026-Earnings-Call-Transcript.pdf), posted by Meta IR.
 
 ## R1 — Reporting perimeter and products
 
@@ -42,7 +43,7 @@ Sources: [S1, Notes 2 and 15](https://www.sec.gov/Archives/edgar/data/1326801/00
 - **R3.1 [FACT]** FY2025 FoA ad impressions increased 12% year-over-year and average price per ad increased 9%. FY2024 equivalents were 11% and 10%. [S1, MD&A](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm)
 - **R3.2 [FACT]** Q2 2026 FoA ad impressions increased 14% year-over-year and average price per ad increased 12%. For 1H2026, impressions increased 16% and price increased 12%. Meta attributed impression growth especially to Asia-Pacific users, engagement, and ad frequency; price benefited from ad-performance improvements and FX, partly offset by lower-monetizing geographies and products such as Reels. [S3, MD&A](https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm)
 - **R3.3 [FACT]** Family daily active people (DAP) averaged 3.58 billion in December 2025, up 7% year-over-year, and 3.60 billion in June 2026, up 3%. Q2 2026 worldwide average revenue per person (ARPP) was $16.86, up 24%. [S1](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm); [S3](https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm)
-- **R3.4 [FACT]** Facebook-only DAU/MAU and Family monthly active people (MAP) for the reviewed FY2025/Q2 2026 set: **not obtained**. Meta reports DAP and ARPP as its key Family metrics.
+- **R3.4 [FACT]** On the Q2 call, Meta said Instagram had reached 2 billion DAU, Facebook had more than 2 billion DAU, and Threads had more than 500 million MAP. WhatsApp and Messenger DAU/MAP and a consolidated Family MAP were **not obtained**. [S6](https://s21.q4cdn.com/399680738/files/doc_financials/2026/q2/META-Q2-2026-Earnings-Call-Transcript.pdf)
 - **R3.5 [FACT]** Meta defines average price per ad as advertising revenue divided by delivered ads. An impression is delivered when an ad is displayed. Absolute impression count and absolute price per ad are **not obtained**; only growth rates are disclosed. [S1, MD&A](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm)
 
 ## R4 — Functional expenses, SBC, tax, and people
@@ -95,6 +96,7 @@ Sources: [S1, Note 2](https://www.sec.gov/Archives/edgar/data/1326801/0001628280
 - **R7.1 [FACT]** RL operating losses were 16,120 in FY2023, 17,729 in FY2024, 19,193 in FY2025, and 8,647 in 1H2026. [R2](#r2--segment-economics)
 - **R7.2 [FACT]** A company-disclosed cumulative RL investment or cumulative loss figure through Q2 2026 was **not obtained**. The annual segment losses are disclosed, but this register does not sum them in prose.
 - **R7.3 [FACT]** Meta said RL investment reduced FY2025 operating profit by approximately 19,193 and expected the adverse financial impact to continue for the foreseeable future; full-year 2026 RL loss was expected to be similar to FY2025. [S1/S3 risk factors and MD&A](https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm)
+- **R7.4 [FACT]** Meta expected approximately 70% of FY2026 RL operating expense to support wearables and approximately 30% to support VR and Horizon. [S1, MD&A](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm)
 
 ## R8 — Explicit gaps
 

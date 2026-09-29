@@ -257,8 +257,6 @@ ASSUMPTIONS = {
 }
 
 VALUATION_DATE = date(2026, 9, 29)
-LAST_PRICE_DATE = date(2026, 9, 25)
-LAST_PRICE = 751.66
 NASDAQ_HISTORY = "https://www.nasdaq.com/market-activity/stocks/meta/historical-nocp"
 CLASS_A_COVER_SHARES = 2_205_128_509
 CLASS_B_COVER_SHARES = 342_377_716
@@ -712,11 +710,7 @@ def render_valuation(
     official_pt = round(raw_pt / 5.0) * 5.0
     bear = (ebit * BEAR_EV_EBIT + net_cash) / shares_m
     bull = (ebit * BULL_EV_EBIT + net_cash) / shares_m
-    upside = official_pt / LAST_PRICE - 1.0
-    market_cap = LAST_PRICE * shares_m
     current_net_cash = HIST_BALANCE["1H2026A"]["cash"] + HIST_BALANCE["1H2026A"]["marketable"] - HIST_BALANCE["1H2026A"]["debt"]
-    current_ev = market_cap - current_net_cash
-    current_multiple = current_ev / ebit
     forecast_fcff = []
     for p in FORECAST_PERIODS:
         after_tax_ebit = income[p]["operating_income"] * (1.0 - ASSUMPTIONS[p]["tax_rate"])
@@ -730,8 +724,8 @@ def render_valuation(
     dcf_per_share = dcf_equity / shares_m
     setup = [
         ["Valuation as-of", f"[FACT] {VALUATION_DATE.isoformat()}"],
-        ["Last close", f"[FACT] ${LAST_PRICE:.2f} on {LAST_PRICE_DATE.isoformat()}"],
-        ["Last-close source", f"[Nasdaq historical NOCP]({NASDAQ_HISTORY})"],
+        ["Last close", "[FACT] not obtained; no secondary-vendor substitute used"],
+        ["Last-close source", f"[Nasdaq historical NOCP]({NASDAQ_HISTORY}); page returned no data"],
         ["Share denominator", f"[DEDUCTED] {shares_m:,.3f}m from the two S3 cover counts"],
         ["Official method", "[VIEW] 19.0× FY2027E company operating income plus FY2027E net cash"],
     ]
@@ -751,12 +745,11 @@ def render_valuation(
         ["Three-year DCF check", f"[VIEW] {pct(DCF_WACC)} WACC / {pct(DCF_TERMINAL_GROWTH)} terminal growth", f"[VIEW] ${dcf_per_share:.2f}"],
     ]
     dcf_rows = [[p, f"[VIEW] {fmt(v, 1)}"] for p, v in forecast_fcff]
-    tape = [
-        ["Last-close market capitalization", "last close × cover shares", f"[DEDUCTED] {fmt(market_cap, 1)}"],
+    balance_context = [
         ["2026-06-30 net cash / (debt)", "cash + marketable securities − debt", f"[DEDUCTED] {fmt(current_net_cash, 1)}"],
-        ["Last-close enterprise value", "market cap − net cash", f"[DEDUCTED] {fmt(current_ev, 1)}"],
-        ["EV / FY2027E operating income", "current EV ÷ FY2027E EBIT", f"[DEDUCTED] {current_multiple:.1f}x"],
-        ["Official PT change from last close", "PT ÷ last close − 1", f"[DEDUCTED] {pct(upside)}"],
+        ["Last-close market capitalization", "requires a verified last close", "[FACT] not obtained"],
+        ["Last-close enterprise value", "requires a verified last close", "[FACT] not obtained"],
+        ["Official PT change from last close", "requires a verified last close", "[FACT] not obtained"],
     ]
     content = f"""# Meta Platforms valuation
 
@@ -770,11 +763,13 @@ The official 12-month PT is **[VIEW] ${official_pt:.0f}**. The idea is visible i
 
 {table(["item", "basis", "$m except per share"], bridge)}
 
-The target is generated from the operating model, not fitted to the last close. The multiple is applied to combined FoA plus RL operating income, so RL's modeled loss is already deducted. Net cash includes marketable securities and debt; non-marketable equity investments receive no separate value.
+The target is generated from the operating model, not fitted to a market price. The multiple is applied to combined FoA plus RL operating income, so RL's modeled loss is already deducted. Net cash includes marketable securities and debt; non-marketable equity investments receive no separate value.
 
-## Tape check
+## Market-price and balance-sheet context
 
-{table(["item", "formula", "value"], tape)}
+{table(["item", "formula", "value"], balance_context)}
+
+The official Nasdaq historical-close page did not expose an observation at the research cutoff. Under the pack's primary-source rule, the last close and all tape-derived calculations remain `not obtained`.
 
 ## Bull / bear and DCF checks — not additional official targets
 
