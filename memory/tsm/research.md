@@ -39,7 +39,7 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
 1. **[DEDUCTED] R&D drivers:** node-development cadence, materials/transistor/interconnect research, design enablement, packaging/3D integration, mask/lithography work and engineering headcount.
 2. **[DEDUCTED] G&A/marketing drivers:** global footprint, customer support, professional costs, systems/compliance and employee compensation.
-3. **[FACT]** Annual R&D/G&A/marketing are disclosed, but the reviewed quarterly summary did not provide a clean Q2 split. See R6.4.
+3. **[FACT]** Annual R&D/G&A/marketing and Q2 2026 R&D/SG&A are disclosed. See R6.4.
 
 ## 3. Historical financial skeleton
 
@@ -50,7 +50,7 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 | Revenue, gross profit, operating income, parent net income, EPS | FY2023–FY2025 | R2 annual table | obtained on IASB-IFRS basis |
 | Operating cash flow and PP&E purchases | FY2023–FY2025 | R2 annual table; R7.1 | obtained |
 | Revenue, margins, operating income, parent net income, EPS and shipments | Q2 2025–Q2 2026 | R2 latest-quarter table | obtained on TIFRS basis |
-| Accounting-basis bridge | FY2025 | R2.3 | difference identified; detailed bridge **not obtained** |
+| Accounting-basis bridge | FY2025 | R2.3–R2.3A | difference identified; detailed bridge **not obtained** |
 | Node/platform/packaging P&Ls | all periods | R1.2/R10.3–R10.4 | **not obtained** |
 
 ## 4. Capacity and technology roadmap
@@ -78,6 +78,7 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 4. **[DEDUCTED] Mix/price.** More leading-edge and advanced packaging can raise revenue per wafer/product, while customer/platform mix, strategic pricing and FX can amplify or offset that benefit.
 5. **[DEDUCTED] Cost bridge.** Materials + labor + utility + depreciation + maintenance + yield/ramp loss + logistics, with fixed-cost absorption over good output. Exact node/site unit costs are not obtained (R6.5).
 6. **[FACT] Exogenous risks.** Earthquakes, electricity/water interruptions, equipment/material constraints, inflation and export controls can affect output and cost. See R9.
+7. **[FACT] Earnings quality.** Q2 net income included a material non-operating VIS disposal/mark-to-market gain; model recurring earnings separately from that gain. See R2.4A.
 
 ## 7. Capex and cash conversion
 
@@ -91,13 +92,13 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
 | node / flow | who pays whom | where value sits | what breaks it |
 |---|---|---|---|
-| Fabless/system/IDM customer → TSMC **[FACT]** | wafer, mask, design-enable, packaging and test fees | process IP, yield, scale, time-to-volume, customer trust; R1 | design loss, customer concentration, weak end demand, price pressure, export controls |
+| Fabless/system/IDM customer → TSMC **[DEDUCTED]** | wafer, mask, design-enable, packaging and test fees | process IP, yield, scale, time-to-volume, customer trust; R1 | design loss, customer concentration, weak end demand, price pressure, export controls |
 | Customer/CSP end demand → chip designer → TSMC **[DEDUCTED]** | end-user/cloud capex funds chip demand and foundry orders | scarce leading-edge and packaging capacity, product differentiation | AI deployment/power delays, inventory, customer overforecast, architecture shift |
-| TSMC frontend → TSMC/partner backend **[FACT]** | wafers move into CoWoS/SoIC/InFO/SoW, test and assembly | heterogeneous integration, HBM bandwidth, package yield and system power | substrate/HBM/test bottlenecks, package yield, alternative backend technologies; R4/R9 |
-| TSMC → equipment vendors **[FACT]** | lithography, deposition, etch, metrology and other tools | unique tool capability and install/service capacity; TSMC process integration | export controls, lead times, inflation, tool performance; R7/R9 |
-| TSMC → material/substrate suppliers **[FACT]** | wafers, gases, chemicals, photoresist, metals and packaging inputs | qualification, purity, reliability and local supply | sole-source failure, trade barriers, shortages, quality excursions; R9.2 |
-| TSMC → utilities/labor/governments **[FACT]** | electricity, water, wages, tax; governments may provide incentives | stable power/water, engineering density, fab ecosystem and subsidies | outage/drought, labor scarcity, subsidy conditions/clawbacks, fragmented ecosystem; R9 |
-| Governments/regulators → TSMC/customers **[FACT]** | grants/loans and permits; controls may restrict tools/chips/customers | geographic resilience and market access | export-license loss, tariffs, permit delay, geopolitical escalation; R9.3–R9.6 |
+| TSMC frontend → TSMC/partner backend **[DEDUCTED]** | wafers move into CoWoS/SoIC/InFO/SoW, test and assembly | heterogeneous integration, HBM bandwidth, package yield and system power | substrate/HBM/test bottlenecks, package yield, alternative backend technologies; R4/R9 |
+| TSMC → equipment vendors **[DEDUCTED]** | lithography, deposition, etch, metrology and other tools | unique tool capability and install/service capacity; TSMC process integration | export controls, lead times, inflation, tool performance; R7/R9 |
+| TSMC → material/substrate suppliers **[DEDUCTED]** | wafers, gases, chemicals, photoresist, metals and packaging inputs | qualification, purity, reliability and local supply | sole-source failure, trade barriers, shortages, quality excursions; R9.2 |
+| TSMC → utilities/labor/governments **[DEDUCTED]** | electricity, water, wages, tax; governments may provide incentives | stable power/water, engineering density, fab ecosystem and subsidies | outage/drought, labor scarcity, subsidy conditions/clawbacks, fragmented ecosystem; R9 |
+| Governments/regulators → TSMC/customers **[DEDUCTED]** | grants/loans and permits; controls may restrict tools/chips/customers | geographic resilience and market access | export-license loss, tariffs, permit delay, geopolitical escalation; R9.3–R9.6 |
 
 **[VIEW] Value concentration.** No view is assigned in this draft. The register shows where value may be measurable—node mix, platform mix, company margin and cash conversion—but not how much valuation belongs to each node, customer or packaging technology.
 
@@ -105,7 +106,7 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
 1. **[FACT] Foundry competition.** TSMC’s filing frames competitors as pure-play foundries and IDMs; technology, yield, capacity, quality, resilience, service and price are the axes. See R9.1.
 2. **[FACT] Samsung/Intel.** These firms were named by an analyst, not by TSMC’s filing, in the Q2 call. Comparative operating facts are not obtained from the primary TSMC set, so this draft does not assert node parity, yield, share or economics.
-3. **[FACT] Backend alternatives.** Management viewed alternative packaging capacity as potentially relieving a bottleneck for TSMC frontend wafers, while frontend and backend remain different competitive arenas. See S6 and R4.7.
+3. **[FACT] Backend alternatives.** Management viewed alternative packaging capacity as potentially relieving a bottleneck for TSMC frontend wafers, while frontend and backend remain different competitive arenas. See R9.1A.
 4. **[FACT] Export controls.** Advanced-chip/customer restrictions and the annual Nanjing equipment license can constrain shipments and tools. See R9.3–R9.4.
 5. **[FACT] Taiwan/geopolitics.** Production concentration, cross-strait relations, military conflict, natural disasters and utility continuity are material disclosed risks. See R9.5.
 6. **[FACT] Globalization.** Arizona/Japan/Germany add geographic flexibility but bring cost, labor, ecosystem and execution penalties; incentives are conditional. See R6.2/R9.6.
@@ -115,23 +116,27 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
 Values live only in the register. “Take” means link the assumption to the cited register item and preserve its accounting basis, source date and classification.
 
-| named input | take from | status |
-|---|---|---|
-| Annual revenue, gross profit, operating income, parent net income, EPS | R2 annual table | obtained; IASB-IFRS |
-| Quarterly revenue, margins, operating income, parent net income, EPS | R2 latest-quarter table | obtained; TIFRS |
-| FY2025 IASB-IFRS/TIFRS bridge | R2.3 | difference identified; detailed bridge **not obtained** |
-| Wafer shipments and revenue quotient cross-check | R2 latest-quarter table; R3.3 | obtained / deduced; quotient is not ASP |
-| Exact wafer ASP by node/customer | R3.4/R10.1 | **not obtained** |
-| Node revenue mix | R3 table | obtained |
-| Platform revenue mix and sequential direction | R3 table/R3.1 | obtained |
-| Packaging revenue/margin/capacity/backlog | R10.3 | **not obtained** |
-| Capacity and exact utilization | R4.1–R4.2 | capacity obtained; utilization **not obtained** |
-| N2/N2P/A16/A14 timing | R4.3–R4.5 | obtained as company roadmap |
-| CoWoS/SoIC/COUPE timing | R4.6–R4.8 | obtained as company roadmap; economics **not obtained** |
-| Geography and customer concentration | R5/R5.1 | obtained |
-| Node/site cost, yield and margin | R6.5/R10.2/R10.4 | **not obtained** |
-| OCF, capex, FCF and 2026 capital budget | R2/R7.1–R7.3 | obtained / deduced where labeled |
-| Cash, securities, debt, working capital, PP&E | R7.4–R7.5 | obtained |
-| Shares, dividends and buybacks | R8 | obtained; current open buyback **not obtained** |
-| Export/geopolitical/utility risk anchors | R9 | qualitative facts obtained; event probabilities **not obtained** |
-| Street consensus and price targets | R10.9; `consensus.md` | **not obtained** |
+| named input | take from | source / as-of | status |
+|---|---|---|---|
+| Annual revenue, gross profit, operating income, parent net income, EPS | R2 annual table | S1; FY2023–FY2025 | obtained; IASB-IFRS |
+| Quarterly revenue, margins, operating income, parent net income, EPS | R2 latest-quarter table | S3–S5; Q2 2025–Q2 2026 | obtained; TIFRS |
+| R&D and SG&A | R6.4 | S1/S4; FY2025/Q2 2026 | obtained |
+| Non-operating income, VIS gain and cash tax expense | R2.4A | S4/S6; Q2 2026 | obtained; separate recurring/nonrecurring treatment needed |
+| D&A | R7.1–R7.2 | S1/S4; FY2025/Q2 2026 | obtained |
+| FY2025 IASB-IFRS/TIFRS bridge | R2.3–R2.3A | S1/S2; FY2025 | difference identified; detailed bridge **not obtained** |
+| Wafer shipments and revenue quotient cross-check | R2 latest-quarter table; R3.3 | S4/S5; Q2 2026 | obtained / deduced; quotient is not ASP |
+| Exact wafer ASP by node/customer | R3.4/R10.1 | through 2026-09-29 | **not obtained** |
+| Node revenue mix | R3 table | S3–S6; Q2 2026 | obtained |
+| Platform revenue mix and sequential direction | R3 table/R3.1 | S4/S6; Q2 2026 | obtained |
+| Monthly revenue run rate | R2.7 | S7; August/YTD 2026 | obtained through August |
+| Packaging revenue/margin/capacity/backlog | R10.3 | through 2026-09-29 | **not obtained** |
+| Capacity and exact utilization | R4.1–R4.2A | S1/S2/S4/S6; through Q2 2026 | capacity obtained; utilization **not obtained** |
+| N2/N2P/A16/A14 timing | R4.3–R4.5 | S2/S3/S6; through 2026-07-16 | obtained as company roadmap |
+| CoWoS/SoIC/InFO/SoW/COUPE timing | R4.6–R4.8 | S2/S6; through 2026-07-16 | obtained as company roadmap; economics **not obtained** |
+| Geography and customer concentration | R5/R5.1 | S1/S2/S4; FY2025/Q2 2026 | obtained |
+| Node/site cost, yield and margin | R6.5/R10.2/R10.4 | through 2026-09-29 | **not obtained** |
+| OCF, capex, FCF and 2026 capital budget | R2/R7.1–R7.3 | S1/S4–S6; FY2023–Q2 2026 | obtained / deduced where labeled |
+| Cash, securities, debt, working capital, PP&E | R7.4–R7.5 | S4–S6; 2026-06-30 | obtained |
+| Shares, dividends and buybacks | R8 | S1/S5/S8/S9; through 2026-09-29 | obtained; current open buyback **not obtained** |
+| Export/geopolitical/utility risk anchors | R9 | S1; filed 2026-04-16 | qualitative facts obtained; event probabilities **not obtained** |
+| Street consensus and price targets | R10.9; `consensus.md` | through 2026-09-29 | **not obtained** |
