@@ -11,7 +11,7 @@ GF-TSM-1 gate 2 · as of 2026-09-29 · name id `tsm`
 | Income statement | [`models/tsm/income.md`](../../models/tsm/income.md) |
 | Balance sheet | [`models/tsm/balance.md`](../../models/tsm/balance.md) |
 | Cash-flow statement | [`models/tsm/cashflow.md`](../../models/tsm/cashflow.md) |
-| Valuation (stub) | [`models/tsm/valuation.md`](../../models/tsm/valuation.md) |
+| Valuation | [`models/tsm/valuation.md`](../../models/tsm/valuation.md) |
 | Engine | [`models/tsm/compute.py`](../../models/tsm/compute.py) |
 
 Regenerate outputs after assumption changes:

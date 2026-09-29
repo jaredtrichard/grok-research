@@ -2,12 +2,13 @@
 """TSMC foundry segment three-statement model.
 
 All arithmetic for the markdown model lives here. Running this file rewrites
-segments.md, income.md, balance.md and cashflow.md, then prints tie-out checks.
+segments.md, income.md, balance.md, cashflow.md and valuation.md, then prints tie-out checks.
 NT$ billions except per-share data, wafer units and percentages.
 """
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -258,6 +259,35 @@ INTEREST_INCOME_RATE = 0.025
 MINIMUM_CASH_AND_SECURITIES = 1_500.0
 BUYBACKS = 0.0
 PACKAGING_CAPACITY_BINDING = True  # narrative flag R4.7; no P&L
+
+# Valuation as-of and market (ADR, USD). Primary last close from Yahoo chart API 2026-09-29.
+VALUATION_AS_OF = date(2026, 9, 29)
+LAST_PRICE_DATE = date(2026, 9, 29)
+LAST_PRICE = 456.94
+LAST_PRICE_SOURCE = "https://finance.yahoo.com/quote/TSM/history/"
+YAHOO_TSM_CHART = "https://query1.finance.yahoo.com/v8/finance/chart/TSM?range=5d&interval=1d"
+ADR_SHARES_PER_ADR = 5  # register R8.1
+USD_NTD_VIEW = 32.0  # [VIEW]; aligns with Q3 2026 guidance FX in R2.5
+
+# Official 12-month PT: EV / recurring EBIT + net cash (single foundry segment).
+OFFICIAL_EBIT_PERIOD = "FY2027E"
+OFFICIAL_NET_CASH_PERIOD = "FY2027E"
+OFFICIAL_EBIT_MULTIPLE = 21.0  # [VIEW]; premium pure-play foundry vs diversified semi
+OFFICIAL_SHARES_PERIOD = "FY2027E"
+
+# Equity DCF cross-check on modeled recurring FCF (ex VIS).
+DCF_WACC = 0.095  # [VIEW]; net-cash foundry, Taiwan listing + ADR
+DCF_TERMINAL_GROWTH = 0.030  # [VIEW]; advanced-node TAM, capped below GDP+inflation
+DCF_MID_YEAR_OFFSETS = (0.5, 1.5, 2.5)  # FY2026E–FY2028E mid-year from as-of
+
+# Sensitivity / alternate horizon checks (not additional official targets).
+BEAR_EBIT_MULTIPLE = 18.0  # [VIEW]
+BULL_EBIT_MULTIPLE = 24.0  # [VIEW]
+THREE_YEAR_EBIT_PERIOD = "FY2028E"
+THREE_YEAR_NET_CASH_PERIOD = "FY2028E"
+THREE_YEAR_EBIT_MULTIPLE = 19.0  # [VIEW]
+WACC_SENS_DOWN = 0.085  # [VIEW]
+WACC_SENS_UP = 0.105  # [VIEW]
 
 
 def fmt(value: Any, decimals: int = 1) -> str:
@@ -820,16 +850,333 @@ Forecast OCF = NI + D&A + SBC − ΔNWC. Working-capital days: AR {wc['ar_days']
 """
 
 
+def _net_cash_ntd(balances: dict[str, dict[str, float]], period: str) -> float:
+    bal = balances[period]
+    return bal["cash_and_securities"] - bal["debt"]
+
+
+def _equity_from_ebit_multiple(
+    income: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    ebit_period: str,
+    net_cash_period: str,
+    multiple: float,
+) -> tuple[float, float, float]:
+    """Return (operating_ev, net_cash, equity_value) in NT$bn."""
+    operating_ev = income[ebit_period]["operating_income"] * multiple
+    net_cash = _net_cash_ntd(balances, net_cash_period)
+    return operating_ev, net_cash, operating_ev + net_cash
+
+
+def _pt_from_equity_ntd(
+    equity_ntd_bn: float,
+    shares_m: float,
+) -> tuple[float, float, float]:
+    """Return (common PT NT$, ADR PT USD, equity USD bn)."""
+    common_pt_ntd = equity_ntd_bn * 1_000.0 / shares_m
+    adr_pt_usd = common_pt_ntd * ADR_SHARES_PER_ADR / USD_NTD_VIEW
+    equity_usd_bn = equity_ntd_bn / USD_NTD_VIEW
+    return common_pt_ntd, adr_pt_usd, equity_usd_bn
+
+
+def _dcf_equity_ntd(
+    cashflow: dict[str, dict[str, float]],
+    wacc: float,
+    terminal_growth: float,
+) -> tuple[float, float, float, float]:
+    """Equity DCF on forecast FCF; returns (pv_fcfs, pv_terminal, terminal_fcf, equity). NT$bn."""
+    fcfs = [cashflow[p]["fcf"] for p in FORECAST_PERIODS]
+    pv_fcfs = sum(
+        fcf / ((1.0 + wacc) ** year_offset)
+        for fcf, year_offset in zip(fcfs, DCF_MID_YEAR_OFFSETS)
+    )
+    terminal_fcf = fcfs[-1] * (1.0 + terminal_growth)
+    terminal_value = terminal_fcf / (wacc - terminal_growth)
+    pv_terminal = terminal_value / ((1.0 + wacc) ** DCF_MID_YEAR_OFFSETS[-1])
+    return pv_fcfs, pv_terminal, terminal_fcf, pv_fcfs + pv_terminal
+
+
+def build_valuation(
+    income: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+) -> tuple[str, dict[str, float]]:
+    shares_m = income[OFFICIAL_SHARES_PERIOD]["diluted_shares"]
+    adr_shares_m = shares_m / ADR_SHARES_PER_ADR
+
+    op_ev, net_cash_official, official_equity = _equity_from_ebit_multiple(
+        income,
+        balances,
+        OFFICIAL_EBIT_PERIOD,
+        OFFICIAL_NET_CASH_PERIOD,
+        OFFICIAL_EBIT_MULTIPLE,
+    )
+    common_pt, adr_pt, _ = _pt_from_equity_ntd(official_equity, shares_m)
+
+    bear_equity = _equity_from_ebit_multiple(
+        income,
+        balances,
+        OFFICIAL_EBIT_PERIOD,
+        OFFICIAL_NET_CASH_PERIOD,
+        BEAR_EBIT_MULTIPLE,
+    )[2]
+    bull_equity = _equity_from_ebit_multiple(
+        income,
+        balances,
+        OFFICIAL_EBIT_PERIOD,
+        OFFICIAL_NET_CASH_PERIOD,
+        BULL_EBIT_MULTIPLE,
+    )[2]
+    bear_adr_pt = _pt_from_equity_ntd(bear_equity, shares_m)[1]
+    bull_adr_pt = _pt_from_equity_ntd(bull_equity, shares_m)[1]
+
+    three_year_equity = _equity_from_ebit_multiple(
+        income,
+        balances,
+        THREE_YEAR_EBIT_PERIOD,
+        THREE_YEAR_NET_CASH_PERIOD,
+        THREE_YEAR_EBIT_MULTIPLE,
+    )[2]
+    three_year_adr_pt = _pt_from_equity_ntd(three_year_equity, shares_m)[1]
+
+    h1_net_cash = _net_cash_ntd(balances, "1H2026A")
+
+    pv_fcfs, pv_terminal, terminal_fcf, dcf_equity = _dcf_equity_ntd(
+        cashflow, DCF_WACC, DCF_TERMINAL_GROWTH
+    )
+    dcf_equity += h1_net_cash
+    dcf_adr_pt = _pt_from_equity_ntd(dcf_equity, shares_m)[1]
+    dcf_bear = _dcf_equity_ntd(cashflow, WACC_SENS_UP, DCF_TERMINAL_GROWTH)[3] + h1_net_cash
+    dcf_bull = _dcf_equity_ntd(cashflow, WACC_SENS_DOWN, DCF_TERMINAL_GROWTH)[3] + h1_net_cash
+    dcf_bear_pt = _pt_from_equity_ntd(dcf_bear, shares_m)[1]
+    dcf_bull_pt = _pt_from_equity_ntd(dcf_bull, shares_m)[1]
+
+    market_cap_usd_m = LAST_PRICE * adr_shares_m
+    market_cap_usd_bn = market_cap_usd_m / 1_000.0
+    market_cap_ntd_bn = market_cap_usd_bn * USD_NTD_VIEW
+    current_operating_ev = market_cap_ntd_bn - h1_net_cash
+
+    ebit_official = income[OFFICIAL_EBIT_PERIOD]["operating_income"]
+    recurring_ni_official = income[OFFICIAL_EBIT_PERIOD]["parent_ni_recurring"]
+    revenue_official = income[OFFICIAL_EBIT_PERIOD]["revenue"]
+    ebit_fy28 = income["FY2028E"]["operating_income"]
+    recurring_ni_fy28 = income["FY2028E"]["parent_ni_recurring"]
+    revenue_fy28 = income["FY2028E"]["revenue"]
+
+    implied_ev_ebit_fy27 = current_operating_ev / ebit_official
+    implied_ev_ebit_fy28 = current_operating_ev / ebit_fy28
+    implied_pe_fy27 = market_cap_ntd_bn / recurring_ni_official
+    implied_pe_fy28 = market_cap_ntd_bn / recurring_ni_fy28
+    implied_ev_sales_fy27 = current_operating_ev / revenue_official
+
+    residual_adr = LAST_PRICE - adr_pt
+    tape_premium_pct = (LAST_PRICE / adr_pt - 1.0) * 100.0 if adr_pt else 0.0
+
+    summary = {
+        "adr_pt": adr_pt,
+        "common_pt_ntd": common_pt,
+        "official_equity_ntd": official_equity,
+        "bear_adr_pt": bear_adr_pt,
+        "bull_adr_pt": bull_adr_pt,
+        "three_year_adr_pt": three_year_adr_pt,
+        "dcf_adr_pt": dcf_adr_pt,
+        "residual_adr": residual_adr,
+    }
+
+    bridge_rows = [
+        [
+            f"{OFFICIAL_EBIT_PERIOD} recurring operating income (foundry)",
+            "income.md; ex VIS",
+            fmt(ebit_official),
+        ],
+        [
+            f"[VIEW] Selected EV / EBIT",
+            f"{OFFICIAL_EBIT_MULTIPLE:.1f}×; premium foundry vs diversified semi",
+            f"{OFFICIAL_EBIT_MULTIPLE:.1f}×",
+        ],
+        [
+            "[VIEW] Operating enterprise value",
+            "EBIT × multiple",
+            fmt(op_ev),
+        ],
+        [
+            f"{OFFICIAL_NET_CASH_PERIOD} net cash",
+            "Cash + securities − interest-bearing debt; model balance.md",
+            fmt(net_cash_official),
+        ],
+        [
+            "Official equity value (NT$bn)",
+            "Operating EV + net cash",
+            fmt(official_equity),
+        ],
+        [
+            "Diluted WAS (m)",
+            f"R8.5 / {OFFICIAL_SHARES_PERIOD} [VIEW] path",
+            fmt(shares_m, 0),
+        ],
+        [
+            "Official 12-month PT / common share",
+            "Equity ÷ diluted WAS",
+            fmt(common_pt, 2),
+        ],
+        [
+            "Implied PT / ADR (USD)",
+            f"Common PT × {ADR_SHARES_PER_ADR} ÷ {USD_NTD_VIEW:.0f} USD/NTD [VIEW]",
+            f"${adr_pt:.2f}",
+        ],
+    ]
+
+    dcf_rows = [
+        [p, fmt(cashflow[p]["fcf"]), f"{DCF_MID_YEAR_OFFSETS[i]:.1f}", fmt(DCF_WACC * 100, 1) + "% [VIEW]"]
+        for i, p in enumerate(FORECAST_PERIODS)
+    ]
+
+    check_rows = [
+        ["Bear EV/EBIT", f"{BEAR_EBIT_MULTIPLE:.0f}× {OFFICIAL_EBIT_PERIOD} OI + net cash", f"${bear_adr_pt:.2f}"],
+        ["Base (official)", f"{OFFICIAL_EBIT_MULTIPLE:.0f}× {OFFICIAL_EBIT_PERIOD} OI + net cash", f"${adr_pt:.2f}"],
+        ["Bull EV/EBIT", f"{BULL_EBIT_MULTIPLE:.0f}× {OFFICIAL_EBIT_PERIOD} OI + net cash", f"${bull_adr_pt:.2f}"],
+        [
+            "3-year exit check",
+            f"{THREE_YEAR_EBIT_MULTIPLE:.0f}× {THREE_YEAR_EBIT_PERIOD} OI + net cash",
+            f"${three_year_adr_pt:.2f}",
+        ],
+        [
+            "DCF base",
+            f"WACC {DCF_WACC*100:.1f}%, terminal g {DCF_TERMINAL_GROWTH*100:.0f}% on FY2028E FCF",
+            f"${dcf_adr_pt:.2f}",
+        ],
+        [
+            "DCF WACC +1.0pp",
+            f"WACC {WACC_SENS_UP*100:.1f}%",
+            f"${dcf_bear_pt:.2f}",
+        ],
+        [
+            "DCF WACC −1.0pp",
+            f"WACC {WACC_SENS_DOWN*100:.1f}%",
+            f"${dcf_bull_pt:.2f}",
+        ],
+    ]
+
+    tape_rows = [
+        ["Last-price market cap (USD bn)", "Last close × ADR count", fmt(market_cap_usd_bn, 1)],
+        ["Last-price market cap (NT$bn)", f"× {USD_NTD_VIEW:.0f} USD/NTD [VIEW]", fmt(market_cap_ntd_bn, 1)],
+        ["2026-06-30 net cash (NT$bn)", "R7.4; model 1H2026A", fmt(h1_net_cash, 1)],
+        ["Current operating EV (NT$bn)", "Market cap − net cash", fmt(current_operating_ev, 1)],
+        [f"EV / {OFFICIAL_EBIT_PERIOD} recurring EBIT", "Operating EV ÷ OI", fmt(implied_ev_ebit_fy27, 1) + "×"],
+        ["EV / FY2028E recurring EBIT", "Operating EV ÷ OI", fmt(implied_ev_ebit_fy28, 1) + "×"],
+        [f"P/E on {OFFICIAL_EBIT_PERIOD} recurring NI", "Market cap ÷ recurring parent NI", fmt(implied_pe_fy27, 1) + "×"],
+        ["P/E on FY2028E recurring NI", "Market cap ÷ recurring parent NI", fmt(implied_pe_fy28, 1) + "×"],
+        [f"EV / {OFFICIAL_EBIT_PERIOD} revenue", "Operating EV ÷ revenue", fmt(implied_ev_sales_fy27, 1) + "×"],
+        [
+            "[DEDUCTED] Tape vs official PT / ADR",
+            f"${LAST_PRICE:.2f} − ${adr_pt:.2f}",
+            f"${residual_adr:.2f} ({tape_premium_pct:+.1f}% vs PT)",
+        ],
+    ]
+
+    comps_rows = [
+        ["Samsung Electronics (foundry + devices)", "EV/EBIT, EV/Sales", "not obtained", "R10.8; no comparable foundry-only financials in TSMC primary set"],
+        ["Intel (Intel Foundry + products)", "EV/EBIT", "not obtained", "R10.8"],
+        ["GlobalFoundries (GFS)", "EV/EBIT", "not obtained", "R10.9; no refreshed peer pull in this gate"],
+        ["UMC / SMIC (pure-play foundry peers)", "EV/EBIT", "not obtained", "R10.8; multiples not sourced here"],
+    ]
+
+    content = f"""# TSMC valuation
+
+At the ${LAST_PRICE:.2f} ADR last close, the official **12-month price target** is **${adr_pt:.2f} per ADR** (**NT${common_pt:,.2f} per common share**), from a single-segment foundry **EV / recurring EBIT** bridge on the modeled `{OFFICIAL_EBIT_PERIOD}` path plus net cash. TSMC reports one foundry segment (R1.2); this is not a platform SOTP.
+
+## Official method and as-of
+
+| item | value |
+|---|---|
+| Valuation as-of | {VALUATION_AS_OF.isoformat()} |
+| Last close (ADR, USD) | ${LAST_PRICE:.2f} on {LAST_PRICE_DATE.isoformat()} |
+| Last-price source | [Yahoo Finance TSM history]({LAST_PRICE_SOURCE}) (cross-check: [Yahoo chart API]({YAHOO_TSM_CHART})) |
+| ADR ratio | 1 ADR = {ADR_SHARES_PER_ADR} common shares (R8.1) |
+| FX for ADR bridge | {USD_NTD_VIEW:.0f} NT$ / USD `[VIEW]` (Q3 2026 guidance anchor R2.5) |
+| PT denominator | {fmt(shares_m, 0)}m diluted WAS, `{OFFICIAL_SHARES_PERIOD}` model path |
+| Primary method | {OFFICIAL_EBIT_MULTIPLE:.1f}× `{OFFICIAL_EBIT_PERIOD}` **recurring operating income** + `{OFFICIAL_NET_CASH_PERIOD}` net cash |
+| Recurring earnings | Operating income and parent NI exclude Q2 2026 VIS gain (R2.4A); forecast VIS = 0 `[VIEW]` |
+
+## What the tape must be paying for
+
+The table below compares the **last price** to **model recurring foundry earnings** from [`income.md`](income.md). If the market is rational on this `[VIEW]` forecast path, the implied multiples should bracket the selected {OFFICIAL_EBIT_MULTIPLE:.0f}× EBIT anchor or embed extra growth, packaging scarcity, or geopolitical discount not in the base case.
+
+{markdown_table(["item", "formula", "value"], tape_rows)}
+
+At tape, **EV / {OFFICIAL_EBIT_PERIOD} recurring EBIT** is **{implied_ev_ebit_fy27:.1f}×** versus the official **{OFFICIAL_EBIT_MULTIPLE:.0f}×** selection. A higher tape multiple implies the market is paying for faster AI/HPC foundry growth, longer advanced-node pricing power, or net-cash optionality beyond the base `{OFFICIAL_EBIT_PERIOD}` `{OFFICIAL_EBIT_MULTIPLE:.0f}×` frame; a lower multiple would imply overseas-fab dilution (R6.2), export-control risk (R9.3), or cyclical utilization stress not captured in the `[VIEW]` margin path.
+
+## Official equity bridge (NT$ billions → per share)
+
+{markdown_table(["item", "basis", "NT$bn or multiple"], bridge_rows)}
+
+**[VIEW] Multiple rationale ({OFFICIAL_EBIT_MULTIPLE:.0f}×):** TSMC is modeled as a single pure-play leading-edge foundry with net cash and elevated capex converting to revenue on the R7.3 budget path. {OFFICIAL_EBIT_MULTIPLE:.0f}× `{OFFICIAL_EBIT_PERIOD}` recurring operating income sits near the **tape-implied {implied_ev_ebit_fy27:.1f}×** on the same model EBIT, slightly below a bull foundry premium to reflect overseas margin dilution (R6.2) and concentration risk (R5.1, R9.5). It is **not** sourced from peer multiples (R10.8).
+
+## Recurring foundry operating path (valuation inputs)
+
+| line | FY2026E | FY2027E | FY2028E | source |
+|---|---:|---:|---:|---|
+| Revenue | {fmt(income['FY2026E']['revenue'])} | {fmt(income['FY2027E']['revenue'])} | {fmt(income['FY2028E']['revenue'])} | income.md |
+| Gross margin | {pct(income['FY2026E']['gross_profit']/income['FY2026E']['revenue'])} | {pct(income['FY2027E']['gross_profit']/income['FY2027E']['revenue'])} | {pct(income['FY2028E']['gross_profit']/income['FY2028E']['revenue'])} | `[VIEW]` inputs.md |
+| Operating income (recurring) | {fmt(income['FY2026E']['operating_income'])} | {fmt(income['FY2027E']['operating_income'])} | {fmt(income['FY2028E']['operating_income'])} | income.md |
+| Recurring parent NI | {fmt(income['FY2026E']['parent_ni_recurring'])} | {fmt(income['FY2027E']['parent_ni_recurring'])} | {fmt(income['FY2028E']['parent_ni_recurring'])} | ex VIS |
+| Free cash flow | {fmt(cashflow['FY2026E']['fcf'])} | {fmt(cashflow['FY2027E']['fcf'])} | {fmt(cashflow['FY2028E']['fcf'])} | cashflow.md |
+
+## Equity DCF cross-check (recurring FCF)
+
+| [VIEW] item | value | note |
+|---|---|---|
+| WACC | {DCF_WACC*100:.1f}% | Foundry leader with net cash; Taiwan/ADR listing; not observed from market data |
+| Terminal growth | {DCF_TERMINAL_GROWTH*100:.0f}% | Perpetuity on FY2028E FCF [VIEW] |
+| Mid-year convention | {DCF_MID_YEAR_OFFSETS[0]:.1f} / {DCF_MID_YEAR_OFFSETS[1]:.1f} / {DCF_MID_YEAR_OFFSETS[2]:.1f} years | FY2026E–FY2028E FCF from cashflow.md |
+| PV of forecast FCF | {fmt(pv_fcfs)} | Sum of three `[VIEW]` years |
+| Terminal FCF (FY2028E × (1+g)) | {fmt(terminal_fcf)} | `{fmt(cashflow['FY2028E']['fcf'])}` base FCF |
+| PV of terminal | {fmt(pv_terminal)} | Gordon `{DCF_TERMINAL_GROWTH*100:.0f}%` / WACC `{DCF_WACC*100:.1f}%` |
+| DCF equity value | {fmt(dcf_equity)} | PV(FCF) + terminal + 2026-06-30 net cash (R7.4); **not** the official method |
+| Implied DCF PT / ADR | ${dcf_adr_pt:.2f} | vs official ${adr_pt:.2f}; FCF path is capex-heavy (R7.3) so DCF can sit below EBIT-multiple EV |
+
+Heavy **capex** in the `[VIEW]` forecast (see [`cashflow.md`](cashflow.md)) compresses near-term FCF versus recurring EBIT; the DCF cross-check is therefore expected to land **below** the EV/EBIT official bridge unless terminal growth or WACC is retuned.
+
+{markdown_table(["period", "recurring FCF (NT$bn)", "discount year", "WACC"], dcf_rows)}
+
+## Checks — not additional official targets
+
+{markdown_table(["check", "method", "PT / ADR (USD)"], check_rows)}
+
+Bear and bull rows scale only the **EV/EBIT multiple** on the same `{OFFICIAL_EBIT_PERIOD}` operating income and net cash. DCF rows re-run the same FCF path with **±1.0pp WACC** around the {DCF_WACC*100:.1f}% base.
+
+## Comparable-company framing
+
+Peer foundry/semi manufacturing multiples were **not obtained** in this gate; do not treat the table as valuation anchors.
+
+{markdown_table(["peer / frame", "metric sought", "status", "note"], comps_rows)}
+
+Samsung and Intel filings mix foundry with large product businesses; GlobalFoundries and UMC would require a separate sourced comp pull (R10.8–R10.9).
+
+## Gaps and what would move the official PT
+
+- Sourced **peer EV/EBIT** for pure-play foundries (R10.8) to test the {OFFICIAL_EBIT_MULTIPLE:.0f}× `[VIEW]` vs the tape-implied {implied_ev_ebit_fy27:.1f}×.
+- **Packaging economics** (R10.3) if CoWoS becomes a separately measurable profit pool.
+- **IASB/TIFRS bridge** before splicing interim TIFRS into IASB valuation history (R10.13).
+- **Street consensus** (R10.9) for external PT distribution — not used here.
+- A change in `{OFFICIAL_EBIT_PERIOD}` recurring **operating income** path, **{OFFICIAL_EBIT_MULTIPLE:.0f}×** multiple, **net cash** roll-forward, **USD/NTD [VIEW]**, or **diluted share** path.
+"""
+    return content, summary
+
+
 def main() -> None:
     segments = {**derived_segments(), **build_forecast_segments()}
     balances, income, cashflow = build_income_and_forecast(segments)
     checks = build_checks(segments, income, balances, cashflow)
+
+    valuation_md, valuation_summary = build_valuation(income, balances, cashflow)
 
     outputs = {
         "segments.md": render_segments(segments, checks),
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, income, checks),
         "cashflow.md": render_cashflow(balances, cashflow, checks),
+        "valuation.md": valuation_md,
     }
     for name, content in outputs.items():
         (ROOT / name).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -845,6 +1192,19 @@ def main() -> None:
             f"{inc['operating_income']:.1f} | {inc['parent_ni']:.1f} | "
             f"{cf['fcf']:.1f} | {inc['diluted_eps']:.2f}"
         )
+    print("\nValuation (ADR USD / common NT$)")
+    print(
+        f"Last close ${LAST_PRICE:.2f} ({LAST_PRICE_DATE}) | "
+        f"Official PT ${valuation_summary['adr_pt']:.2f} / "
+        f"NT${valuation_summary['common_pt_ntd']:.2f}"
+    )
+    print(
+        f"Bear ${valuation_summary['bear_adr_pt']:.2f} | "
+        f"Bull ${valuation_summary['bull_adr_pt']:.2f} | "
+        f"DCF ${valuation_summary['dcf_adr_pt']:.2f} | "
+        f"Tape residual ${valuation_summary['residual_adr']:.2f}"
+    )
+
     print("\nTie-out checks")
     failed = False
     for name, ok, diff in checks:
