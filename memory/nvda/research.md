@@ -7,7 +7,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 ## 1. Business and reported segments
 
 1. **[FACT] Reportable segments.** NVIDIA reports two segments: Compute & Networking and Graphics. Compute & Networking includes Data Center compute/networking, AI software and Automotive; Graphics includes GeForce gaming/PC GPUs and enterprise-workstation graphics. See R1.1.
-2. **[FACT] Current market platforms.** The latest quarterly presentation is Data Center and Edge Computing, with Data Center split into Hyperscale and ACIE. These are market platforms, not reportable segments. See R1.2.
+2. **[FACT] Current market platforms.** The latest quarterly presentation is Data Center and Edge Computing, with Data Center split into Hyperscale and ACIE. Edge covers PCs, consoles, workstations, AI-RAN, robotics and automotive. These are market platforms, not reportable segments, and they do not map one-to-one to Compute & Networking and Graphics. See R1.2.
 3. **[FACT] Taxonomy break.** Data Center compute/networking, Gaming, Professional Visualization, Automotive and OEM/Other remain available as FY2026 history, but NVIDIA stopped presenting those six lines in the latest quarter. Do not splice them into FY2027 without marking the missing split. See R1.3 and R9.1.
 4. **[FACT] Full-stack scope.** The Data Center offer spans accelerators, CPUs, DPUs, NVLink, InfiniBand/Ethernet, rack-scale systems, software and services. CUDA is the common programming platform; paid software is not separately quantified. See R1.4 and R3.3.
 
@@ -37,7 +37,7 @@ Read numeric facts in [`register.md`](register.md); this file owns driver struct
 
 ### 2.4 Edge Computing and legacy end markets
 
-1. **[FACT] Current aggregate.** Edge Computing is the only current non-Data-Center market-platform line. The latest commentary ties it to Blackwell workstations and consumer PCs; Gaming, Professional Visualization, Automotive and OEM/Other are not separately quantified in FY2027. See R2.3 and R9.1.
+1. **[FACT] Current aggregate.** Edge Computing is the only current non-Data-Center market-platform line and covers PCs, consoles, workstations, AI-RAN, robotics and automotive. The latest commentary ties quarterly movement to Blackwell workstations and consumer PCs; Gaming, Professional Visualization, Automotive and OEM/Other are not separately quantified in FY2027. See R1.2, R2.3 and R9.1.
 2. **[DEDUCTED] Gaming bridge:** GeForce desktop/laptop GPU units × realized board/GPU content, plus console SoCs and cloud gaming. Drivers are installed-base upgrade cadence, game releases, RTX/DLSS adoption, channel inventory, memory/system prices and crypto-independent demand.
 3. **[DEDUCTED] Professional Visualization bridge:** workstation units × GPU/system content, plus vGPU/software; drivers are design/content workloads, enterprise refresh, AI workstations and channel mix.
 4. **[DEDUCTED] Automotive/robotics bridge:** design-win production units × SoC/system content, plus development, software and support. Design-win announcements are not revenue, and production timing follows OEM programs.
