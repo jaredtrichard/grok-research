@@ -7,8 +7,8 @@ The official 12-month PT is **[VIEW] $815**. The idea is visible in the target: 
 | item | value |
 |---|---|
 | Valuation as-of | [FACT] 2026-09-29 |
-| Last close | [FACT] $751.66 on 2026-09-25 |
-| Last-close source | [Nasdaq historical NOCP](https://www.nasdaq.com/market-activity/stocks/meta/historical-nocp) |
+| Last close | [FACT] not obtained; no secondary-vendor substitute used |
+| Last-close source | [Nasdaq historical NOCP](https://www.nasdaq.com/market-activity/stocks/meta/historical-nocp); page returned no data |
 | Share denominator | [DEDUCTED] 2,547.506m from the two S3 cover counts |
 | Official method | [VIEW] 19.0× FY2027E company operating income plus FY2027E net cash |
 
@@ -24,17 +24,18 @@ The official 12-month PT is **[VIEW] $815**. The idea is visible in the target: 
 | Unrounded value / share | equity value ÷ cover shares | [DEDUCTED] $815.20 |
 | Official 12-month PT | nearest $5 | [VIEW] $815 |
 
-The target is generated from the operating model, not fitted to the last close. The multiple is applied to combined FoA plus RL operating income, so RL's modeled loss is already deducted. Net cash includes marketable securities and debt; non-marketable equity investments receive no separate value.
+The target is generated from the operating model, not fitted to a market price. The multiple is applied to combined FoA plus RL operating income, so RL's modeled loss is already deducted. Net cash includes marketable securities and debt; non-marketable equity investments receive no separate value.
 
-## Tape check
+## Market-price and balance-sheet context
 
 | item | formula | value |
 |---|---|---|
-| Last-close market capitalization | last close × cover shares | [DEDUCTED] 1,914,858.5 |
 | 2026-06-30 net cash / (debt) | cash + marketable securities − debt | [DEDUCTED] 6,596.0 |
-| Last-close enterprise value | market cap − net cash | [DEDUCTED] 1,908,262.5 |
-| EV / FY2027E operating income | current EV ÷ FY2027E EBIT | [DEDUCTED] 17.4x |
-| Official PT change from last close | PT ÷ last close − 1 | [DEDUCTED] 8.4% |
+| Last-close market capitalization | requires a verified last close | [FACT] not obtained |
+| Last-close enterprise value | requires a verified last close | [FACT] not obtained |
+| Official PT change from last close | requires a verified last close | [FACT] not obtained |
+
+The official Nasdaq historical-close page did not expose an observation at the research cutoff. Under the pack's primary-source rule, the last close and all tape-derived calculations remain `not obtained`.
 
 ## Bull / bear and DCF checks — not additional official targets
 
