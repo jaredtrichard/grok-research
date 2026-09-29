@@ -1161,7 +1161,6 @@ def render_cashflow(
     forecast_rows: list[list[str]] = []
     for label, key in (
         ("Full-year net income", "full_year_net_income"),
-        ("Reported 1H operating cash flow included", "reported_1h_ocf"),
         ("Forecast roll-period net income", "roll_net_income"),
         ("Forecast roll-period D&A", "roll_da"),
         ("Forecast roll-period SBC", "roll_sbc"),
@@ -1169,7 +1168,6 @@ def render_cashflow(
         ("Forecast roll-period operating cash flow", "roll_operating_cash_flow"),
         ("Full-year operating cash flow", "operating_cash_flow"),
         ("PP&E/intangible purchases", "capex"),
-        ("Principal payments on PP&E/intangibles", "principal_asset_payments"),
         ("Free cash flow", "free_cash_flow"),
         ("Dividends", "dividends"),
         ("Debt repayment", "debt_repayment"),
@@ -1179,10 +1177,27 @@ def render_cashflow(
             [label]
             + [tagged(cashflow[p][key], "VIEW") for p in FORECAST_PERIODS]
         )
+    forecast_rows.insert(
+        1,
+        [
+            "Reported 1H operating cash flow included",
+            tagged(cashflow["FY2027E"]["reported_1h_ocf"], "FACT"),
+            tagged(cashflow["FY2028E"]["reported_1h_ocf"], "VIEW"),
+            tagged(cashflow["FY2029E"]["reported_1h_ocf"], "VIEW"),
+        ],
+    )
+    forecast_rows.insert(
+        9,
+        [
+            "Principal payments on PP&E/intangibles",
+            tagged(cashflow["FY2027E"]["principal_asset_payments"], "FACT"),
+            tagged(cashflow["FY2028E"]["principal_asset_payments"], "VIEW"),
+            tagged(cashflow["FY2029E"]["principal_asset_payments"], "VIEW"),
+        ],
+    )
 
     cash_roll_rows: list[list[str]] = []
     for label, key in (
-        ("Opening cash", "opening_cash"),
         ("Roll-period free cash flow", "roll_fcf"),
         ("Roll-period dividends", "roll_dividends"),
         ("Debt repayment", "debt_repayment"),
@@ -1194,6 +1209,15 @@ def render_cashflow(
             [label]
             + [tagged(cashflow[p][key], "VIEW") for p in FORECAST_PERIODS]
         )
+    cash_roll_rows.insert(
+        0,
+        [
+            "Opening cash",
+            tagged(cashflow["FY2027E"]["opening_cash"], "FACT"),
+            tagged(cashflow["FY2028E"]["opening_cash"], "VIEW"),
+            tagged(cashflow["FY2029E"]["opening_cash"], "VIEW"),
+        ],
+    )
 
     return f"""# NVIDIA cash-flow statement
 
