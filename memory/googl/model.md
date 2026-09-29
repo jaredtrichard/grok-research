@@ -14,5 +14,6 @@ Reconciliation:
 - PP&E, retained earnings, APIC and liquidity roll through the cash flow; every forecast balance sheet and cash bridge ties in `compute.py`.
 - Equity-investment remeasurement is separated from recurring earnings and removed from operating cash flow.
 - Valuation uses unlevered FCF from the operating path, an EBIT exit terminal, and a separate net-cash plus non-marketable bridge; see [`valuation.md`](../../models/googl/valuation.md).
+- Working thesis and killing conditions live in [`thesis.md`](thesis.md); consensus framing in [`consensus.md`](consensus.md).
 
-Gate 3 contains a 12-month price target and valuation method but no thesis or rating.
+Gate 4 adds the working thesis and consensus home; no rating.
