@@ -2,12 +2,13 @@
 """NVIDIA segment three-statement model.
 
 All arithmetic lives here. Running this file rewrites segments.md, income.md,
-balance.md and cashflow.md, then prints tie-out checks. Valuation is explicitly
-outside this gate. USD millions except per-share data and percentages.
+balance.md, cashflow.md and valuation.md, then prints tie-out checks. USD
+millions except per-share data and percentages.
 """
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -261,6 +262,23 @@ COMPUTE_NETWORKING_OI_SHARE = 0.95
 MINIMUM_CASH = 20_000.0
 Q3_FY2027_GUIDE_MIDPOINT = 108_000.0
 
+# [FACT] Last sale and share count for valuation (gate 3).
+VALUATION_DATE = date(2026, 9, 29)
+LAST_PRICE_DATE = date(2026, 9, 29)
+LAST_PRICE = 227.21
+LAST_PRICE_TIMESTAMP_UTC = "2026-09-29T20:00:00Z"
+YAHOO_NVDA_HISTORY = "https://finance.yahoo.com/quote/NVDA/history/"
+SHARES_OUTSTANDING_M = 24_100.0  # R6.4; 24.1B shares on 2026-08-21
+
+# Researcher [VIEW] valuation multiples.
+OFFICIAL_EPS_MULTIPLE_FY28 = 32.0
+CROSSCHECK_EV_EBIT_MULTIPLE_FY28 = 22.0
+CROSSCHECK_EPS_MULTIPLE_FY27 = 42.0
+BEAR_EPS_MULTIPLE_FY28 = 24.0
+BULL_EPS_MULTIPLE_FY28 = 40.0
+SENSITIVITY_MULTIPLES = (24.0, 32.0, 40.0)
+EPS_SENSITIVITY_BAND = 0.10
+
 
 Check = tuple[str, bool, float, str]
 
@@ -278,6 +296,18 @@ def tagged(value: float, tag: str, decimals: int = 0) -> str:
 
 def tagged_percent(value: float, tag: str, decimals: int = 1) -> str:
     return f"[{tag}] {value * 100:.{decimals}f}%"
+
+
+def fmt_price(value: float) -> str:
+    return f"${value:,.2f}"
+
+
+def net_cash_from_balance(balance: dict[str, float]) -> float:
+    return (
+        balance["cash"]
+        + balance["marketable_debt_securities"]
+        - balance["debt"]
+    )
 
 
 def markdown_table(headers: list[str], rows: list[list[str]]) -> str:
@@ -1249,6 +1279,261 @@ FY2027E “roll period” means 2H FY2027; later columns are full years. FY2027 
 """
 
 
+def render_valuation(
+    income: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+) -> str:
+    fy27 = income["FY2027E"]
+    fy28 = income["FY2028E"]
+    bal_1h = balances["1HFY2027A"]
+    bal_28 = balances["FY2028E"]
+
+    fy27_eps = fy27["diluted_eps"]
+    fy28_eps = fy28["diluted_eps"]
+    fy28_oi = fy28["operating_income"]
+    fy28_was_m = fy28["diluted_shares"]
+
+    official_pt = OFFICIAL_EPS_MULTIPLE_FY28 * fy28_eps
+    official_equity_m = official_pt * fy28_was_m
+    market_cap_m = LAST_PRICE * SHARES_OUTSTANDING_M
+    net_cash_1h = net_cash_from_balance(bal_1h)
+    net_cash_28 = net_cash_from_balance(bal_28)
+    gap_per_share = official_pt - LAST_PRICE
+    implied_vs_last_pct = (official_pt / LAST_PRICE - 1.0) * 100.0
+
+    ev_ebit_m = CROSSCHECK_EV_EBIT_MULTIPLE_FY28 * fy28_oi
+    equity_ev_ebit_m = ev_ebit_m + net_cash_28
+    pt_ev_ebit = equity_ev_ebit_m / SHARES_OUTSTANDING_M
+
+    fy27_check_pt = CROSSCHECK_EPS_MULTIPLE_FY27 * fy27_eps
+    bear_pt = BEAR_EPS_MULTIPLE_FY28 * fy28_eps
+    bull_pt = BULL_EPS_MULTIPLE_FY28 * fy28_eps
+
+    current_ev_m = market_cap_m - net_cash_1h
+
+    setup_rows = [
+        ["Valuation as-of", VALUATION_DATE.isoformat()],
+        [
+            "Last close",
+            f"[FACT] {fmt_price(LAST_PRICE)} on {LAST_PRICE_DATE.isoformat()}",
+        ],
+        [
+            "Last-price timestamp (UTC)",
+            f"[FACT] {LAST_PRICE_TIMESTAMP_UTC} (Yahoo `regularMarketTime`)",
+        ],
+        [
+            "Last-price source",
+            f"[FACT] [Yahoo Finance — NVDA]({YAHOO_NVDA_HISTORY})",
+        ],
+        [
+            "Shares outstanding (m)",
+            f"[FACT] {fmt_number(SHARES_OUTSTANDING_M, 1)} on 2026-08-21 (register R6.4)",
+        ],
+        [
+            "Official method",
+            "[VIEW] Forward P/E on FY2028E diluted EPS from `income.md`",
+        ],
+        [
+            "Official earnings year",
+            "FY2028E diluted EPS",
+        ],
+    ]
+
+    official_rows = [
+        [
+            "FY2028E diluted EPS",
+            "Model `income.md`",
+            tagged(fy28_eps, "VIEW", 2),
+        ],
+        [
+            "Official P/E multiple",
+            "[VIEW] researcher specification",
+            f"[VIEW] {OFFICIAL_EPS_MULTIPLE_FY28:.1f}×",
+        ],
+        [
+            "Official price target / share",
+            "Multiple × FY2028E EPS",
+            fmt_price(official_pt),
+        ],
+        [
+            "FY2028E diluted WAS (m)",
+            "Model share count",
+            tagged(fy28_was_m, "VIEW", 1),
+        ],
+        [
+            "Implied equity value",
+            "PT / share × FY2028E diluted WAS",
+            fmt_number(official_equity_m, 1),
+        ],
+        [
+            "Last close",
+            "[FACT] Yahoo last sale",
+            fmt_price(LAST_PRICE),
+        ],
+        [
+            "[DEDUCTED] PT minus last close",
+            "Official PT − last close",
+            fmt_price(gap_per_share),
+        ],
+        [
+            "[DEDUCTED] Implied vs last close",
+            "(Official PT ÷ last close) − 1",
+            f"{implied_vs_last_pct:+.1f}%",
+        ],
+    ]
+
+    crosscheck_rows = [
+        [
+            "EV / EBIT (FY2028E)",
+            f"[VIEW] {CROSSCHECK_EV_EBIT_MULTIPLE_FY28:.1f}× FY2028E operating income",
+            fmt_price(pt_ev_ebit),
+        ],
+        [
+            "FY2027E forward P/E",
+            f"[VIEW] {CROSSCHECK_EPS_MULTIPLE_FY27:.1f}× FY2027E diluted EPS",
+            fmt_price(fy27_check_pt),
+        ],
+        [
+            "Bear (FY2028E P/E)",
+            f"[VIEW] {BEAR_EPS_MULTIPLE_FY28:.1f}× FY2028E diluted EPS",
+            fmt_price(bear_pt),
+        ],
+        [
+            "Bull (FY2028E P/E)",
+            f"[VIEW] {BULL_EPS_MULTIPLE_FY28:.1f}× FY2028E diluted EPS",
+            fmt_price(bull_pt),
+        ],
+    ]
+
+    ev_ebit_bridge = [
+        ["FY2028E operating income", tagged(fy28_oi, "VIEW"), "income.md"],
+        [
+            "Selected EV / EBIT",
+            f"[VIEW] {CROSSCHECK_EV_EBIT_MULTIPLE_FY28:.1f}×",
+            "Cross-check only",
+        ],
+        [
+            "Implied enterprise value",
+            fmt_number(ev_ebit_m, 1),
+            "EBIT × multiple",
+        ],
+        [
+            "FY2028E net cash",
+            fmt_number(net_cash_28, 1),
+            "Cash + marketable debt securities − debt; excludes marketable equity securities",
+        ],
+        [
+            "Implied equity value",
+            fmt_number(equity_ev_ebit_m, 1),
+            "EV − net debt (= EV + net cash)",
+        ],
+        [
+            "Per share (R6.4 shares)",
+            fmt_price(pt_ev_ebit),
+            f"Equity ÷ {fmt_number(SHARES_OUTSTANDING_M, 1)}m outstanding",
+        ],
+    ]
+
+    tape_rows = [
+        [
+            "Last-price market capitalization",
+            "Last close × R6.4 shares outstanding",
+            fmt_number(market_cap_m, 1),
+        ],
+        [
+            "1H FY2027 net cash",
+            "R6 filing seed; cash + marketable debt securities − debt",
+            tagged(net_cash_1h, "FACT", 1),
+        ],
+        [
+            "Last-price enterprise value",
+            "Market cap − net cash",
+            fmt_number(current_ev_m, 1),
+        ],
+        [
+            "EV / FY2028E operating income",
+            "Tape EV ÷ model FY2028E EBIT",
+            f"{current_ev_m / fy28_oi:.1f}×",
+        ],
+        [
+            "Implied P/E on FY2028E EPS",
+            "Last close ÷ FY2028E diluted EPS",
+            f"{LAST_PRICE / fy28_eps:.1f}×",
+        ],
+    ]
+
+    sensitivity_headers = [
+        "FY2028E EPS scenario",
+        "EPS ($)",
+    ] + [f"[VIEW] {multiple:.0f}×" for multiple in SENSITIVITY_MULTIPLES]
+    sensitivity_rows: list[list[str]] = []
+    for label, eps_value in (
+        ("Base model", fy28_eps),
+        ("EPS −10%", fy28_eps * (1.0 - EPS_SENSITIVITY_BAND)),
+        ("EPS +10%", fy28_eps * (1.0 + EPS_SENSITIVITY_BAND)),
+    ):
+        sensitivity_rows.append(
+            [label, fmt_price(eps_value)]
+            + [fmt_price(eps_value * multiple) for multiple in SENSITIVITY_MULTIPLES]
+        )
+
+    if gap_per_share > 0:
+        tape_vs_pt = (
+            f"The last close is **below** the official FY2028E-based PT by "
+            f"{fmt_price(abs(gap_per_share))} per share ({implied_vs_last_pct:+.1f}% "
+            f"versus the target)."
+        )
+    elif gap_per_share < 0:
+        tape_vs_pt = (
+            f"The last close is **above** the official FY2028E-based PT by "
+            f"{fmt_price(abs(gap_per_share))} per share ({implied_vs_last_pct:+.1f}% "
+            f"versus the target)."
+        )
+    else:
+        tape_vs_pt = "The last close equals the official FY2028E-based PT."
+
+    return f"""# NVIDIA valuation
+
+Generated by `compute.py`; do not hand-edit.
+
+**Official price target:** {fmt_price(official_pt)} per share, from a `[VIEW]` **{OFFICIAL_EPS_MULTIPLE_FY28:.1f}×** multiple on **FY2028E diluted EPS** (`{fmt_price(fy28_eps)}` in `income.md`). {tape_vs_pt} Any investment action for this initiation is derived from this official target and the model operating path, not from the cross-checks below. This document does not state LONG, SHORT, or PASS.
+
+The **{OFFICIAL_EPS_MULTIPLE_FY28:.1f}×** multiple is a `[VIEW]` choice: NVIDIA still carries elevated growth into FY2028 (roughly 70% revenue on the model path) but growth is decelerating; supply constraints, custom ASIC competition and export-control risk argue against peak-cycle multiples.
+
+## Official method and as-of
+
+{markdown_table(["item", "value"], setup_rows)}
+
+## Official forward P/E target (FY2028E)
+
+{markdown_table(["item", "basis", "value"], official_rows)}
+
+Implied equity value uses **FY2028E diluted weighted-average shares** from the model (`{fmt_number(fy28_was_m, 1)}` million), not the R6.4 period-end outstanding count. Market-capitalization comparisons to the tape use **R6.4** shares outstanding.
+
+## Cross-checks — not the official PT
+
+{markdown_table(["check", "method", "implied PT / share"], crosscheck_rows)}
+
+All cross-check rows are `[VIEW]` sensitivity framing; only the **{OFFICIAL_EPS_MULTIPLE_FY28:.1f}× FY2028E EPS** line is the official price target.
+
+### EV / EBIT bridge (FY2028E)
+
+{markdown_table(["line", "value", "note"], ev_ebit_bridge)}
+
+## Tape comparison
+
+{markdown_table(["item", "formula", "value"], tape_rows)}
+
+Marketable **equity** securities in R6 are excluded from net cash. The tape EV / EBIT and implied P/E rows are `[DEDUCTED]` diagnostics versus the model forecast, not valuation anchors.
+
+## FY2028E EPS sensitivity (official multiple grid)
+
+{markdown_table(sensitivity_headers, sensitivity_rows)}
+
+Rows vary FY2028E diluted EPS ±10% around the model base; columns apply `[VIEW]` multiples {", ".join(f"{m:.0f}×" for m in SENSITIVITY_MULTIPLES)}. The center cell ({fmt_price(fy28_eps)} × {OFFICIAL_EPS_MULTIPLE_FY28:.0f}×) matches the official PT.
+"""
+
+
 def main() -> None:
     income = build_forecast_income()
     balances, cashflow, days = build_balance_and_cashflow(income)
@@ -1259,6 +1544,7 @@ def main() -> None:
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, income, days, checks),
         "cashflow.md": render_cashflow(cashflow, days, checks),
+        "valuation.md": render_valuation(income, balances),
     }
     for filename, content in outputs.items():
         (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
