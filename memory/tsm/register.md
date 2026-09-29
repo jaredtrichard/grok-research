@@ -161,3 +161,4 @@ New Taiwan dollars in billions unless stated otherwise. Each material item is ta
 - **R10.10 [FACT]** Current open share-repurchase authorization and a post-Q2 share-count update later than 2026-07-31: **not obtained**.
 - **R10.11 [FACT]** September 2026 monthly revenue: **not obtained** because the month had not ended by the 2026-09-29 research cutoff. August is obtained in R2.7.
 - **R10.12 [FACT]** A fully company-authored/verbatim Q2 2026 transcript: **not obtained**. S6 is an IR-hosted LSEG edited transcript.
+- **R10.13 [FACT]** A line-by-line bridge between FY2025 TIFRS and IASB-IFRS net income/EPS: **not obtained**; the reported difference is identified in R2.3.
