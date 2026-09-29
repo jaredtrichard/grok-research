@@ -89,4 +89,16 @@ Margin % applied to respective **segment revenue** (cloud+license+support, hardw
 - Numerical FY2027 capex guidance (R8.7).
 - Mandatory convertible preferred future share count (R5.7).
 - Multicloud marketplace net economics (R6.3).
-- Standalone valuation module: **pending** (see [`memory/orcl/model.md`](../../memory/orcl/model.md)).
+
+## Valuation `[VIEW]` (see [`valuation.md`](valuation.md))
+
+| input | value | class |
+|---|---|---|
+| Last close | $137.79 on 2026-09-29 | [FACT] Yahoo Finance |
+| PT shares | 3,023,736,000 (2026-09-07) | [FACT] R5.5 |
+| Forward EBIT anchor | FY2028E operating income from income.md | [DEDUCTED] model |
+| Net debt for bridge | FY2027E balance.md | [DEDUCTED] model |
+| Official EV / EBIT | 17.5× | [VIEW] |
+| Bear / bull EV / EBIT | 14.0× / 21.0× | [VIEW] |
+| 3-year check | 16.0× FY2029E OI − FY2029E net debt | [VIEW] |
+| Core FCF DCF WACC / terminal g | 9% / 3% | [VIEW] check only |

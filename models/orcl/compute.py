@@ -2,12 +2,14 @@
 """Oracle segment three-statement model (GF-ORCL-1).
 
 All arithmetic for the markdown model lives here. Running this file rewrites
-segments.md, income.md, balance.md and cashflow.md, then prints tie-out checks.
+segments.md, income.md, balance.md, cashflow.md and valuation.md, then prints
+tie-out checks.
 USD millions except per-share data, MW, GPUs and percentages.
 """
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -286,6 +288,35 @@ INTEREST_EXPENSE_RATE = 0.038
 AR_DAYS = 56.0
 AP_DAYS = 59.0
 DEFERRED_REVENUE_PCT_OF_RPO_12M = 0.13
+
+# --- Valuation [VIEW] constants (official 12-month PT) ---
+VALUATION_DATE = date(2026, 9, 29)
+LAST_PRICE_DATE = date(2026, 9, 29)
+LAST_PRICE = 137.79
+YAHOO_ORCL_HISTORY = "https://finance.yahoo.com/quote/ORCL/history/"
+PT_SHARES = 3_023_736_000  # [FACT] R5.5, 2026-09-07
+Q1_NET_DEBT = (7_625.0 + 117_712.0) - (36_369.0 + 708.0)  # [FACT] R5.1
+RPO_TOTAL = 664_000.0  # [FACT] R3.4, 2026-08-31
+RPO_NEXT_12M_PCT = 0.13  # [FACT] R3.4
+
+OFFICIAL_FORWARD_EBIT_PERIOD = "FY2028E"
+OFFICIAL_NET_DEBT_PERIOD = "FY2027E"
+OFFICIAL_EBIT_MULTIPLE = 17.5
+BEAR_EBIT_MULTIPLE = 14.0
+BULL_EBIT_MULTIPLE = 21.0
+THREE_YEAR_EBIT_PERIOD = "FY2029E"
+THREE_YEAR_EBIT_MULTIPLE = 16.0
+
+CORE_FCF_DCF_WACC = 0.09
+CORE_FCF_TERMINAL_GROWTH = 0.03
+
+
+def net_debt(balance: dict[str, float]) -> float:
+    return (
+        balance["debt"]
+        - balance["cash"]
+        - balance["marketable_securities"]
+    )
 
 
 def fmt(value: Any, decimals: int = 0) -> str:
@@ -958,6 +989,330 @@ Customer prepayment with a significant financing component is **not** split in t
 """
 
 
+def render_valuation(
+    income: dict[str, dict[str, Any]],
+    balances: dict[str, dict[str, float]],
+    segments: dict[str, dict[str, Any]],
+    cashflow: dict[str, dict[str, float]],
+) -> str:
+    shares_m = PT_SHARES / 1_000_000.0
+    forward_ebit = income[OFFICIAL_FORWARD_EBIT_PERIOD]["operating_income"]
+    model_net_debt = net_debt(balances[OFFICIAL_NET_DEBT_PERIOD])
+    operating_ev = forward_ebit * OFFICIAL_EBIT_MULTIPLE
+    official_equity = operating_ev - model_net_debt
+    official_pt = official_equity / shares_m
+
+    bear_equity = forward_ebit * BEAR_EBIT_MULTIPLE - model_net_debt
+    bull_equity = forward_ebit * BULL_EBIT_MULTIPLE - model_net_debt
+    bear_pt = bear_equity / shares_m
+    bull_pt = bull_equity / shares_m
+
+    three_year_ebit = income[THREE_YEAR_EBIT_PERIOD]["operating_income"]
+    three_year_net_debt = net_debt(balances[THREE_YEAR_EBIT_PERIOD])
+    three_year_equity = (
+        three_year_ebit * THREE_YEAR_EBIT_MULTIPLE - three_year_net_debt
+    )
+    three_year_pt = three_year_equity / shares_m
+
+    market_cap = LAST_PRICE * shares_m
+    tape_operating_ev = market_cap + Q1_NET_DEBT
+    tape_ev_to_forward_ebit = tape_operating_ev / forward_ebit
+    residual_per_share = LAST_PRICE - official_pt
+
+    # Core FCF DCF (excludes customer prepay financing) — sensitivity check only
+    discount_years = {"FY2027E": 0.59, "FY2028E": 1.59, "FY2029E": 2.59}
+    pv_core_fcf = sum(
+        cashflow[p]["fcf"] / ((1.0 + CORE_FCF_DCF_WACC) ** discount_years[p])
+        for p in FORECAST_PERIODS
+    )
+    terminal_core_fcf = cashflow["FY2029E"]["fcf"] * (1.0 + CORE_FCF_TERMINAL_GROWTH)
+    if terminal_core_fcf > 0:
+        terminal_value = terminal_core_fcf / (
+            CORE_FCF_DCF_WACC - CORE_FCF_TERMINAL_GROWTH
+        )
+        pv_terminal = terminal_value / (
+            (1.0 + CORE_FCF_DCF_WACC) ** discount_years["FY2029E"]
+        )
+        core_fcf_ev = pv_core_fcf + pv_terminal
+    else:
+        terminal_value = 0.0
+        pv_terminal = 0.0
+        core_fcf_ev = pv_core_fcf
+    core_fcf_equity = core_fcf_ev - model_net_debt
+    core_fcf_pt = core_fcf_equity / shares_m
+
+    oci_fy28 = segments["FY2028E"]["oci"]
+    oci_fy26 = segments["FY2026A"]["oci"]
+    oci_cagr = (oci_fy28 / oci_fy26) ** 0.5 - 1.0
+
+    setup_rows = [
+        ["Valuation as-of", VALUATION_DATE.isoformat()],
+        ["Last close", f"${LAST_PRICE:.2f} on {LAST_PRICE_DATE.isoformat()}"],
+        [
+            "Last-price source",
+            f"[Yahoo Finance historical]({YAHOO_ORCL_HISTORY})",
+        ],
+        [
+            "PT denominator",
+            f"{PT_SHARES:,} common shares on 2026-09-07 (R5.5)",
+        ],
+        [
+            "Method",
+            "[VIEW] forward operating EV/EBIT on modeled segment-built OI; not RPO capitalization",
+        ],
+        [
+            "Official 12-month PT / share",
+            f"${official_pt:.2f}",
+        ],
+    ]
+
+    investment_lead = (
+        f"**Official 12-month price target: ${official_pt:.2f}** — modest constructive "
+        f"on Oracle: the segment model’s FY2028 operating income (~${forward_ebit/1_000:.1f}B) "
+        f"is worth [VIEW] {OFFICIAL_EBIT_MULTIPLE:.1f}× operating EV/EBIT, net of modeled "
+        f"FY2027 net debt, without capitalizing undisclosed RPO quality or mandatory-convert "
+        f"dilution. That is a **Hold / slight overweight** versus ${LAST_PRICE:.2f}; the tape "
+        f"already embeds strong OCI growth and ~{tape_ev_to_forward_ebit:.1f}× the same "
+        f"forward EBIT line."
+    )
+
+    tape_rows = [
+        [
+            "Last-price market capitalization",
+            "Last close × R5.5 shares",
+            fmt(market_cap, 1),
+        ],
+        [
+            "Q1 FY2027 net debt",
+            "Current + non-current borrowings − cash − marketable securities (R5.1)",
+            fmt(Q1_NET_DEBT, 1),
+        ],
+        [
+            "Last-price operating EV",
+            "Market cap + net debt",
+            fmt(tape_operating_ev, 1),
+        ],
+        [
+            "EV / modeled FY2028E operating income",
+            "Tape operating EV ÷ income.md FY2028E OI",
+            f"{tape_ev_to_forward_ebit:.1f}x",
+        ],
+        [
+            "Official operating EV",
+            f"{OFFICIAL_EBIT_MULTIPLE:.1f}× FY2028E OI",
+            fmt(operating_ev, 1),
+        ],
+        [
+            "[DEDUCTED] EV gap vs tape",
+            "Official EV − tape EV",
+            fmt(operating_ev - tape_operating_ev, 1),
+        ],
+    ]
+
+    bridge_rows = [
+        [
+            f"FY2028E operating income",
+            "income.md; segment margin bridge",
+            fmt(forward_ebit, 1),
+        ],
+        ["Selected EV / EBIT", "[VIEW]", f"{OFFICIAL_EBIT_MULTIPLE:.1f}x"],
+        [
+            "Operating enterprise value",
+            "FY2028E OI × multiple",
+            fmt(operating_ev, 1),
+        ],
+        [
+            f"FY2027E net debt",
+            "balance.md cash + STI − debt",
+            fmt(model_net_debt, 1),
+        ],
+        ["Official equity value", "EV − net debt", fmt(official_equity, 1)],
+        ["Shares (m)", "R5.5", fmt(shares_m, 3)],
+        ["Official 12-month PT / share", "Equity ÷ shares", f"${official_pt:.2f}"],
+    ]
+
+    model_driver_rows = [
+        [
+            "OCI revenue FY2026A → FY2028E",
+            "segments.md; [VIEW] growth in inputs.md",
+            f"{fmt(oci_fy26)} → {fmt(oci_fy28)}",
+            f"[DEDUCTED] ~{oci_cagr*100:.0f}% CAGR",
+        ],
+        [
+            "Cloud & software margin FY2028E",
+            "segments.md",
+            pct(segments["FY2028E"]["cloud_software_margin_pct"]),
+            "[VIEW]",
+        ],
+        [
+            "FY2028E core free cash flow",
+            "cashflow.md (excludes prepay financing)",
+            fmt(cashflow["FY2028E"]["fcf"]),
+            "[VIEW]",
+        ],
+        [
+            "FY2028E reported OCF",
+            "includes [VIEW] customer prepay",
+            fmt(cashflow["FY2028E"]["ocf"]),
+            "[VIEW]",
+        ],
+        [
+            "FY2028E capex",
+            "inputs.md",
+            fmt(ASSUMPTIONS["FY2028E"]["capex"]),
+            "[VIEW]",
+        ],
+    ]
+
+    dcf_rows = [
+        [
+            "PV FY2027–FY2029 core FCF",
+            f"{CORE_FCF_DCF_WACC*100:.0f}% WACC; prepays excluded",
+            fmt(pv_core_fcf, 1),
+        ],
+        [
+            "Terminal on core FCF",
+            f"FY2029 FCF ≤ 0 → not obtained as anchor",
+            "not obtained" if terminal_core_fcf <= 0 else fmt(pv_terminal, 1),
+        ],
+        [
+            "Core FCF equity (check)",
+            "PV − FY2027E net debt",
+            fmt(core_fcf_equity, 1),
+        ],
+        [
+            "Implied PT / share (check only)",
+            "Not official method",
+            f"${core_fcf_pt:.2f}",
+        ],
+    ]
+
+    check_rows = [
+        ["Bear", f"{BEAR_EBIT_MULTIPLE:.1f}× FY2028E OI − FY2027E net debt", f"${bear_pt:.2f}"],
+        ["Bull", f"{BULL_EBIT_MULTIPLE:.1f}× FY2028E OI − FY2027E net debt", f"${bull_pt:.2f}"],
+        [
+            "3-year / FY2029 exit",
+            f"{THREE_YEAR_EBIT_MULTIPLE:.0f}× FY2029E OI − FY2029E net debt",
+            f"${three_year_pt:.2f}",
+        ],
+    ]
+
+    gap_rows = [
+        [
+            "R8.3 product-level OCI / app margin",
+            "Cannot split EBIT multiple between infra vs apps",
+            "Widens multiple uncertainty; no SOTP fill",
+        ],
+        [
+            "R8.5 segment assets / FCF",
+            "Capex funded at corporate level only",
+            "Core FCF DCF is not a primary anchor",
+        ],
+        [
+            "R8.2 RPO quality",
+            f"RPO {fmt(RPO_TOTAL)}; ~{RPO_NEXT_12M_PCT*100:.0f}% in 12m schedule [FACT]",
+            "Tape may capitalize RPO; model does not",
+        ],
+        [
+            "R5.7 preferred conversion",
+            "Conversion share count not obtained",
+            f"PT uses {PT_SHARES/1e6:.3f}m basic; dilution unmodeled",
+        ],
+        [
+            "R5.4 off-BS leases / power",
+            "260,000+ lease commitments [FACT]",
+            "Net debt understates fixed charges",
+        ],
+        [
+            "R8.7 FY2027 capex range",
+            "Written numerical range not obtained",
+            "Capex [VIEW] drives FCF checks",
+        ],
+    ]
+
+    peer_rows = [
+        [
+            "MSFT",
+            "not obtained",
+            "not obtained",
+            "—",
+            "Peer multiples not sourced in GF-ORCL-1",
+        ],
+        [
+            "CRM",
+            "not obtained",
+            "not obtained",
+            "—",
+            "Peer multiples not sourced in GF-ORCL-1",
+        ],
+        [
+            "ORCL (tape vs model)",
+            f"{tape_operating_ev / income['FY2028E']['total_revenue']:.1f}x",
+            f"{tape_ev_to_forward_ebit:.1f}x",
+            LAST_PRICE_DATE.isoformat(),
+            "[DEDUCTED] on modeled FY2028E revenue/OI",
+        ],
+    ]
+
+    return f"""# Oracle valuation
+
+{investment_lead}
+
+## Official method and as-of
+
+{markdown_table(["item", "value"], setup_rows)}
+
+**Why this method.** Oracle is priced on **earnings power through the OCI buildout**, not on near-term core free cash flow: modeled core FCF stays negative through FY2028 while reported operating cash flow is lifted by customer prepayments (R5.2). A prepay-excluded FCF DCF is shown as a **check only** and is not the official anchor. The official PT uses **[VIEW] {OFFICIAL_EBIT_MULTIPLE:.1f}×** on **FY2028E operating income** from the segment-built [`income.md`](income.md), less **FY2027E net debt** from [`balance.md`](balance.md), over **R5.5** shares. We do **not** add an RPO or GPU contract premium because RPO customer, margin and funding quality are **not obtained** (R8.2).
+
+## What the tape must be paying for
+
+{markdown_table(["item", "formula", "$m or multiple"], tape_rows)}
+
+At the last close, the market is already paying roughly **{tape_ev_to_forward_ebit:.1f}×** the same FY2028E operating income the model derives from reported segment margins and `[VIEW]` OCI growth. The gap versus the official **{OFFICIAL_EBIT_MULTIPLE:.1f}×** frame is therefore **not** “OCI from zero,” but incremental confidence that (1) **OCI revenue** scales on the modeled path, (2) **cloud-and-software segment margin** does not collapse beyond the `[VIEW]` glide, and (3) **financing and prepays** bridge capex without blowing up equity risk — none of which is guaranteed by headline RPO alone (R3.4–R3.7, R8.2).
+
+## Official bridge
+
+{markdown_table(["item", "basis", "$m except per share"], bridge_rows)}
+
+The multiple is a `[VIEW]` discount to mega-cap software peers for **capex intensity, leverage, and contract-duration mismatch** (research §2.7, R5.4, R7.3). It is a premium to a pure legacy software multiple because FY2028E operating income already embeds fast OCI growth from [`segments.md`](segments.md).
+
+## Model paths that drive the PT
+
+{markdown_table(["driver", "source", "FY2028E anchor", "class"], model_driver_rows)}
+
+Operating income is **not** a separate forecast plug: it flows from combined segment margin per R1.4, minus `[VIEW]` corporate lines in `inputs.md`. Changing OCI growth, cloud-and-software margin %, or capex/prepay assumptions in `inputs.md` moves FY2028E OI and therefore the PT linearly through the EBIT multiple.
+
+## Core FCF DCF — check only (not official)
+
+{markdown_table(["item", "basis", "$m"], dcf_rows)}
+
+Core FCF excludes `[VIEW]` customer prepayment financing in [`cashflow.md`](cashflow.md). With FY2029 core FCF still negative on the base path, a Gordon terminal on core FCF is **not obtained**; the check illustrates why the official method is EBIT-based.
+
+## Checks — not additional official targets
+
+{markdown_table(["check", "method", "value / share"], check_rows)}
+
+## R8 and disclosure gaps vs uncertainty
+
+{markdown_table(["gap", "why it matters", "valuation treatment"], gap_rows)}
+
+## Comparable framing (not a separate comp target)
+
+{markdown_table(["company", "EV / sales (approx.)", "EV / EBIT (approx.)", "as-of", "note"], peer_rows)}
+
+Peer multiples are illustrative; live peer ratios were **not obtained** in this run except the tape-implied ORCL lines on modeled FY2028E.
+
+**[DEDUCTED] Tape residual per share:** `${LAST_PRICE:.2f} − official PT = ${residual_per_share:.2f}`. Negative residual means the official PT is above the last close; closing the gap requires a higher multiple, higher FY2028E operating income from the segment model, or lower net debt than modeled — not an undisclosed RPO add-on.
+
+## What would move the official PT
+
+- FY2028E operating income from [`income.md`](income.md) (OCI growth, segment margin %, corporate opex).
+- The `[VIEW]` {OFFICIAL_EBIT_MULTIPLE:.1f}× EV/EBIT assumption.
+- FY2027E net debt in [`balance.md`](balance.md) (debt issuance, cash, capex).
+- R5.5 share count; R5.7 conversion would lower PT per share if dilution is added.
+"""
+
+
 def main() -> None:
     hist_segments = build_historical_segments()
     forecast_segments = build_forecast_segments(hist_segments)
@@ -971,6 +1326,7 @@ def main() -> None:
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, checks),
         "cashflow.md": render_cashflow(forecast_cf, checks),
+        "valuation.md": render_valuation(income, balances, segments, forecast_cf),
     }
     for name, content in outputs.items():
         (ROOT / name).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -988,6 +1344,12 @@ def main() -> None:
     print("\nHistorical segment→OI residual ($m)")
     for period in HIST_PERIODS:
         print(f"{period}: {segments[period]['segment_oi_residual']:.1f}")
+    shares_m = PT_SHARES / 1_000_000.0
+    fwd_oi = income[OFFICIAL_FORWARD_EBIT_PERIOD]["operating_income"]
+    pt = (
+        fwd_oi * OFFICIAL_EBIT_MULTIPLE - net_debt(balances[OFFICIAL_NET_DEBT_PERIOD])
+    ) / shares_m
+    print(f"\nValuation: last ${LAST_PRICE:.2f} | official PT ${pt:.2f}")
     print("\nTie-out checks")
     failed = False
     for name, passed, difference in checks:
