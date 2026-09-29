@@ -1,8 +1,8 @@
-# TSMC initiation research file — DRAFT
+# TSMC initiation research file
 
 GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
-**DRAFT only. Researchers must polish before publication.** Numeric facts live in [`register.md`](register.md); this file owns the business, driver and risk structure. No price target, recommendation or investment thesis is stated here.
+Numeric facts live in [`register.md`](register.md); this file owns the business, driver and risk structure. No price target, recommendation or investment thesis is stated here.
 
 ## 1. Business and reporting segments
 
@@ -103,7 +103,7 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 | TSMC → utilities/labor/governments **[DEDUCTED]** | electricity, water, wages, tax; governments may provide incentives | stable power/water, engineering density, fab ecosystem and subsidies | outage/drought, labor scarcity, subsidy conditions/clawbacks, fragmented ecosystem; R9 |
 | Governments/regulators → TSMC/customers **[DEDUCTED]** | grants/loans and permits; controls may restrict tools/chips/customers | geographic resilience and market access | export-license loss, tariffs, permit delay, geopolitical escalation; R9.3–R9.6 |
 
-**[VIEW] Value concentration.** No view is assigned in this draft. The register shows where value may be measurable—node mix, platform mix, company margin and cash conversion—but not how much valuation belongs to each node, customer or packaging technology.
+**[VIEW] Value concentration.** Near-term measurable value sits in leading-edge wafer economics (N3/N5/N2 mix, utilization/absorption, and USD-linked pricing) and in cash conversion after the elevated advanced-process and packaging capex cycle. Advanced packaging (CoWoS and related) is a throughput and attach constraint that supports frontend wafer demand, but it is not yet a separately measurable P&L; do not assign a standalone packaging multiple until R10.3 resolves. Overseas fabs are a multi-year corporate-margin dilution and execution risk, not a second profit center in the current disclosure. Customer concentration (top ten ~78% of FY2025 revenue) means end-demand and export-eligibility shocks transmit quickly; Taiwan production continuity remains the binding continuity risk under R9.5.
 
 ## 9. Competitive and regulatory frame
 
