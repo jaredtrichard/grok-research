@@ -2,14 +2,18 @@
 """Alphabet segment three-statement model.
 
 All model arithmetic and generated markdown tables live here. Running this file
-rewrites inputs.md, segments.md, income.md, balance.md, and cashflow.md. It does
-not create a valuation or thesis. USD millions except per-share data and shares.
+rewrites inputs.md, segments.md, income.md, balance.md, cashflow.md, and
+valuation.md. It does not create a thesis. USD millions except per-share data
+and shares.
 """
 
 from __future__ import annotations
 
+from copy import deepcopy
+from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
+from contextlib import contextmanager
 
 
 ROOT = Path(__file__).resolve().parent
@@ -459,6 +463,24 @@ ASSUMPTIONS = {
 INTEREST_INCOME_RATE = 0.030
 INTEREST_EXPENSE_RATE = 0.045
 MINIMUM_CASH = 15_000.0
+
+VALUATION_DATE = date(2026, 9, 29)
+LAST_PRICE_DATE = date(2026, 9, 29)
+LAST_PRICE = 340.92
+LAST_PRICE_GOOG = 337.32
+LAST_PRICE_SOURCE = (
+    "https://finance.yahoo.com/quote/GOOGL/history/"
+)
+PT_SHARES_M = 12_230.0  # R5.3 common shares outstanding (m), 2026-07-15
+DCF_WACC = 0.095  # [VIEW] unlevered cost of capital for mega-cap platform
+TERMINAL_EBIT_MULTIPLE = 20.0  # [VIEW] FY2028E operating income exit multiple
+TERMINAL_GROWTH_CHECK = 0.025  # [VIEW] Gordon cross-check only
+BEAR_WACC = 0.105
+BEAR_TERMINAL_MULTIPLE = 16.0
+BULL_WACC = 0.085
+BULL_TERMINAL_MULTIPLE = 23.0
+MID_YEAR_DISCOUNT = [0.5, 1.5, 2.5]
+TERMINAL_DISCOUNT_YEARS = 2.5
 
 
 def fmt(value: Any, decimals: int = 0) -> str:
@@ -1498,10 +1520,387 @@ FY2026 combines reported 1H cash flow with an explicit 2H roll-forward. The cape
 """
 
 
+@contextmanager
+def assumption_override(
+    patch: dict[str, dict[str, float]],
+) -> Iterator[None]:
+    saved = deepcopy(ASSUMPTIONS)
+    try:
+        for period, changes in patch.items():
+            ASSUMPTIONS[period].update(changes)
+        yield
+    finally:
+        for period in FORECAST_PERIODS:
+            ASSUMPTIONS[period] = saved[period]
+
+
+def net_cash(balance: dict[str, float]) -> float:
+    debt = balance.get("debt", total_debt(balance))
+    return balance["cash"] + balance["marketable"] - debt
+
+
+def unlevered_fcf(
+    income: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+    period: str,
+) -> float:
+    tax_rate = ASSUMPTIONS[period]["tax_rate"]
+    operating_income = income[period]["operating_income"]
+    nopat = operating_income * (1.0 - tax_rate)
+    return (
+        nopat
+        + cashflow[period]["da"]
+        - cashflow[period]["capex"]
+        - cashflow[period]["delta_nwc"]
+    )
+
+
+def dcf_result(
+    income: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    wacc: float,
+    terminal_multiple: float,
+) -> dict[str, float]:
+    pv_explicit = 0.0
+    ufcf: dict[str, float] = {}
+    for index, period in enumerate(FORECAST_PERIODS):
+        value = unlevered_fcf(income, cashflow, period)
+        ufcf[period] = value
+        discount = MID_YEAR_DISCOUNT[index]
+        pv_explicit += value / ((1.0 + wacc) ** discount)
+    terminal_ebit = income["FY2028E"]["operating_income"]
+    terminal_value = terminal_ebit * terminal_multiple
+    pv_terminal = terminal_value / ((1.0 + wacc) ** TERMINAL_DISCOUNT_YEARS)
+    operating_ev = pv_explicit + pv_terminal
+    bridge = balances["FY2028E"]
+    net_cash_fy28 = net_cash(bridge)
+    nonmarketable = bridge["nonmarketable"]
+    equity_value = operating_ev + net_cash_fy28 + nonmarketable
+    pt = equity_value / PT_SHARES_M
+    terminal_ufcf = ufcf["FY2028E"]
+    gordon_terminal = (
+        terminal_ufcf * (1.0 + TERMINAL_GROWTH_CHECK)
+    ) / (wacc - TERMINAL_GROWTH_CHECK)
+    gordon_ev = pv_explicit + gordon_terminal / (
+        (1.0 + wacc) ** TERMINAL_DISCOUNT_YEARS
+    )
+    gordon_equity = gordon_ev + net_cash_fy28 + nonmarketable
+    return {
+        "wacc": wacc,
+        "terminal_multiple": terminal_multiple,
+        "ufcf": ufcf,
+        "pv_explicit": pv_explicit,
+        "terminal_ebit": terminal_ebit,
+        "terminal_value": terminal_value,
+        "pv_terminal": pv_terminal,
+        "operating_ev": operating_ev,
+        "net_cash_fy28": net_cash_fy28,
+        "nonmarketable_fy28": nonmarketable,
+        "equity_value": equity_value,
+        "official_pt": pt,
+        "gordon_equity_value": gordon_equity,
+        "gordon_pt": gordon_equity / PT_SHARES_M,
+    }
+
+
+def sensitivity_pt(
+    income: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    wacc: float,
+    terminal_multiple: float,
+) -> float:
+    return dcf_result(income, cashflow, balances, wacc, terminal_multiple)[
+        "official_pt"
+    ]
+
+
+def valuation(
+    segments: dict[str, dict[str, float]],
+    income: dict[str, dict[str, float]],
+    balances: dict[str, dict[str, float]],
+    cashflow: dict[str, dict[str, float]],
+) -> tuple[str, dict[str, float]]:
+    base = dcf_result(
+        income, cashflow, balances, DCF_WACC, TERMINAL_EBIT_MULTIPLE
+    )
+    bear = dcf_result(
+        income, cashflow, balances, BEAR_WACC, BEAR_TERMINAL_MULTIPLE
+    )
+    bull = dcf_result(
+        income, cashflow, balances, BULL_WACC, BULL_TERMINAL_MULTIPLE
+    )
+
+    filing = HIST_BALANCE["1H2026A"]
+    filing_net_cash = net_cash(filing)
+    nonmarketable_filing = filing["nonmarketable"]
+    market_cap = LAST_PRICE * PT_SHARES_M
+    current_operating_ev = market_cap - filing_net_cash - nonmarketable_filing
+    residual_per_share = LAST_PRICE - base["official_pt"]
+    model_diluted_fy28 = income["FY2028E"]["diluted_shares"]
+
+    wacc_grid = [0.085, 0.090, 0.095, 0.100, 0.105]
+    terminal_grid = [16.0, 18.0, 20.0, 22.0, 24.0]
+    wacc_terminal_rows = [
+        [
+            f"${sensitivity_pt(income, cashflow, balances, wacc, terminal):.2f}"
+            for terminal in terminal_grid
+        ]
+        for wacc in wacc_grid
+    ]
+
+    search_cases = {
+        "Base search growth": 0.0,
+        "Search growth −200 bps": -0.02,
+        "Search growth +200 bps": 0.02,
+    }
+    search_rows: list[list[str]] = []
+    for label, delta in search_cases.items():
+        if delta == 0.0:
+            pt = base["official_pt"]
+        else:
+            patch = {
+                period: {"search_growth": ASSUMPTIONS[period]["search_growth"] + delta}
+                for period in FORECAST_PERIODS
+            }
+            with assumption_override(patch):
+                seg = build_segments()
+                inc, bal, cf = build_model(seg)
+                pt = sensitivity_pt(
+                    inc, cf, bal, DCF_WACC, TERMINAL_EBIT_MULTIPLE
+                )
+        search_rows.append([label, f"${pt:.2f}"])
+
+    cloud_cases = {
+        "Base cloud margin": 0.0,
+        "Cloud margin −300 bps": -0.03,
+        "Cloud margin +300 bps": 0.03,
+    }
+    cloud_rows: list[list[str]] = []
+    for label, delta in cloud_cases.items():
+        if delta == 0.0:
+            pt = base["official_pt"]
+        else:
+            patch = {
+                period: {"cloud_margin": ASSUMPTIONS[period]["cloud_margin"] + delta}
+                for period in FORECAST_PERIODS
+            }
+            with assumption_override(patch):
+                seg = build_segments()
+                inc, bal, cf = build_model(seg)
+                pt = sensitivity_pt(
+                    inc, cf, bal, DCF_WACC, TERMINAL_EBIT_MULTIPLE
+                )
+        cloud_rows.append([label, f"${pt:.2f}"])
+
+    capex_cases = {
+        "Base capex": 0.0,
+        "Capex +10% all years": 0.10,
+        "Capex −10% all years": -0.10,
+    }
+    capex_rows: list[list[str]] = []
+    for label, capex_pct in capex_cases.items():
+        if capex_pct == 0.0:
+            pt = base["official_pt"]
+        else:
+            patch = {
+                period: {
+                    "capex": ASSUMPTIONS[period]["capex"] * (1.0 + capex_pct)
+                }
+                for period in FORECAST_PERIODS
+            }
+            with assumption_override(patch):
+                seg = build_segments()
+                inc, bal, cf = build_model(seg)
+                pt = sensitivity_pt(
+                    inc, cf, bal, DCF_WACC, TERMINAL_EBIT_MULTIPLE
+                )
+        capex_rows.append([label, f"${pt:.2f}"])
+
+    ufcf_rows = [
+        [
+            period,
+            fmt(income[period]["operating_income"], 1),
+            pct(ASSUMPTIONS[period]["tax_rate"]),
+            fmt(base["ufcf"][period], 1),
+            f"{MID_YEAR_DISCOUNT[index]:.1f}",
+            fmt(
+                base["ufcf"][period]
+                / ((1.0 + DCF_WACC) ** MID_YEAR_DISCOUNT[index]),
+                1,
+            ),
+        ]
+        for index, period in enumerate(FORECAST_PERIODS)
+    ]
+
+    tape_multiples: dict[str, float] = {}
+    for period in ("FY2026E", "FY2028E"):
+        tape_multiples[f"{period}_rev"] = (
+            current_operating_ev / income[period]["revenue"]
+        )
+        tape_multiples[f"{period}_oi"] = (
+            current_operating_ev / income[period]["operating_income"]
+        )
+        tape_multiples[f"{period}_recurring_ni"] = (
+            current_operating_ev / income[period]["recurring_net_income"]
+        )
+
+    comps = [
+        ["GOOGL", f"${LAST_PRICE:.2f}", "8.93x", "17.7x", LAST_PRICE_DATE.isoformat(), LAST_PRICE_SOURCE],
+        ["GOOG", f"${LAST_PRICE_GOOG:.2f}", "not obtained", "not obtained", LAST_PRICE_DATE.isoformat(), LAST_PRICE_SOURCE.replace("GOOGL", "GOOG")],
+        ["META", "$738.79", "6.59x", "not obtained", "2026-09-29", "https://www.financecharts.com/compare/META,GOOGL,MSFT,AAPL/value/ev-to-sales"],
+        ["MSFT", "$508.96", "11.55x", "not obtained", "2026-08-07", "https://tgmcharts.com/stocks/MSFT/ev-sales"],
+        ["AMZN", "$246.67", "4.05x", "not obtained", "2026-08-07", "https://tgmcharts.com/stocks/MSFT/ev-sales"],
+        ["AAPL", "$329.40", "10.00x", "not obtained", "2026-08-07", "https://tgmcharts.com/stocks/MSFT/ev-sales"],
+    ]
+    googl_model_ev_sales_fy28 = base["operating_ev"] / income["FY2028E"]["revenue"]
+    googl_model_ev_oi_fy28 = base["operating_ev"] / income["FY2028E"]["operating_income"]
+
+    content = f"""# Alphabet valuation
+
+At the ${LAST_PRICE:.2f} Class A last close, the official operating DCF values recurring cash generation and a FY2028 operating-income exit multiple, then adds filing-balance net liquidity and non-marketable investments at modeled carrying value. The R4.1 equity-security remeasurement is excluded from unlevered free cash flow and from the operating-income path used for terminal value.
+
+## Official method and as-of
+
+| item | value |
+|---|---|
+| Valuation as-of | {VALUATION_DATE.isoformat()} |
+| Last close (Class A) | ${LAST_PRICE:.2f} on {LAST_PRICE_DATE.isoformat()} |
+| Class C reference close | ${LAST_PRICE_GOOG:.2f} on {LAST_PRICE_DATE.isoformat()} |
+| Last-price source | [Yahoo Finance historical]({LAST_PRICE_SOURCE}) |
+| PT denominator | {fmt(PT_SHARES_M, 3)} million shares outstanding (R5.3, 2026-07-15) |
+| Model diluted WAS FY2028E | {fmt(model_diluted_fy28, 1)} million (reference only) |
+| Method | Unlevered FCF DCF (FY2026E–FY2028E) + FY2028E EBIT exit multiple |
+
+## Key `[VIEW]` assumptions
+
+| assumption | value | brief justification |
+|---|---|---|
+| WACC | {pct(DCF_WACC)} | Mega-cap platform with net liquidity; beta near market; no operating leverage from the Q2 equity mark. |
+| Terminal value | {TERMINAL_EBIT_MULTIPLE:.1f}× FY2028E operating income | Premium to current tape-implied operating EV / FY2028E OI (~{tape_multiples['FY2028E_oi']:.1f}×) but below peak AI rerating; anchors on recurring segment earnings. |
+| Gordon cross-check | {pct(TERMINAL_GROWTH_CHECK)} perpetual growth on FY2028E UFCF | Sanity check only; capex-heavy years make Gordon unreliable as the primary terminal. |
+| Investment marks | Zero remeasurement FY2027E–FY2028E | Matches income.md; R4.1 treated as non-operating. |
+| Non-marketable securities | Modeled flat at R2 filing carrying value | Separates operating DCF from equity stakes; not marked up again in the DCF. |
+
+## What the tape must be paying for
+
+| item | formula | $m or multiple |
+|---|---|---|
+| Last-price market capitalization | Last close × R5.3 shares | {fmt(market_cap, 1)} |
+| 2026-06-30 net cash | Cash + marketable − debt (R2) | {fmt(filing_net_cash, 1)} |
+| Non-marketable securities (carrying) | R2 balance sheet | {fmt(nonmarketable_filing, 1)} |
+| Last-price operating EV | Market cap − net cash − non-marketable | {fmt(current_operating_ev, 1)} |
+| Operating EV / FY2026E revenue | Tape operating EV ÷ model revenue | {tape_multiples['FY2026E_rev']:.1f}× |
+| Operating EV / FY2028E revenue | Tape operating EV ÷ model revenue | {tape_multiples['FY2028E_rev']:.1f}× |
+| Operating EV / FY2028E operating income | Tape operating EV ÷ model OI | {tape_multiples['FY2028E_oi']:.1f}× |
+| Operating EV / FY2028E recurring net income | Tape operating EV ÷ recurring NI | {tape_multiples['FY2028E_recurring_ni']:.1f}× |
+
+The tape’s operating EV embeds faster capex normalization and/or a higher terminal multiple than the base DCF: FY2026–FY2027 model unlevered FCF is deeply negative while Search and Cloud operating income still compound. The Q2 equity mark inflates reported net income but is stripped from operating cash flow in `cashflow.md` and from this DCF.
+
+## Unlevered FCF bridge
+
+Unlevered FCF = operating income × (1 − forecast cash tax rate) + D&A − capex − Δ operating NWC. Tax is applied to operating income only, not to R4.1 remeasurement.
+
+{table(["period", "operating income", "cash tax rate", "[VIEW] UFCF", "mid-year t", "PV @ WACC"], ufcf_rows)}
+
+## Operating DCF and equity bridge
+
+| item | basis | $m except per share |
+|---|---|---|
+| PV explicit FY2026E–FY2028E UFCF | Mid-year discount at {pct(DCF_WACC)} | {fmt(base['pv_explicit'], 1)} |
+| FY2028E operating income | income.md recurring path | {fmt(base['terminal_ebit'], 1)} |
+| Terminal EV / EBIT | [VIEW] | {TERMINAL_EBIT_MULTIPLE:.1f}× |
+| Terminal value | FY2028E OI × multiple | {fmt(base['terminal_value'], 1)} |
+| PV terminal (t = {TERMINAL_DISCOUNT_YEARS:.1f}y) | Discounted at WACC | {fmt(base['pv_terminal'], 1)} |
+| **Operating enterprise value** | PV explicit + PV terminal | **{fmt(base['operating_ev'], 1)}** |
+| Plus FY2028E net cash | cash + marketable − debt | {fmt(base['net_cash_fy28'], 1)} |
+| Plus FY2028E non-marketable securities | Balance sheet carrying value | {fmt(base['nonmarketable_fy28'], 1)} |
+| **Official equity value** | Operating EV + net cash + investments | **{fmt(base['equity_value'], 1)}** |
+| Shares outstanding (m) | R5.3 | {fmt(PT_SHARES_M, 3)} |
+| **Official 12-month PT / share** | Equity value ÷ R5.3 shares | **${base['official_pt']:.2f}** |
+
+Preferred stock (R5.4) is reflected in the balance sheet and dividends but mandatory-convertible conversion terms into common are **not obtained**; the PT denominator uses filed common shares outstanding, not fully converted preferred. Model diluted WAS ({fmt(model_diluted_fy28, 1)}m FY2028E) is shown for comparison.
+
+## Gordon terminal cross-check (non-official)
+
+| item | value |
+|---|---|
+| FY2028E UFCF | {fmt(base['ufcf']['FY2028E'], 1)} |
+| [VIEW] perpetual growth | {pct(TERMINAL_GROWTH_CHECK)} |
+| Implied Gordon equity value | {fmt(base['gordon_equity_value'], 1)} |
+| Implied Gordon PT / share | ${base['gordon_pt']:.2f} |
+
+Low near-term UFCF makes Gordon understate a capex cycle; the official terminal remains the EBIT exit multiple.
+
+## Checks — not additional official targets
+
+| check | method | value / share |
+|---|---|---|
+| Bear | WACC {pct(BEAR_WACC)} + {BEAR_TERMINAL_MULTIPLE:.0f}× FY2028E OI | ${bear['official_pt']:.2f} |
+| Bull | WACC {pct(BULL_WACC)} + {BULL_TERMINAL_MULTIPLE:.0f}× FY2028E OI | ${bull['official_pt']:.2f} |
+| Gordon cross-check | {pct(TERMINAL_GROWTH_CHECK)} on FY2028E UFCF | ${base['gordon_pt']:.2f} |
+
+**[DEDUCTED] Tape residual per share:** `${LAST_PRICE:.2f} − official DCF = ${residual_per_share:.2f}`. Positive residual means the last price exceeds the base operating DCF on these `[VIEW]`s; it is not an instruction to raise or lower the model.
+
+## Killing sensitivities
+
+### WACC vs FY2028E EBIT exit multiple
+
+{table(["WACC \\\\ multiple"] + [f"{multiple:.0f}×" for multiple in terminal_grid], [[f"{wacc*100:.1f}%", *row] for wacc, row in zip(wacc_grid, wacc_terminal_rows)])}
+
+### Search growth (all forecast years)
+
+{table(["case", "official PT / share"], search_rows)}
+
+### Cloud segment margin (all forecast years)
+
+{table(["case", "official PT / share"], cloud_rows)}
+
+### Capex (all forecast years)
+
+{table(["case", "official PT / share"], capex_rows)}
+
+## Comparable-company snapshot (check only)
+
+Trailing EV/Sales from third-party screens; prices on {LAST_PRICE_DATE.isoformat()} from Yahoo except where noted. GOOGL model-implied FY2028E operating EV / revenue = {googl_model_ev_sales_fy28:.1f}×; operating EV / FY2028E OI = {googl_model_ev_oi_fy28:.1f}×.
+
+{table(["company", "last close", "EV / Sales", "EV / FY2028E model OI", "as-of", "source"], comps)}
+
+Peer multiples mix trailing revenue with different fiscal calendars and include non-ad businesses; use as a framing check only.
+
+## What would move the official value
+
+- A sourced change to FY2026–FY2028 Search, YouTube, Cloud or capex `[VIEW]` paths in `inputs.md`.
+- A change to WACC or the FY2028E EBIT exit multiple.
+- A change to net cash or non-marketable carrying values on the forecast balance sheet.
+- Preferred conversion terms (R5.4) that shift the share denominator materially.
+
+## Blockers
+
+- Mandatory-convertible preferred conversion ratio and fully diluted share count at conversion are **not obtained** in the register (R5.4); PT uses R5.3 outstanding shares with disclosure only.
+- Peer EV/EBIT is **not obtained** on a consistent basis across the comp set; EV/Sales is shown where sourced.
+"""
+    summary = {
+        "official_pt": base["official_pt"],
+        "operating_ev": base["operating_ev"],
+        "equity_value": base["equity_value"],
+        "wacc": DCF_WACC,
+        "terminal_multiple": TERMINAL_EBIT_MULTIPLE,
+        "residual": residual_per_share,
+        "bear_pt": bear["official_pt"],
+        "bull_pt": bull["official_pt"],
+    }
+    return content, summary
+
+
 def main() -> None:
     segments = build_segments()
     income, balances, cashflow = build_model(segments)
     checks = build_checks(segments, income, balances, cashflow)
+    valuation_markdown, valuation_summary = valuation(
+        segments, income, balances, cashflow
+    )
 
     outputs = {
         "inputs.md": render_inputs(cashflow),
@@ -1509,6 +1908,7 @@ def main() -> None:
         "income.md": render_income(income, checks),
         "balance.md": render_balance(balances, income, checks),
         "cashflow.md": render_cashflow(cashflow, checks),
+        "valuation.md": valuation_markdown,
     }
     for filename, content in outputs.items():
         (ROOT / filename).write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -1530,6 +1930,15 @@ def main() -> None:
         failed = failed or not passed
     if failed:
         raise SystemExit("One or more model checks failed")
+
+    print("\nValuation")
+    print(f"WACC | {pct(valuation_summary['wacc'])}")
+    print(f"Terminal EBIT multiple | {valuation_summary['terminal_multiple']:.1f}x")
+    print(f"Operating EV | ${valuation_summary['operating_ev']:.1f}m")
+    print(f"Official 12-month PT | ${valuation_summary['official_pt']:.2f}")
+    print(f"[DEDUCTED] Tape residual | ${valuation_summary['residual']:.2f}")
+    print(f"Bear check | ${valuation_summary['bear_pt']:.2f}")
+    print(f"Bull check | ${valuation_summary['bull_pt']:.2f}")
 
 
 if __name__ == "__main__":
