@@ -1,6 +1,6 @@
 # Amazon fact register
 
-GF-AMZN-1 · as of 2026-09-29 · name id `amzn`  
+GF-AMZN-1 · as of 2026-09-29 · name id `amzn`
 USD in millions unless stated otherwise. Every material item is tagged `[FACT]`, `[DEDUCTED]`, or `[VIEW]`. `not obtained` means no usable figure was found in the reviewed primary-source set.
 
 ## Source set
