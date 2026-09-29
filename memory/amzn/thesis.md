@@ -55,7 +55,7 @@ Debates below come from [`consensus.md`](consensus.md); post-Q2 sell-side consen
 - Proxy last-price operating EV (**$2,779,667m** using Q2 net cash in the tape table) implies **26.4×** FY2026E consolidated operating income **$105,252m** and **19.1×** FY2028E **$145,598m**—above the **`[VIEW]`** segment multiples applied to FY2027E segment operating income in the official bridge.
 - Strategic stakes: **$69,062m** 1H other income and **$60,000m** named strategic cash sit **outside** the official PT; balance-sheet fair value remains **not obtained**, so the thesis does not assert how much of the **$88.42** residual is marks versus higher implicit multiples on operating income.
 
-**Magnitude summary:** Operating SOTP is dominated by AWS EV (**~73%** of operating EV before net cash). FY2026 is the bridge year where **`[VIEW]`** **$(200,000)m** net capex and strategic cash drive negative FCF before modeled recovery. The official PT was **not** solved to **$246.67**; changing multiples to chase the tape would violate gate 3 rules documented in `inputs.md`.
+**Magnitude summary:** Operating SOTP is dominated by AWS EV (**~67%** of operating EV before net cash). FY2026 is the bridge year where **`[VIEW]`** **$(200,000)m** net capex and strategic cash drive negative FCF before modeled recovery. The official PT was **not** solved to **$246.67**; changing multiples to chase the tape would violate gate 3 rules documented in `inputs.md`.
 
 ## Killing conditions
 
