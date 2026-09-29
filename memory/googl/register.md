@@ -8,6 +8,8 @@ As of 2026-09-29. USD in millions unless stated otherwise. Each material item is
 - **S2** — [Alphabet Q2 2026 Form 10-Q](https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm), period ended 2026-06-30, filed 2026-07-23; especially consolidated statements, Notes 2, 3, 6, 10–15 and MD&A.
 - **S3** — [Alphabet Q2 2026 earnings release](https://www.sec.gov/Archives/edgar/data/1652044/000165204426000066/googexhibit991q22026.htm), furnished 2026-07-22.
 - **S4** — [Alphabet official Q2 2026 earnings-call transcript](https://abc.xyz/investor/events/event-details/2026/2026-Q2-Earnings-Call-2026-GgTAq7Is0z/default.aspx), dated 2026-07-22. Alphabet states that the transcript is provided for convenience and the webcast is the full recording.
+- **S5** — [Alphabet FY2024 Form 10-K](https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm), period ended 2024-12-31; used only for the 2023 comparative balance sheet, FY2023 TAC and 2024 headcount.
+- **S6** — [Alphabet FY2023 Form 10-K](https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/goog-20231231.htm), period ended 2023-12-31; used only for 2023 headcount.
 
 ## R1 — Reporting perimeter and revenue architecture
 
@@ -93,6 +95,8 @@ As of 2026-09-29. USD in millions unless stated otherwise. Each material item is
 | G&A **[FACT]** | 16,425 | 14,188 | 21,482 | S1 consolidated statements; each fiscal year ended Dec. 31 |
 | Operating income **[FACT]** | 84,293 | 112,390 | 129,039 | S1 consolidated statements; each fiscal year ended Dec. 31 |
 | Other income (expense), net **[FACT]** | 1,424 | 7,425 | 29,787 | S1 consolidated statements; each fiscal year ended Dec. 31 |
+| Income before income taxes **[FACT]** | 85,717 | 119,815 | 158,826 | S1 consolidated statements; each fiscal year ended Dec. 31 |
+| Provision for income taxes **[FACT]** | 11,922 | 19,697 | 26,656 | S1 consolidated statements; each fiscal year ended Dec. 31 |
 | Net income **[FACT]** | 73,795 | 100,118 | 132,170 | S1 consolidated statements; each fiscal year ended Dec. 31 |
 | Diluted EPS, $ **[FACT]** | 5.80 | 8.04 | 10.81 | S1 consolidated statements; each fiscal year ended Dec. 31 |
 | Diluted weighted-average common shares **[FACT]** | 12,722 | 12,447 | 12,230 | S1 Note 12; each fiscal year ended Dec. 31 |
@@ -106,6 +110,8 @@ As of 2026-09-29. USD in millions unless stated otherwise. Each material item is
 | G&A **[FACT]** | 5,209 | 6,461 | 8,748 | 10,752 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
 | Operating income **[FACT]** | 31,271 | 40,770 | 61,877 | 80,466 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
 | Other income (expense), net **[FACT]** | 2,662 | 97,983 | 13,845 | 135,699 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
+| Income before income taxes **[FACT]** | 33,933 | 138,753 | 75,722 | 216,165 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
+| Provision for income taxes **[FACT]** | 5,737 | 26,560 | 12,986 | 41,394 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
 | Net income **[FACT]** | 28,196 | 112,193 | 62,736 | 174,771 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
 | Diluted EPS, $ **[FACT]** | 2.31 | 9.11 | 5.12 | 14.24 | S2 consolidated statements; periods ended 2025-06-30 / 2026-06-30 |
 | Diluted weighted-average common shares **[FACT]** | 12,198 | 12,309 | 12,245 | 12,274 | S2 Note 12; periods ended 2025-06-30 / 2026-06-30 |
@@ -115,26 +121,59 @@ As of 2026-09-29. USD in millions unless stated otherwise. Each material item is
 
 ## R5 — Balance sheet and cash flow
 
-| balance-sheet item, $m | 2024-12-31 | 2025-12-31 | 2026-06-30 | source / as-of |
-|---|---:|---:|---:|---|
-| Cash and cash equivalents **[FACT]** | 23,466 | 30,708 | 55,911 | S1/S2 consolidated balance sheets; dates shown |
-| Marketable securities **[FACT]** | 72,191 | 96,135 | 186,563 | S1/S2 consolidated balance sheets; dates shown |
-| Accounts receivable **[FACT]** | 52,340 | 62,886 | 69,175 | S1/S2 consolidated balance sheets; dates shown |
-| Inventory **[FACT]** | not separately presented | 2,439 | 9,991 | S1/S2 consolidated balance sheets; dates shown |
-| Property and equipment, net **[FACT]** | 171,036 | 246,597 | 321,212 | S1/S2 consolidated balance sheets; dates shown |
-| Accounts payable **[FACT]** | 7,987 | 12,200 | 20,258 | S1/S2 consolidated balance sheets; dates shown |
-| Accrued revenue share **[FACT]** | 9,802 | 10,864 | 10,599 | S1/S2 consolidated balance sheets; dates shown |
-| Deferred revenue, current **[FACT]** | 5,036 | 6,578 | 7,154 | S1/S2 consolidated balance sheets; dates shown |
-| Long-term debt **[FACT]** | 10,883 | 46,547 | 98,165 | S1/S2 consolidated balance sheets; dates shown |
-| Total assets **[FACT]** | 450,256 | 595,281 | 921,983 | S1/S2 consolidated balance sheets; dates shown |
+| balance-sheet item, $m | 2023-12-31 | 2024-12-31 | 2025-12-31 | 2026-06-30 | source / as-of |
+|---|---:|---:|---:|---:|---|
+| Cash and cash equivalents **[FACT]** | 24,048 | 23,466 | 30,708 | 55,911 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Marketable securities **[FACT]** | 86,868 | 72,191 | 96,135 | 186,563 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Accounts receivable **[FACT]** | 47,964 | 52,340 | 62,886 | 69,175 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Inventory **[FACT]** | not separately presented | not separately presented | 2,439 | 9,991 | S5/S2 consolidated balance sheets; dates shown |
+| Other current assets **[FACT]** | 12,650 | 15,714 | 13,870 | 21,884 | S5/S2 consolidated balance sheets; dates shown; 2025 recast separates inventory |
+| Total current assets **[FACT]** | 171,530 | 163,711 | 206,038 | 343,524 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Non-marketable securities **[FACT]** | 31,008 | 37,982 | 68,687 | 131,461 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Property and equipment, net **[FACT]** | 134,345 | 171,036 | 246,597 | 321,212 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Operating-lease assets **[FACT]** | 14,091 | 13,588 | 15,221 | 17,694 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Goodwill **[FACT]** | 29,198 | 31,885 | 33,380 | 57,828 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Other non-current assets, including separately presented intangibles where applicable **[FACT]** | 10,051 | 14,874 | 16,245 | 48,816 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Total assets **[FACT]** | 402,392 | 450,256 | 595,281 | 921,983 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Accounts payable **[FACT]** | 7,493 | 7,987 | 12,200 | 20,258 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Accrued compensation and benefits **[FACT]** | 15,140 | 15,069 | 17,546 | 15,086 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Accrued expenses and other current liabilities **[FACT]** | 46,168 | 51,228 | 55,557 | 73,014 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Accrued revenue share **[FACT]** | 8,876 | 9,802 | 10,864 | 10,599 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Deferred revenue, current **[FACT]** | 4,137 | 5,036 | 6,578 | 7,154 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Total current liabilities **[FACT]** | 81,814 | 89,122 | 102,745 | 126,111 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Long-term debt **[FACT]** | 11,870 | 10,883 | 46,547 | 98,165 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Income taxes payable, non-current **[FACT]** | 8,474 | 8,782 | 9,531 | 11,306 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Operating-lease liabilities **[FACT]** | 12,460 | 11,691 | 12,744 | 14,591 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Other long-term liabilities, including deferred tax liabilities where separately presented **[FACT]** | 4,395 | 4,694 | 8,449 | 31,330 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Total liabilities **[FACT]** | 119,013 | 125,172 | 180,016 | 281,503 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Common stock and APIC **[FACT]** | 76,534 | 84,800 | 93,126 | 131,371 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Mandatory-convertible preferred stock and APIC **[FACT]** | 0 | 0 | 0 | 18,023 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Retained earnings **[FACT]** | 211,247 | 245,084 | 324,055 | 493,371 | S5/S1/S2 consolidated balance sheets; dates shown |
+| Total stockholders’ equity **[FACT]** | 283,379 | 325,084 | 415,265 | 640,480 | S5/S1/S2 consolidated balance sheets; dates shown |
 
 | cash-flow item, $m | FY2023 | FY2024 | FY2025 | 1H 2025 | 1H 2026 | source / as-of |
 |---|---:|---:|---:|---:|---:|---|
-| Operating cash flow **[FACT]** | 101,746 | 125,299 | 164,713 | 63,897 | 84,859 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
-| Purchases of property and equipment **[FACT]** | 32,251 | 52,535 | 91,447 | 39,643 | 80,598 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Net income **[FACT]** | 73,795 | 100,118 | 132,170 | 62,736 | 174,771 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
 | Depreciation of property and equipment **[FACT]** | 11,946 | 15,311 | 21,136 | 9,485 | 13,586 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
 | SBC cash-flow add-back **[FACT]** | 22,460 | 22,785 | 24,953 | 11,514 | 14,708 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
-| Stock repurchase cash outflow **[FACT]** | 61,504 | 62,222 | 45,709 | 28,306 | 0 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Deferred income taxes **[FACT]** | (7,763) | (5,257) | 8,348 | (1,596) | 27,538 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Loss (gain) on debt and equity securities **[FACT]** | 823 | (2,671) | (24,620) | (11,411) | (135,803) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in accounts receivable **[FACT]** | (7,833) | (5,891) | (8,779) | (1,201) | (6,904) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in income taxes **[FACT]** | 523 | (2,418) | (3,226) | (2,434) | 8,304 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in other assets, including inventory where separately presented **[FACT]** | (2,143) | (1,397) | (4,542) | (2,767) | (17,689) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in accounts payable **[FACT]** | 664 | 359 | 907 | (327) | 2,090 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in accrued expenses and other liabilities **[FACT]** | 3,937 | (1,161) | 12,939 | (1,779) | 308 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in accrued revenue share **[FACT]** | 482 | 1,059 | 899 | not separately presented | not separately presented | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Change in deferred revenue **[FACT]** | 525 | 1,043 | 2,420 | 636 | 789 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Operating cash flow **[FACT]** | 101,746 | 125,299 | 164,713 | 63,897 | 84,859 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Purchases of property and equipment **[FACT]** | (32,251) | (52,535) | (91,447) | (39,643) | (80,598) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Acquisitions and intangible purchases, net **[FACT]** | (495) | (2,931) | (1,592) | (353) | (33,697) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Investing cash flow **[FACT]** | (27,063) | (45,536) | (120,291) | (40,738) | (145,822) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Stock repurchase cash outflow **[FACT]** | (61,504) | (62,222) | (45,709) | (28,306) | 0 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Dividend payments **[FACT]** | 0 | (7,363) | (10,049) | (4,977) | (5,231) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Debt issuance proceeds, net **[FACT]** | 10,790 | 13,589 | 64,564 | 31,378 | 56,226 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Debt repayments **[FACT]** | (11,550) | (12,701) | (32,427) | (18,397) | (5,253) | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
+| Financing cash flow **[FACT]** | (72,093) | (79,733) | (37,388) | (26,033) | 86,320 | S1/S2 consolidated cash-flow statements; annual / 2026-06-30 |
 
 - **R5.1 [FACT]** Q2 2026 operating cash flow was $39,069 million, capex was $44,924 million, and company-defined free cash flow was negative $5,855 million. Source/as-of: S3 cash-flow and FCF reconciliation, quarter ended 2026-06-30.
 - **R5.2 [FACT]** FY2025 repurchases retired 240 million shares for $45,398 million; $69,500 million remained authorized at 2025-12-31. No shares were repurchased in Q2 or 1H 2026, and the same authorization remained at 2026-06-30. Source/as-of: S1 MD&A/Note 11, 2025-12-31; S2 Note 11, 2026-06-30.
@@ -142,7 +181,7 @@ As of 2026-09-29. USD in millions unless stated otherwise. Each material item is
 - **R5.4 [FACT]** In June 2026 Alphabet issued common and mandatory-convertible preferred equity for aggregate net proceeds of $49,562 million and issued debt for $20,300 million net proceeds in Q2. The common offering and private placement added 86 million common shares; the mandatory convertible preferred may convert in 2029. Source/as-of: S2 Notes 6 and 11; S3, 2026-06-30.
 - **R5.5 [FACT]** At 2026-06-30, long-term debt was $98,165 million and the current portion of long-term notes was $1,999 million. Source/as-of: S2 Note 6, 2026-06-30.
 - **R5.6 [FACT]** Q2/1H 2026 total SBC expense was approximately $8,000 million/$15,200 million; the cash-flow add-back was $7,957 million/$14,708 million because some awards are settled outside Alphabet stock. Source/as-of: S2 Note 13 and cash-flow statement, periods ended 2026-06-30.
-- **R5.7 [FACT]** Alphabet employed 190,820 people at 2025-12-31 and 198,933 at 2026-06-30. Source/as-of: S1 Business; S2 MD&A, dates shown.
+- **R5.7 [FACT]** Alphabet employed 182,502 people at 2023-12-31, 183,323 at 2024-12-31, 190,820 at 2025-12-31 and 198,933 at 2026-06-30. Source/as-of: S6/S5/S1 Business; S2 MD&A, dates shown.
 - **R5.8 [FACT]** Management raised FY2026 capex guidance to $195–205 billion; Q2 technical-infrastructure investment mix was approximately 60% servers and 40% data centers/networking. Source/as-of: S4 prepared remarks, 2026-07-22.
 - **R5.9 [FACT]** Total SBC expense was approximately $22,100 million, $22,800 million and $27,100 million in FY2023, FY2024 and FY2025, respectively. Source/as-of: S1 Note 13, each fiscal year ended Dec. 31.
 
@@ -156,7 +195,7 @@ As of 2026-09-29. USD in millions unless stated otherwise. Each material item is
 
 ## R7 — TAC and content economics
 
-- **R7.1 [FACT]** TAC was $54,900 million in FY2024 and $59,926 million in FY2025. The TAC rate declined from 20.7% to 20.3%, primarily from mix shifting from Network to Search & other; Search and Network TAC rates were substantially consistent year over year. Source/as-of: S1 MD&A, fiscal years ended 2024-12-31 and 2025-12-31.
+- **R7.1 [FACT]** TAC was $50,886 million in FY2023, $54,900 million in FY2024 and $59,926 million in FY2025; the corresponding TAC rates were 21.4%, 20.7% and 20.3% of Google advertising revenue. The FY2025 decline was primarily from mix shifting from Network to Search & other; Search and Network TAC rates were substantially consistent year over year. Source/as-of: S5/S1 MD&A, fiscal years ended 2023-12-31 through 2025-12-31.
 - **R7.2 [FACT]** TAC was $16,179 million in Q2 2026 and $31,407 million in 1H 2026, versus $14,705 million/$28,453 million in the prior-year periods. The TAC rate declined from 20.6% to 19.8%; Search TAC rate was substantially consistent and Network TAC rate increased slightly. Source/as-of: S2 MD&A, periods ended 2026-06-30.
 - **R7.3 [FACT]** TAC includes payments to search distribution partners and to Google Network partners. Other cost of revenue includes YouTube content acquisition, infrastructure depreciation and operations, operations compensation, and device/TPU inventory costs. Source/as-of: S2 Note 1, 2026-06-30.
 - **R7.4 [FACT]** Search distribution TAC, Network TAC, YouTube content acquisition cost, and gross profit by Search, YouTube, Network, subscriptions/platforms/devices, Cloud product, or Other Bet are **not obtained** separately. Source/as-of: S1–S2, through 2026-06-30.
