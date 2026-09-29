@@ -1,6 +1,6 @@
 # Oracle model
 
-GF-ORCL-1 segment three-statement model and **12-month valuation** (thesis still pending).
+GF-ORCL-1 segment three-statement model, **12-month valuation**, and **working thesis**.
 
 | artifact | path |
 |---|---|
@@ -11,7 +11,9 @@ GF-ORCL-1 segment three-statement model and **12-month valuation** (thesis still
 | **Valuation (official PT)** | [`models/orcl/valuation.md`](../../models/orcl/valuation.md) |
 | Inputs and gaps | [`models/orcl/inputs.md`](../../models/orcl/inputs.md) |
 | Compute script | [`models/orcl/compute.py`](../../models/orcl/compute.py) |
+| Working thesis | [`thesis.md`](thesis.md) |
+| Consensus / what is priced | [`consensus.md`](consensus.md) |
 
-Regenerate all markdown outputs: `python models/orcl/compute.py` from repo root.
+Regenerate model markdown: `python models/orcl/compute.py` from repo root.
 
 Facts and citations remain in [`register.md`](register.md); drivers in [`research.md`](research.md). Do not duplicate material numbers here.
