@@ -840,7 +840,7 @@ def render_cashflow(
         ("Net income", "net_income"),
         ("D&A and other", "da_other"),
         ("Stock-based compensation", "sbc"),
-        ("Less: increase in operating capital", "delta_operating_capital"),
+        ("Cash effect of operating-capital change", "delta_operating_capital"),
         ("Operating cash flow", "ocf"),
         ("Additions to PP&E", "capex"),
         ("Free cash flow", "fcf"),
@@ -1046,7 +1046,7 @@ The official DCF values the filed three-segment business without a separate unre
 
 ## Unlevered free cash flow
 
-{markdown_table(["period", "Operating income", "NOPAT", "D&A", "Cash capex", "Less: Δ operating capital", "FCFF"], fcff_rows)}
+{markdown_table(["period", "Operating income", "NOPAT", "D&A", "Cash capex", "Cash effect of Δ operating capital", "FCFF"], fcff_rows)}
 
 FCFF is `NOPAT + D&A − cash capex − change in operating capital`. SBC is not added back in valuation because it is treated as an economic cost. No OpenAI mark is forecast.
 
@@ -1054,7 +1054,7 @@ FCFF is `NOPAT + D&A − cash capex − change in operating capital`. SBC is not
 
 {markdown_table(["item", "basis", "$m except per share"], bridge_rows)}
 
-**Official price-target line:** **$${pt:.2f} per share.** This is the DCF output from the operating assumptions in [`inputs.md`](inputs.md); it is not fitted to the last close.
+**Official price-target line:** **${pt:.2f} per share.** This is the DCF output from the operating assumptions in [`inputs.md`](inputs.md); it is not fitted to the last close.
 
 The target requires the following segment and cash milestones:
 
