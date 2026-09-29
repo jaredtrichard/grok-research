@@ -99,3 +99,14 @@ Do not splice TIFRS quarterly earnings into IASB-IFRS annual history without lab
 - Wafer ASP by node: **not obtained** (R10.1); NT$/wafer quotient is not ASP (R3.3).
 - Exact utilization by node/site: **not obtained** (R10.2).
 - Street consensus: **not obtained** (R10.9).
+
+## Valuation (`[VIEW]` — see [`valuation.md`](valuation.md))
+
+| input | value | note |
+|---|---|---|
+| As-of / last close | 2026-09-29; TSM ADR $456.94 | Yahoo Finance; `compute.py` constants |
+| USD/NTD | 32 | R2.5 guidance anchor |
+| Official method | 21.0× FY2027E recurring OI + FY2027E net cash | single foundry segment |
+| DCF WACC / terminal g | 9.5% / 3.0% | cross-check on forecast FCF + R7.4 net cash |
+| Bear / bull EBIT | 18.0× / 24.0× | sensitivity on same OI |
+| Peer EV/EBIT | not obtained | R10.8–R10.9 |
