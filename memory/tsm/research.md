@@ -10,7 +10,8 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 2. **[FACT] Foundry model.** Customers supply proprietary circuit designs; TSMC supplies process technology, manufacturing scale, yield/quality, design enablement and, where selected, integrated advanced packaging/testing. TSMC does not market its own semiconductor products. See R1.1.
 3. **[FACT] Process-node lens.** TSMC reports wafer-revenue shares by node and calls 7nm-and-below “advanced technologies.” Use the Q2 node mix in R3, but do not mistake revenue mix for wafer volume, capacity or margin mix.
 4. **[FACT] Platform lens.** TSMC reports total-revenue mix across HPC, Smartphone, IoT, Automotive, DCE and Other. These are application platforms, not segments with separate P&Ls. See R3.
-5. **[FACT] Backend/packaging.** CoWoS, SoIC, InFO, SoW and COUPE are material to system integration and AI/HPC enablement, but their standalone financials are not disclosed. Keep packaging inside the foundry segment unless primary disclosure later supports a separate model. See R4.6–R4.8 and R10.3.
+5. **[FACT] Backend/packaging.** CoWoS, SoIC, InFO, SoW and COUPE are material to system integration and AI/HPC enablement, but their standalone financials are not disclosed. See R4.6–R4.8 and R10.3.
+6. **[DEDUCTED] Model treatment.** Keep packaging inside the foundry segment unless primary disclosure later supports a separate model.
 
 ## 2. Segment driver tree
 
@@ -55,13 +56,14 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
 ## 4. Capacity and technology roadmap
 
-1. **[FACT] Installed base.** FY2025 shipment/capacity anchors are in R4.1. Do not infer utilization from them; exact utilization is not obtained (R4.2).
-2. **[FACT] N3/N5.** TSMC was adding N3 fabs, converting N5 tools for N3 support and optimizing flexible capacity across N7/N5/N3. See R4.9.
-3. **[FACT] N2.** High-volume manufacturing began in late 2025 and the 2026 ramp was visible in Q2 wafer mix. See R3 and R4.3.
-4. **[FACT] N2P/A16.** Both were scheduled for 2H 2026 production; A16 adds backside power delivery. See R4.4.
-5. **[FACT] A14.** Risk/volume timing and management’s PPA targets are in R4.5. They are roadmap claims, not model-ready realized economics.
-6. **[FACT] Advanced packaging.** CoWoS generation/status, SoIC and COUPE milestones are in R4.6–R4.8. Capacity and financial contribution remain not obtained.
-7. **[FACT] Footprint.** Taiwan, Arizona, Japan and Germany plans are summarized in R4.9–R4.10; site capacity, economics and firm schedules remain not obtained (R10.6).
+1. **[FACT] Installed base.** FY2025 shipment/capacity anchors are in R4.1; exact utilization is not obtained (R4.2).
+2. **[DEDUCTED] Utilization treatment.** Do not infer utilization by dividing annual shipments by year-end capacity. See R4.2A.
+3. **[FACT] N3/N5.** TSMC was adding N3 fabs, converting N5 tools for N3 support and optimizing flexible capacity across N7/N5/N3. See R4.9.
+4. **[FACT] N2.** High-volume manufacturing began in late 2025 and the 2026 ramp was visible in Q2 wafer mix. See R3 and R4.3.
+5. **[FACT] N2P/A16.** Both were scheduled for 2H 2026 production; A16 adds backside power delivery. See R4.4.
+6. **[FACT] A14.** Risk/volume timing and management’s PPA targets are in R4.5. They are roadmap claims, not model-ready realized economics.
+7. **[FACT] Advanced packaging.** CoWoS generation/status, SoIC and COUPE milestones are in R4.6–R4.8. Capacity and financial contribution remain not obtained.
+8. **[FACT] Footprint.** Taiwan, Arizona, Japan and Germany plans are summarized in R4.9–R4.10; site capacity, economics and firm schedules remain not obtained (R10.6).
 
 ## 5. Geography and customer concentration
 
@@ -74,11 +76,12 @@ GF-TSM-1 · as of 2026-09-29 · name id `tsm`
 
 1. **[FACT] Utilization/absorption.** Higher utilization and cost improvement supported recent margin; lower utilization would reverse fixed-cost absorption. See R6.1/R6.3.
 2. **[FACT] Node ramps.** N2’s early ramp was expected to dilute 2H margin before scale/yield maturation. See R6.1.
-3. **[FACT] Overseas fabs.** Management’s corporate gross-margin dilution ranges are in R6.2; no site margin should be invented.
+3. **[FACT] Overseas fabs.** Management’s corporate gross-margin dilution ranges are in R6.2; site margin was not disclosed.
 4. **[DEDUCTED] Mix/price.** More leading-edge and advanced packaging can raise revenue per wafer/product, while customer/platform mix, strategic pricing and FX can amplify or offset that benefit.
 5. **[DEDUCTED] Cost bridge.** Materials + labor + utility + depreciation + maintenance + yield/ramp loss + logistics, with fixed-cost absorption over good output. Exact node/site unit costs are not obtained (R6.5).
 6. **[FACT] Exogenous risks.** Earthquakes, electricity/water interruptions, equipment/material constraints, inflation and export controls can affect output and cost. See R9.
-7. **[FACT] Earnings quality.** Q2 net income included a material non-operating VIS disposal/mark-to-market gain; model recurring earnings separately from that gain. See R2.4A.
+7. **[FACT] Earnings quality.** Q2 net income included a material non-operating VIS disposal/mark-to-market gain. See R2.4A.
+8. **[DEDUCTED] Model treatment.** Separate the VIS gain from recurring earnings.
 
 ## 7. Capex and cash conversion
 
@@ -121,7 +124,7 @@ Values live only in the register. “Take” means link the assumption to the ci
 | Annual revenue, gross profit, operating income, parent net income, EPS | R2 annual table | S1; FY2023–FY2025 | obtained; IASB-IFRS |
 | Quarterly revenue, margins, operating income, parent net income, EPS | R2 latest-quarter table | S3–S5; Q2 2025–Q2 2026 | obtained; TIFRS |
 | R&D and SG&A | R6.4 | S1/S4; FY2025/Q2 2026 | obtained |
-| Non-operating income, VIS gain and cash tax expense | R2.4A | S4/S6; Q2 2026 | obtained; separate recurring/nonrecurring treatment needed |
+| Non-operating income, VIS gain and income-tax expense | R2.4A | S4/S6; Q2 2026 | obtained; separate recurring/nonrecurring treatment needed |
 | D&A | R7.1–R7.2 | S1/S4; FY2025/Q2 2026 | obtained |
 | FY2025 IASB-IFRS/TIFRS bridge | R2.3–R2.3A | S1/S2; FY2025 | difference identified; detailed bridge **not obtained** |
 | Wafer shipments and revenue quotient cross-check | R2 latest-quarter table; R3.3 | S4/S5; Q2 2026 | obtained / deduced; quotient is not ASP |
