@@ -152,10 +152,10 @@ Sources: [S1 statements pp. 58–62](https://www.sec.gov/Archives/edgar/data/248
 
 ## R9 — Explicit numbered gaps
 
-- **R9.1 [FACT]** Data Center product-level revenue split among EPYC, Instinct, networking and adaptive products; units, ASPs, accelerator shipment value, booked backlog and customer-level gross margin: **not obtained**.
-- **R9.2 [FACT]** Client absolute processor units, dollar ASP, OEM/channel inventory, AI-PC unit or revenue attach, market share and product-level gross margin: **not obtained**. Only period-over-period unit and ASP changes in R3.1–R3.2 were obtained.
-- **R9.3 [FACT]** Gaming absolute GPU/console units and ASPs, Radeon versus semi-custom revenue, console-customer split, and standalone Gaming operating income/margin: **not obtained**.
-- **R9.4 [FACT]** Embedded units, ASPs, backlog, book-to-bill, end-market revenue mix, design-win conversion timing and product-level margin: **not obtained**.
+- **R9.1 [FACT]** Data Center product-level revenue split among EPYC, Instinct, networking and adaptive products; units, ASPs, accelerator shipment value, booked backlog, customer concentration and customer-level gross margin: **not obtained**.
+- **R9.2 [FACT]** Client absolute processor units, dollar ASP, OEM/channel inventory, AI-PC unit or revenue attach, market share, customer concentration and product-level gross margin: **not obtained**. Only period-over-period unit and ASP changes in R3.1–R3.2 were obtained.
+- **R9.3 [FACT]** Gaming absolute GPU/console units and ASPs, Radeon versus semi-custom revenue, console-customer split, current customer concentration and standalone Gaming operating income/margin: **not obtained**.
+- **R9.4 [FACT]** Embedded units, ASPs, backlog, book-to-bill, end-market revenue mix, customer/end-market concentration, design-win conversion timing and product-level margin: **not obtained**.
 - **R9.5 [FACT]** Segment gross profit, capex, assets, liabilities, SBC and acquisition-intangible amortization: **not obtained**. Segment operating income includes allocated cost of sales and opex; Client and Gaming standalone operating income is also **not obtained**.
 - **R9.6 [FACT]** TSMC/GF wafer volumes, node mix, wafer pricing, foundry allocation by product, advanced-packaging capacity and product yields: **not obtained**. Aggregate commitments in R4.4 are not a foundry-only measure.
 - **R9.7 [FACT]** Full-year 2026 company or segment revenue, GAAP/non-GAAP opex, capex and free-cash-flow guidance: **not obtained**. AMD supplied Q3 guidance in R7.4.
