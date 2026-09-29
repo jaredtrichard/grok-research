@@ -135,5 +135,6 @@ Values live only in the register. “Take” means link the assumption to the ci
 | Diluted and outstanding shares | R6.4 | S2 | obtained |
 | Deferred revenue, advances, warranty, purchase obligations | R6.5 | S2 2026-07-26 | obtained |
 | Q3 FY2027 guide | R2.4 | S3 2026-08-26 | management guidance |
+| FY2027/FY2028 management outlook | R2.5 | S5 2026-08-26 | preliminary management guidance |
 | Segment gross profit/assets/capex | R9.6 | through 2026-09-29 | **not obtained** |
 | Related-party transaction amounts | R7.1 | through 2026-09-29 | **not obtained** |

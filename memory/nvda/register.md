@@ -65,6 +65,7 @@ Source: [S2, Note 13](https://www.sec.gov/Archives/edgar/data/1045810/0001045810
 
 - **R2.3 [FACT]** Q2 FY2027 Data Center growth was driven by the Blackwell Ultra ramp. Edge Computing growth reflected Blackwell workstation sales, partly offset by slower consumer-PC sales amid higher memory and system prices. [S4](https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm)
 - **R2.4 [FACT]** Q3 FY2027 company guidance was revenue of $108.0 billion ±2%, GAAP/non-GAAP gross margin of 74.0% ±50 bps, and GAAP/non-GAAP opex of approximately $9.2/$9.0 billion. The outlook assumed no Data Center compute revenue from China. This is management guidance, not an actual result. [S3](https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm)
+- **R2.5 [FACT]** On the Q2 call, management's preliminary FY2028 outlook was approximately 70% revenue growth with supply a bottleneck through fiscal year-end; management expected gross margin to bottom at 71%–72% in Q4 FY2027 and settle at 72%–73% in FY2028 after price increases. Management also expected FY2027 opex growth in the low-50% range and retained a 16%–18% FY2027 tax-rate outlook. These are management expectations, not actual results. [S5](https://s201.q4cdn.com/141608511/files/content_files/TRANSCRIPT_-NVIDIA-Corp-NVDA-US-Q2-2027-Earnings-Call-26-August-2026-5_00-PM-ET.pdf)
 
 ## R3 — End markets, units, ASP and operating KPIs
 
