@@ -6,17 +6,17 @@ Operating income is built only from reportable segments in [`segments.md`](segme
 
 | line | FY2022A | FY2023A | FY2024A | FY2025A | 1H2026A | FY2026E | FY2027E | FY2028E |
 |---|---|---|---|---|---|---|---|---|
-| Consolidated revenue | 513,983 | 574,785 | 637,959 | 716,924 | 382,125 | 830,096 | 939,728 | 1,047,482 |
-| Operating income (sum of segments) | 12,248 | 36,852 | 68,593 | 79,975 | 51,313 | 105,252 | 125,573 | 145,598 |
-| Interest income | 989 | 2,949 | 4,677 | 4,381 | 2,430 | 3,967 | 2,683 | 4,158 |
-| Interest expense | (2,367) | (3,182) | (2,406) | (2,274) | (2,114) | (6,349) | (8,951) | (9,507) |
+| Consolidated revenue | 513,983 | 574,785 | 637,959 | 716,924 | 382,125 | 832,671 | 942,817 | 1,051,066 |
+| Operating income (sum of segments) | 12,248 | 36,852 | 68,593 | 79,975 | 51,313 | 107,028 | 126,732 | 146,959 |
+| Interest income | 989 | 2,949 | 4,677 | 4,381 | 2,430 | 3,967 | 2,241 | 3,825 |
+| Interest expense | (2,367) | (3,182) | (2,406) | (2,274) | (2,114) | (6,349) | (9,119) | (9,643) |
 | Other income / (expense) | (16,806) | 938 | (2,250) | 15,229 | 69,062 | 69,062 | — | — |
-| Pre-tax income | (5,936) | 37,557 | 68,614 | 97,311 | 120,691 | 171,932 | 119,305 | 140,248 |
-| Tax provision | (3,217) | 7,120 | 9,265 | 19,087 | 27,759 | 33,724 | 23,401 | 27,509 |
+| Pre-tax income | (5,936) | 37,557 | 68,614 | 97,311 | 120,691 | 173,709 | 119,853 | 141,142 |
+| Tax provision | (3,217) | 7,120 | 9,265 | 19,087 | 27,759 | 34,072 | 23,509 | 27,684 |
 | Equity-method activity, net of tax | (3) | (12) | (101) | (554) | (30) | (30) | — | — |
-| Net income | (2,722) | 30,425 | 59,248 | 77,670 | 92,902 | 138,179 | 95,904 | 112,739 |
+| Net income | (2,722) | 30,425 | 59,248 | 77,670 | 92,902 | 139,607 | 96,345 | 113,458 |
 | Diluted weighted-average shares | 10,189 | 10,492 | 10,721 | 10,827 | 10,889 | 10,950 | 11,000 | 11,050 |
-| Diluted EPS | (0.27) | 2.90 | 5.53 | 7.17 | 8.53 | 12.62 | 8.72 | 10.20 |
+| Diluted EPS | (0.27) | 2.90 | 5.53 | 7.17 | 8.53 | 12.75 | 8.76 | 10.27 |
 
 `1H2026A` is a six-month period. FY2026E other income holds reported 1H marks (R7.1) and assumes no further investment revaluation in 2H. FY2026E tax uses the FY2025 effective rate on pre-tax income.
 

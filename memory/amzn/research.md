@@ -189,6 +189,6 @@ Values live only in the register. “Take” means preserve the source date, cla
 | Debt / leases / commitments | R6.2–R6.3, R7.3 | S3 2026-06-30 and subsequent event | obtained |
 | Outstanding / diluted shares | R6.4 | S3/S4 Q2 2026 and 2026-07-22 | obtained |
 | OCF / cash capex / FCF | R6 table | S1/S3/S4; through 2026-06-30 | obtained / deduced as labeled |
-| 2026 capex outlook | R6.5 | S5 2026-02-05; checked against S3/S4 | obtained; no revised Q2 figure found |
+| 2026 capex outlook | R6.5 | S7 call 2026-07-30; S5 prior ~$200bn; S8 secondary | obtained; ~$220bn cash CapEx |
 | Strategic investments / non-operating marks | R7.1–R7.2 | S3 2026-06-30 and subsequent event | obtained |
 | Product-line profit; complete segment cash flow | R8.2, R8.6 | through 2026-09-29 | **not obtained** |

@@ -1,13 +1,13 @@
 # Amazon valuation
 
-At the $246.67 last close, the official 12-month price target values reportable **operating** segments at FY2027E operating income; the last close sits above the official operating SOTP. Strategic-investment marks (R7.1) and stake fair values are shown separately and are **not** in the official PT.
+At the $251.52 last close, the official 12-month price target values reportable **operating** segments at FY2027E operating income; the last close sits above the official operating SOTP. Strategic-investment marks (R7.1) and stake fair values are shown separately and are **not** in the official PT.
 
 ## Official method and as-of
 
 | item | value |
 |---|---|
-| Valuation as-of | 2026-09-29 |
-| Last close | $246.67 on 2026-09-29 |
+| Valuation as-of | 2026-10-05 |
+| Last close | $251.52 on 2026-10-02 |
 | Last-price source | [Yahoo Finance historical](https://finance.yahoo.com/quote/AMZN/history/) |
 | PT denominator | 10,786,313,572 shares outstanding on 2026-07-22 (R6.4; 10-Q cover) |
 | Method | Operating segment SOTP on FY2027E segment OI + FY2026E net cash; excludes strategic-investment marks |
@@ -16,33 +16,33 @@ At the $246.67 last close, the official 12-month price target values reportable 
 
 | item | basis | $m |
 |---|---|---|
-| R6.5 company outlook (FY2026) | [FACT] ~200,000; definition not tied to cash-flow line | 200,000 |
-| Model FY2026E net cash capex | [VIEW] mapped to outlook; purchases − proceeds/incentives | [VIEW] 200,000 |
-| Implied gross purchases (model) | Net ÷ (1 − FY2025 proceeds rate) | 205,453.6 |
-| Implied proceeds/incentives (model) | Gross × FY2025 proceeds rate | 5,453.6 |
+| R6.5 company outlook (FY2026) | [FACT] ~220,000 cash CapEx; definition not tied to cash-flow line | 220,000 |
+| Model FY2026E net cash capex | [VIEW] mapped to outlook; purchases − proceeds/incentives | [VIEW] 220,000 |
+| Implied gross purchases (model) | Net ÷ (1 − FY2025 proceeds rate) | 225,998.9 |
+| Implied proceeds/incentives (model) | Gross × FY2025 proceeds rate | 5,998.9 |
 | TTM net cash capex (register R6) | [FACT] through 2026-06-30 | 169,007 |
 
-The company’s ~$200bn R6.5 outlook is not defined as gross purchases, net cash capex or PPE additions. The model maps it to **net** cash capex (purchases of property and equipment less proceeds and incentives), consistent with register R6 and [`cashflow.md`](cashflow.md). Segment PPE additions in R4.3 are not interchangeable with this cash definition.
+The company’s ~$220bn R6.5 cash CapEx outlook is not defined as gross purchases, net cash capex or PPE additions. The model maps it to **net** cash capex (purchases of property and equipment less proceeds and incentives), consistent with register R6 and [`cashflow.md`](cashflow.md). Segment PPE additions in R4.3 are not interchangeable with this cash definition.
 
 ## Official operating SOTP bridge
 
 | item | basis | $m except per share |
 |---|---|---|
-| 1. AWS FY2027E operating income | segments.md; operating only | 72,987.1 |
+| 1. AWS FY2027E operating income | segments.md; operating only | 74,145.6 |
 | AWS selected EV / segment OI | [VIEW] | 17.0x |
-| AWS operating enterprise value | AWS OI × multiple | 1,240,780.3 |
+| AWS operating enterprise value | AWS OI × multiple | 1,260,475.2 |
 | 2. North America FY2027E operating income | segments.md | 44,381.3 |
 | NA selected EV / segment OI | [VIEW] | 12.0x |
 | North America operating EV | NA OI × multiple | 532,575.5 |
 | 3. International FY2027E operating income | segments.md | 8,204.9 |
 | Intl selected EV / segment OI | [VIEW] | 10.0x |
 | International operating EV | Intl OI × multiple | 82,048.7 |
-| Operating enterprise value (1+2+3) | Sum of segment EVs | 1,855,404.5 |
-| 4. FY2026E net cash | Cash + marketable securities − debt − lease liabilities | (148,439.8) |
+| Operating enterprise value (1+2+3) | Sum of segment EVs | 1,875,099.4 |
+| 4. FY2026E net cash | Cash + marketable securities − debt − lease liabilities | (170,923.0) |
 | Strategic stakes (Anthropic/OpenAI marks) | R7.1–R7.2; excluded from official PT | not obtained at fair value |
-| Official operating equity value | Operating EV + net cash | 1,706,964.7 |
+| Official operating equity value | Operating EV + net cash | 1,704,176.4 |
 | Shares outstanding (m) | R6.4 filing count | 10,786.314 |
-| Official 12-month PT / share | Operating equity ÷ shares | $158.25 |
+| Official 12-month PT / share | Operating equity ÷ shares | $157.99 |
 
 Segment operating income is the only segment P&L anchor disclosed (R1.5, R8.2). Advertising, Prime and seller-service economics are embedded in North America and International segments, not valued as standalone sales-group margins. AWS operating income excludes non-operating Anthropic/OpenAI marks in income.md.
 
@@ -63,11 +63,11 @@ Q2 2026 net income and FY2026E net income are not suitable valuation anchors bec
 
 | item | formula | $m |
 |---|---|---|
-| Last-price market capitalization | Last close × R6.4 shares | 2,660,660.0 |
+| Last-price market capitalization | Last close × R6.4 shares | 2,712,973.6 |
 | 2026-06-30 net cash | Cash + STI − debt − leases | (119,007.0) |
-| Last-price operating EV (proxy) | Market cap − Q2 net cash; marks remain inside EV | 2,779,667.0 |
-| Official operating equity value | Accepted method | 1,706,964.7 |
-| [DEDUCTED] Implied gap to tape | Market cap − official operating equity | 953,695.3 |
+| Last-price operating EV (proxy) | Market cap − Q2 net cash; marks remain inside EV | 2,831,980.6 |
+| Official operating equity value | Accepted method | 1,704,176.4 |
+| [DEDUCTED] Implied gap to tape | Market cap − official operating equity | 1,008,797.2 |
 
 The tape embeds AWS AI optimism, Stores margin debate and strategic-investment marks in one price. R8.8 sell-side segment splits are **not obtained**, so this table is a mechanical gap check, not proof of what the market “should” pay for each segment.
 
@@ -75,9 +75,9 @@ The tape embeds AWS AI optimism, Stores margin debate and strategic-investment m
 
 | period | discount years | FCF | PV |
 |---|---|---|---|
-| FY2027E | 0.751 | 58,995.2 | 55,299.5 |
-| FY2028E | 1.753 | 106,973.7 | 91,971.3 |
-| Terminal (FY2028 FCF growing) | 1.753 | 110,182.9 | 1,578,840.9 |
+| FY2027E | 0.734 | 63,359.4 | 59,474.5 |
+| FY2028E | 1.737 | 110,739.6 | 95,344.1 |
+| Terminal (FY2028 FCF growing) | 1.737 | 114,061.8 | 1,636,739.9 |
 
 PV of terminal uses FY2028E model FCF growing at 3% and 9% WACC, plus 2026-06-30 net cash. This path inherits consolidated FCF (including modeled FY2026E strategic cash outflows in the bridge year) and is **not** the official PT.
 
@@ -85,31 +85,31 @@ PV of terminal uses FY2028E model FCF growing at 3% and 9% WACC, plus 2026-06-30
 
 | check | method | value / share |
 |---|---|---|
-| 3-year / FY2028 segment exit | Same [VIEW] multiples on FY2028E segment OI + FY2028E net cash | $199.32 |
-| Bear sensitivity | 0.85× segment multiples + FY2026E net cash | $132.45 |
-| Bull sensitivity | 1.15× segment EV + net cash + 50%× R7.2 cash deployed | $186.84 |
-| Consolidated FCF DCF (non-official) | PV FY2027–FY2028 FCF + terminal; 9% WACC; + Q2 net cash | $148.99 |
+| 3-year / FY2028 segment exit | Same [VIEW] multiples on FY2028E segment OI + FY2028E net cash | $200.29 |
+| Bear sensitivity | 0.85× segment multiples + FY2026E net cash | $131.92 |
+| Bull sensitivity | 1.15× segment EV + net cash + 50%× R7.2 cash deployed | $186.85 |
+| Consolidated FCF DCF (non-official) | PV FY2027–FY2028 FCF + terminal; 9% WACC; + Q2 net cash | $155.06 |
 
 ## Hole anatomy (operating SOTP vs market cap)
 
 | piece | $m of last-price equity | % of market cap |
 |---|---|---|
-| 1. AWS operating EV | 1,240,780.3 | 46.6% |
-| 2. North America operating EV | 532,575.5 | 20.0% |
-| 3. International operating EV | 82,048.7 | 3.1% |
-| 4. FY2026E net cash | (148,439.8) | -5.6% |
-| [DEDUCTED] Residual vs official PT | 953,695.3 | 35.8% |
+| 1. AWS operating EV | 1,260,475.2 | 46.5% |
+| 2. North America operating EV | 532,575.5 | 19.6% |
+| 3. International operating EV | 82,048.7 | 3.0% |
+| 4. FY2026E net cash | (170,923.0) | -6.3% |
+| [DEDUCTED] Residual vs official PT | 1,008,797.2 | 37.2% |
 
-**[DEDUCTED] Tape residual per share:** `$246.67 − official PT = $88.42`. Positive means the market prices more than the operating segment SOTP plus modeled net cash; it does not identify which segment or stake the market is emphasizing (R8.8).
+**[DEDUCTED] Tape residual per share:** `$251.52 − official PT = $93.53`. Positive means the market prices more than the operating segment SOTP plus modeled net cash; it does not identify which segment or stake the market is emphasizing (R8.8).
 
 ## Current market-implied multiples (proxy operating EV)
 
 | item | multiple |
 |---|---|
-| EV / FY2026E revenue | 3.3x |
+| EV / FY2026E revenue | 3.4x |
 | EV / FY2028E revenue | 2.7x |
-| EV / FY2026E operating income | 26.4x |
-| EV / FY2028E operating income | 19.1x |
+| EV / FY2026E operating income | 26.5x |
+| EV / FY2028E operating income | 19.3x |
 
 Proxy EV subtracts Q2 net cash from market cap and still includes unstaked mark-to-market and other assets inside the equity price.
 

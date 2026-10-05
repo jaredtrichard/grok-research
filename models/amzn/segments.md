@@ -14,12 +14,12 @@ Amazon discloses segment revenue and operating income, not segment gross profit 
 | International revenue | 118,007 | 131,200 | 142,906 | 161,894 | 81,986 | [VIEW] 186,178 | [VIEW] 210,381 | [VIEW] 233,523 |
 | International operating expense | 125,753 | 133,856 | 139,114 | 157,144 | 78,845 | [VIEW] 179,476 | [VIEW] 202,176 | [VIEW] 223,715 |
 | International operating income | (7,746) | (2,656) | 3,792 | 4,750 | 3,141 | [VIEW] 6,702 | [VIEW] 8,205 | [VIEW] 9,808 |
-| AWS revenue | 80,096 | 90,757 | 107,556 | 128,725 | 79,819 | [VIEW] 162,194 | [VIEW] 194,632 | [VIEW] 225,773 |
-| AWS operating expense | 57,255 | 66,126 | 67,722 | 83,119 | 49,037 | [VIEW] 102,182 | [VIEW] 121,645 | [VIEW] 139,979 |
-| AWS operating income | 22,841 | 24,631 | 39,834 | 45,606 | 30,782 | [VIEW] 60,012 | [VIEW] 72,987 | [VIEW] 85,794 |
-| Consolidated revenue | 513,983 | 574,785 | 637,959 | 716,924 | 382,125 | [VIEW] 830,096 | [VIEW] 939,728 | [VIEW] 1,047,482 |
-| Consolidated operating expense | 501,735 | 537,933 | 569,366 | 636,949 | 330,812 | [VIEW] 724,844 | [VIEW] 814,155 | [VIEW] 901,885 |
-| Consolidated operating income | 12,248 | 36,852 | 68,593 | 79,975 | 51,313 | [VIEW] 105,252 | [VIEW] 125,573 | [VIEW] 145,598 |
+| AWS revenue | 80,096 | 90,757 | 107,556 | 128,725 | 79,819 | [VIEW] 164,768 | [VIEW] 197,722 | [VIEW] 229,357 |
+| AWS operating expense | 57,255 | 66,126 | 67,722 | 83,119 | 49,037 | [VIEW] 102,980 | [VIEW] 123,576 | [VIEW] 142,201 |
+| AWS operating income | 22,841 | 24,631 | 39,834 | 45,606 | 30,782 | [VIEW] 61,788 | [VIEW] 74,146 | [VIEW] 87,156 |
+| Consolidated revenue | 513,983 | 574,785 | 637,959 | 716,924 | 382,125 | [VIEW] 832,671 | [VIEW] 942,817 | [VIEW] 1,051,066 |
+| Consolidated operating expense | 501,735 | 537,933 | 569,366 | 636,949 | 330,812 | [VIEW] 725,642 | [VIEW] 816,085 | [VIEW] 904,107 |
+| Consolidated operating income | 12,248 | 36,852 | 68,593 | 79,975 | 51,313 | [VIEW] 107,028 | [VIEW] 126,732 | [VIEW] 146,959 |
 
 Historical segment facts: [register R2](../../memory/amzn/register.md); [S1](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm) / [S2](https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm) / [S3](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm) / [S4](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm). Forecast cells are researcher `[VIEW]` paths tied to Stores mix/margin, International density and AWS AI/capacity monetization in [`inputs.md`](inputs.md); they do not allocate Advertising, Prime or product-line margins separately (R8.2–R8.4).
 
@@ -32,7 +32,7 @@ Historical segment facts: [register R2](../../memory/amzn/register.md); [S1](htt
 | FY2024A | actual | 6.4% | actual | 2.7% | actual | 37.0% |
 | FY2025A | actual | 6.9% | actual | 2.9% | actual | 35.4% |
 | 1H2026A | actual | 7.9% | actual | 3.8% | actual | 38.6% |
-| FY2026E | 13.0% | 8.0% | 15.0% | 3.6% | 26.0% | 37.0% |
+| FY2026E | 13.0% | 8.0% | 15.0% | 3.6% | 28.0% | 37.5% |
 | FY2027E | 11.0% | 8.3% | 13.0% | 3.9% | 20.0% | 37.5% |
 | FY2028E | 10.0% | 8.5% | 11.0% | 4.2% | 16.0% | 38.0% |
 

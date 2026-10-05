@@ -1,6 +1,6 @@
 # Amazon model inputs
 
-As of 2026-09-29. USD millions except per-share data and percentages. Arithmetic and derived values live only in [`compute.py`](compute.py). `[VIEW]` is the researcher-specified base forecast; `not obtained` is never replaced with a guess.
+As of 2026-10-05. USD millions except per-share data and percentages. Arithmetic and derived values live only in [`compute.py`](compute.py). `[VIEW]` is the researcher-specified base forecast; `not obtained` is never replaced with a guess.
 
 ## Source map
 
@@ -33,7 +33,7 @@ As of 2026-09-29. USD millions except per-share data and percentages. Arithmetic
 | 1H 2026 other income (Anthropic marks, etc.) | 69,062 | R7.1; S4 | [FACT] | 1H 2026 |
 | Balance sheet (FY2023–FY2025, 1H 2026) | named filing lines | S1/S2 balance sheets; S4 | [FACT] | respective dates |
 | Cash flow (FY2023–FY2025, 1H 2026, TTM) | register R6 table | R6; S1/S3/S4 | [FACT]/[DEDUCTED] | respective periods |
-| 2026 capex outlook | about 200,000; definition ambiguous vs cash-flow capex | R6.5 | [FACT] outlook / [VIEW] mapping | 2026-02-05 |
+| 2026 capex outlook | about 220,000 cash CapEx on Q2 call; prior ~200,000 (Feb); definition vs cash-flow line ambiguous | R6.5 | [FACT] outlook / [VIEW] mapping | 2026-07-30 |
 | Diluted WAS | 10,492 / 10,721 / 10,827 / 10,889 (1H 2026) | S1/S4; R6.4 | [FACT] | respective periods |
 
 ## Researcher-specified segment forecast
@@ -46,8 +46,8 @@ Segment revenue grows from FY2025 base revenue; segment operating income equals 
 | North America operating margin | 8.0% | 8.3% | 8.5% | [VIEW]; fulfillment density vs shipping/tech R2.3 |
 | International revenue growth | 15% | 13% | 11% | [VIEW]; country mix and export rules R5 |
 | International operating margin | 3.6% | 3.9% | 4.2% | [VIEW]; margin convergence not automatic R2.3 |
-| AWS revenue growth | 26% | 20% | 16% | [VIEW]; usage + AI capacity monetization R3.3–R3.4 |
-| AWS operating margin | 37.0% | 37.5% | 38.0% | [VIEW]; depreciation/power vs custom-chip economics R6.5/R7 |
+| AWS revenue growth | 28% | 20% | 16% | [VIEW]; Q2 +37% and 1H strength (R3.1) but not annualized—capacity constraints and contract pricing (R3.3–R3.4); base path below run-rate |
+| AWS operating margin | 37.5% | 37.5% | 38.0% | [VIEW]; 1H 2026 ~38.6% segment margin (R2.1) vs infra/depreciation from ~$220bn cash CapEx (R6.5); modest step, not Q2 39.4% tape |
 
 ## Completion assumptions
 
@@ -57,7 +57,7 @@ Segment revenue grows from FY2025 base revenue; segment operating income equals 
 | Tax rate | FY2025 effective rate from named pre-tax and tax lines | [DEDUCTED] S1 |
 | Other income (forecast) | FY2026E holds reported 1H other income; zero further investment marks | [FACT]/[VIEW] R7.1 |
 | Strategic equity investments (cash) | FY2026E funds remaining OpenAI commitment after 1H | [FACT]/[VIEW] R7.2 |
-| Net cash capex | FY2026E maps R6.5 ~200,000 outlook to net purchases less proceeds; decelerates thereafter | [VIEW] R6.5 |
+| Net cash capex | FY2026E maps R6.5 ~220,000 cash CapEx outlook to net purchases less proceeds (same convention as GF-AMZN-1); decelerates thereafter | [VIEW] R6.5 |
 | Capex proceeds rate | FY2025 proceeds ÷ purchases, held flat | [DEDUCTED] R6 |
 | D&A | solved from average PP&E using FY2025–1H2026 implied rate | [DEDUCTED]/[VIEW] |
 | SBC | 1H 2026 run rate doubled for FY2026E; low single-digit growth thereafter | [VIEW] R6.6 |
@@ -74,8 +74,8 @@ Official 12-month PT is computed in [`compute.py`](compute.py) and written to [`
 
 | input | treatment | class |
 |---|---|---|
-| Valuation as-of | 2026-09-29 | [FACT] task date |
-| Last close | $246.67 on 2026-09-29 | [FACT] [Yahoo Finance historical](https://finance.yahoo.com/quote/AMZN/history/) |
+| Valuation as-of | 2026-10-05 | [FACT] task date |
+| Last close | $251.52 on 2026-10-02 (last trading day before as-of) | [FACT] [Yahoo Finance historical](https://finance.yahoo.com/quote/AMZN/history/) |
 | PT share denominator | 10,786,313,572 shares on 2026-07-22 (10-Q cover) | [FACT] R6.4 |
 | Segment OI multiple year | FY2027E segment operating income | [VIEW] |
 | Net cash for PT | FY2026E cash + STI − debt − lease liabilities | [DEDUCTED] from model balance |
@@ -83,7 +83,7 @@ Official 12-month PT is computed in [`compute.py`](compute.py) and written to [`
 | North America EV / segment OI | 12.0× | [VIEW] |
 | International EV / segment OI | 10.0× | [VIEW] |
 | Strategic stake fair value in official PT | excluded; balance-sheet FV | **not obtained** |
-| R6.5 capex outlook mapping | FY2026E net cash capex 200,000 | [VIEW] see valuation.md |
+| R6.5 capex outlook mapping | FY2026E net cash capex 220,000 | [VIEW] see valuation.md |
 | Bear / bull sensitivity | 0.85× / 1.15× segment multiples on same OI | [VIEW] check only |
 | Bull strategic uplift | 50% of R7.2 named cash deployed | [VIEW] check only |
 | Consolidated FCF DCF check | 9.0% WACC; 3.0% terminal growth on FY2028 FCF | [VIEW] check only |
