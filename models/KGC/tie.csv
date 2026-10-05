@@ -1,0 +1,7 @@
+id,lhs,lhs_usdm,rhs,rhs_usdm,delta,status,note
+bs_net_cash,cash - lt_debt,1917.6000000000001,printed net cash,1917.6,0.0,ties,sourced 30 Jun
+cf_q2_fcf_vs_cfo_minus_capex,CFO-attrib_capex,739.7,printed attrib FCF,726.8,12.9,explained,+$12.9m = NCI share of OCF in company FCF def — not plugged
+cf_1h_fcf_vs_cfo_minus_capex,CFO-attrib_capex,1600.3000000000002,printed attrib FCF,1564.3,36.0,explained,+$36.0m NCI OCF residual
+runrate_cfo_fcf_capex_4900,FCF+1500,5358.5,gross-tax-GA-other-expl,5358.5,0.0,ties,computed run-rate identity
+segment_vs_consol_gross_4900,sum segment gross,7044.1,consol 2000*(4900-1380)/1000,7040.0,4.1,flag,country COS weights ~1358 vs company 1360; consol 1360 wins
+official_7x_ebitda,7 * company_adj_EBITDA,,equity,,,unsourced,Q2 NR has zero EBITDA string; official PT cannot be computed; do not invent

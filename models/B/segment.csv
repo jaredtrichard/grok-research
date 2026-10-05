@@ -1,0 +1,70 @@
+line,unit,scenario,value,method,source_or_formula
+gold_koz_printed_NA,koz,guide,1875,sourced,B-SCOUT Q2 IR regional guide 1770-1980; mid=(1770+1980)/2
+gold_koz_printed_SA_AP,koz,guide,680,sourced,B-SCOUT Q2 IR regional guide 630-730; mid=(630+730)/2; FLAG vs Q4 2025 SA/AP 260-300 unreconciled
+gold_koz_printed_AF_ME,koz,guide,865,sourced,B-SCOUT Q2 IR regional guide 820-910; mid=(820+910)/2
+gold_koz_printed_regional_sum,koz,guide,3420,computed,1875+680+865=3420
+gold_koz_company_mid,koz,guide,3075,sourced,B-SCOUT Q2 IR company attrib gold 2.90-3.25 Moz; official mid=(2.90+3.25)/2*1000=3075; this is the PT volume
+FLAG_printed_sum_ne_company_mid,koz,guide,345,computed,3420-3075=345; printed regional mids do not add to company mid — allocation not a haircut of the 3.075 Moz guide
+scale_factor_to_company_mid,ratio,guide,0.8991,computed,3075/3420
+gold_koz_scaled_NA,koz,guide,1685.7,computed,allocation: 1875*(3075/3420) rounded per captain to 1685.7
+gold_koz_scaled_SA_AP,koz,guide,611.4,computed,allocation: 680*(3075/3420) rounded to 611.4
+gold_koz_scaled_AF_ME,koz,guide,778.0,computed,allocation: 865*(3075/3420)=777.85 rounded to 778.0 per captain
+gold_koz_scaled_sum,koz,guide,3075.1,computed,1685.7+611.4+778.0=3075.1; FLAG +0.1 koz vs company mid 3075.0 from rounding
+gold_TCC_unit,USD/oz,guide,1400,sourced,B-SCOUT 2026 TCC guide 1330-1470; mid=1400; 12m cost deck; not restated at 4900
+gold_AISC_unit,USD/oz,guide,1855,sourced,B-SCOUT 2026 AISC guide 1760-1950; mid=1855
+regional_TCC_guide,USD/oz,guide,,UNSOURCED,no printed regional TCC/AISC FY guide; 1H actuals exist but are not the FY mid
+cu_kt_mid,kt,guide,205,sourced,B-SCOUT 2026 Cu guide 190-220 kt; mid=205; same in all gold scenarios
+cu_price,USD/lb,guide,5.50,sourced,GOLD-METAL/HOUSE-MODEL copper guide $5.50/lb; company guide assumption
+cu_AISC_unit,USD/lb,guide,3.60,sourced,B-SCOUT Cu AISC guide 3.45-3.75; mid=3.60
+lb_per_metric_tonne,lb/t,guide,2204.62262,sourced,metric tonne = 2204.62262 lb
+gold_TCC_total_USD_m,USD_m,guide,4305,computed,3.075e6*1400/1e6=4305
+gold_TCC_NA_USD_m,USD_m,guide,2360.0,computed,1685.7*1400/1000; company mid TCC allocated pro-rata to scaled koz — not a regional guide
+gold_TCC_SA_AP_USD_m,USD_m,guide,856.0,computed,611.4*1400/1000; allocation
+gold_TCC_AF_ME_USD_m,USD_m,guide,1089.2,computed,778.0*1400/1000; allocation
+gold_TCC_scaled_sum_USD_m,USD_m,guide,4305.1,computed,sum of allocated TCC; vs 4305 FLAG +0.14 from 3075.1 koz
+cu_rev_USD_m,USD_m,all_gold,2485.7,computed,205e3*2204.62262*5.50/1e6=2485.7; FLAG copper unmoved across gold scenarios
+cu_cash_cost_USD_m,USD_m,all_gold,1627.0,computed,205e3*2204.62262*3.60/1e6=1627.0; FLAG input is Cu AISC mid not cash cost
+gold_rev_NA,USD_m,3900,6574.23,computed,1685.7/1000*3900
+gold_rev_SA_AP,USD_m,3900,2384.46,computed,611.4/1000*3900
+gold_rev_AF_ME,USD_m,3900,3034.2,computed,778.0/1000*3900
+gold_rev_segments_sum,USD_m,3900,11992.89,computed,NA+SA+AF scaled koz/1000*G
+gold_rev_company_identity,USD_m,3900,11992.5,computed,3.075e6*3900/1e6
+FLAG_seg_sum_minus_company_gold_rev,USD_m,3900,0.39,computed,rounding from 3075.1 vs 3075.0 koz; identity wants round $0.1m — FLAG residual
+segment_gold_rev_minus_TCC,USD_m,3900,7687.5,computed,11992.5-4305
+segment_cu_rev_minus_cash_cost,USD_m,3900,858.7,computed,2485.7-1627.0
+segment_gold_plus_cu_margin,USD_m,3900,8546.2,computed,(gold_rev-TCC)+(cu_rev-cu_cost)
+attrib_adj_EBITDA_engine,USD_m,3900,8686.9,computed,10612+2.7*(3900-4613); sourced slope Q2 endnote 6 + sourced 1H EBITDA*2
+FLAG_segment_margin_minus_EBITDA,USD_m,3900,-140.7,computed,do NOT force-tie; gap = missing G&A / by-product / D&A add-back / royalties vs TCC+AISC mapping
+gold_rev_NA,USD_m,4500,7585.65,computed,1685.7/1000*4500
+gold_rev_SA_AP,USD_m,4500,2751.3,computed,611.4/1000*4500
+gold_rev_AF_ME,USD_m,4500,3501.0,computed,778.0/1000*4500
+gold_rev_segments_sum,USD_m,4500,13837.95,computed,NA+SA+AF scaled koz/1000*G
+gold_rev_company_identity,USD_m,4500,13837.5,computed,3.075e6*4500/1e6
+FLAG_seg_sum_minus_company_gold_rev,USD_m,4500,0.45,computed,rounding from 3075.1 vs 3075.0 koz; identity wants round $0.1m — FLAG residual
+segment_gold_rev_minus_TCC,USD_m,4500,9532.5,computed,13837.5-4305
+segment_cu_rev_minus_cash_cost,USD_m,4500,858.7,computed,2485.7-1627.0
+segment_gold_plus_cu_margin,USD_m,4500,10391.2,computed,(gold_rev-TCC)+(cu_rev-cu_cost)
+attrib_adj_EBITDA_engine,USD_m,4500,10306.9,computed,10612+2.7*(4500-4613); sourced slope Q2 endnote 6 + sourced 1H EBITDA*2
+FLAG_segment_margin_minus_EBITDA,USD_m,4500,84.3,computed,do NOT force-tie; gap = missing G&A / by-product / D&A add-back / royalties vs TCC+AISC mapping
+gold_rev_NA,USD_m,4900,8259.93,computed,1685.7/1000*4900
+gold_rev_SA_AP,USD_m,4900,2995.86,computed,611.4/1000*4900
+gold_rev_AF_ME,USD_m,4900,3812.2,computed,778.0/1000*4900
+gold_rev_segments_sum,USD_m,4900,15067.99,computed,NA+SA+AF scaled koz/1000*G
+gold_rev_company_identity,USD_m,4900,15067.5,computed,3.075e6*4900/1e6
+FLAG_seg_sum_minus_company_gold_rev,USD_m,4900,0.49,computed,rounding from 3075.1 vs 3075.0 koz; identity wants round $0.1m — FLAG residual
+segment_gold_rev_minus_TCC,USD_m,4900,10762.5,computed,15067.5-4305
+segment_cu_rev_minus_cash_cost,USD_m,4900,858.7,computed,2485.7-1627.0
+segment_gold_plus_cu_margin,USD_m,4900,11621.2,computed,(gold_rev-TCC)+(cu_rev-cu_cost)
+attrib_adj_EBITDA_engine,USD_m,4900,11386.9,computed,10612+2.7*(4900-4613); sourced slope Q2 endnote 6 + sourced 1H EBITDA*2
+FLAG_segment_margin_minus_EBITDA,USD_m,4900,234.3,computed,do NOT force-tie; gap = missing G&A / by-product / D&A add-back / royalties vs TCC+AISC mapping
+gold_rev_NA,USD_m,5900,9945.63,computed,1685.7/1000*5900
+gold_rev_SA_AP,USD_m,5900,3607.26,computed,611.4/1000*5900
+gold_rev_AF_ME,USD_m,5900,4590.2,computed,778.0/1000*5900
+gold_rev_segments_sum,USD_m,5900,18143.09,computed,NA+SA+AF scaled koz/1000*G
+gold_rev_company_identity,USD_m,5900,18142.5,computed,3.075e6*5900/1e6
+FLAG_seg_sum_minus_company_gold_rev,USD_m,5900,0.59,computed,rounding from 3075.1 vs 3075.0 koz; identity wants round $0.1m — FLAG residual
+segment_gold_rev_minus_TCC,USD_m,5900,13837.5,computed,18142.5-4305
+segment_cu_rev_minus_cash_cost,USD_m,5900,858.7,computed,2485.7-1627.0
+segment_gold_plus_cu_margin,USD_m,5900,14696.2,computed,(gold_rev-TCC)+(cu_rev-cu_cost)
+attrib_adj_EBITDA_engine,USD_m,5900,14086.9,computed,10612+2.7*(5900-4613); sourced slope Q2 endnote 6 + sourced 1H EBITDA*2
+FLAG_segment_margin_minus_EBITDA,USD_m,5900,609.3,computed,do NOT force-tie; gap = missing G&A / by-product / D&A add-back / royalties vs TCC+AISC mapping

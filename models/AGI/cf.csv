@@ -1,0 +1,13 @@
+line,formula,g4900,g5900,g3900,g4500,note
+ni,from IS,1589.02,2124.02,1054.02,1375.02,
+da,computed,202.23,202.23,202.23,202.23,
+cfo,ni+da,1791.25,2326.25,1256.25,1577.25,
+sustaining,guide mid,241.5,241.5,241.5,241.5,
+growth,guide mid,688.5,688.5,688.5,688.5,
+exploration,guide,60,60,60,60,
+fcf_company,cfo-990,801.25,1336.25,266.25,587.25,no hedge add-back 3y rr
+fcf_after_sust_alt,cfo-241.5,1549.75,2084.75,1014.75,1335.75,labelled alt not KPI
+dividends,0.16*418.58913,66.97,66.97,66.97,66.97,
+delta_cash,fcf-div,734.28,1269.28,199.28,520.28,
+cash_begin,30 Jun 2026,636.9,636.9,636.9,636.9,
+cash_end,begin+delta,1371.18,1906.18,836.18,1157.18,must = BS cash

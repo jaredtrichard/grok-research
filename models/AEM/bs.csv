@@ -1,0 +1,14 @@
+line,unit,30Jun2026,31Dec2025,source,note
+cash_and_equivalents,USDm,3464.0,2866,sourced,"Q2 PR: cash $3,464m (+$352m QoQ). YE $2,866m."
+total_long_term_debt,USDm,197.0,196,sourced,Q2 $197m; YE $196m. Revolver $0. ~$2bn available + $1bn accordion.
+net_cash,USDm,3267.0,2670,sourced,"Company non-GAAP net cash $3,267m = cash $3,464 - debt $197. YE $2,670m."
+net_cash_computed,USDm,3267.0,2670,computed,cash - debt. Must equal printed net cash.
+PPE,USDm,UNSOURCED,UNSOURCED,UNSOURCED,Full 30 Jun statement not extracted. Do not invent PPE.
+AR_and_other_current,USDm,UNSOURCED,UNSOURCED,UNSOURCED,Do not invent AR.
+remaining_assets,USDm,UNSOURCED,UNSOURCED,UNSOURCED,HOUSE-MODEL: remaining assets one line only if built. Not built.
+total_assets,USDm,UNSOURCED,UNSOURCED,UNSOURCED,Not extracted from Q2 statements.
+leases_reclamation,USDm,UNSOURCED,UNSOURCED,UNSOURCED,Below net-cash headline. Not in EV.
+NCI,USDm,UNSOURCED,UNSOURCED,UNSOURCED,Not printed as a material BS line in the PR.
+book_equity,USDm,UNSOURCED,UNSOURCED,UNSOURCED,Do not invent equity. NI cannot be flowed to RE without a sourced opening book.
+issued_shares_m,m,UNSOURCED,500.7684,sourced,YE 500.7684m issued (40-F R24). 30 Jun period-end count not in Q2 PR.
+shares_used_for_PT_m,m,506.36,,sourced,"LABELLED denom 506.36m stockanalysis Shares Out 21 Aug 2026 — aggregator, not a filing. CVRs 207.654m OUT."

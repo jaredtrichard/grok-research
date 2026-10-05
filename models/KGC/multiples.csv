@@ -1,0 +1,17 @@
+item,value,status,note
+window,FY2022-FY2025 continuing,sourced,as-of 2026-08-22
+k_low,4.67,sourced,FY2024 EV/E_adj
+k_mid,6.18,computed,mid of min/max not mean
+k_high,7.68,sourced,FY2025 EV/E_adj
+mean_adj,5.79,computed,4.67/5.09/5.73/7.68
+median_adj,5.41,computed,
+E_3900,4850,computed,segment IS
+E_4900,6750,computed,segment IS
+E_5900,8650,computed,segment IS
+net_cash,1917.6,sourced,30 Jun 2026
+shares_m,1186.2,sourced,MD&A 28 Jul 2026
+pt_bear,21,computed,(4850*4.67+1917.6)/1186.2
+pt_base,37,computed,(6750*6.18+1917.6)/1186.2
+pt_bull,58,computed,(8650*7.68+1917.6)/1186.2
+fcf_yield_check_8pct,44,computed,check only
+vendor_3y,5.6,vendor,Alpha Spread — not the range

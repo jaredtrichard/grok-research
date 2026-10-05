@@ -1,0 +1,14 @@
+line,unit,q2_2026,h1_2026,fy2025,rr_3900,rr_4500,rr_4900,rr_5900,source,note
+CFO,USDm,2144,3490,6817,,,,,sourced,"Q2 $2,144m / H1 $3,490m (H1 hit by ~$1.3bn 2025 cash tax in Q1) / FY25 $6,817m."
+CFO_before_WC,USDm,2112,4344,6013,,,,,sourced,Company non-GAAP.
+capex_total_incl_cape_expl,USDm,801,1375,2391,3025.0,3025.0,3025.0,3025.0,sourced,"Q2 $801m / H1 $1,375m. 2026 guide $2,895-3,155 mid $3,025 (Hope Bay lift). Held across gold."
+capex_ex_expl,USDm,699,1188,2073,2715.0,2715.0,2715.0,2715.0,sourced,"Q2 $699m / H1 $1,188m. 2026 guide $2,605-2,825 mid $2,715."
+FCF_company,USDm,1335,2067,4399,4340.78,5627.0,6484.48,8628.18,sourced,"Hist = company FCF after TOTAL capex (Q2 $1,335m / H1 $2,067m / FY25 $4,399m). RR = EBITDA_guide - cash_tax_rr - 3025. WC FLAG 0. Hist source=sourced; RR cells are computed (see note)."
+FCF_before_WC,USDm,1303,2921,3595,,,,,sourced,Company non-GAAP.
+cash_tax_paid,USDm,623,2400,1178,1507.42,2200.0,2661.72,3816.02,sourced,"Q2 $623m / H1 $2.4bn incl $1.3bn 2025 residual. RR cash tax = $2,200 (3500-1300) + 35%*d guide-EBITDA vs $4,500. FLAG: $2,200 split is residual subtraction, not a printed recurring-tax guide."
+dividends,USDm,,,803,911.448,911.448,911.448,911.448,computed,FY25 $803m. RR = $0.45*4*506.36m. Target ~40% of annual FCF — not used to haircut PT.
+buybacks,USDm,400,550,600,,,,,sourced,Q2 $400m / 1H $550m. Path not in midpoint (shares already labelled 506.36m tape).
+M_and_A_cash_Finland,USDm,578,578,,,,,,sourced,Q2 FinGold $325m + Aurion $339m. One-off.
+equity_security_sales,USDm,261,261,,,,,,sourced,Q2 proceeds $261m.
+cash_bridge_q2,USDm,352,,511,,,,,sourced,"Q2 cash +$352m to $3,464. YE Q4 +$511m. RR cash held flat at $3,464 for EV (net cash $3,267 held)."
+ending_cash,USDm,3464.0,3464.0,2866,3464.0,3464.0,3464.0,3464.0,sourced,"BS cash $3,464 held. No invented cash build."

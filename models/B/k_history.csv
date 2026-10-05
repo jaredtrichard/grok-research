@@ -1,0 +1,8 @@
+line,unit,scenario,value,method,source_or_formula
+window,,5y TTM,,sourced,StockIntent https://www.stockintent.com/app/data-browser/B/evebitda 22 Aug 2026
+k_low,x,bear,4.71,sourced,5y min 30 Sep 2022
+k_mid_of_range,x,base,8.30,computed,(4.71+11.88)/2 official base k
+k_high,x,bull,11.88,sourced,5y max 31 Mar 2023
+k_median,x,check,6.93,sourced,5y median — CHECK only not official mid
+k_avg,x,check,7.24,sourced,5y average — check
+k_ttm_now,x,30Jun2026,5.6,sourced,StockIntent TTM

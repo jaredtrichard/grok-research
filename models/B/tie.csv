@@ -1,0 +1,8 @@
+line,unit,scenario,value,method,source_or_formula
+k_official_base,x,base,8.30,computed,(4.71+11.88)/2 mid-of-range NOT median
+PT_identity,,all,,computed,PT=(E*k-ND)/1650 ND=-1245
+PT_base,US$/sh,base,58.0341,computed,G=4900 k=8.30
+PT_bull,US$/sh,bull,102.1802,computed,G=5900 k=11.88
+PT_bear,US$/sh,bear,25.5517,computed,G=3900 k=4.71
+PT_12m,US$/sh,check,52.6014,computed,G=4500 k=8.30
+k_median_check,x,check,6.93,sourced,not official mid

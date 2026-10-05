@@ -1,0 +1,30 @@
+as_of,gold_usd,scenario,line,unit,value,status,source
+2026-06-30,,snapshot_30Jun,cash_and_equivalents,USDm,2656.4,sourced,"Q2 2026 MD&A / NR: 30 Jun 2026 cash $2,656.4m"
+2026-06-30,,snapshot_30Jun,current_assets,USDm,4241.7,sourced,Q2 2026 MD&A Balance Sheets 30 Jun 2026
+2026-06-30,,snapshot_30Jun,total_assets,USDm,13596.6,sourced,Q2 2026 MD&A Balance Sheets 30 Jun 2026
+2026-06-30,,snapshot_30Jun,non_cash_assets,USDm,10940.2,computed,total assets - cash (both sourced 30 Jun)
+2026-06-30,,snapshot_30Jun,current_liabilities,USDm,1466.6,sourced,Q2 2026 MD&A Balance Sheets 30 Jun 2026
+2026-06-30,,snapshot_30Jun,long_term_debt,USDm,738.8,sourced,Q2 2026 MD&A / NR: LT debt carrying $738.8m (30 Jun). $500m 6.250% 2033 + $250m 6.875% 2041.
+2026-06-30,,snapshot_30Jun,total_liabilities,USDm,3822.0,sourced,Q2 2026 MD&A Balance Sheets 30 Jun 2026
+2026-06-30,,snapshot_30Jun,net_cash,USDm,1917.6,computed,"cash $2,656.4 - LT debt $738.8 (company net-cash def; HOUSE-MODEL simplified debt)"
+2026-06-30,,snapshot_30Jun,common_shareholders_equity,USDm,9653.3,sourced,Q2 2026 MD&A 30 Jun 2026
+2026-06-30,,snapshot_30Jun,NCI_equity,USDm,121.3,sourced,Q2 2026 MD&A 30 Jun 2026
+2026-06-30,,snapshot_30Jun,available_credit,USDm,1708.1,sourced,Q2 2026 MD&A 30 Jun 2026
+2026-06-30,,snapshot_30Jun,leases_in_net_debt,USDm,,unsourced,company net cash is cash - LT debt; leases not in that print. Not added.
+2026-06-30,,snapshot_30Jun,ST_debt,USDm,0,sourced,MD&A: carrying debt is entirely senior notes classified long-term. No maturity until 2033.
+model_year_end,3900,3y_bear,cash_and_equivalents,USDm,4049.0,computed,"30 Jun cash + FCF x (1-0.40). 40% is 2026 FCF-return policy (Q2 NR). PT uses 30 Jun net cash $1,917.6m held flat."
+model_year_end,3900,3y_bear,long_term_debt,USDm,738.8,sourced,held flat — simplified debt; no refinancing announced
+model_year_end,3900,3y_bear,net_cash,USDm,3310.2,computed,model end cash - $738.8 LT debt
+model_year_end,3900,3y_bear,remaining_assets_ex_cash,USDm,,unsourced,"PPE roll-forward not built. 30 Jun non-cash assets $10,940.2m on snapshot only."
+model_year_end,4500,12m_checkin_not_official,cash_and_equivalents,USDm,4675.4,computed,"30 Jun cash + FCF x (1-0.40). 40% is 2026 FCF-return policy (Q2 NR). PT uses 30 Jun net cash $1,917.6m held flat."
+model_year_end,4500,12m_checkin_not_official,long_term_debt,USDm,738.8,sourced,held flat — simplified debt; no refinancing announced
+model_year_end,4500,12m_checkin_not_official,net_cash,USDm,3936.6,computed,model end cash - $738.8 LT debt
+model_year_end,4500,12m_checkin_not_official,remaining_assets_ex_cash,USDm,,unsourced,"PPE roll-forward not built. 30 Jun non-cash assets $10,940.2m on snapshot only."
+model_year_end,4900,3y_base,cash_and_equivalents,USDm,5093.0,computed,"30 Jun cash + FCF x (1-0.40). 40% is 2026 FCF-return policy (Q2 NR). PT uses 30 Jun net cash $1,917.6m held flat."
+model_year_end,4900,3y_base,long_term_debt,USDm,738.8,sourced,held flat — simplified debt; no refinancing announced
+model_year_end,4900,3y_base,net_cash,USDm,4354.2,computed,model end cash - $738.8 LT debt
+model_year_end,4900,3y_base,remaining_assets_ex_cash,USDm,,unsourced,"PPE roll-forward not built. 30 Jun non-cash assets $10,940.2m on snapshot only."
+model_year_end,5900,3y_bull,cash_and_equivalents,USDm,6137.0,computed,"30 Jun cash + FCF x (1-0.40). 40% is 2026 FCF-return policy (Q2 NR). PT uses 30 Jun net cash $1,917.6m held flat."
+model_year_end,5900,3y_bull,long_term_debt,USDm,738.8,sourced,held flat — simplified debt; no refinancing announced
+model_year_end,5900,3y_bull,net_cash,USDm,5398.2,computed,model end cash - $738.8 LT debt
+model_year_end,5900,3y_bull,remaining_assets_ex_cash,USDm,,unsourced,"PPE roll-forward not built. 30 Jun non-cash assets $10,940.2m on snapshot only."

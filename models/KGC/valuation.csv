@@ -1,0 +1,23 @@
+scenario,gold_usd,official,line,unit,value,status,source
+3y_base,4900,yes,E_is_ebitda,USDm,6750,computed,sales-COS-G&A-AISC_other (labelled)
+3y_base,4900,yes,k,x,6.18,computed,mid of FY2022-25 k_adj range 4.67-7.68
+3y_base,4900,yes,PT_exact,USD/sh,36.7835,computed,(E*k+1917.6)/1186.2
+3y_base,4900,yes,PT_rounded,USD/sh,37,computed,whole dollars
+3y_base,4900,no,FCF_company,USDm,4061,computed,guide identity check
+3y_base,4900,no,fcf_yield_8pct_PT,USD/sh,44.42,computed,check only not official
+3y_bull,5900,yes,E_is_ebitda,USDm,8650,computed,segment IS
+3y_bull,5900,yes,k,x,7.68,sourced,FY2025 k_adj high
+3y_bull,5900,yes,PT_exact,USD/sh,57.6206,computed,(E*k+1917.6)/1186.2
+3y_bull,5900,yes,PT_rounded,USD/sh,58,computed,whole dollars
+3y_bull,5900,no,FCF_company,USDm,5801,computed,guide identity check
+3y_bull,5900,no,fcf_yield_8pct_PT,USD/sh,62.76,computed,check only
+3y_bear,3900,yes,E_is_ebitda,USDm,4850,computed,segment IS
+3y_bear,3900,yes,k,x,4.67,sourced,FY2024 k_adj low
+3y_bear,3900,yes,PT_exact,USD/sh,20.7108,computed,(E*k+1917.6)/1186.2
+3y_bear,3900,yes,PT_rounded,USD/sh,21,computed,whole dollars
+3y_bear,3900,no,FCF_company,USDm,2321,computed,guide identity check
+3y_bear,3900,no,fcf_yield_8pct_PT,USD/sh,25.95,computed,check only
+checkin_12m,4500,no,E_is_ebitda,USDm,5990,computed,not official
+checkin_12m,4500,no,FCF_company,USDm,3365,computed,not official
+common,,yes,net_cash_30Jun,USDm,1917.6,computed,2656.4-738.8
+common,,yes,shares_m,m,1186.2,sourced,MD&A 28 Jul 2026

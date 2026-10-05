@@ -1,0 +1,14 @@
+asset,type,q2_print,unit,in_official_mid,note
+Candelaria,stream,13233,see note,no_separate_oz — in type rollup,Q2 GEOs sourced
+Antamina_Ag,stream,13750,see note,no_separate_oz — in type rollup,Q2 Ag-GEOs computed 825koz*75/4500
+Antapaccay,stream,10870,see note,no_separate_oz — in type rollup,Q2 GEOs sourced
+Palmarejo,stream,10084,see note,no_separate_oz — in type rollup,Q2 GEOs sourced
+Musselwhite,profit,5198,see note,no_separate_oz — in type rollup,Q2 GEOs sourced; 3951 catch-up
+Cote,profit,4871,see note,no_separate_oz — in type rollup,Q2 GEOs sourced
+Tocantinzinho,stream,4766,see note,no_separate_oz — in type rollup,Q2 Au oz printed as oz not GEOs — treated oz
+Detour,rev_royalty,4043,see note,no_separate_oz — in type rollup,Q2 Au oz
+Western_Limb,stream,3601,see note,no_separate_oz — in type rollup,Q2 Au oz
+South_Arturo,rev_royalty,3123,see note,no_separate_oz — in type rollup,Q2 GEOs; NGM/Carlin not Fourmile
+Tasiast,rev_royalty,2893,see note,no_separate_oz — in type rollup,Q2 Au oz
+Yanacocha,rev_royalty,2337,see note,no_separate_oz — in type rollup,Q2 Au oz
+Cobre_Panama,stream,0,see note,NO — pick A nil,Q2 gold GEOs nil; not in mid (A)

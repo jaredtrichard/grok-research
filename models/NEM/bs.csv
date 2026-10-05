@@ -1,0 +1,12 @@
+line,unit,30Jun2026,after_july_606_computed,3y_held_for_PT,status,source_or_formula
+cash,US$m,9009,8403,8403,sourced / July haircut computed,"10-Q / Q2 30 Jun cash $9,009. July buybacks $606m. Computed 9,009-606=8,403. $1.95bn cheque NOT subtracted (not closed; out of mid)."
+debt,US$m,5083,5083,5083,sourced,"Q2 / 10-Q Debt $5,083. Simplified one line."
+leases,US$m,515,515,515,sourced,$132 current + $383 LT = $515 (Q2 net-debt recon).
+net_cash_incl_leases,US$m,3411,2805,855,sourced / computed haircut,"Company net cash $3,411 incl leases. After July: 3,411-606=2,805. PT residual 2,805-1,950=855 (cheque out of yield denom; HOUSE-MODEL worked NEM rounds $0.86bn). Ex-leases 30 Jun $3,926."
+net_cash_ex_leases,US$m,3926,3320,n/a — PT uses incl-leases residual,sourced,Q2 recon. PT uses incl-leases (NEM current / HOUSE-MODEL).
+NGM_cheque_1950,US$m,not on 30 Jun BS,not paid,OUT of mid,sourced footnote,"8-K 10 Aug $1.95bn within 30 days of Fourmile. Not closed 17 Aug. NOT the $1,950m sustaining guide. Footnote $1.85/sh only."
+shares_outstanding,shares,"1,066m issued / 7m treasury",1053692271,1053692271,sourced,"10-Q cover 16 Jul 2026: 1,053,692,271. After most of July $606m. Diluted WASO Q2 1,067m — PT uses cover count."
+equity_NEM_stockholders,US$m,35243,UNSOURCED post-July,35243,sourced 30 Jun,"Q2 BS $35,243. Total equity $35,414 incl NCI $171."
+NCI,US$m,171,171,171,sourced,Merian NCI. Not subtracted again in FCF-yield identity.
+total_assets,US$m,57641,UNSOURCED,not built,sourced 30 Jun,Q2 BS. Remaining assets not rebuilt.
+total_liabilities,US$m,22227,UNSOURCED,not built,sourced 30 Jun,Q2 BS.

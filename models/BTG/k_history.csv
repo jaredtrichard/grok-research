@@ -1,0 +1,8 @@
+year,as_of,e_usdm,e_definition,net_debt_usdm,shares_m,shares_note,px_usd,px_source,ev_usdm,k,in_range,flag
+2019,2019-12-31,626.842,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),121.255,1030.4,"issued 1,030,399,987",4.01,Yahoo chart BTG NYSE American last Dec session close (2019-12-31),4253.159,6.785,yes,
+2020,2020-12-31,1190.56,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),-369.663,1051.138,"issued 1,051,138,175",5.6,Yahoo chart BTG NYSE American last Dec session close (2020-12-31),5516.71,4.634,yes,
+2021,2021-12-31,1074.688,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),-597.865,1053.809,WASO basic not issued,3.93,Yahoo chart BTG NYSE American last Dec session close (2021-12-31),3543.604,,no,community/nrit not fully parsed
+2022,2022-12-30,906.036,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),-594.718,1064.259,WASO basic (fs2023 comparative),3.57,Yahoo chart BTG NYSE American last Dec session close (2022-12-30),3204.687,3.537,yes,
+2023,2023-12-29,1088.282,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),-114.77,1232.092,WASO basic,3.16,Yahoo chart BTG NYSE American last Dec session close (2023-12-29),3778.641,3.472,yes,
+2024,2024-12-31,973.322,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),100.912,1308.85,WASO basic,2.44,Yahoo chart BTG NYSE American last Dec session close (2024-12-31),3294.506,3.385,yes,
+2025,2025-12-31,1852.672,IS-built: rev-prod-roy-GA-SBC-community-nrit (audited annual IS),217.886,1325.322,WASO basic,4.51,Yahoo chart BTG NYSE American last Dec session close (2025-12-31),6195.088,3.344,yes,

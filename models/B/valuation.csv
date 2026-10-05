@@ -1,0 +1,34 @@
+line,unit,scenario,value,method,source_or_formula
+EBITDA_bear,US$m,bear,8686.9,computed,10612+2.7*(G-4613)
+k_bear,x,bear,4.71,sourced,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_bear,US$/sh,bear,25.5517,computed,(E*k-ND)/1650
+PT_bear_round,US$/sh,bear,26,computed,round whole $
+EBITDA_check_12m,US$m,check_12m,10306.9,computed,10612+2.7*(G-4613)
+k_check_12m,x,check_12m,8.3,computed,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_check_12m,US$/sh,check_12m,52.6014,computed,(E*k-ND)/1650
+PT_check_12m_round,US$/sh,check_12m,53,computed,round whole $
+EBITDA_base,US$m,base,11386.9,computed,10612+2.7*(G-4613)
+k_base,x,base,8.3,computed,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_base,US$/sh,base,58.0341,computed,(E*k-ND)/1650
+PT_base_round,US$/sh,base,58,computed,round whole $
+EBITDA_bull,US$m,bull,14086.9,computed,10612+2.7*(G-4613)
+k_bull,x,bull,11.88,sourced,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_bull,US$/sh,bull,102.1802,computed,(E*k-ND)/1650
+PT_bull_round,US$/sh,bull,102,computed,round whole $
+EBITDA_check_median_base,US$m,check_median_base,11386.9,computed,10612+2.7*(G-4613)
+k_check_median_base,x,check_median_base,6.93,sourced,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_check_median_base,US$/sh,check_median_base,48.5795,computed,(E*k-ND)/1650
+PT_check_median_base_round,US$/sh,check_median_base,49,computed,round whole $
+EBITDA_check_7x_base,US$m,check_7x_base,11386.9,computed,10612+2.7*(G-4613)
+k_check_7x_base,x,check_7x_base,7.0,computed,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_check_7x_base,US$/sh,check_7x_base,49.0626,computed,(E*k-ND)/1650
+PT_check_7x_base_round,US$/sh,check_7x_base,49,computed,round whole $
+EBITDA_goldonly_bull,US$m,goldonly_bull,14086.9,computed,10612+2.7*(G-4613)
+k_goldonly_bull,x,goldonly_bull,8.3,computed,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_goldonly_bull,US$/sh,goldonly_bull,71.6159,computed,(E*k-ND)/1650
+PT_goldonly_bull_round,US$/sh,goldonly_bull,72,computed,round whole $
+EBITDA_goldonly_bear,US$m,goldonly_bear,8686.9,computed,10612+2.7*(G-4613)
+k_goldonly_bear,x,goldonly_bear,8.3,computed,StockIntent 5y TTM EV/EBITDA fetched 22 Aug 2026. Official mid-of-range k=(4.71+11.88)/2=8.30. Median 6.93 is a check.
+PT_goldonly_bear,US$/sh,goldonly_bear,44.4523,computed,(E*k-ND)/1650
+PT_goldonly_bear_round,US$/sh,goldonly_bear,44,computed,round whole $
+FCF_yield_PT,US$/sh,check,24.20,computed,check only

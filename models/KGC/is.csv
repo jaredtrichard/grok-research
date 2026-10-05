@@ -1,0 +1,69 @@
+gold_usd,scenario,line,unit,value,status,source
+3900,3y_bear,metal_sales,USDm,7800.0,computed,"2,000 attrib GEO x G; GEO is company headline. GOLD-METAL G."
+3900,3y_bear,production_cost_of_sales,USDm,2660.0,computed,"2,000 x COS(G); COS(G)=$1,360 + $5 per +$100 vs $4,500 (YE PR + Q2 NR royalty)"
+3900,3y_bear,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A $135m
+3900,3y_bear,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC(G)-COS(G))x2.000 - $450 sust - $135 G&A
+3900,3y_bear,other_opex_guide_range_mid,USDm,137.5,sourced,YE PR other opex $125-150m midpoint. Sustaining slice already in AISC_other. Incremental NS opex UNSOURCED — not added again.
+3900,3y_bear,exploration_and_BD_guide,USDm,220,sourced,YE PR $220m +/-5%. Sustaining slice in AISC; NS expensed vs capitalized split UNSOURCED — not added again.
+3900,3y_bear,DD_and_A,USDm,1100.0,computed,"YE PR DD&A guide $550/oz x 2,000 GEO"
+3900,3y_bear,operating_earnings,USDm,3750.0,computed,sales - COS - G&A - AISC_other - DD&A
+3900,3y_bear,interest_expense_PL,USDm,30.0,computed,"YE PR interest incurred $60m, half capitalized -> $30m P&L"
+3900,3y_bear,accretion_reclamation_FY,USDm,,unsourced,1H $23.7m printed; do not 2x; DROPPED from mid
+3900,3y_bear,earnings_before_tax,USDm,3720.0,computed,operating earnings - P&L interest $30m
+3900,3y_bear,income_tax_cash_guide,USDm,1029.0,computed,"YE PR cash tax $1,125m + $16m per +$100 Au. IS tax line."
+3900,3y_bear,ETR_guide_mid_check,pct,30.5,sourced,YE PR ETR 28-33%; arithmetic mid 30.5%. Not used as IS tax.
+3900,3y_bear,net_earnings_attrib_model,USDm,2691.0,computed,EBT - cash-tax guide. NCI FY earnings UNSOURCED.
+3900,3y_bear,NCI_earnings_FY,USDm,,unsourced,30 Jun NCI equity $121.3m sourced; FY NCI NI not guided. DROPPED.
+3900,3y_bear,company_adj_EBITDA,USDm,,unsourced,No Kinross adj. EBITDA print in Q2 NR / MD&A / deck.
+3900,3y_bear,constructed_op_EBITDA_FLAG_not_official,USDm,4850.0,computed,sales - COS - G&A - AISC_other. FLAG not official. Do not 7x into official PT.
+4500,12m_checkin_not_official,metal_sales,USDm,9000.0,computed,"2,000 attrib GEO x G; GEO is company headline. GOLD-METAL G."
+4500,12m_checkin_not_official,production_cost_of_sales,USDm,2720.0,computed,"2,000 x COS(G); COS(G)=$1,360 + $5 per +$100 vs $4,500 (YE PR + Q2 NR royalty)"
+4500,12m_checkin_not_official,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A $135m
+4500,12m_checkin_not_official,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC(G)-COS(G))x2.000 - $450 sust - $135 G&A
+4500,12m_checkin_not_official,other_opex_guide_range_mid,USDm,137.5,sourced,YE PR other opex $125-150m midpoint. Sustaining slice already in AISC_other. Incremental NS opex UNSOURCED — not added again.
+4500,12m_checkin_not_official,exploration_and_BD_guide,USDm,220,sourced,YE PR $220m +/-5%. Sustaining slice in AISC; NS expensed vs capitalized split UNSOURCED — not added again.
+4500,12m_checkin_not_official,DD_and_A,USDm,1100.0,computed,"YE PR DD&A guide $550/oz x 2,000 GEO"
+4500,12m_checkin_not_official,operating_earnings,USDm,4890.0,computed,sales - COS - G&A - AISC_other - DD&A
+4500,12m_checkin_not_official,interest_expense_PL,USDm,30.0,computed,"YE PR interest incurred $60m, half capitalized -> $30m P&L"
+4500,12m_checkin_not_official,accretion_reclamation_FY,USDm,,unsourced,1H $23.7m printed; do not 2x; DROPPED from mid
+4500,12m_checkin_not_official,earnings_before_tax,USDm,4860.0,computed,operating earnings - P&L interest $30m
+4500,12m_checkin_not_official,income_tax_cash_guide,USDm,1125.0,computed,"YE PR cash tax $1,125m + $16m per +$100 Au. IS tax line."
+4500,12m_checkin_not_official,ETR_guide_mid_check,pct,30.5,sourced,YE PR ETR 28-33%; arithmetic mid 30.5%. Not used as IS tax.
+4500,12m_checkin_not_official,net_earnings_attrib_model,USDm,3735.0,computed,EBT - cash-tax guide. NCI FY earnings UNSOURCED.
+4500,12m_checkin_not_official,NCI_earnings_FY,USDm,,unsourced,30 Jun NCI equity $121.3m sourced; FY NCI NI not guided. DROPPED.
+4500,12m_checkin_not_official,company_adj_EBITDA,USDm,,unsourced,No Kinross adj. EBITDA print in Q2 NR / MD&A / deck.
+4500,12m_checkin_not_official,constructed_op_EBITDA_FLAG_not_official,USDm,5990.0,computed,sales - COS - G&A - AISC_other. FLAG not official. Do not 7x into official PT.
+4900,3y_base,metal_sales,USDm,9800.0,computed,"2,000 attrib GEO x G; GEO is company headline. GOLD-METAL G."
+4900,3y_base,production_cost_of_sales,USDm,2760.0,computed,"2,000 x COS(G); COS(G)=$1,360 + $5 per +$100 vs $4,500 (YE PR + Q2 NR royalty)"
+4900,3y_base,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A $135m
+4900,3y_base,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC(G)-COS(G))x2.000 - $450 sust - $135 G&A
+4900,3y_base,other_opex_guide_range_mid,USDm,137.5,sourced,YE PR other opex $125-150m midpoint. Sustaining slice already in AISC_other. Incremental NS opex UNSOURCED — not added again.
+4900,3y_base,exploration_and_BD_guide,USDm,220,sourced,YE PR $220m +/-5%. Sustaining slice in AISC; NS expensed vs capitalized split UNSOURCED — not added again.
+4900,3y_base,DD_and_A,USDm,1100.0,computed,"YE PR DD&A guide $550/oz x 2,000 GEO"
+4900,3y_base,operating_earnings,USDm,5650.0,computed,sales - COS - G&A - AISC_other - DD&A
+4900,3y_base,interest_expense_PL,USDm,30.0,computed,"YE PR interest incurred $60m, half capitalized -> $30m P&L"
+4900,3y_base,accretion_reclamation_FY,USDm,,unsourced,1H $23.7m printed; do not 2x; DROPPED from mid
+4900,3y_base,earnings_before_tax,USDm,5620.0,computed,operating earnings - P&L interest $30m
+4900,3y_base,income_tax_cash_guide,USDm,1189.0,computed,"YE PR cash tax $1,125m + $16m per +$100 Au. IS tax line."
+4900,3y_base,ETR_guide_mid_check,pct,30.5,sourced,YE PR ETR 28-33%; arithmetic mid 30.5%. Not used as IS tax.
+4900,3y_base,net_earnings_attrib_model,USDm,4431.0,computed,EBT - cash-tax guide. NCI FY earnings UNSOURCED.
+4900,3y_base,NCI_earnings_FY,USDm,,unsourced,30 Jun NCI equity $121.3m sourced; FY NCI NI not guided. DROPPED.
+4900,3y_base,company_adj_EBITDA,USDm,,unsourced,No Kinross adj. EBITDA print in Q2 NR / MD&A / deck.
+4900,3y_base,constructed_op_EBITDA_FLAG_not_official,USDm,6750.0,computed,sales - COS - G&A - AISC_other. FLAG not official. Do not 7x into official PT.
+5900,3y_bull,metal_sales,USDm,11800.0,computed,"2,000 attrib GEO x G; GEO is company headline. GOLD-METAL G."
+5900,3y_bull,production_cost_of_sales,USDm,2860.0,computed,"2,000 x COS(G); COS(G)=$1,360 + $5 per +$100 vs $4,500 (YE PR + Q2 NR royalty)"
+5900,3y_bull,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A $135m
+5900,3y_bull,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC(G)-COS(G))x2.000 - $450 sust - $135 G&A
+5900,3y_bull,other_opex_guide_range_mid,USDm,137.5,sourced,YE PR other opex $125-150m midpoint. Sustaining slice already in AISC_other. Incremental NS opex UNSOURCED — not added again.
+5900,3y_bull,exploration_and_BD_guide,USDm,220,sourced,YE PR $220m +/-5%. Sustaining slice in AISC; NS expensed vs capitalized split UNSOURCED — not added again.
+5900,3y_bull,DD_and_A,USDm,1100.0,computed,"YE PR DD&A guide $550/oz x 2,000 GEO"
+5900,3y_bull,operating_earnings,USDm,7550.0,computed,sales - COS - G&A - AISC_other - DD&A
+5900,3y_bull,interest_expense_PL,USDm,30.0,computed,"YE PR interest incurred $60m, half capitalized -> $30m P&L"
+5900,3y_bull,accretion_reclamation_FY,USDm,,unsourced,1H $23.7m printed; do not 2x; DROPPED from mid
+5900,3y_bull,earnings_before_tax,USDm,7520.0,computed,operating earnings - P&L interest $30m
+5900,3y_bull,income_tax_cash_guide,USDm,1349.0,computed,"YE PR cash tax $1,125m + $16m per +$100 Au. IS tax line."
+5900,3y_bull,ETR_guide_mid_check,pct,30.5,sourced,YE PR ETR 28-33%; arithmetic mid 30.5%. Not used as IS tax.
+5900,3y_bull,net_earnings_attrib_model,USDm,6171.0,computed,EBT - cash-tax guide. NCI FY earnings UNSOURCED.
+5900,3y_bull,NCI_earnings_FY,USDm,,unsourced,30 Jun NCI equity $121.3m sourced; FY NCI NI not guided. DROPPED.
+5900,3y_bull,company_adj_EBITDA,USDm,,unsourced,No Kinross adj. EBITDA print in Q2 NR / MD&A / deck.
+5900,3y_bull,constructed_op_EBITDA_FLAG_not_official,USDm,8650.0,computed,sales - COS - G&A - AISC_other. FLAG not official. Do not 7x into official PT.

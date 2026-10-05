@@ -1,0 +1,13 @@
+scenario,gold,year,revenue,cash_costs,g_and_a,adj_ebitda,da,gp,fin_inc,pbt,tax,ni,ocf,basis
+base,4900,1,2627.18,200.25,34.16,2392.77,325.0,2101.93,13.66,2081.44,456.66,1624.78,2122.79,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+base,4900,2,2627.18,200.25,34.16,2392.77,325.0,2101.93,13.66,2081.44,456.66,1624.78,2122.79,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+base,4900,3,2627.18,200.25,34.16,2392.77,325.0,2101.93,13.66,2081.44,456.66,1624.78,2122.79,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+bull,5900,1,3008.68,236.74,34.16,2737.78,325.0,2446.94,13.66,2426.44,532.35,1894.09,2392.11,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+bull,5900,2,3008.68,236.74,34.16,2737.78,325.0,2446.94,13.66,2426.44,532.35,1894.09,2392.11,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+bull,5900,3,3008.68,236.74,34.16,2737.78,325.0,2446.94,13.66,2426.44,532.35,1894.09,2392.11,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+bear,3900,1,2245.68,163.76,34.16,2047.77,325.0,1756.93,13.66,1736.43,380.97,1355.46,1853.48,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+bear,3900,2,2245.68,163.76,34.16,2047.77,325.0,1756.93,13.66,1736.43,380.97,1355.46,1853.48,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+bear,3900,3,2245.68,163.76,34.16,2047.77,325.0,1756.93,13.66,1736.43,380.97,1355.46,1853.48,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+g0,4500,1,2474.58,185.65,34.16,2254.77,325.0,1963.93,13.66,1943.43,426.38,1517.05,2015.07,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+g0,4500,2,2474.58,185.65,34.16,2254.77,325.0,1963.93,13.66,1943.43,426.38,1517.05,2015.07,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume
+g0,4500,3,2474.58,185.65,34.16,2254.77,325.0,1963.93,13.66,1943.43,426.38,1517.05,2015.07,computed from segment mix + guide mids + H1 ETR; Y1=Y2=Y3 flat volume

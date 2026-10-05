@@ -1,0 +1,13 @@
+scenario,gold,year,ni,da,extra_g0,ocf,div,investing_buys,net_cash_chg,basis
+base,4900,1,1624.78,325.0,173.02,2122.79,323.69,0.0,1799.11,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+base,4900,2,1624.78,325.0,173.02,2122.79,323.69,0.0,1799.11,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+base,4900,3,1624.78,325.0,173.02,2122.79,323.69,0.0,1799.11,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+bull,5900,1,1894.09,325.0,173.02,2392.11,323.69,0.0,2068.42,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+bull,5900,2,1894.09,325.0,173.02,2392.11,323.69,0.0,2068.42,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+bull,5900,3,1894.09,325.0,173.02,2392.11,323.69,0.0,2068.42,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+bear,3900,1,1355.46,325.0,173.02,1853.48,323.69,0.0,1529.79,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+bear,3900,2,1355.46,325.0,173.02,1853.48,323.69,0.0,1529.79,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+bear,3900,3,1355.46,325.0,173.02,1853.48,323.69,0.0,1529.79,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+g0,4500,1,1517.05,325.0,173.02,2015.07,323.69,0.0,1691.38,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+g0,4500,2,1517.05,325.0,173.02,2015.07,323.69,0.0,1691.38,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid
+g0,4500,3,1517.05,325.0,173.02,2015.07,323.69,0.0,1691.38,ocf=ni+da+extra; extra computed at G0 so ocf(G0) matches H1*2*vol_scale; buys 0 in mid

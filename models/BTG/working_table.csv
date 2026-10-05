@@ -1,0 +1,46 @@
+cell,case,value,unit,source
+volume_100_koz,bear,870,koz_100,2026 guide mid 820-920 (6 Aug 2026)
+volume_attrib_koz,bear,780,koz_attrib,computed: 405*0.8 + 190 + 90*0.9 + 185
+gold,bear,3900,USD/oz,GOLD-METAL (spot 4600 is tape print; not a GOLD-METAL edit)
+fcf,bear,904.005,US$m,models/BTG/cf.csv
+ebitda_is_built,bear,1887.795,US$m,models/BTG/is.csv; company adj EBITDA UNSOURCED
+pt_7x,bear,8.75,USD/sh,(7*EBITDA - ND_open - NCI_open) / 1.489867bn
+pt_fcf_yield,bear,5.4,USD/sh,(FCF/yield - ND_open - NCI_open) / 1.489867bn — check only
+tie_gap_usd,bear,0.0,USD,BS total_assets - total_LE
+volume_100_koz,check12,870,koz_100,2026 guide mid 820-920 (6 Aug 2026)
+volume_attrib_koz,check12,780,koz_attrib,computed: 405*0.8 + 190 + 90*0.9 + 185
+gold,check12,4500,USD/oz,GOLD-METAL (spot 4600 is tape print; not a GOLD-METAL edit)
+fcf,check12,1266.447,US$m,models/BTG/cf.csv
+ebitda_is_built,check12,2357.19,US$m,models/BTG/is.csv; company adj EBITDA UNSOURCED
+pt_7x,check12,10.95,USD/sh,(7*EBITDA - ND_open - NCI_open) / 1.489867bn
+pt_fcf_yield,check12,9.3,USD/sh,(FCF/yield - ND_open - NCI_open) / 1.489867bn — check only
+tie_gap_usd,check12,0.0,USD,BS total_assets - total_LE
+volume_100_koz,spot,870,koz_100,2026 guide mid 820-920 (6 Aug 2026)
+volume_attrib_koz,spot,780,koz_attrib,computed: 405*0.8 + 190 + 90*0.9 + 185
+gold,spot,4600,USD/oz,GOLD-METAL (spot 4600 is tape print; not a GOLD-METAL edit)
+fcf,spot,1326.854,US$m,models/BTG/cf.csv
+ebitda_is_built,spot,2435.423,US$m,models/BTG/is.csv; company adj EBITDA UNSOURCED
+pt_7x,spot,11.3,USD/sh,(7*EBITDA - ND_open - NCI_open) / 1.489867bn
+pt_fcf_yield,spot,9.75,USD/sh,(FCF/yield - ND_open - NCI_open) / 1.489867bn — check only
+tie_gap_usd,spot,0.0,USD,BS total_assets - total_LE
+volume_100_koz,base,870,koz_100,2026 guide mid 820-920 (6 Aug 2026)
+volume_attrib_koz,base,780,koz_attrib,computed: 405*0.8 + 190 + 90*0.9 + 185
+gold,base,4900,USD/oz,GOLD-METAL (spot 4600 is tape print; not a GOLD-METAL edit)
+fcf,base,1508.075,US$m,models/BTG/cf.csv
+ebitda_is_built,base,2670.12,US$m,models/BTG/is.csv; company adj EBITDA UNSOURCED
+pt_7x,base,12.4,USD/sh,(7*EBITDA - ND_open - NCI_open) / 1.489867bn
+pt_fcf_yield,base,11.1,USD/sh,(FCF/yield - ND_open - NCI_open) / 1.489867bn — check only
+tie_gap_usd,base,0.0,USD,BS total_assets - total_LE
+volume_100_koz,bull,870,koz_100,2026 guide mid 820-920 (6 Aug 2026)
+volume_attrib_koz,bull,780,koz_attrib,computed: 405*0.8 + 190 + 90*0.9 + 185
+gold,bull,5900,USD/oz,GOLD-METAL (spot 4600 is tape print; not a GOLD-METAL edit)
+fcf,bull,2112.145,US$m,models/BTG/cf.csv
+ebitda_is_built,bull,3452.446,US$m,models/BTG/is.csv; company adj EBITDA UNSOURCED
+pt_7x,bull,16.1,USD/sh,(7*EBITDA - ND_open - NCI_open) / 1.489867bn
+pt_fcf_yield,bull,17.6,USD/sh,(FCF/yield - ND_open - NCI_open) / 1.489867bn — check only
+tie_gap_usd,bull,0.0,USD,BS total_assets - total_LE
+miss_820koz_pt_7x,miss,11.649,USD/sh,guide low-end 820 koz @ $4900; NOT mid
+miss_hicashop_pt_7x,miss,12.1617,USD/sh,guide high cash-op @ $4900; NOT mid
+miss_h1_scale_fcf,miss,208.0,US$m,H1 company FCF $104m * 2; no gold lift; NOT mid
+miss_h1_scale_pt_fcf9,miss,1.4155,USD/sh,208/0.09 - ND - NCI / shares; NOT mid
+gold_lever_7x_per_100,all,0.3676,USD/sh,computed: 7 * sum(oz*(1-roy%)) * 100 / shares

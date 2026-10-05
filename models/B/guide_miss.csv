@@ -1,0 +1,13 @@
+line,unit,scenario,value,method,source_or_formula
+gold_koz,koz,mid,3075,sourced,official mid 3.075 Moz — NOT the miss
+gold_koz_low_end,koz,miss_2.90Moz,2900,sourced,B-SCOUT guide low 2.90 Moz; hedge miss not in the mid
+gold_AISC_unit,USD/oz,mid,1855,sourced,official AISC mid — NOT the miss
+gold_AISC_high_end,USD/oz,miss_AISC1950,1950,sourced,B-SCOUT AISC guide high 1950; hedge miss not in the mid
+gold_rev_at_4900,USD_m,miss_2.90Moz,14210.0,computed,2.90e6*4900/1e6=14210 vs mid 15067.5
+gold_TCC_at_1400,USD_m,miss_2.90Moz,4060.0,computed,2.90e6*1400/1e6=4060 vs mid 4305
+gold_AISC_USD_m_at_1950,USD_m,miss_AISC1950,5996.2,computed,3.075e6*1950/1e6=6001.25 vs TCC 4305; AISC not used in 7x engine
+gold_AISC_USD_m_combined,USD_m,miss_2.90Moz_and_AISC1950,5655.0,computed,2.90e6*1950/1e6=5655
+EBITDA_engine_at_4900,USD_m,miss,,UNSOURCED,endnote 6 slope is vs realized gold not vs ounce/AISC miss; do not invent a volume beta on E
+capex_high_end,USD_m,miss_capex42,4200,sourced,guide high 4.2bn — context; captain miss node is 2.90 Moz and/or AISC 1950
+in_official_mid,flag,miss_2.90Moz,no,sourced,not in the mid
+in_official_mid,flag,miss_AISC1950,no,sourced,not in the mid

@@ -1,0 +1,36 @@
+{
+  "koz": {
+    "left": 535.0,
+    "right": 535,
+    "tie": true
+  },
+  "tcc_m": {
+    "segment": 656.25,
+    "consol_535x1225": 655.375,
+    "gap": 0.875,
+    "tie": false,
+    "flag": "range-mid"
+  },
+  "capex": {
+    "left": 990.0,
+    "right": 990,
+    "tie": true
+  },
+  "ni_to_cfo_g4900": {
+    "ni_plus_da": 1791.25,
+    "cfo": 1791.25,
+    "tie": true
+  },
+  "cf_to_bs_cash_g4900": {
+    "bridge": 1371.18,
+    "bs_cash": 1371.18,
+    "tie": true
+  },
+  "bs_a_le_g4900": {
+    "assets": 8234.95,
+    "le": 8234.95,
+    "tie": true
+  },
+  "status": "draft pending adversarial review",
+  "book_db": "not touched"
+}

@@ -1,0 +1,6 @@
+scenario,bs_assets,bs_le,assets_minus_le,assets_tie_ok,bs_cash,cf_ending_cash,cash_bridge_ok,re_end,re_open_plus_ni_minus_div,re_tie_ok,net_debt_open,net_debt_identity
+base,11165.37,11165.37,-0.0,True,1269.37,1269.37,True,2714.32,2714.32,True,96.22,96.22
+bull,11805.59,11805.59,-0.0,True,1909.59,1909.59,True,3354.54,3354.54,True,96.22,96.22
+bear,10525.16,10525.16,-0.0,True,629.15,629.15,True,2074.1,2074.1,True,96.22,96.22
+chk,10909.29,10909.29,-0.0,True,1013.28,1013.28,True,2458.23,2458.23,True,96.22,96.22
+spot,10973.31,10973.31,-0.0,True,1077.3,1077.3,True,2522.26,2522.26,True,96.22,96.22

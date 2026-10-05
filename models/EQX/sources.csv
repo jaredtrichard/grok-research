@@ -1,0 +1,17 @@
+item,source,tag
+2026 gold koz 870-920 mid 895,EQX MD&A 5 Aug 2026 / 5 Aug PR,sourced
+cash cost 1600-1700 mid 1650; AISC 1900-2000 mid 1950 excl G&A,same,sourced
+growth capex 600-650 mid 625; growth expl 110-120 mid 115; G&A 95-105 mid 100,same,sourced
+segment oz/cost/growth mids,same MD&A 2026 outlook by mine,sourced
+"N FD 1,247,524,702",MD&A 5 Aug post-Orla,sourced
+"basic 1,167.5m; dividend 0.0225/q",MD&A / PR,sourced
+30 Jun BS lines,Q2 2026 FS (unaudited) $000,sourced
+Q2 finance exp 12.132; fininc 2.673; tax 86.993; pretax 305.591,Q2 FS continuing,sourced
+H1 D&A 238.406; gold sold continuing 361.920 koz,Q2 FS / MD&A,sourced
+H1 C&M 43.135; H1 E&E 16.128,Q2 FS,sourced
+convert host ~169,EQX-SCOUT (2023 145.5 + 2025 23.6),sourced scout
+GOLD-METAL 4900/5900/3900; 12m 4500; spot ~4600,views/GOLD-METAL.md — do not retune,sourced official
+other income 0,Q2 other not run-rate,UNSOURCED dropped
+WC 0,assumption,labelled assumption
+FY company adj. EBITDA post-Orla,,UNSOURCED — use guide-built
+2027-29 koz guide,,UNSOURCED — mid is 2026 run-rate

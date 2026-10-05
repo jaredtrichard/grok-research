@@ -1,0 +1,27 @@
+line,unit,h1_2026_actual,fy26_3900,fy26_4500,fy26_4900,fy26_5900,status,source_or_formula
+clock,,1H actual,3y run-rate FY26 guide,3y run-rate FY26 guide,3y run-rate FY26 guide,3y run-rate FY26 guide,label,HOUSE-MODEL clock: 3y run-rate + path. Volume = 2026 guide mid. Not Y1/Y2/Y3 ramp.
+attrib_gold_produced,koz,2594.0,5260.0,5260.0,5260.0,5260.0,sourced,"Feb 19 / Q2 reaffirm 5,260 +/-5%. 1H Q2 exhibit 2,594."
+equity_oz_PV_FDN,koz,204.0,410.0,410.0,410.0,410.0,sourced,PV 255 + FDN 155 guide; 1H 128+76. Not in Sales.
+gold_oz_in_IS_sales,koz,2388.0,4850.0,4850.0,4850.0,4850.0,computed / labelled sold=produced,"FY sold guide UNSOURCED. Perimeter = 5,260-255-155=4,850. 1H attrib sold 2,388 vs produced ex-equity 2,390."
+gold_price,USD/oz,4661.0,3900.0,4500.0,4900.0,5900.0,sourced deck,"1H realized $4,661. FY nodes GOLD-METAL 3900/4900/5900 + company/12m 4500."
+gold_sales,US$m,11312.2,18915.0,21825.0,23765.0,28615.0,computed,"IS.gold_sales = 4,850 koz x G. Tie: 4,850 x 4,900 = 23,765."
+byproduct_sales,US$m,2112.8,3853.5,3853.5,3853.5,3853.5,computed at company deck,Cu 102 kt x $5/lb + Ag 32 Moz x $60 + Pb 90 kt x $0.90 + Zn 220 kt x $1.30. Held flat across gold.
+sales,US$m,13425.0,22768.5,25678.5,27618.5,32468.5,computed,"gold_sales + byproduct_sales. 1H sourced $13,425."
+CAS_gold_byproduct,US$m,1912.5,5116.8,5116.8,5116.8,5116.8,computed,"guide $1,055 x 4,850 koz = $5,116.8. Tie: CAS x oz = IS CAS_gold_byproduct."
+CAS_gaap_implied,US$m,4025.0,8970.2,8970.2,8970.2,8970.2,computed,"GAAP CAS = 1,055 x oz + byproduct_sales. 1H sourced total CAS $4,025."
+gross_profit_cash,US$m,,13798.2,16708.2,18648.2,23498.2,computed,"oz x (G-1,055) = gold_sales - CAS_gold_byproduct = sales - CAS_gaap."
+D_and_A,US$m,1236.0,2815.0,2815.0,2815.0,2815.0,sourced,"FY26 guide $2,815 (Feb 19 / Q2). 1H $1,236."
+G_and_A,US$m,153.0,375.0,375.0,375.0,375.0,sourced,FY26 guide $375. 1H $153.
+exploration_and_advanced_projects,US$m,212.0,525.0,525.0,525.0,525.0,sourced,FY26 guide $525. 1H expl $120 + AP $92 = $212.
+reclamation_accretion,US$m,159.0,385.0,385.0,385.0,385.0,sourced,FY26 guide $385. 1H $159.
+EBIT,US$m,,9698.2,12608.2,14548.2,19398.2,computed from sourced lines,gross - D&A - G&A - expl/AP - recl. FY other income / equity UNSOURCED — dropped.
+interest_net,US$m,74.0,175.0,175.0,175.0,175.0,sourced,FY26 guide $175 net of capitalized. 1H $74.
+equity_income_affiliates,US$m,353.0,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED FY,1H sourced $353. FY guide none. Do not 2x 1H. Dropped from FY mid NI.
+NCI,US$m,115.0,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED FY,1H $115 Merian NCI. FY NCI earnings UNSOURCED. Dropped from FY mid.
+pretax,US$m,7582.0,9523.2,12433.2,14373.2,19223.2,computed,"EBIT - interest. 1H pretax $7,582 sourced (includes equity/other). FY excludes UNSOURCED equity/other."
+tax,US$m,2356.0,3142.7,4103.0,4743.2,6343.7,computed 33% guide,0.33 x computed pretax. Guide 33% (Feb 19 / Q2). Tie: IS.tax = 0.33 x pretax.
+NI_attrib_computed,US$m,5464.0,6380.6,8330.3,9630.1,12879.6,computed,"pretax - tax. 1H NI attrib $5,464 sourced. FY is desk IS, not a company NI guide."
+EBITDA_IS_computed,US$m,8911.0,12513.2,15423.2,17363.2,22213.2,computed remake — not the TTM print,"EBIT+D&A. Does NOT replace TTM $16,765 or the segment build."
+EBITDA_TTM_sourced,US$m,16765.0,16765.0,16765.0,16765.0,16765.0,sourced,"TTM Adj. EBITDA $16,765 (Q2 net-debt recon: 3309+4545+5154+3757)."
+EBITDA_TTM_remade_505,US$m,,14999.4,18029.4,20049.4,25099.4,computed remake labelled,"16,765 + $505m/$100 x (G - 4250). TTM G = attrib-prod-weighted realized Q3'25-Q2'26. Royalty $6/oz rider EXCLUDED. Do not replace segment build."
+gold_lever_pretax,US$m_per_100oz,505.0,505.0,505.0,505.0,505.0,sourced,Feb 19 / Q2 sensitivity. Plus ~$6/oz royalty/tax/workers per $100 EXCLUDED from mid.

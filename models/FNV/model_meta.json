@@ -1,0 +1,65 @@
+{
+  "guide_geos_oz": 540000,
+  "rev_g0": 2474.5830821780187,
+  "w_rev_gold": 0.6937510759166811,
+  "etr_h1_computed": 0.2193964699183906,
+  "da_guide_mid": 325.0,
+  "extra_ocf_plug_g0": 173.01725344060378,
+  "extra_note": "computed residual so G0 OCF equals H1*2*(540/537.516). Held in $ across gold. Balances BS via other/WC.",
+  "fin_note": "H1 finance income UNSOURCED; FIN uses Q2*2*vol_scale labelled computed-from-Q2.",
+  "volume": "Y1=Y2=Y3 = 540k GEOs (guide mid). No 27-29 CAGR.",
+  "cobre": "not in mid (A)",
+  "implied_pocf_modeled_g0": "other",
+  "tape_pocf": 25.6,
+  "pt_base": 281.756969321399,
+  "pt_bull": 317.5026934827251,
+  "pt_bear": 246.0112451600731,
+  "max_abs_bs_imbalance": 1.8189894035458565e-12,
+  "pt_engine": "StockIntent 5y TTM EV/EBITDA; bear 19.23 / base mid-range 24.09 / bull 28.94",
+  "E0": 2253.5664054651393,
+  "pt_7x": "retired \u2014 captain superseded 7.0x",
+  "flag_vs_256": ">20% \u2014 7x house vs tape ~22.8x EBITDA / 25.6x OCF. Do not average.",
+  "k_stockintent_5y": {
+    "low": 19.23,
+    "mid_range": 24.09,
+    "mid_exact": 24.085,
+    "median_check": 24.42,
+    "avg_check": 24.13,
+    "high": 28.94,
+    "e": "TTM EBITDA applied to FNV Adj E \u2014 FLAG mismatch",
+    "url": "https://www.stockintent.com/app/data-browser/FNV/evebitda",
+    "asof": "fetched 2026-08-22"
+  },
+  "k_gurufocus_10y_search_only": {
+    "min": -250.47,
+    "median": 26.1,
+    "max": 66.55,
+    "current_2026-05-22": 20.85,
+    "note": "WebSearch snippet; page fetch timed out \u2014 do not officialize"
+  },
+  "pt_256": "check only",
+  "working_hist_5y_pt": {
+    "4500": 290.73767661871767,
+    "4900": 308.21003328549375,
+    "5900": 416.05209748280504,
+    "3900": 209.42613774259968
+  },
+  "pt_official_draft": {
+    "4900": 304.1160917596847,
+    "5900": 416.05209748280504,
+    "3900": 209.42613774259968
+  },
+  "checks_only": [
+    "25.6x P/OCF",
+    "median 24.42",
+    "7.0x"
+  ],
+  "gurufocus_10y": "OUT \u2014 do not use",
+  "view_status": "current",
+  "official_pt": {
+    "base": 304,
+    "bull": 416,
+    "bear": 209,
+    "checkin_4500": 287
+  }
+}

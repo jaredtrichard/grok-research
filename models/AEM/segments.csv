@@ -1,0 +1,14 @@
+segment,oz_mid_koz,oz_lo_koz,oz_hi_koz,tcc_1h_usd_oz,q2_2026_oz,q2_tcc_usd_oz,rev_3900_usdm,rev_4500_usdm,rev_4900_usdm,rev_5900_usdm,cost_tcc1h_usdm,margin_4900_usdm,source,notes
+LaRonde,340,330,350,990,81261,953,1326.0,1530.0,1666.0,2006.0,336.6,1329.4,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Canadian Malartic,590,575,605,1082,135243,1185,2301.0,2655.0,2891.0,3481.0,638.38,2252.62,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Goldex,120,115,125,998,29277,1081,468.0,540.0,588.0,708.0,119.76,468.24,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Detour Lake,715,700,730,894,207279,825,2788.5,3217.5,3503.5,4218.5,639.21,2864.29,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Macassa,315,305,325,1129,80143,1041,1228.5,1417.5,1543.5,1858.5,355.635,1187.865,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Meliadine,390,380,400,1096,97516,1033,1521.0,1755.0,1911.0,2301.0,427.44,1483.56,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Meadowbank,485,475,495,1139,100165,1206,1891.5,2182.5,2376.5,2861.5,552.415,1824.085,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Fosterville,150,140,160,1118,42012,1114,585.0,675.0,735.0,885.0,167.7,567.3,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Kittila,220,210,230,1212,61969,1133,858.0,990.0,1078.0,1298.0,266.64,811.36,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+Pinos Altos,75,70,80,2073,20951,1873,292.5,337.5,367.5,442.5,155.475,212.025,sourced,Feb 12 2026 YE guide range mid; 1H TCC from Q2 2026 6-K/PR; Q2 oz is a check not a haircut. Hope Bay oz out.
+recon / other (not a mine),0,,,,,,0,0,0,0,-21.255,21.255,computed,"Named Feb mids including LaRonde+Goldex sum to 3.40 Moz so recon oz=0. Cost recon bridges site 1H TCC*oz to consol guide TCC $1,070 at $4,500. Do not invent a mine name."
+CONSOL payable,3400,3300,3500,1070,855816,1054,13260.0,15300.0,16660.0,20060.0,3638.0,12981.2,sourced,"Official mid = printed guide 3.30-3.50 / TCC 1020-1120. Consol TCC gold-scales +$3/oz per $100 vs $4,500."
+Hope Bay,0,0,0,,,,0,0,0,0,,,sourced,2030 oz OUT of 3y volume. Spend IN 2026 capex mid $3.025bn (Hope Bay sanction 19 May 2026).

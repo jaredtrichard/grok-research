@@ -1,0 +1,11 @@
+line,unit,31Dec2025,30Jun2026,3y_held,basis,source
+Cash,US$m,670.9,1014.2,1014.2,sourced; 3y mid holds Jun cash (buys out of mid),PR FS
+Royalty_stream_WI_net,US$m,6043.1,6262.3,6262.3,sourced; no 3y rollforward,PR FS
+Investments,US$m,1141.3,1215.1,1215.1,sourced,PR FS
+Total_assets,US$m,8241.4,8922.2,8922.2,sourced,PR FS
+Total_liabilities,US$m,606.1,681.5,681.5,sourced,PR FS
+Equity,US$m,7635.3,8240.7,8240.7,sourced. 3y equity roll UNSOURCED,PR FS
+Interest_bearing_debt,US$m,0,0,0,none on printed BS,PR FS D/E —
+Net_cash,US$m,670.9,1014.2,1014.2,computed cash-debt; debt 0,computed from sourced
+Available_capital,US$m,2840.1,4305.4,4305.4,company definition,MDA note 4 / PR endnote 3
+Drawn_revolver,US$m,UNSOURCED,UNSOURCED,UNSOURCED,integer not printed; pitch undrawn,UNSOURCED

@@ -1,0 +1,88 @@
+{
+  "asof": "2026-08-22",
+  "ties": [
+    {
+      "id": "IS_Q2_GP",
+      "expr": "580.9 - 45.9 - 84.0",
+      "result": 451.0,
+      "prints": 451.0,
+      "ok": true,
+      "source": "PR FS Q2"
+    },
+    {
+      "id": "IS_H1_GP",
+      "expr": "1231.6 - 92.4 - 161.9",
+      "result": 977.3,
+      "prints": 977.3,
+      "ok": true,
+      "source": "MDA H1 rev + PR FS"
+    },
+    {
+      "id": "IS_H1_rev_is_sourced",
+      "note": "H1 revenue $1,231.6 is an MDA print, not a desk plug",
+      "ok": true
+    },
+    {
+      "id": "EBITDA_margin_H1",
+      "expr": "1121.6 / 1231.6",
+      "result": 0.9107,
+      "prints": 0.911,
+      "ok": true
+    },
+    {
+      "id": "ANI_margin_H1",
+      "expr": "807.5 / 1231.6",
+      "result": 0.6557,
+      "prints": 0.656,
+      "ok": true
+    },
+    {
+      "id": "BS_cash_bridge_H1",
+      "expr": "670.9 + 343.3",
+      "result": 1014.2,
+      "prints": 1014.2,
+      "ok": true,
+      "source": "YE cash + H1 net change = 30 Jun cash"
+    },
+    {
+      "id": "BS_net_cash",
+      "expr": "1014.2 - 0",
+      "result": 1014.2,
+      "ok": true
+    },
+    {
+      "id": "OCF_H1_to_runrate",
+      "expr": "1002.9 * 2",
+      "result": 2005.8,
+      "note": "labelled annualized; not a company FY print"
+    },
+    {
+      "id": "GEOs_H1_to_runrate",
+      "expr": "268.758 * 2",
+      "result": 537.516,
+      "guide_mid": 540,
+      "note": "H1*2 \u2248 guide mid 540k"
+    },
+    {
+      "id": "OCF_factor_4900",
+      "expr": "1 + 0.677*(4900/4500-1)",
+      "result": 1.06015
+    },
+    {
+      "id": "PT_4900",
+      "expr": "265.74 * 1.060",
+      "result": 281.7,
+      "official_mid": 280
+    },
+    {
+      "id": "not_tied",
+      "note": "3y remake IS tax/NI/GP/DA $ at 4900/5900/3900 are UNSOURCED \u2014 no plug. Only OCF and Revenue remakes are labelled computed. BS 3y rollforward UNSOURCED. Company FCF UNSOURCED."
+    }
+  ],
+  "w_gold": 0.677,
+  "rev_gold_weight": 0.694,
+  "P0": 265.74,
+  "G0": 4500,
+  "shares": 192873810,
+  "pocf": 25.6
+}

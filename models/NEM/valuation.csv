@@ -1,0 +1,5 @@
+ticker,scenario,gold_usdoz,ebitda_usdm,k,k_basis,net_debt_usdm,shares_m,pt_us,tape_implied_k,fcf_yield_pct,as_of,status,source
+NEM,base,4900,17363.2,9.04,WSN YE 2016-2025 mid-of-range (5.45+12.63)/2=9.04,-2805,1053.692271,151.63,7.82,8.0,2026-08-22,current,Official E=is.csv EBITDA_IS_computed (guide cost). PT=(E*k-ND)/sh ND=-2805. TTM-fat E is rival not this row.
+NEM,bull,5900,22213.2,12.63,WSN YE 2016-2025 cleaned HIGH 12.63,-2805,1053.692271,268.92,6.11,6.5,2026-08-22,current,same. tape_implied_k=(135840)/this E
+NEM,bear,3900,12513.2,5.45,WSN YE 2016-2025 cleaned LOW 5.45,-2805,1053.692271,67.38,10.86,10.0,2026-08-22,current,same
+NEM,check_12m,4500,15423.2,9.04,same official base k 9.04,-2805,1053.692271,134.98,8.81,7.5,2026-08-22,current,12m not official

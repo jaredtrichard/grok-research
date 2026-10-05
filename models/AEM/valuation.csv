@@ -1,0 +1,75 @@
+scenario,gold_usd,official,line,unit,value,status,source,note
+3y_base,4900,no,adj_EBITDA_sourced_H1,USDm,5748.0,sourced,sourced,"H1 2026 adj. EBITDA $5,748m. SEC ex99.1 https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm"
+3y_base,4900,no,adj_EBITDA_H1_x2,USDm,11496.0,computed,computed,"Labelled annualized 2 x H1 $5,748m = $11,496m at H1 realized $4,672. Do not 2x Q2 alone as the working base."
+3y_base,4900,no,lambda_m_per_usd_oz,USDm_per_USD/oz,3.298,computed,computed,FLAG remake method: company did NOT print an EBITDA/$oz lever. lambda = 3.40 Moz x ($1 - $0.03 royalty). Royalty $3/oz TCC per $100 gold is the Feb YE print. Not (gold-AISC)*oz as the PT engine.
+3y_base,4900,no,adj_EBITDA_remade,USDm,12247.944,computed,computed,E(G)=11496 + 3.298*(G-4672)
+3y_base,4900,no,k_EV_EBITDA,x,7.0,sourced,sourced,"Working 7.0x check. Not official."
+3y_base,4900,no,EV,USDm,85735.608,computed,computed,7.0 x remade adj. EBITDA
+3y_base,4900,no,net_cash_30Jun,USDm,3267.0,sourced,sourced,"Equity = EV + net cash $3,267m (30 Jun)."
+3y_base,4900,no,equity,USDm,89002.608,computed,computed,EV + 3267
+3y_base,4900,no,shares_m,m,506.36,sourced,sourced,LABELLED 506.36m tape/aggregator 21 Aug. YE issued 500.7684m. 30 Jun filing count UNSOURCED. CVRs out.
+3y_base,4900,no,PT_exact,USD/sh,175.7694,computed,computed,(7*E + 3267)/506.36
+3y_base,4900,no,PT_rounded,USD/sh,176,computed,computed,whole dollars — working tape, not official
+3y_base,4900,no,FCF_company_rr,USDm,6484.48,computed,computed,CHECK only. EBITDA_guide - cash_tax_rr - 3025.
+3y_base,4900,no,FCF_yield_desk,pct,5.0,sourced,sourced,AEM-quality 5.0% (HOUSE-MODEL). Held. Bull 4.5% only on metal flip — not applied. Bear 5-6% mild — see sensitivity.
+3y_base,4900,no,PT_FCFyield_5pct,USD/sh,262.5733,computed,computed,CHECK only. (FCF/0.05 + 3267)/506.36. NOT official.
+3y_bull,5900,no,adj_EBITDA_sourced_H1,USDm,5748.0,sourced,sourced,"H1 2026 adj. EBITDA $5,748m. SEC ex99.1 https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm"
+3y_bull,5900,no,adj_EBITDA_H1_x2,USDm,11496.0,computed,computed,"Labelled annualized 2 x H1 $5,748m = $11,496m at H1 realized $4,672. Do not 2x Q2 alone as the working base."
+3y_bull,5900,no,lambda_m_per_usd_oz,USDm_per_USD/oz,3.298,computed,computed,FLAG remake method: company did NOT print an EBITDA/$oz lever. lambda = 3.40 Moz x ($1 - $0.03 royalty). Royalty $3/oz TCC per $100 gold is the Feb YE print. Not (gold-AISC)*oz as the PT engine.
+3y_bull,5900,no,adj_EBITDA_remade,USDm,15545.944,computed,computed,E(G)=11496 + 3.298*(G-4672)
+3y_bull,5900,no,k_EV_EBITDA,x,7.0,sourced,sourced,"Working 7.0x check. Not official."
+3y_bull,5900,no,EV,USDm,108821.608,computed,computed,7.0 x remade adj. EBITDA
+3y_bull,5900,no,net_cash_30Jun,USDm,3267.0,sourced,sourced,"Equity = EV + net cash $3,267m (30 Jun)."
+3y_bull,5900,no,equity,USDm,112088.608,computed,computed,EV + 3267
+3y_bull,5900,no,shares_m,m,506.36,sourced,sourced,LABELLED 506.36m tape/aggregator 21 Aug. YE issued 500.7684m. 30 Jun filing count UNSOURCED. CVRs out.
+3y_bull,5900,no,PT_exact,USD/sh,221.3615,computed,computed,(7*E + 3267)/506.36
+3y_bull,5900,no,PT_rounded,USD/sh,221,computed,computed,whole dollars — working tape, not official
+3y_bull,5900,no,FCF_company_rr,USDm,8628.18,computed,computed,CHECK only. EBITDA_guide - cash_tax_rr - 3025.
+3y_bull,5900,no,FCF_yield_desk,pct,5.0,sourced,sourced,AEM-quality 5.0% (HOUSE-MODEL). Held. Bull 4.5% only on metal flip — not applied. Bear 5-6% mild — see sensitivity.
+3y_bull,5900,no,PT_FCFyield_5pct,USD/sh,347.2443,computed,computed,CHECK only. (FCF/0.05 + 3267)/506.36. NOT official.
+3y_bear,3900,no,adj_EBITDA_sourced_H1,USDm,5748.0,sourced,sourced,"H1 2026 adj. EBITDA $5,748m. SEC ex99.1 https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm"
+3y_bear,3900,no,adj_EBITDA_H1_x2,USDm,11496.0,computed,computed,"Labelled annualized 2 x H1 $5,748m = $11,496m at H1 realized $4,672. Do not 2x Q2 alone as the working base."
+3y_bear,3900,no,lambda_m_per_usd_oz,USDm_per_USD/oz,3.298,computed,computed,FLAG remake method: company did NOT print an EBITDA/$oz lever. lambda = 3.40 Moz x ($1 - $0.03 royalty). Royalty $3/oz TCC per $100 gold is the Feb YE print. Not (gold-AISC)*oz as the PT engine.
+3y_bear,3900,no,adj_EBITDA_remade,USDm,8949.944,computed,computed,E(G)=11496 + 3.298*(G-4672)
+3y_bear,3900,no,k_EV_EBITDA,x,7.0,sourced,sourced,"Working 7.0x check. Not official."
+3y_bear,3900,no,EV,USDm,62649.608,computed,computed,7.0 x remade adj. EBITDA
+3y_bear,3900,no,net_cash_30Jun,USDm,3267.0,sourced,sourced,"Equity = EV + net cash $3,267m (30 Jun)."
+3y_bear,3900,no,equity,USDm,65916.608,computed,computed,EV + 3267
+3y_bear,3900,no,shares_m,m,506.36,sourced,sourced,LABELLED 506.36m tape/aggregator 21 Aug. YE issued 500.7684m. 30 Jun filing count UNSOURCED. CVRs out.
+3y_bear,3900,no,PT_exact,USD/sh,130.1774,computed,computed,(7*E + 3267)/506.36
+3y_bear,3900,no,PT_rounded,USD/sh,130,computed,computed,whole dollars — working tape, not official
+3y_bear,3900,no,FCF_company_rr,USDm,4340.78,computed,computed,CHECK only. EBITDA_guide - cash_tax_rr - 3025.
+3y_bear,3900,no,FCF_yield_desk,pct,5.0,sourced,sourced,AEM-quality 5.0% (HOUSE-MODEL). Held. Bull 4.5% only on metal flip — not applied. Bear 5-6% mild — see sensitivity.
+3y_bear,3900,no,PT_FCFyield_5pct,USD/sh,177.9023,computed,computed,CHECK only. (FCF/0.05 + 3267)/506.36. NOT official.
+12m_checkin,4500,no,adj_EBITDA_sourced_H1,USDm,5748.0,sourced,sourced,"H1 2026 adj. EBITDA $5,748m. SEC ex99.1 https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm"
+12m_checkin,4500,no,adj_EBITDA_H1_x2,USDm,11496.0,computed,computed,"Labelled annualized 2 x H1 $5,748m = $11,496m at H1 realized $4,672. Do not 2x Q2 alone as the working base."
+12m_checkin,4500,no,lambda_m_per_usd_oz,USDm_per_USD/oz,3.298,computed,computed,FLAG remake method: company did NOT print an EBITDA/$oz lever. lambda = 3.40 Moz x ($1 - $0.03 royalty). Royalty $3/oz TCC per $100 gold is the Feb YE print. Not (gold-AISC)*oz as the PT engine.
+12m_checkin,4500,no,adj_EBITDA_remade,USDm,10928.744,computed,computed,E(G)=11496 + 3.298*(G-4672)
+12m_checkin,4500,no,k_EV_EBITDA,x,7.0,sourced,sourced,"Working 7.0x check. Not official."
+12m_checkin,4500,no,EV,USDm,76501.208,computed,computed,7.0 x remade adj. EBITDA
+12m_checkin,4500,no,net_cash_30Jun,USDm,3267.0,sourced,sourced,"Equity = EV + net cash $3,267m (30 Jun)."
+12m_checkin,4500,no,equity,USDm,79768.208,computed,computed,EV + 3267
+12m_checkin,4500,no,shares_m,m,506.36,sourced,sourced,LABELLED 506.36m tape/aggregator 21 Aug. YE issued 500.7684m. 30 Jun filing count UNSOURCED. CVRs out.
+12m_checkin,4500,no,PT_exact,USD/sh,157.5326,computed,computed,(7*E + 3267)/506.36
+12m_checkin,4500,no,PT_rounded,USD/sh,158,computed,computed,whole dollars — working tape, not official
+12m_checkin,4500,no,FCF_company_rr,USDm,5627.0,computed,computed,CHECK only. EBITDA_guide - cash_tax_rr - 3025.
+12m_checkin,4500,no,FCF_yield_desk,pct,5.0,sourced,sourced,AEM-quality 5.0% (HOUSE-MODEL). Held. Bull 4.5% only on metal flip — not applied. Bear 5-6% mild — see sensitivity.
+12m_checkin,4500,no,PT_FCFyield_5pct,USD/sh,228.7049,computed,computed,CHECK only. (FCF/0.05 + 3267)/506.36. NOT official.
+3y_base,4900,no,identity_gap_fcf5_vs_7x,pct,49.39,flag,computed,FCF-yield $ 262.57 vs 7x $ 175.77 = 49.4% > 20%. Parked. Do not average. No official mid.
+sensitivity,4900,no,dE_per_100_Au,USDm,329.8,computed,computed,329.8 = 3.40Moz * $97
+sensitivity,4900,no,dP_per_100_Au_7x,USD/sh,4.5592,computed,computed,7 * 329.8 / 506.36
+sensitivity,4900,no,tape_21Aug,USD/sh,216.06,sourced,sourced,NYSE AEM close $216.06 21 Aug 2026 4:00pm EDT stockanalysis.
+sensitivity,4900,no,gap_7x_vs_tape,pct,-18.65,computed,computed,7x PT vs tape.
+sensitivity,4900,no,implied_k_on_E4900_at_tape,x,8.666,computed,computed,(tape*shares - net cash) / E(4900)
+sensitivity,3900,no,PT_FCFyield_bear_5p5,USD/sh,162.3159,computed,computed,Bear 5.5% (mid of 5-6%) check only.
+sensitivity,3300,no,miss_3p30_E_at_4900,USDm,12225.828,computed,computed,Hedge: same remake with 3.30 Moz lambda. hedge only. Not the mid.
+sensitivity,3300,no,miss_3p30_PT_7x_4900,USD/sh,175.4637,computed,computed,"7x on 3.30 Moz remake at $4,900. Hedge only."
+sensitivity,4900,no,barnat_m150koz_note,koz,-150,sourced,sourced,Up to -150 koz/yr 2027-28 at CM. Hedge / invalidation only.
+sensitivity,3300,no,miss_3p30_E_scaled_H1,USDm,11887.71,computed,computed,FLAG: slope-only 3.30 remake barely moves PT because E_RR is H1 actual. This row also scales H1 x2 by 3.30/3.40 then applies 3.30 lambda. Hedge only.
+sensitivity,3300,no,miss_3p30_scaled_PT_7x_4900,USD/sh,170.7895,computed,computed,(7*E_scaled + 3267)/506.36. Hedge only.
+3y_base,4900,no,k_hist_YE2016_25,x,12.00,computed,vendor,Official k mid (draft identity). wallstreetnumbers YE2016-25. File not current.
+3y_base,4900,no,PT_hist_k,USD/sh,297,computed,computed,Draft official PT identity. File not current.
+3y_bull,5900,no,k_hist_YE2016_25,x,15.89,computed,vendor,Official k high (draft). File not current.
+3y_bull,5900,no,PT_hist_k,USD/sh,494,computed,computed,Draft official PT identity. File not current.
+3y_bear,3900,no,k_hist_YE2016_25,x,8.10,computed,vendor,Official k low (draft). File not current.
+3y_bear,3900,no,PT_hist_k,USD/sh,150,computed,computed,Draft official PT identity. File not current.

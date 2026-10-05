@@ -1,0 +1,6 @@
+scenario,gold_usd,ocf_factor,ocf_usdm,ocf_per_sh,px_usd,band_low,band_high,basis
+3y_base,4900,1.060,2126.1,11.02,280,260,305,P0*factor; P0=265.74; k=25.6x held
+3y_bull,5900,1.211,2429.0,12.59,320,300,345,same
+3y_bear,3900,0.910,1825.3,9.46,240,220,260,same; no 0.944
+12m_checkin,4500,1.000,2005.8,10.40,266,260,285,tape; not official
+spot_kitco_sens,4602.40,1.0154,2036.7,10.56,270,UNSOURCED,UNSOURCED,computed; not official

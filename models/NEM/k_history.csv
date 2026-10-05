@@ -1,0 +1,41 @@
+year,ev_ebitda,status,source,include_in_official_range,note
+2015,4.36,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda (HTML 200 fetched 22 Aug 2026 ~01:30 ET),N,WSN YE. Outside official 2016-2025 window.
+2016,8.44,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE. Official series.
+2017,7.69,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2018,7.54,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2019,10.50,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2020,8.81,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2021,8.27,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2022,8.45,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2023,12.63,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE. Newcrest-deal year but k=12.63<=20 KEPT (official bull). Not TL 25.2 / GF 169.66 / GF max 144.
+2024,5.45,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE. Official bear (cleaned low).
+2025,8.09,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda,Y,WSN YE.
+2026-08-21,8.23,sourced,https://wallstreetnumbers.com/stocks/nem/ev-ebitda current 21 Aug 2026,N,WSN current LTM. Not YE. Not official k.
+2015,5.6,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda (live HTTP 402),N,TL YE. Table is Market Cap/TTM EBITDA not full EV.
+2016,12.6,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE. Not official.
+2017,7.5,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2018,8.3,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2019,6.4,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2020,8.0,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2021,11.5,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2022,12.1,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2023,25.2,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,DROP k>20 Newcrest/impairment. Not bull.
+2024,6.1,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2025,7.4,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,TL YE.
+2013,,sourced_search_snippet,https://tickerleague.com/companies/NEM/financials/ev-ebitda,N,DROP negative TTM EBITDA (-4.51B).
+2021,13.55,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM (HTML 403; search extract),N,GF Dec21. Footnote only.
+2022,16.94,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM,N,GF extract labelled Dec18 in some snippets — treat as visible annual cell footnote only.
+2019,169.66,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM,N,DROP k>20. GF annual spike (Goldcorp/impairment). Not bull.
+2023,169.66,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM,N,DROP if this cell is Dec23 (extract column map uncertain). k>20 not bull.
+2024,6.30,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM,N,GF visible annual. Footnote.
+2025,7.54,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM,N,GF visible annual. Footnote.
+10y_daily_min,5.61,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM as-of 17 Jun 2026,N,GF raw 10y daily MIN. Current 6.77 same page.
+10y_daily_median,9.86,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM as-of 17 Jun 2026,N,GF raw 10y daily MEDIAN. Not official base (official is WSN mid-of-range 9.04).
+10y_daily_max,144.01,sourced_search_snippet,https://www.gurufocus.com/term/enterprise-value-to-ebitda/NEM as-of 17 Jun 2026,N,DROP raw max ~144. Not bull.
+2025-06-30,7.10,sourced_search_snippet,https://finance.yahoo.com/quote/NEM/key-statistics/ (HTML 404; search extract),N,Yahoo quarterly EV/EBITDA.
+2025-09-30,8.06,sourced_search_snippet,https://finance.yahoo.com/quote/NEM/key-statistics/,N,Yahoo quarterly.
+2025-12-31,8.35,sourced_search_snippet,https://finance.yahoo.com/quote/NEM/key-statistics/,N,Yahoo quarterly.
+2026-03-31,8.05,sourced_search_snippet,https://finance.yahoo.com/quote/NEM/key-statistics/,N,Yahoo quarterly.
+2026-06-30,5.90,sourced_search_snippet,https://finance.yahoo.com/quote/NEM/key-statistics/,N,Yahoo quarterly.
+2026-current,8.17,sourced_search_snippet,https://finance.yahoo.com/quote/NEM/key-statistics/,N,Yahoo current. Aligns WSN 8.23 / GoodMoat 8.30. Mkt-cap cell on snippet ($134.49B) stale vs 21 Aug $138.6bn.
+2026-current,8.30,sourced,https://goodmoat.com/dataexplorer/nem/ev-ebitda (HTML 200),N,GoodMoat current. No YE table used.

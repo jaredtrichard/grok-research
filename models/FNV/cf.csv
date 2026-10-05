@@ -1,0 +1,11 @@
+line,unit,Q2_2026,H1_2026,runrate_G4500,remake_G4900,remake_G5900,remake_G3900,basis,source
+OCF,US$m,482.5,1002.9,2005.8,2126.1,2429.0,1825.3,H1/Q2 sourced. Runrate H1*2 labelled. Remake computed 1+0.677*(G/4500-1),PR CF
+Investing,US$m,-101.4,-499.3,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,H1/Q2 sourced. No 3y buy guide — not in mid,PR CF
+of_which_RS_WI_buys,US$m,-80.3,-529.7,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,sourced H1; not a run-rate,PR CF
+Cascabel_buyback_proceeds,US$m,,97.5,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,Q1 sourced; not recurring,Q1 PR
+Financing,US$m,-81.2,-162.0,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,H1/Q2 sourced,PR CF
+Dividends_cash,US$m,80.6,161.1,322.2,UNSOURCED,UNSOURCED,UNSOURCED,H1/Q2 sourced. Runrate H1*2 labelled. Alt $0.44*4*192.87381m=$339.5 computed,PR CF / dividend PR
+Dividends_declared,US$m,84.0,168.4,336.8,UNSOURCED,UNSOURCED,UNSOURCED,includes DRIP,PR
+Net_change_in_cash,US$m,299.5,343.3,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,H1/Q2 sourced. 3y bridge UNSOURCED if buys out,PR CF
+Company_FCF,US$m,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,company does not print FCF subtotal,UNSOURCED
+Sustaining_capex,US$m,0,0,0,0,0,0,no mines; not a printed $0 line — labelled none,model convention

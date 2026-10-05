@@ -1,0 +1,14 @@
+line,unit,h1_2026_actual,h2_computed_4500,fy26_3900,fy26_4500,fy26_4900,fy26_5900,status,source_or_formula
+CFO,US$m,6709.0,6816.0,11494.9,13525.0,14878.4,18261.9,1H sourced; FY computed,"1H CFO $6,709. FY CFO = company FCF + all cash PP&E. Tie: FCF = CFO - PPE."
+PPE_cash_additions,US$m,1360.0,2165.0,3525.0,3525.0,3525.0,3525.0,1H sourced; FY computed,"1H $1,360. FY = $1,950+$1,400+$175 cap int = $3,525 (1H cap-int split UNSOURCED; 1H cash 1,360 vs 819+524=1,343)."
+sustaining_capex_ex_int,US$m,819.0,1131.0,1950.0,1950.0,1950.0,1950.0,sourced guide / H2 58% computed,"FY $1,950. H2 weight 58% (Q2 Jul, not Feb 52%). H2=1,131. H1 $819."
+development_capex_ex_int,US$m,524.0,882.0,1400.0,1400.0,1400.0,1400.0,sourced guide / H2 63% computed,"FY $1,400. H2 63% (Q2 Jul). H2=882. H1 $524."
+H2_capex_extra_vs_H1,US$m,0.0,670.0,670.0,670.0,670.0,670.0,computed,"(1,950*0.58-819)+(1,400*0.63-524)=312+358=670. 12m FCF node: H1-repeat - extra -> H2~4,679; FY~10,028 ~ $10.0bn."
+FCF_company,US$m,5349.0,4651.0,7969.9,10000.0,11353.4,14736.9,1H sourced; FY desk remake,"FCF = CFO - all cash PP&E. 1H $5,349. FY@$4,500=$10.0bn desk. Other: $10.0bn + $338.35m AT*(G-4500)/100."
+dividends,US$m,559.0,541.0,1100.0,1100.0,1100.0,1100.0,sourced,Framework $1.1bn/year. 1H paid $559. Not a FCF deduction.
+buybacks,US$m,3462.0,not in mid,not in mid,not in mid,not in mid,not in mid,1H sourced; FY path out,"1H $3,462. July $606 in 16 Jul count. Path not in mid. $4.3bn remaining — not-in-number."
+NGM_cheque,US$m,0.0,not in mid,not in mid,not in mid,not in mid,not in mid,sourced footnote,$1.95bn after Fourmile close. Out of FCF mid and yield denom.
+WC,US$m,-292.0,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED FY,1H WC $(292). FY WC not guided.
+D_and_A_bridge,US$m,1236.0,UNSOURCED H2 split,2815.0,2815.0,2815.0,2815.0,sourced FY / H2 split UNSOURCED,"FY D&A $2,815. Full NI->CFO still UNSOURCED without FY WC."
+NI_to_CFO_bridge,,1H NI 5579 + DA 1236 + noncash - WC 292 = CFO 6709,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED,UNSOURCED FY,Cannot bridge FY NI to CFO without sourced FY WC / deferred tax / reclaim / equity non-cash. Do not invent a plug.
+reclamation_cash,US$m,458.0,392.0,850.0,850.0,850.0,850.0,sourced anticipate,"1H $458 (Yana WTP $351). 2026 ~$850 / ~$550 Yana. Inside CFO, not added again."

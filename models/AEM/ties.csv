@@ -1,0 +1,12 @@
+test,lhs,rhs,gap,pass_or_flag,source,notes
+segment_oz_sum_plus_recon,3400,3400,0,PASS,computed,LaRonde 340 + CM 590 + Goldex 120 + Detour 715 + Macassa 315 + Meliadine 390 + Meadowbank 485 + Fosterville 150 + Kittila 220 + Pinos Altos 75 = 3400. recon oz = 0.
+segment_revenue_sum_plus_recon,16660.0,16660.0,0.0,PASS,computed,"Each site oz x $4,900; recon rev $0. Consol revenue = 3.40 x gold."
+IS_NI_feeds_CF,6827.802,6827.802,0,PASS,computed,CF.ni = IS.ni. CFO = NI + D&A + (tax_pl-tax_cash) - WC0.
+CF_dcash_feeds_BS_cash,,3464,,PARKED,sourced,"Parked: 30 Jun snapshot only. EV uses net cash $3267m. Do not invent 3y BS."
+FCF_identity_vs_stmt,6894.48,6467.591,426.889,PARKED,computed,Parked in sensitivity: identity vs stmt ~$427m. Not a silent plug. Not official.
+net_cash_identity,3267,3267,0,PASS,sourced,cash - debt = printed net cash
+EV_EBITDA_vs_FCF_yield_base,278.77,174.48,104.29,PARKED,computed,Parked: 7x/FCF vs official hist-k $297. Do not average. Vendor YE series is sourced.
+mid_point_3400_print,3400,SEC ex99.1 2026 Guidance Summary Mid-Point,0,PASS,sourced,https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm
+hist_k_official_identity,297,12.00*12248+3267 / 506.36,0,PASS,computed,Draft official identity. File not current.
+k_cluster_2021_25_mean,226,9.07*12248+3267 / 506.36,71,PARKED,computed,Double-count sensitivity. Mean YE21-25 k ~9.07 → ~$226 vs official $297.
+k_vendor_spot_1039_on_remade_E,258,10.39*12248+3267 / 506.36,39,PARKED,computed,Check only. Do not swap official k.

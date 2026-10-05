@@ -1,0 +1,6 @@
+scenario,gold,ebitda_m,k_official,k_role,official_pt,official_mid_rounded,k7_check,fcf_m,fcf_y9,engine
+base,4900,2808.75,9.16,hist range mid (7.41+10.90)/2,20.5462,20,15.6831,1056.66,9.334,official PT = hist-k range. 7.0x is T. Rowe check only. FCF yield is a check. Do not average.
+bull,5900,3703.75,10.9,hist range high (2019),32.2837,32,20.705,1696.88,15.0362,official PT = hist-k range. 7.0x is T. Rowe check only. FCF yield is a check. Do not average.
+bear,3900,1913.75,7.41,hist range low (2024),11.2901,11,10.6611,416.44,3.6319,official PT = hist-k range. 7.0x is T. Rowe check only. FCF yield is a check. Do not average.
+chk,4500,2450.75,9.16,12m check-in at range mid,17.9176,18,13.6743,800.57,7.0532,12m check-in only. Not official.
+spot,4600,2540.25,9.16,spot tape at range mid,18.5748,19,14.1765,864.59,7.6234,spot sanity. Not official.

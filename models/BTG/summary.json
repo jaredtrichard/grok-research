@@ -1,0 +1,105 @@
+{
+  "id": "BTG",
+  "clock": "3y_run_rate_2026_guide",
+  "as_of": "2026-08-22",
+  "source_statements": "Q2 2026 NR / Ex 99.2 (6 Aug 2026)",
+  "gold_metal": {
+    "bear": 3900,
+    "check12": 4500,
+    "base": 4900,
+    "bull": 5900,
+    "spot_print": 4600
+  },
+  "volume_100_koz": 870,
+  "volume_attrib_koz": 780,
+  "aisc_guide_mid": 2460,
+  "shares_diluted": 1489867000,
+  "net_debt_open_usdm": 169.51,
+  "nci_open_usdm": 32.717,
+  "stream_not_in_nd_usdm": 257.3,
+  "official_engine": "7.0x EV / IS-built EBITDA",
+  "fcf_yield_role": "check_only",
+  "tie_gap_usd": {
+    "bear": 0.0,
+    "check12": 0.0,
+    "spot": 0.0,
+    "base": 0.0,
+    "bull": 0.0
+  },
+  "pt_7x_raw": {
+    "bear": 8.733890115374788,
+    "check12": 10.939300568845114,
+    "spot": 11.306868977756835,
+    "base": 12.409574204491998,
+    "bull": 16.085258293609208
+  },
+  "pt_7x_official_round": {
+    "bear": 8.75,
+    "check12": 10.95,
+    "spot": 11.3,
+    "base": 12.4,
+    "bull": 16.1
+  },
+  "pt_fcf_raw": {
+    "bear": 5.380343756443843,
+    "check12": 9.309155152682019,
+    "spot": 9.759657841270863,
+    "base": 11.111165907037407,
+    "bull": 17.58518375888274
+  },
+  "pt_fcf_round": {
+    "bear": 5.4,
+    "check12": 9.3,
+    "spot": 9.75,
+    "base": 11.1,
+    "bull": 17.6
+  },
+  "gap_pct_7x_vs_fcf": {
+    "bear": 62.329592879907025,
+    "check12": 17.511206864926308,
+    "spot": 15.85312888678585,
+    "base": 11.685617047912377,
+    "bull": -8.529484171673097
+  },
+  "flag_gap_gt_20": {
+    "bear": true,
+    "check12": false,
+    "spot": false,
+    "base": false,
+    "bull": false
+  },
+  "ebitda_usdm": {
+    "bear": 1887.795,
+    "check12": 2357.19,
+    "spot": 2435.423,
+    "base": 2670.12,
+    "bull": 3452.446
+  },
+  "fcf_usdm": {
+    "bear": 904.005,
+    "check12": 1266.447,
+    "spot": 1326.854,
+    "base": 1508.075,
+    "bull": 2112.145
+  },
+  "gold_lever_7x_per_100usd": 0.36756840891172105,
+  "unsourced_in_mid_as_zero": [
+    "deferred_tax",
+    "working_capital_runrate",
+    "fekola_regional_2026_oz",
+    "goose_300koz_colour",
+    "collar_leftover_notional"
+  ],
+  "computed_h1x2_no_fy_guide": [
+    "ga",
+    "sbc",
+    "community",
+    "interest_is",
+    "interest_paid",
+    "dividends",
+    "nci_distributions",
+    "capex_total"
+  ],
+  "stage": "watch",
+  "view_status": "draft \u2014 pending fresh review"
+}

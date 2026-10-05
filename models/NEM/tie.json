@@ -1,0 +1,26 @@
+{
+  "ni_to_re": false,
+  "bs_cash_eq_cf_end": false,
+  "unsourced": [
+    "FY equity income (1H $353m print; no FY guide \u2014 dropped from FY NI mid)",
+    "FY NCI earnings (1H $115m; dropped from FY NI mid)",
+    "FY WC (1H use $292m; no FY plug)",
+    "FY NI\u2192CFO bridge",
+    "FY other income / FV investments",
+    "TickerLeague EV/EBITDA",
+    "Macrotrends EV/EBITDA table",
+    "GuruFocus live HTML 22 Aug",
+    "YE2026 NGM IPO % (unused)",
+    "$1.95bn NGM cheque (out until received)"
+  ],
+  "as_of": "2026-08-22",
+  "gold_line": "GOLD-METAL 4900/5900/3900",
+  "notes": {
+    "statements": "is/bs/cf/segment kept (ops mid 5260/1055/1680). FY NI\u2192RE and FY cash bridge UNSOURCED.",
+    "official_e": "is.csv EBITDA_IS_computed (guide-cost EBIT+D&A): 12513.2 / 15423.2 / 17363.2 / 22213.2 at 3900/4500/4900/5900. TTM remade is rival 5 only.",
+    "official_pt": "67 / 151 / 269 (12m 135). k 5.45 / 9.04 / 12.63. ND=-2805.",
+    "net_cash": "Working net cash $2805m = 3411-606. $1.95bn out.",
+    "k_official": "bear 5.45 / base 9.04 mid-of-range / bull 12.63 WSN YE 2016-2025.",
+    "status": "current. Stage watch. No ship."
+  }
+}

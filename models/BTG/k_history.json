@@ -1,0 +1,20 @@
+{
+  "window": "YE 2019-2025 ex 2021",
+  "e_definition": "IS-built audited annual IS",
+  "px_source": "Yahoo chart BTG NYSE American last Dec session close",
+  "k_low": 3.34,
+  "k_mid": 5.06,
+  "k_high": 6.79,
+  "years_in_range": [
+    2019,
+    2020,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "dropped": [
+    2021
+  ],
+  "official_k_sourced": true
+}

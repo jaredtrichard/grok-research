@@ -1,0 +1,23 @@
+engine,scenario,gold,oz_moz,fcf_usdm,ebitda_usdm,yield_or_k,ev_usdm,equity_usdm,shares_m,net_cash_usdm,usd_per_sh,source,notes
+FCF_yield,3y_base,4900,3.4,6894.48,,0.05,,141156.6,506.36,3267.0,278.77,computed,working FCF tape — not official
+FCF_yield,3y_base_floor_6pct,4900,3.4,6894.48,,0.06,,118175.0,506.36,3267.0,233.38,computed,"3y-base band floor / Hope Bay-Barnat worsen inside $4,900"
+FCF_yield,3y_base_cap_4.5pct,4900,3.4,6894.48,,0.045,,156477.667,506.36,3267.0,309.02,computed,clipped compounder — not official
+FCF_yield,3y_bull,5900,3.4,9038.18,,0.05,,184030.6,506.36,3267.0,363.44,computed,working FCF bull tape — not official
+FCF_yield,3y_bull_flip_4.5pct,5900,3.4,9038.18,,0.045,,204115.444,506.36,3267.0,403.1,computed,4.5% only on 3y-bull flip — cap; not official
+FCF_yield,3y_bull_hold_noflip,5900,3.4,9038.18,,0.06,,153903.333,506.36,3267.0,303.94,computed,"hold $5,900 without TIPS/ETF flip — bull floor"
+FCF_yield,3y_bear,3900,3.4,4750.78,,0.05,,98282.6,506.36,3267.0,194.1,computed,working FCF bear tape — not official
+FCF_yield,3y_bear_6pct,3900,3.4,4750.78,,0.06,,82446.667,506.36,3267.0,162.82,computed,bear band floor
+FCF_yield,12m_checkin,4500,3.4,6037.0,,0.05,,124007.0,506.36,3267.0,244.9,computed,"NOT official. $4,500 / 3.40 / current-year tax"
+FCF_yield,spot_tape_4600,4600,3.4,6251.37,,0.05,,128294.4,506.36,3267.0,253.37,computed,sanity only — Kitco/TE not the forward line
+FCF_yield,miss_3.30_base,4900,3.3,6526.26,,0.05,,133792.2,506.36,3267.0,264.22,computed,MISS node — company lower-end / old hold. Not the mid.
+FCF_yield,miss_3.15_barnat_base,4900,3.15,5973.93,,0.05,,122745.6,506.36,3267.0,242.41,computed,MISS node — Barnat up to -150 koz 2027-28. Invalidation/hedge.
+EV_EBITDA,3y_base_7.0x,4900,3.4,,12154.311,7.0,85080.178,88347.178,506.36,3267.0,174.48,computed,kit default 7.0x on computed IS EBITDA | FLAG vs FCF-yield mid >20%
+EV_EBITDA,3y_base_8.0x,4900,3.4,,12154.311,8.0,97234.489,100501.489,506.36,3267.0,198.48,computed,AEM-quality cross-check notch 7.5-8.0 | FLAG vs FCF-yield mid >20%
+EV_EBITDA,3y_bull_7.0x,5900,3.4,,15410.089,7.0,107870.622,111137.622,506.36,3267.0,219.48,computed,7.0x held — gold does the work | FLAG vs FCF-yield mid >20%
+EV_EBITDA,3y_bear_7.0x,3900,3.4,,8898.533,7.0,62289.733,65556.733,506.36,3267.0,129.47,computed,7.0x held | FLAG vs FCF-yield mid >20%
+EV_EBITDA,12m_7.0x,4500,3.4,,10852.0,7.0,75964.0,79231.0,506.36,3267.0,156.47,computed,check-in | FLAG vs FCF-yield mid >20%
+EV_EBITDA_hist,3y_bear,3900,3.4,,8950,8.10,72495,75762,506.36,3267.0,150,computed,draft official identity — file not current
+EV_EBITDA_hist,3y_base,4900,3.4,,12248,12.00,146976,150243,506.36,3267.0,297,computed,draft official identity — file not current
+EV_EBITDA_hist,3y_bull,5900,3.4,,15546,15.89,247026,250293,506.36,3267.0,494,computed,draft official identity — file not current
+EV_EBITDA_hist,sens_k_9p07,4900,3.4,,12248,9.07,111088,114355,506.36,3267.0,226,computed,2021-25 mean k — double-count park
+EV_EBITDA_hist,sens_k_10p39,4900,3.4,,12248,10.39,127257,130524,506.36,3267.0,258,computed,vendor spot k on remade E — check

@@ -1,0 +1,17 @@
+id,lhs,lhs_usdm,rhs,rhs_usdm,delta,status,note
+bs_net_cash,cash-debt,3267.0,printed net cash,3267.0,0.0,ties,3464-197=3267. Sourced 30 Jun Q2 PR.
+bs_ppe_ar,PPE/AR/equity,,full statement,,,UNSOURCED,Do not invent PPE/AR/book equity. NI cannot flow to RE.
+cf_q2_fcf_vs_cfo_minus_capex,CFO-capex,1343,printed FCF,1335,8.0,flag,"2144-801=1343 vs printed FCF 1335; delta $8m. Working-capital / definition residual — not plugged. Company FCF is the printed $1,335m."
+cf_h1_fcf_vs_cfo_minus_capex,CFO-capex,2115,printed FCF,2067,48.0,flag,3490-1375=2115 vs printed 2067; delta $48m. Same residual class as Q2.
+cf_fy25_fcf,CFO-capex,4426,printed FCF,4399,27.0,explained,6817-2391=4426 vs 4399; delta $27m. Company FCF definition residual.
+cf_ending_cash_vs_bs,CF ending cash,3464.0,BS cash,3464.0,0.0,ties,"Both $3,464m. RR holds cash flat — no invented bridge."
+segment_oz_sum,sum mine mids,3400,guide mid 3.40 Moz,3400,0.0,ties,CM590+Detour715+Macassa315+Meliadine390+Meadowbank485+Fosterville150+Kittila220+PinosAltos75+LaRonde340+Goldex120=3400.
+segment_tcc_vs_consol,site-weighted TCC $/oz,1082.9,consol guide TCC,1070.0,12.9,flag,"Weighted $1082.9 vs $1,070 after CM TCC $1,260 update. Recon line -$43.9m. Consol $1,070 wins."
+q2_oz_sum,sum Q2 site koz,855.816,printed Q2 produced,855.816,0.0,ties,"Site Q2 koz from SEC ex99.1 sum to 855,816."
+ebitda_remake_vs_guide_4900,E_remake(4900),12247.944,E_guide(4900),12171.2,76.744,flag,Delta $76.7m. Working 7x uses remake of sourced H1 adj. EBITDA. Not official. Guide build is the IS/FCF check.
+ebitda_remake_vs_guide_at_H1_gold,E_guide(4672),11419.256,H1 x2 sourced,11496.0,-76.744,flag,"Guide P&L at H1 realized $11419.3m vs sourced annualized $11,496m; residual $76.7m (by-product/other). Not plugged into lambda."
+check_7x_uses_sourced_ebitda,7*E_remake,85735.608,EV_7x_check,85735.608,0.0,check,7.0x remade sourced adj. EBITDA. Check only. Official k is hist 8.10/12/15.89.
+fcf_vs_7x_mid,PT_FCF_5pct,262.573,PT_7x,175.769,86.804,flag,Gap 49.4% > 20%. Parked gap vs hist-k official identity. 7x and FCF are checks.
+is_ni_not_to_RE,NI_rr,6888.664,delta RE,,,flag,Cannot flow NI to retained earnings — opening book equity UNSOURCED.
+barnat_not_in_mid,guide_mid_oz,3400,low-end hedge,3300,100.0,hedge_only,Lower-end 3.30 and Barnat -150 koz live in tie/hedge / invalidation only.
+miss_3p30_slope_only_weak,slope-only 3.30 PT,175.464,working 3.40 7x tape,175.769,-0.305,flag,H1-anchored remake + thinner lambda only. Prefer miss_3p30_E_scaled_H1 for the hedge.

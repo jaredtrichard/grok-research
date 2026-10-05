@@ -1,0 +1,31 @@
+scenario,gold,segment,koz,revenue,cash_opex,ebitda,tag
+base,4900,Greenstone,262.5,1286.25,420.0,866.25,computed oz*gold - oz*cash
+base,4900,Musselwhite,105.0,514.5,131.25,383.25,computed oz*gold - oz*cash
+base,4900,Valentine,145.0,710.5,290.0,420.5,computed oz*gold - oz*cash
+base,4900,Nicaragua,237.5,1163.75,439.38,724.38,computed oz*gold - oz*cash
+base,4900,Camino Rojo,60.0,294.0,45.0,249.0,computed oz*gold - oz*cash
+base,4900,Mesquite,75.0,367.5,138.75,228.75,computed oz*gold - oz*cash
+bull,5900,Greenstone,262.5,1548.75,420.0,1128.75,computed oz*gold - oz*cash
+bull,5900,Musselwhite,105.0,619.5,131.25,488.25,computed oz*gold - oz*cash
+bull,5900,Valentine,145.0,855.5,290.0,565.5,computed oz*gold - oz*cash
+bull,5900,Nicaragua,237.5,1401.25,439.38,961.88,computed oz*gold - oz*cash
+bull,5900,Camino Rojo,60.0,354.0,45.0,309.0,computed oz*gold - oz*cash
+bull,5900,Mesquite,75.0,442.5,138.75,303.75,computed oz*gold - oz*cash
+bear,3900,Greenstone,262.5,1023.75,420.0,603.75,computed oz*gold - oz*cash
+bear,3900,Musselwhite,105.0,409.5,131.25,278.25,computed oz*gold - oz*cash
+bear,3900,Valentine,145.0,565.5,290.0,275.5,computed oz*gold - oz*cash
+bear,3900,Nicaragua,237.5,926.25,439.38,486.88,computed oz*gold - oz*cash
+bear,3900,Camino Rojo,60.0,234.0,45.0,189.0,computed oz*gold - oz*cash
+bear,3900,Mesquite,75.0,292.5,138.75,153.75,computed oz*gold - oz*cash
+chk,4500,Greenstone,262.5,1181.25,420.0,761.25,computed oz*gold - oz*cash
+chk,4500,Musselwhite,105.0,472.5,131.25,341.25,computed oz*gold - oz*cash
+chk,4500,Valentine,145.0,652.5,290.0,362.5,computed oz*gold - oz*cash
+chk,4500,Nicaragua,237.5,1068.75,439.38,629.38,computed oz*gold - oz*cash
+chk,4500,Camino Rojo,60.0,270.0,45.0,225.0,computed oz*gold - oz*cash
+chk,4500,Mesquite,75.0,337.5,138.75,198.75,computed oz*gold - oz*cash
+spot,4600,Greenstone,262.5,1207.5,420.0,787.5,computed oz*gold - oz*cash
+spot,4600,Musselwhite,105.0,483.0,131.25,351.75,computed oz*gold - oz*cash
+spot,4600,Valentine,145.0,667.0,290.0,377.0,computed oz*gold - oz*cash
+spot,4600,Nicaragua,237.5,1092.5,439.38,653.12,computed oz*gold - oz*cash
+spot,4600,Camino Rojo,60.0,276.0,45.0,231.0,computed oz*gold - oz*cash
+spot,4600,Mesquite,75.0,345.0,138.75,206.25,computed oz*gold - oz*cash

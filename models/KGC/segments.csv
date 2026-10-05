@@ -1,0 +1,213 @@
+gold_usd,scenario,segment,country,ownership,line,unit,value,status,source
+3900,3y_bear,Tasiast,Mauritania,100%,attrib_GEO,koz,505,sourced,"YE 2025 PR country guide 505 koz / COS $1,050; AIF 100%; scout Tasiast COS guide $1,050"
+3900,3y_bear,Tasiast,Mauritania,100%,COS,USD/GEO,1020.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+3900,3y_bear,Tasiast,Mauritania,100%,revenue,USDm,1969.5,computed,attrib_GEO * GOLD-METAL G / 1000
+3900,3y_bear,Tasiast,Mauritania,100%,COS_abs,USDm,515.1,computed,oz * COS(G) / 1000
+3900,3y_bear,Tasiast,Mauritania,100%,sustaining_capex,USDm,80,sourced,YE 2025 PR country capex split
+3900,3y_bear,Tasiast,Mauritania,100%,growth_capex,USDm,195,sourced,YE 2025 PR country capex split (non-sustaining)
+3900,3y_bear,Tasiast,Mauritania,100%,attrib_capex,USDm,275,computed,sustaining + growth (YE PR)
+3900,3y_bear,Tasiast,Mauritania,100%,cash_margin,USDm,1454.4,computed,revenue - COS_abs
+3900,3y_bear,Tasiast,Mauritania,100%,fcf_pre_corporate,USDm,1179.4,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+3900,3y_bear,Paracatu,Brazil,100%,attrib_GEO,koz,600,sourced,"YE 2025 PR country guide 600 koz / COS $1,240; AIF 100%; scout Paracatu COS guide $1,240"
+3900,3y_bear,Paracatu,Brazil,100%,COS,USD/GEO,1210.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+3900,3y_bear,Paracatu,Brazil,100%,revenue,USDm,2340.0,computed,attrib_GEO * GOLD-METAL G / 1000
+3900,3y_bear,Paracatu,Brazil,100%,COS_abs,USDm,726.0,computed,oz * COS(G) / 1000
+3900,3y_bear,Paracatu,Brazil,100%,sustaining_capex,USDm,190,sourced,YE 2025 PR country capex split
+3900,3y_bear,Paracatu,Brazil,100%,growth_capex,USDm,45,sourced,YE 2025 PR country capex split (non-sustaining)
+3900,3y_bear,Paracatu,Brazil,100%,attrib_capex,USDm,235,computed,sustaining + growth (YE PR)
+3900,3y_bear,Paracatu,Brazil,100%,cash_margin,USDm,1614.0,computed,revenue - COS_abs
+3900,3y_bear,Paracatu,Brazil,100%,fcf_pre_corporate,USDm,1379.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+3900,3y_bear,La Coipa,Chile,100%,attrib_GEO,koz,210,sourced,"YE 2025 PR country guide 210 koz / COS $1,320; AIF 100%"
+3900,3y_bear,La Coipa,Chile,100%,COS,USD/GEO,1290.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+3900,3y_bear,La Coipa,Chile,100%,revenue,USDm,819.0,computed,attrib_GEO * GOLD-METAL G / 1000
+3900,3y_bear,La Coipa,Chile,100%,COS_abs,USDm,270.9,computed,oz * COS(G) / 1000
+3900,3y_bear,La Coipa,Chile,100%,sustaining_capex,USDm,40,sourced,YE 2025 PR country capex split
+3900,3y_bear,La Coipa,Chile,100%,growth_capex,USDm,50,sourced,YE 2025 PR country capex split (non-sustaining)
+3900,3y_bear,La Coipa,Chile,100%,attrib_capex,USDm,90,computed,sustaining + growth (YE PR)
+3900,3y_bear,La Coipa,Chile,100%,cash_margin,USDm,548.1,computed,revenue - COS_abs
+3900,3y_bear,La Coipa,Chile,100%,fcf_pre_corporate,USDm,458.1,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_GEO,koz,685,sourced,"YE 2025 PR US attrib GEO 685 / COS $1,700; Manh Choh 70% already in 685; no GB/Lobo ounces"
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS,USD/GEO,1670.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,revenue,USDm,2671.5,computed,attrib_GEO * GOLD-METAL G / 1000
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS_abs,USDm,1143.95,computed,oz * COS(G) / 1000
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,sustaining_capex,USDm,140,sourced,YE 2025 PR country capex split
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,growth_capex,USDm,500,sourced,YE 2025 PR country capex split (non-sustaining)
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_capex,USDm,640,computed,sustaining + growth (YE PR)
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,cash_margin,USDm,1527.55,computed,revenue - COS_abs
+3900,3y_bear,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,fcf_pre_corporate,USDm,887.55,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+3900,3y_bear,Canada and other,Canada / corp,100%,attrib_GEO,koz,0,sourced,"YE 2025 PR: Canada is growth, not 2026 ounces. 0 in mid."
+3900,3y_bear,Canada and other,Canada / corp,100%,COS,USD/GEO,,unsourced,no producing GEO; COS n/a
+3900,3y_bear,Canada and other,Canada / corp,100%,revenue,USDm,0.0,computed,attrib_GEO * GOLD-METAL G / 1000
+3900,3y_bear,Canada and other,Canada / corp,100%,COS_abs,USDm,0.0,sourced,zero — no ounces
+3900,3y_bear,Canada and other,Canada / corp,100%,sustaining_capex,USDm,0,sourced,YE 2025 PR country capex split
+3900,3y_bear,Canada and other,Canada / corp,100%,growth_capex,USDm,260,sourced,YE 2025 PR country capex split (non-sustaining)
+3900,3y_bear,Canada and other,Canada / corp,100%,attrib_capex,USDm,260,computed,sustaining + growth (YE PR)
+3900,3y_bear,Canada and other,Canada / corp,100%,cash_margin,USDm,0.0,computed,revenue - COS_abs
+3900,3y_bear,Canada and other,Canada / corp,100%,fcf_pre_corporate,USDm,-260.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+3900,3y_bear,Group COS recon,Group,attrib,COS_abs,USDm,4.05,computed,"Official group COS $1,360 vs country-weighted blend $1357.975; recon $4.05m so sum = 2,000 * COS(G)"
+3900,3y_bear,Group COS recon,Group,attrib,cash_margin,USDm,-4.05,computed,offset so sum(segment cash_margin)+recon = Q*(G-COS_guide(G))
+3900,3y_bear,Corporate / AISC adders,Group,attrib,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A guide $135m
+3900,3y_bear,Corporate / AISC adders,Group,attrib,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC-COS)*Q/1000 - sustaining $450 - G&A $135; AISC/COS YE PR + royalty factor
+3900,3y_bear,Corporate / AISC adders,Group,attrib,cash_tax,USDm,1029.0,computed,"YE PR cash tax $1,125m at $4,500 + $16m per +$100 Au"
+3900,3y_bear,Corporate / AISC adders,Group,attrib,NCI_OCF,USDm,,unsourced,Manh Choh 30% NCI OCF share not guided at FY; 1H implied ~$36m not 2x'd; DROPPED from mid
+3900,3y_bear,Corporate / AISC adders,Group,attrib,WC_change,USDm,,unsourced,no FY WC guide; DROPPED from mid
+3900,3y_bear,Corporate / AISC adders,Group,attrib,company_adj_EBITDA,USDm,,unsourced,Q2 NR / MD&A / deck: no adj. EBITDA print; do not invent
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,attrib_GEO,koz,505,sourced,"YE 2025 PR country guide 505 koz / COS $1,050; AIF 100%; scout Tasiast COS guide $1,050"
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,COS,USD/GEO,1050.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,revenue,USDm,2272.5,computed,attrib_GEO * GOLD-METAL G / 1000
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,COS_abs,USDm,530.25,computed,oz * COS(G) / 1000
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,sustaining_capex,USDm,80,sourced,YE 2025 PR country capex split
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,growth_capex,USDm,195,sourced,YE 2025 PR country capex split (non-sustaining)
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,attrib_capex,USDm,275,computed,sustaining + growth (YE PR)
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,cash_margin,USDm,1742.25,computed,revenue - COS_abs
+4500,12m_checkin_not_official,Tasiast,Mauritania,100%,fcf_pre_corporate,USDm,1467.25,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,attrib_GEO,koz,600,sourced,"YE 2025 PR country guide 600 koz / COS $1,240; AIF 100%; scout Paracatu COS guide $1,240"
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,COS,USD/GEO,1240.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,revenue,USDm,2700.0,computed,attrib_GEO * GOLD-METAL G / 1000
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,COS_abs,USDm,744.0,computed,oz * COS(G) / 1000
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,sustaining_capex,USDm,190,sourced,YE 2025 PR country capex split
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,growth_capex,USDm,45,sourced,YE 2025 PR country capex split (non-sustaining)
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,attrib_capex,USDm,235,computed,sustaining + growth (YE PR)
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,cash_margin,USDm,1956.0,computed,revenue - COS_abs
+4500,12m_checkin_not_official,Paracatu,Brazil,100%,fcf_pre_corporate,USDm,1721.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4500,12m_checkin_not_official,La Coipa,Chile,100%,attrib_GEO,koz,210,sourced,"YE 2025 PR country guide 210 koz / COS $1,320; AIF 100%"
+4500,12m_checkin_not_official,La Coipa,Chile,100%,COS,USD/GEO,1320.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4500,12m_checkin_not_official,La Coipa,Chile,100%,revenue,USDm,945.0,computed,attrib_GEO * GOLD-METAL G / 1000
+4500,12m_checkin_not_official,La Coipa,Chile,100%,COS_abs,USDm,277.2,computed,oz * COS(G) / 1000
+4500,12m_checkin_not_official,La Coipa,Chile,100%,sustaining_capex,USDm,40,sourced,YE 2025 PR country capex split
+4500,12m_checkin_not_official,La Coipa,Chile,100%,growth_capex,USDm,50,sourced,YE 2025 PR country capex split (non-sustaining)
+4500,12m_checkin_not_official,La Coipa,Chile,100%,attrib_capex,USDm,90,computed,sustaining + growth (YE PR)
+4500,12m_checkin_not_official,La Coipa,Chile,100%,cash_margin,USDm,667.8,computed,revenue - COS_abs
+4500,12m_checkin_not_official,La Coipa,Chile,100%,fcf_pre_corporate,USDm,577.8,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_GEO,koz,685,sourced,"YE 2025 PR US attrib GEO 685 / COS $1,700; Manh Choh 70% already in 685; no GB/Lobo ounces"
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS,USD/GEO,1700.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,revenue,USDm,3082.5,computed,attrib_GEO * GOLD-METAL G / 1000
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS_abs,USDm,1164.5,computed,oz * COS(G) / 1000
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,sustaining_capex,USDm,140,sourced,YE 2025 PR country capex split
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,growth_capex,USDm,500,sourced,YE 2025 PR country capex split (non-sustaining)
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_capex,USDm,640,computed,sustaining + growth (YE PR)
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,cash_margin,USDm,1918.0,computed,revenue - COS_abs
+4500,12m_checkin_not_official,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,fcf_pre_corporate,USDm,1278.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,attrib_GEO,koz,0,sourced,"YE 2025 PR: Canada is growth, not 2026 ounces. 0 in mid."
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,COS,USD/GEO,,unsourced,no producing GEO; COS n/a
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,revenue,USDm,0.0,computed,attrib_GEO * GOLD-METAL G / 1000
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,COS_abs,USDm,0.0,sourced,zero — no ounces
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,sustaining_capex,USDm,0,sourced,YE 2025 PR country capex split
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,growth_capex,USDm,260,sourced,YE 2025 PR country capex split (non-sustaining)
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,attrib_capex,USDm,260,computed,sustaining + growth (YE PR)
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,cash_margin,USDm,0.0,computed,revenue - COS_abs
+4500,12m_checkin_not_official,Canada and other,Canada / corp,100%,fcf_pre_corporate,USDm,-260.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4500,12m_checkin_not_official,Group COS recon,Group,attrib,COS_abs,USDm,4.05,computed,"Official group COS $1,360 vs country-weighted blend $1357.975; recon $4.05m so sum = 2,000 * COS(G)"
+4500,12m_checkin_not_official,Group COS recon,Group,attrib,cash_margin,USDm,-4.05,computed,offset so sum(segment cash_margin)+recon = Q*(G-COS_guide(G))
+4500,12m_checkin_not_official,Corporate / AISC adders,Group,attrib,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A guide $135m
+4500,12m_checkin_not_official,Corporate / AISC adders,Group,attrib,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC-COS)*Q/1000 - sustaining $450 - G&A $135; AISC/COS YE PR + royalty factor
+4500,12m_checkin_not_official,Corporate / AISC adders,Group,attrib,cash_tax,USDm,1125.0,computed,"YE PR cash tax $1,125m at $4,500 + $16m per +$100 Au"
+4500,12m_checkin_not_official,Corporate / AISC adders,Group,attrib,NCI_OCF,USDm,,unsourced,Manh Choh 30% NCI OCF share not guided at FY; 1H implied ~$36m not 2x'd; DROPPED from mid
+4500,12m_checkin_not_official,Corporate / AISC adders,Group,attrib,WC_change,USDm,,unsourced,no FY WC guide; DROPPED from mid
+4500,12m_checkin_not_official,Corporate / AISC adders,Group,attrib,company_adj_EBITDA,USDm,,unsourced,Q2 NR / MD&A / deck: no adj. EBITDA print; do not invent
+4900,3y_base,Tasiast,Mauritania,100%,attrib_GEO,koz,505,sourced,"YE 2025 PR country guide 505 koz / COS $1,050; AIF 100%; scout Tasiast COS guide $1,050"
+4900,3y_base,Tasiast,Mauritania,100%,COS,USD/GEO,1070.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4900,3y_base,Tasiast,Mauritania,100%,revenue,USDm,2474.5,computed,attrib_GEO * GOLD-METAL G / 1000
+4900,3y_base,Tasiast,Mauritania,100%,COS_abs,USDm,540.35,computed,oz * COS(G) / 1000
+4900,3y_base,Tasiast,Mauritania,100%,sustaining_capex,USDm,80,sourced,YE 2025 PR country capex split
+4900,3y_base,Tasiast,Mauritania,100%,growth_capex,USDm,195,sourced,YE 2025 PR country capex split (non-sustaining)
+4900,3y_base,Tasiast,Mauritania,100%,attrib_capex,USDm,275,computed,sustaining + growth (YE PR)
+4900,3y_base,Tasiast,Mauritania,100%,cash_margin,USDm,1934.15,computed,revenue - COS_abs
+4900,3y_base,Tasiast,Mauritania,100%,fcf_pre_corporate,USDm,1659.15,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4900,3y_base,Paracatu,Brazil,100%,attrib_GEO,koz,600,sourced,"YE 2025 PR country guide 600 koz / COS $1,240; AIF 100%; scout Paracatu COS guide $1,240"
+4900,3y_base,Paracatu,Brazil,100%,COS,USD/GEO,1260.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4900,3y_base,Paracatu,Brazil,100%,revenue,USDm,2940.0,computed,attrib_GEO * GOLD-METAL G / 1000
+4900,3y_base,Paracatu,Brazil,100%,COS_abs,USDm,756.0,computed,oz * COS(G) / 1000
+4900,3y_base,Paracatu,Brazil,100%,sustaining_capex,USDm,190,sourced,YE 2025 PR country capex split
+4900,3y_base,Paracatu,Brazil,100%,growth_capex,USDm,45,sourced,YE 2025 PR country capex split (non-sustaining)
+4900,3y_base,Paracatu,Brazil,100%,attrib_capex,USDm,235,computed,sustaining + growth (YE PR)
+4900,3y_base,Paracatu,Brazil,100%,cash_margin,USDm,2184.0,computed,revenue - COS_abs
+4900,3y_base,Paracatu,Brazil,100%,fcf_pre_corporate,USDm,1949.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4900,3y_base,La Coipa,Chile,100%,attrib_GEO,koz,210,sourced,"YE 2025 PR country guide 210 koz / COS $1,320; AIF 100%"
+4900,3y_base,La Coipa,Chile,100%,COS,USD/GEO,1340.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4900,3y_base,La Coipa,Chile,100%,revenue,USDm,1029.0,computed,attrib_GEO * GOLD-METAL G / 1000
+4900,3y_base,La Coipa,Chile,100%,COS_abs,USDm,281.4,computed,oz * COS(G) / 1000
+4900,3y_base,La Coipa,Chile,100%,sustaining_capex,USDm,40,sourced,YE 2025 PR country capex split
+4900,3y_base,La Coipa,Chile,100%,growth_capex,USDm,50,sourced,YE 2025 PR country capex split (non-sustaining)
+4900,3y_base,La Coipa,Chile,100%,attrib_capex,USDm,90,computed,sustaining + growth (YE PR)
+4900,3y_base,La Coipa,Chile,100%,cash_margin,USDm,747.6,computed,revenue - COS_abs
+4900,3y_base,La Coipa,Chile,100%,fcf_pre_corporate,USDm,657.6,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_GEO,koz,685,sourced,"YE 2025 PR US attrib GEO 685 / COS $1,700; Manh Choh 70% already in 685; no GB/Lobo ounces"
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS,USD/GEO,1720.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,revenue,USDm,3356.5,computed,attrib_GEO * GOLD-METAL G / 1000
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS_abs,USDm,1178.2,computed,oz * COS(G) / 1000
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,sustaining_capex,USDm,140,sourced,YE 2025 PR country capex split
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,growth_capex,USDm,500,sourced,YE 2025 PR country capex split (non-sustaining)
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_capex,USDm,640,computed,sustaining + growth (YE PR)
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,cash_margin,USDm,2178.3,computed,revenue - COS_abs
+4900,3y_base,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,fcf_pre_corporate,USDm,1538.3,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4900,3y_base,Canada and other,Canada / corp,100%,attrib_GEO,koz,0,sourced,"YE 2025 PR: Canada is growth, not 2026 ounces. 0 in mid."
+4900,3y_base,Canada and other,Canada / corp,100%,COS,USD/GEO,,unsourced,no producing GEO; COS n/a
+4900,3y_base,Canada and other,Canada / corp,100%,revenue,USDm,0.0,computed,attrib_GEO * GOLD-METAL G / 1000
+4900,3y_base,Canada and other,Canada / corp,100%,COS_abs,USDm,0.0,sourced,zero — no ounces
+4900,3y_base,Canada and other,Canada / corp,100%,sustaining_capex,USDm,0,sourced,YE 2025 PR country capex split
+4900,3y_base,Canada and other,Canada / corp,100%,growth_capex,USDm,260,sourced,YE 2025 PR country capex split (non-sustaining)
+4900,3y_base,Canada and other,Canada / corp,100%,attrib_capex,USDm,260,computed,sustaining + growth (YE PR)
+4900,3y_base,Canada and other,Canada / corp,100%,cash_margin,USDm,0.0,computed,revenue - COS_abs
+4900,3y_base,Canada and other,Canada / corp,100%,fcf_pre_corporate,USDm,-260.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+4900,3y_base,Group COS recon,Group,attrib,COS_abs,USDm,4.05,computed,"Official group COS $1,360 vs country-weighted blend $1357.975; recon $4.05m so sum = 2,000 * COS(G)"
+4900,3y_base,Group COS recon,Group,attrib,cash_margin,USDm,-4.05,computed,offset so sum(segment cash_margin)+recon = Q*(G-COS_guide(G))
+4900,3y_base,Corporate / AISC adders,Group,attrib,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A guide $135m
+4900,3y_base,Corporate / AISC adders,Group,attrib,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC-COS)*Q/1000 - sustaining $450 - G&A $135; AISC/COS YE PR + royalty factor
+4900,3y_base,Corporate / AISC adders,Group,attrib,cash_tax,USDm,1189.0,computed,"YE PR cash tax $1,125m at $4,500 + $16m per +$100 Au"
+4900,3y_base,Corporate / AISC adders,Group,attrib,NCI_OCF,USDm,,unsourced,Manh Choh 30% NCI OCF share not guided at FY; 1H implied ~$36m not 2x'd; DROPPED from mid
+4900,3y_base,Corporate / AISC adders,Group,attrib,WC_change,USDm,,unsourced,no FY WC guide; DROPPED from mid
+4900,3y_base,Corporate / AISC adders,Group,attrib,company_adj_EBITDA,USDm,,unsourced,Q2 NR / MD&A / deck: no adj. EBITDA print; do not invent
+5900,3y_bull,Tasiast,Mauritania,100%,attrib_GEO,koz,505,sourced,"YE 2025 PR country guide 505 koz / COS $1,050; AIF 100%; scout Tasiast COS guide $1,050"
+5900,3y_bull,Tasiast,Mauritania,100%,COS,USD/GEO,1120.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+5900,3y_bull,Tasiast,Mauritania,100%,revenue,USDm,2979.5,computed,attrib_GEO * GOLD-METAL G / 1000
+5900,3y_bull,Tasiast,Mauritania,100%,COS_abs,USDm,565.6,computed,oz * COS(G) / 1000
+5900,3y_bull,Tasiast,Mauritania,100%,sustaining_capex,USDm,80,sourced,YE 2025 PR country capex split
+5900,3y_bull,Tasiast,Mauritania,100%,growth_capex,USDm,195,sourced,YE 2025 PR country capex split (non-sustaining)
+5900,3y_bull,Tasiast,Mauritania,100%,attrib_capex,USDm,275,computed,sustaining + growth (YE PR)
+5900,3y_bull,Tasiast,Mauritania,100%,cash_margin,USDm,2413.9,computed,revenue - COS_abs
+5900,3y_bull,Tasiast,Mauritania,100%,fcf_pre_corporate,USDm,2138.9,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+5900,3y_bull,Paracatu,Brazil,100%,attrib_GEO,koz,600,sourced,"YE 2025 PR country guide 600 koz / COS $1,240; AIF 100%; scout Paracatu COS guide $1,240"
+5900,3y_bull,Paracatu,Brazil,100%,COS,USD/GEO,1310.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+5900,3y_bull,Paracatu,Brazil,100%,revenue,USDm,3540.0,computed,attrib_GEO * GOLD-METAL G / 1000
+5900,3y_bull,Paracatu,Brazil,100%,COS_abs,USDm,786.0,computed,oz * COS(G) / 1000
+5900,3y_bull,Paracatu,Brazil,100%,sustaining_capex,USDm,190,sourced,YE 2025 PR country capex split
+5900,3y_bull,Paracatu,Brazil,100%,growth_capex,USDm,45,sourced,YE 2025 PR country capex split (non-sustaining)
+5900,3y_bull,Paracatu,Brazil,100%,attrib_capex,USDm,235,computed,sustaining + growth (YE PR)
+5900,3y_bull,Paracatu,Brazil,100%,cash_margin,USDm,2754.0,computed,revenue - COS_abs
+5900,3y_bull,Paracatu,Brazil,100%,fcf_pre_corporate,USDm,2519.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+5900,3y_bull,La Coipa,Chile,100%,attrib_GEO,koz,210,sourced,"YE 2025 PR country guide 210 koz / COS $1,320; AIF 100%"
+5900,3y_bull,La Coipa,Chile,100%,COS,USD/GEO,1390.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+5900,3y_bull,La Coipa,Chile,100%,revenue,USDm,1239.0,computed,attrib_GEO * GOLD-METAL G / 1000
+5900,3y_bull,La Coipa,Chile,100%,COS_abs,USDm,291.9,computed,oz * COS(G) / 1000
+5900,3y_bull,La Coipa,Chile,100%,sustaining_capex,USDm,40,sourced,YE 2025 PR country capex split
+5900,3y_bull,La Coipa,Chile,100%,growth_capex,USDm,50,sourced,YE 2025 PR country capex split (non-sustaining)
+5900,3y_bull,La Coipa,Chile,100%,attrib_capex,USDm,90,computed,sustaining + growth (YE PR)
+5900,3y_bull,La Coipa,Chile,100%,cash_margin,USDm,947.1,computed,revenue - COS_abs
+5900,3y_bull,La Coipa,Chile,100%,fcf_pre_corporate,USDm,857.1,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_GEO,koz,685,sourced,"YE 2025 PR US attrib GEO 685 / COS $1,700; Manh Choh 70% already in 685; no GB/Lobo ounces"
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS,USD/GEO,1770.0,computed,"country COS guide + $5/GEO per +$100 Au (Q2 NR royalty) vs $4,500 deck"
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,revenue,USDm,4041.5,computed,attrib_GEO * GOLD-METAL G / 1000
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,COS_abs,USDm,1212.45,computed,oz * COS(G) / 1000
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,sustaining_capex,USDm,140,sourced,YE 2025 PR country capex split
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,growth_capex,USDm,500,sourced,YE 2025 PR country capex split (non-sustaining)
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,attrib_capex,USDm,640,computed,sustaining + growth (YE PR)
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,cash_margin,USDm,2829.05,computed,revenue - COS_abs
+5900,3y_bull,United States attrib,United States,FK 100%; Manh Choh 70% (Peak Gold / Contango 30%); RM 100%; BM 100%,fcf_pre_corporate,USDm,2189.05,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+5900,3y_bull,Canada and other,Canada / corp,100%,attrib_GEO,koz,0,sourced,"YE 2025 PR: Canada is growth, not 2026 ounces. 0 in mid."
+5900,3y_bull,Canada and other,Canada / corp,100%,COS,USD/GEO,,unsourced,no producing GEO; COS n/a
+5900,3y_bull,Canada and other,Canada / corp,100%,revenue,USDm,0.0,computed,attrib_GEO * GOLD-METAL G / 1000
+5900,3y_bull,Canada and other,Canada / corp,100%,COS_abs,USDm,0.0,sourced,zero — no ounces
+5900,3y_bull,Canada and other,Canada / corp,100%,sustaining_capex,USDm,0,sourced,YE 2025 PR country capex split
+5900,3y_bull,Canada and other,Canada / corp,100%,growth_capex,USDm,260,sourced,YE 2025 PR country capex split (non-sustaining)
+5900,3y_bull,Canada and other,Canada / corp,100%,attrib_capex,USDm,260,computed,sustaining + growth (YE PR)
+5900,3y_bull,Canada and other,Canada / corp,100%,cash_margin,USDm,0.0,computed,revenue - COS_abs
+5900,3y_bull,Canada and other,Canada / corp,100%,fcf_pre_corporate,USDm,-260.0,computed,cash_margin - attrib_capex; tax/G&A/AISC-other at corporate
+5900,3y_bull,Group COS recon,Group,attrib,COS_abs,USDm,4.05,computed,"Official group COS $1,360 vs country-weighted blend $1357.975; recon $4.05m so sum = 2,000 * COS(G)"
+5900,3y_bull,Group COS recon,Group,attrib,cash_margin,USDm,-4.05,computed,offset so sum(segment cash_margin)+recon = Q*(G-COS_guide(G))
+5900,3y_bull,Corporate / AISC adders,Group,attrib,G_and_A,USDm,135.0,sourced,YE 2025 PR 2026 G&A guide $135m
+5900,3y_bull,Corporate / AISC adders,Group,attrib,AISC_other_ex_GA_ex_sustcapex,USDm,155.0,computed,(AISC-COS)*Q/1000 - sustaining $450 - G&A $135; AISC/COS YE PR + royalty factor
+5900,3y_bull,Corporate / AISC adders,Group,attrib,cash_tax,USDm,1349.0,computed,"YE PR cash tax $1,125m at $4,500 + $16m per +$100 Au"
+5900,3y_bull,Corporate / AISC adders,Group,attrib,NCI_OCF,USDm,,unsourced,Manh Choh 30% NCI OCF share not guided at FY; 1H implied ~$36m not 2x'd; DROPPED from mid
+5900,3y_bull,Corporate / AISC adders,Group,attrib,WC_change,USDm,,unsourced,no FY WC guide; DROPPED from mid
+5900,3y_bull,Corporate / AISC adders,Group,attrib,company_adj_EBITDA,USDm,,unsourced,Q2 NR / MD&A / deck: no adj. EBITDA print; do not invent

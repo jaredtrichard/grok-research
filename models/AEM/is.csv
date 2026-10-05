@@ -1,0 +1,25 @@
+line,unit,q2_2026,h1_2026,fy2025,rr_3900,rr_4500,rr_4900,rr_5900,source,note
+gold_usd_oz,USD/oz,4483.0,4672.0,3454.0,3900,4500,4900,5900,sourced,Q2/H1/FY25 = company realized. RR = GOLD-METAL locked 3900/4500-check/4900/5900. Do not retune.
+volume_produced_koz,koz,855.816,1680.925,3447.367,3400,3400,3400,3400,sourced,Q2/H1/FY25 produced. RR uses guide mid 3.40 Moz. Sales used for realized-rev check.
+volume_sold_koz,koz,835.505,1665.156,3400.919,,,,,sourced,Sales. RR volume is produced 3.40 (guide does not print FY sales).
+revenue_gold,USDm,3745.569,7779.609,11746.774,13260.0,15300.0,16660.0,20060.0,computed,IS.revenue = sold_oz*realized (hist) or guide_oz*GOLD-METAL (RR). By-product sits in TCC credit.
+tcc_usd_oz,USD/oz,1054,1073,953,1052.0,1070.0,1082.0,1112.0,sourced,"Hist = company by-product TCC (2025 restated composition $953). RR = 1070 + $3/oz per $100 vs $4,500."
+aisc_usd_oz,USD/oz,1459,1471,1313,,,,,sourced,"Company AISC. 2025 restated $1,313. RR AISC not required for 7x engine; mid guide $1,475."
+cash_costs_TCC,USDm,902.03,1803.633,3285.341,3576.8,3638.0,3678.8,3780.8,computed,produced_oz * TCC. RR uses guide oz * TCC(G).
+NTI,USDm,,,56,190.0,190.0,190.0,190.0,sourced,"FY25 actual $56m. 2026 guide $185-195 mid $190 at $4,500. Held flat across gold — no printed NTI lever. FLAG."
+G&A,USDm,,,236,245.0,245.0,245.0,245.0,sourced,FY25 $236m. 2026 guide $230-260 mid $245.
+other_costs,USDm,,,163,85.0,85.0,85.0,85.0,sourced,2026 guide $75-95 mid $85. FY25 $163 includes C&M — not the RR.
+expl_corpdev,USDm,,,207,290.0,290.0,290.0,290.0,sourced,2026 guide $275-305 mid $290. In opex for guide-EBITDA build.
+adj_EBITDA_company,USDm,2738.0,5748.0,8090.0,,,,,sourced,"Q2 $2,738m / H1 $5,748m from SEC ex99.1 Financial Results Summary. FY25 $8,090m YE IR. URL https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm"
+EBITDA_company,USDm,2762.0,5758.0,8440.0,,,,,sourced,Unadjusted EBITDA same table.
+adj_EBITDA_remake,USDm,,,,8949.944,10928.744,12247.944,15545.944,computed,"FLAG remake: no company EBITDA/$oz lever. E(G)=2*H1_adjEBITDA $11,496m + 3.298*(G-4672). lambda=3.40Moz*(1-0.03) from $3/oz TCC per $100 royalty print. Official 7x uses this line."
+EBITDA_guide_build,USDm,,,,8873.2,10852.0,12171.2,15469.2,computed,3.40*(G-TCC(G))-NTI-G&A-other-expl. Cross-check vs remake; gap in tie.csv.
+D&A,USDm,UNSOURCED,UNSOURCED,1645,1650.0,1650.0,1650.0,1650.0,sourced,"FY25 $1,645m. 2026 guide $1,550-1,750 mid $1,650. Q2/H1 line not in PR summary."
+EBIT_from_remake,USDm,,,,7299.944,9278.744,10597.944,13895.944,computed,adj_EBITDA_remake - D&A mid. Interest simplified ~0 (net cash).
+interest,USDm,UNSOURCED,UNSOURCED,UNSOURCED,0,0,0,0,UNSOURCED,No printed blended rate. Debt $197m. Net cash. Interest set 0 and labelled UNSOURCED — not a silent plug.
+ETR,pct,,,33,35,35,35,35,sourced,FY25 33%. 2026 guide 34-36% mid 35%.
+tax_book_35pct,USDm,,,,2554.98,3247.56,3709.28,4863.58,computed,35% * (EBIT_from_remake). Cash tax on CF is different (guide $3.4-3.6bn includes $1.3bn 2025 residual).
+NI_company,USDm,1600,3296,4461,,,,,sourced,"Q2 $1,600m / H1 $3,296m / FY25 $4,461m."
+adj_NI_company,USDm,1541,3246,4169,,,,,sourced,"Q2 $1,541m / H1 $3,246m / FY25 $4,169m."
+NI_rr_from_remake,USDm,,,,4744.964,6031.184,6888.664,9032.364,computed,EBIT*(1-0.35). Not a company NI guide. NCI UNSOURCED (none printed).
+EPS_basic_company,USD/sh,3.19,6.58,8.89,,,,,sourced,"Printed basic. Implied Q2 WASO 1600/3.19 ~501.6m — arithmetic, not printed WASO."

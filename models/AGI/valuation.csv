@@ -1,0 +1,14 @@
+engine,g4900,g5900,g3900,g4500,note
+desk_ebitda,1965.25,2500.25,1430.25,1751.25,LABEL DESK
+ev_7x,13756.75,17501.75,10011.75,12258.75,k=7 T.Rowe
+equity_7x,14193.65,17938.65,10448.65,12695.65,EV+436.9
+pt_7x_computed,33.91,42.86,24.96,30.33,N=418.58913
+pt_7x_official,34,43,25,30,rounded; 12m not official
+fcf_company,801.25,1336.25,266.25,587.25,
+pt_fcf_8pct,24.97,40.95,8.99,18.58,y=8 all four for table; official cross-check uses 8/7.5/10
+pt_fcf_official_y,24.97,43.61,7.4,18.58,8% / 7.5% / 10% / 8%
+pt_fcf_7pct_notch,28.39,46.65,10.13,21.09,Canada+net-cash reason
+gap_7x_vs_8pct_base_pct,26.4,,,,FLAG >20
+dP_per_100_7x,0.89,0.89,0.89,0.89,
+tape,37.86,37.86,37.86,37.86,
+implied_k_at_4900,7.84,,,,

@@ -1,0 +1,5 @@
+scenario,gold,E_adj_usdm,k,k_basis,EV,net_cash,equity,pt_official_engine,pt_256_ocf,pt_median_2442,pt_7x,official
+g0_checkin,4500,2254.77,24.09,StockIntent 5y TTM 19.23/24.09 mid-range/28.94; TTM-k on Adj-E FLAG,54317.41,1014.2,55331.61,286.88,267.46,290.74,87.09,12m check-in only
+base,4900,2392.77,24.09,StockIntent 5y TTM 19.23/24.09 mid-range/28.94; TTM-k on Adj-E FLAG,57641.83,1014.2,58656.03,304.12,281.76,308.21,92.1,official current 22 Aug 2026
+bull,5900,2737.78,28.94,StockIntent 5y TTM 19.23/24.09 mid-range/28.94; TTM-k on Adj-E FLAG,79231.35,1014.2,80245.55,416.05,317.5,351.89,104.62,official current 22 Aug 2026
+bear,3900,2047.77,19.23,StockIntent 5y TTM 19.23/24.09 mid-range/28.94; TTM-k on Adj-E FLAG,39378.62,1014.2,40392.82,209.43,246.01,264.53,79.58,official current 22 Aug 2026

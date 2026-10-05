@@ -1,0 +1,61 @@
+line,unit,scenario,value,method,source_or_formula
+gold_revenue,USD_m,3900,11992.5,computed,3.075e6*3900/1e6
+gold_revenue_NA,USD_m,3900,6574.23,computed,1685.7/1000*3900
+gold_revenue_SA_AP,USD_m,3900,2384.46,computed,611.4/1000*3900
+gold_revenue_AF_ME,USD_m,3900,3034.2,computed,778.0/1000*3900
+copper_revenue,USD_m,3900,2485.7,computed,205e3*2204.62262*5.50/1e6=2485.7; UNSOURCED to change with gold — held
+total_revenue,USD_m,3900,14478.2,computed,gold_revenue+copper_revenue
+gold_TCC,USD_m,3900,4305,computed,3.075e6*1400/1e6=4305; guide mid TCC; 12m cost deck; not restated at 4900
+copper_cash_cost,USD_m,3900,1627.0,computed,205e3*2204.62262*3.60/1e6=1627.0; FLAG AISC mid used as cash-cost proxy
+attrib_adj_EBITDA,USD_m,3900,8686.9,computed,10612+2.7*(3900-4613); sourced 1H 5306*2 + Q2 endnote 6 slope $2.7m per $1/oz
+D_and_A,USD_m,3900,,UNSOURCED,no FY/run-rate D&A in B-SCOUT; not invented
+interest,USD_m,3900,,UNSOURCED,B-SCOUT has capitalized interest in capex (1H 64) not P&L interest; no coupon print
+tax,USD_m,3900,,UNSOURCED,no ETR or tax $ guide; do not invent ETR
+earnings,USD_m,3900,,UNSOURCED,cannot compute without D&A/tax; 1H NI 2819 is historical not a scenario earnings
+NCI,USD_m,3900,,UNSOURCED,no NCI P&L line extracted in B-SCOUT
+gold_revenue,USD_m,4500,13837.5,computed,3.075e6*4500/1e6
+gold_revenue_NA,USD_m,4500,7585.65,computed,1685.7/1000*4500
+gold_revenue_SA_AP,USD_m,4500,2751.3,computed,611.4/1000*4500
+gold_revenue_AF_ME,USD_m,4500,3501.0,computed,778.0/1000*4500
+copper_revenue,USD_m,4500,2485.7,computed,205e3*2204.62262*5.50/1e6=2485.7; UNSOURCED to change with gold — held
+total_revenue,USD_m,4500,16323.2,computed,gold_revenue+copper_revenue
+gold_TCC,USD_m,4500,4305,computed,3.075e6*1400/1e6=4305; guide mid TCC; 12m cost deck; not restated at 4900
+copper_cash_cost,USD_m,4500,1627.0,computed,205e3*2204.62262*3.60/1e6=1627.0; FLAG AISC mid used as cash-cost proxy
+attrib_adj_EBITDA,USD_m,4500,10306.9,computed,10612+2.7*(4500-4613); sourced 1H 5306*2 + Q2 endnote 6 slope $2.7m per $1/oz
+D_and_A,USD_m,4500,,UNSOURCED,no FY/run-rate D&A in B-SCOUT; not invented
+interest,USD_m,4500,,UNSOURCED,B-SCOUT has capitalized interest in capex (1H 64) not P&L interest; no coupon print
+tax,USD_m,4500,,UNSOURCED,no ETR or tax $ guide; do not invent ETR
+earnings,USD_m,4500,,UNSOURCED,cannot compute without D&A/tax; 1H NI 2819 is historical not a scenario earnings
+NCI,USD_m,4500,,UNSOURCED,no NCI P&L line extracted in B-SCOUT
+gold_revenue,USD_m,4900,15067.5,computed,3.075e6*4900/1e6
+gold_revenue_NA,USD_m,4900,8259.93,computed,1685.7/1000*4900
+gold_revenue_SA_AP,USD_m,4900,2995.86,computed,611.4/1000*4900
+gold_revenue_AF_ME,USD_m,4900,3812.2,computed,778.0/1000*4900
+copper_revenue,USD_m,4900,2485.7,computed,205e3*2204.62262*5.50/1e6=2485.7; UNSOURCED to change with gold — held
+total_revenue,USD_m,4900,17553.2,computed,gold_revenue+copper_revenue
+gold_TCC,USD_m,4900,4305,computed,3.075e6*1400/1e6=4305; guide mid TCC; 12m cost deck; not restated at 4900
+copper_cash_cost,USD_m,4900,1627.0,computed,205e3*2204.62262*3.60/1e6=1627.0; FLAG AISC mid used as cash-cost proxy
+attrib_adj_EBITDA,USD_m,4900,11386.9,computed,10612+2.7*(4900-4613); sourced 1H 5306*2 + Q2 endnote 6 slope $2.7m per $1/oz
+D_and_A,USD_m,4900,,UNSOURCED,no FY/run-rate D&A in B-SCOUT; not invented
+interest,USD_m,4900,,UNSOURCED,B-SCOUT has capitalized interest in capex (1H 64) not P&L interest; no coupon print
+tax,USD_m,4900,,UNSOURCED,no ETR or tax $ guide; do not invent ETR
+earnings,USD_m,4900,,UNSOURCED,cannot compute without D&A/tax; 1H NI 2819 is historical not a scenario earnings
+NCI,USD_m,4900,,UNSOURCED,no NCI P&L line extracted in B-SCOUT
+gold_revenue,USD_m,5900,18142.5,computed,3.075e6*5900/1e6
+gold_revenue_NA,USD_m,5900,9945.63,computed,1685.7/1000*5900
+gold_revenue_SA_AP,USD_m,5900,3607.26,computed,611.4/1000*5900
+gold_revenue_AF_ME,USD_m,5900,4590.2,computed,778.0/1000*5900
+copper_revenue,USD_m,5900,2485.7,computed,205e3*2204.62262*5.50/1e6=2485.7; UNSOURCED to change with gold — held
+total_revenue,USD_m,5900,20628.2,computed,gold_revenue+copper_revenue
+gold_TCC,USD_m,5900,4305,computed,3.075e6*1400/1e6=4305; guide mid TCC; 12m cost deck; not restated at 4900
+copper_cash_cost,USD_m,5900,1627.0,computed,205e3*2204.62262*3.60/1e6=1627.0; FLAG AISC mid used as cash-cost proxy
+attrib_adj_EBITDA,USD_m,5900,14086.9,computed,10612+2.7*(5900-4613); sourced 1H 5306*2 + Q2 endnote 6 slope $2.7m per $1/oz
+D_and_A,USD_m,5900,,UNSOURCED,no FY/run-rate D&A in B-SCOUT; not invented
+interest,USD_m,5900,,UNSOURCED,B-SCOUT has capitalized interest in capex (1H 64) not P&L interest; no coupon print
+tax,USD_m,5900,,UNSOURCED,no ETR or tax $ guide; do not invent ETR
+earnings,USD_m,5900,,UNSOURCED,cannot compute without D&A/tax; 1H NI 2819 is historical not a scenario earnings
+NCI,USD_m,5900,,UNSOURCED,no NCI P&L line extracted in B-SCOUT
+1H_revenue_print,USD_m,1H2026,10510,sourced,B-SCOUT Q2 IR 1H revenue 10510
+1H_attrib_adj_EBITDA_print,USD_m,1H2026,5306,sourced,B-SCOUT Q2 IR 1H attrib adj EBITDA 5306 at realized 4613
+1H_net_earnings_equity_holders,USD_m,1H2026,2819,sourced,B-SCOUT; historical only — not a 3y earnings
+1H_adj_net_earnings,USD_m,1H2026,3011,sourced,B-SCOUT; historical only

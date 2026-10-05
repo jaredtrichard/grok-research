@@ -1,0 +1,26 @@
+line,unit,scenario,value,method,source_or_formula
+attrib_OCF,USD_m,1H2026,3087,sourced,B-SCOUT 1H attrib OCF 3087
+attrib_OCF,USD_m,1Hx2,6174,computed,3087*2=6174; labelled annualize not a company FY print
+attrib_capex,USD_m,1H2026,1733,sourced,B-SCOUT 1H attrib capex 1733
+attrib_capex,USD_m,1Hx2,3466,computed,1733*2=3466; FLAG vs 2026 attrib capex guide mid 4000
+attrib_FCF,USD_m,1H2026,1354,sourced,B-SCOUT 3087-1733=1354 company attrib FCF after all attrib capex
+attrib_FCF,USD_m,1Hx2,2708,computed,1354*2=2708 labelled annualize at 1H realized 4613; gold remake UNSOURCED — no sourced FCF lever
+attrib_FCF_at_4900,USD_m,4900,,UNSOURCED,same 2708 gold remake not sourced; do not invent gold-to-FCF beta
+consol_CFO,USD_m,1H2026,4258,sourced,B-SCOUT 1H consolidated CFO 4258
+consol_CFO,USD_m,1Hx2,8516,computed,4258*2 labelled; not FY
+consol_capex,USD_m,1H2026,2168,sourced,B-SCOUT 1H consol cash capex 2168
+consol_FCF,USD_m,1H2026,2090,sourced,B-SCOUT 1H consol FCF 2090
+consol_FCF,USD_m,1Hx2,4180,computed,2090*2 labelled
+consol_sustaining_capex,USD_m,1H2026,880,sourced,B-SCOUT 1H minesite sustaining 880
+consol_project_capex,USD_m,1H2026,1224,sourced,B-SCOUT 1H project 1224
+consol_capitalized_interest,USD_m,1H2026,64,sourced,B-SCOUT 1H capitalized interest 64
+attrib_sustaining_capex,USD_m,1H2026,703.43,computed,880/2168*1733 allocation; attrib split not printed
+attrib_project_capex,USD_m,1H2026,1029.57,computed,1733-880/2168*1733
+after_sustaining_attrib_FCF,USD_m,1H2026,2383.57,computed,3087-880/2168*1733; labelled allocation not a Barrick KPI
+after_sustaining_attrib_FCF,USD_m,1Hx2,4767.14,computed,(3087-880/2168*1733)*2
+after_sustaining_consol,USD_m,1H2026,3378,computed,4258-880=3378; inference not a Barrick KPI
+guide_attrib_capex_mid,USD_m,guide,4000,sourced,B-SCOUT 2026 attrib capex guide 3.8-4.2bn mid 4.0bn
+FLAG_1Hx2_attrib_capex_vs_guide,USD_m,1Hx2,-534,computed,3466-4000=-534; 1H*2 below guide mid
+Q2_attrib_FCF,USD_m,Q2_2026,141,sourced,B-SCOUT Q2 attrib FCF 141 after all attrib capex
+Q2_attrib_OCF,USD_m,Q2_2026,1119,sourced,B-SCOUT
+Q2_consol_CFO,USD_m,Q2_2026,1704,sourced,B-SCOUT

@@ -1,0 +1,36 @@
+case,gold_usd_oz,segment,oz_100,own,oz_attrib,revenue_usdm,cash_op_usdm,royalties_usdm,roy_pct_q2,da_usdm,ebitda_mine_usdm,capex_usdm,cash_op_guide_mid,aisc_guide_mid,source
+bear,3900,Fekola,405000,0.8,324000.0,1579.5,449.55,275.526,0.174438,235.324,854.424,173.304,1110.0,2745.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bear,3900,Masbate,190000,1.0,190000.0,741.0,180.5,36.142,0.048775,110.399,524.358,61.596,950.0,1505.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bear,3900,Otjikoto,90000,0.9,81000.0,351.0,112.5,13.975,0.039814,52.294,224.525,29.778,1250.0,1905.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bear,3900,Goose,185000,1.0,185000.0,721.5,316.35,16.287,0.022573,107.494,388.863,276.558,1710.0,2820.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bear,3900,Fekola_Regional,0,,0.0,0.0,0.0,0.0,,0.0,0.0,88.598,,,2026 oz UNSOURCED (not in 2026 guide; 65/35 is 2028 colour); capex computed H1*2
+bear,3900,Gramalote,0,,0.0,0.0,0.0,0.0,,0.0,0.0,34.052,,,no 2026 production; capex computed H1*2; FID UNSOURCED
+bear,3900,Other_exploration,0,,0.0,0.0,0.0,0.0,,0.0,0.0,48.998,,,capex computed H1*2
+check12,4500,Fekola,405000,0.8,324000.0,1822.5,449.55,317.914,0.174438,235.324,1055.036,173.304,1110.0,2745.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+check12,4500,Masbate,190000,1.0,190000.0,855.0,180.5,41.703,0.048775,110.399,632.797,61.596,950.0,1505.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+check12,4500,Otjikoto,90000,0.9,81000.0,405.0,112.5,16.125,0.039814,52.294,276.375,29.778,1250.0,1905.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+check12,4500,Goose,185000,1.0,185000.0,832.5,316.35,18.792,0.022573,107.494,497.358,276.558,1710.0,2820.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+check12,4500,Fekola_Regional,0,,0.0,0.0,0.0,0.0,,0.0,0.0,88.598,,,2026 oz UNSOURCED (not in 2026 guide; 65/35 is 2028 colour); capex computed H1*2
+check12,4500,Gramalote,0,,0.0,0.0,0.0,0.0,,0.0,0.0,34.052,,,no 2026 production; capex computed H1*2; FID UNSOURCED
+check12,4500,Other_exploration,0,,0.0,0.0,0.0,0.0,,0.0,0.0,48.998,,,capex computed H1*2
+spot,4600,Fekola,405000,0.8,324000.0,1863.0,449.55,324.979,0.174438,235.324,1088.471,173.304,1110.0,2745.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+spot,4600,Masbate,190000,1.0,190000.0,874.0,180.5,42.63,0.048775,110.399,650.87,61.596,950.0,1505.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+spot,4600,Otjikoto,90000,0.9,81000.0,414.0,112.5,16.483,0.039814,52.294,285.017,29.778,1250.0,1905.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+spot,4600,Goose,185000,1.0,185000.0,851.0,316.35,19.21,0.022573,107.494,515.44,276.558,1710.0,2820.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+spot,4600,Fekola_Regional,0,,0.0,0.0,0.0,0.0,,0.0,0.0,88.598,,,2026 oz UNSOURCED (not in 2026 guide; 65/35 is 2028 colour); capex computed H1*2
+spot,4600,Gramalote,0,,0.0,0.0,0.0,0.0,,0.0,0.0,34.052,,,no 2026 production; capex computed H1*2; FID UNSOURCED
+spot,4600,Other_exploration,0,,0.0,0.0,0.0,0.0,,0.0,0.0,48.998,,,capex computed H1*2
+base,4900,Fekola,405000,0.8,324000.0,1984.5,449.55,346.173,0.174438,235.324,1188.777,173.304,1110.0,2745.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+base,4900,Masbate,190000,1.0,190000.0,931.0,180.5,45.41,0.048775,110.399,705.09,61.596,950.0,1505.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+base,4900,Otjikoto,90000,0.9,81000.0,441.0,112.5,17.558,0.039814,52.294,310.942,29.778,1250.0,1905.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+base,4900,Goose,185000,1.0,185000.0,906.5,316.35,20.463,0.022573,107.494,569.687,276.558,1710.0,2820.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+base,4900,Fekola_Regional,0,,0.0,0.0,0.0,0.0,,0.0,0.0,88.598,,,2026 oz UNSOURCED (not in 2026 guide; 65/35 is 2028 colour); capex computed H1*2
+base,4900,Gramalote,0,,0.0,0.0,0.0,0.0,,0.0,0.0,34.052,,,no 2026 production; capex computed H1*2; FID UNSOURCED
+base,4900,Other_exploration,0,,0.0,0.0,0.0,0.0,,0.0,0.0,48.998,,,capex computed H1*2
+bull,5900,Fekola,405000,0.8,324000.0,2389.5,449.55,416.821,0.174438,235.324,1523.129,173.304,1110.0,2745.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bull,5900,Masbate,190000,1.0,190000.0,1121.0,180.5,54.677,0.048775,110.399,885.823,61.596,950.0,1505.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bull,5900,Otjikoto,90000,0.9,81000.0,531.0,112.5,21.141,0.039814,52.294,397.359,29.778,1250.0,1905.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bull,5900,Goose,185000,1.0,185000.0,1091.5,316.35,24.639,0.022573,107.494,750.511,276.558,1710.0,2820.0,oz/cash/aisc=2026 guide mid 6 Aug 2026; roy_pct=computed Q2 roy/(sold*site_px); da=computed (H1 DA/H1 sold)*oz; capex=computed H1 site*2
+bull,5900,Fekola_Regional,0,,0.0,0.0,0.0,0.0,,0.0,0.0,88.598,,,2026 oz UNSOURCED (not in 2026 guide; 65/35 is 2028 colour); capex computed H1*2
+bull,5900,Gramalote,0,,0.0,0.0,0.0,0.0,,0.0,0.0,34.052,,,no 2026 production; capex computed H1*2; FID UNSOURCED
+bull,5900,Other_exploration,0,,0.0,0.0,0.0,0.0,,0.0,0.0,48.998,,,capex computed H1*2

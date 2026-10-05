@@ -1,0 +1,27 @@
+cell,unit,y1,y2,y3,runrate,source
+clock,,,,,3y run-rate + path (NOT Y1/Y2/Y3),HOUSE-MODEL 3 / Feb 2026-28 consol 3.3-3.5 each year
+volume_guide_mid,attrib. payable Moz,,,,3.4,YE 12 Feb 2026 + Q2 reiteration 3.30-3.50 mid. No haircut.
+guide_miss_oz,Moz,,,,3.30 lower-end; 3.15 Barnat -150 koz 2027-28,hedge / invalidation — NOT the mid
+realized_hedge,,,,,unhedged gold; residual hedge book UNSOURCED,AEM-SCOUT: no hard gold forward book extracted
+revenue_4900,US$m,,,,16660,computed 3.40x4900
+revenue_5900,US$m,,,,20060,computed
+revenue_3900,US$m,,,,13260,computed
+unit_cost_TCC_4500,US$/oz,,,,1070,"guide mid $1,020-1,120"
+unit_cost_TCC_4900,US$/oz,,,,1082,"+$3/oz per $100 Au from $4,500 (AEM Feb)"
+AISC_mid_4500,US$/oz,,,,1475,"guide $1,400-1,550 — headline not FCF lever"
+sustaining_capex,US$m,,,,985,computed 1H mix x 3025
+growth_capex,US$m,,,,2040,computed residual; Hope Bay committed spend IN
+cash_tax_4500,US$m,,,,2200,plug: 3500 guide - 1300 residual 2025
+cash_tax_4900,US$m,,,,2662,2200 + 115.43x4
+IS_BS_CF,path,,,,models/AEM/*.csv,sourced or computed; see ties.csv
+company_FCF_4900,US$m,,,,6894,identity after total capex; view FCF check uses $6484 path — leftover $6894 not official
+after_sustaining_FCF_4900,US$m,,,,8934,labelled alt; rejected as PT
+adj_EBITDA_sourced,US$m,,,,Q2 2738 / 1H 5748,"PR 29 Jul 2026. 3y remade computed 12154 at $4,900"
+net_cash,US$m,,,,3267,30 Jun 2026
+diluted_shares,m,,,,506.36,tape pick; YE 500.7684 also printed
+desk_yield,%,,,,5.0,AEM-quality; 4.5% flip only; bear 5-6%
+PT_base_bull_bear,US$/sh,,,,297 / 494 / 150 draft official hist-k; 7x check 176/221/130; FCF check ~263,file not current
+12m_checkin,US$/sh,245,,,,"$4,500 / 3.40 / not official"
+tape_vs_4900_PT,%,+23 vs 7x $176 / -27 vs hist-k $297,,,,216.06 vs working tapes
+dP_per_100_Au,US$/sh,,,,8.47,same FCF-yield identity
+not_in_number,list,,,,see view,"Hope Bay oz, invented haircut, NAV, GDX, street, residual BS"

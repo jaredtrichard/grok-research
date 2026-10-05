@@ -1,0 +1,27 @@
+{
+  "unit": "USD",
+  "rule": "IS/BS/CF must tie. Missing = UNSOURCED not a plug.",
+  "gaps": {
+    "sourced_30Jun2026": 0.0,
+    "working_open_30Jun_plus_RCF95": 0.0,
+    "runrate_end_bear": 0.0,
+    "runrate_end_check12": 0.0,
+    "runrate_end_spot": 0.0,
+    "runrate_end_base": 0.0,
+    "runrate_end_bull": 0.0
+  },
+  "ok": true,
+  "k_official": {
+    "low": 3.34,
+    "mid": 5.06,
+    "high": 6.79,
+    "window": "YE 2019-2025 ex 2021"
+  },
+  "official_pt": {
+    "bear": 4.1,
+    "base": 8.94,
+    "bull": 15.59,
+    "check12": 7.88,
+    "spot": 8.14
+  }
+}

@@ -1,0 +1,13 @@
+node,gold,COS,gross_m,cash_tax_m,FCF_m,yield,equity_m,usd_per_sh,rounded,official
+3y_base,4900,1380,7040,1189,3858.5,0.08,50148.8,42.2769,42,YES official mid
+3y_base_lo,4400,1355,6090,1109,2988.5,0.08,39273.8,33.109,33,band edge
+3y_base_hi,5400,1405,7990,1269,4728.5,0.08,61023.8,51.4448,51,band edge
+3y_bull_flip,5900,1430,8940,1349,5598.5,0.065,88048.4,74.2273,74,YES official bull — 6.5% only on GOLD-METAL flip
+3y_bull_noflip,5900,1430,8940,1349,5598.5,0.08,71898.9,60.6128,61,"sensitivity: $5,900 without yield flip"
+3y_bear,3900,1330,5140,1029,2118.5,0.1,23102.6,19.4761,19,YES official bear
+3y_bear_lo,3400,1305,4190,949,1248.5,0.1,14402.6,12.1418,12,band edge
+3y_bear_hi,4400,1355,6090,1109,2988.5,0.1,31802.6,26.8105,27,band edge
+12m_checkin,4500,1360,6280,1125,3162.5,0.08,41448.8,34.9425,35,NOT official
+spot_tape,4600,1365,6470,1141,3336.5,0.08,43623.8,36.7761,37,"sanity ~$4,600"
+qn_sens_6.5pct,4900,1380,7040,1189,3858.5,0.065,61279.1,51.66,52,sensitivity quality-neutral — not official
+qn_sens_7.0pct,4900,1380,7040,1189,3858.5,0.07,57039.0,48.0855,48,sensitivity quality-neutral — not official

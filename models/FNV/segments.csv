@@ -1,0 +1,5 @@
+segment,q2_geos,q2_rev_usdm,weight,y_geos_guide540k,rev_g0_usdm,rev_per_geo_usd,gold_scale,source
+rev_royalty,47079,211.5,0.3556,192006.8,900.97,4492.45,yes_via_firm_w=0.694,Q2 MDA type table; volume = 540k * Q2 GEO weight
+stream,66166,287.1,0.4997,269851.1,1223.02,4339.09,yes_via_firm_w=0.694,Q2 MDA type table; volume = 540k * Q2 GEO weight
+profit,16537,70.5,0.1249,67444.4,300.32,4263.17,yes_via_firm_w=0.694,Q2 MDA type table; volume = 540k * Q2 GEO weight
+other,2623,11.8,0.0198,10697.6,50.27,4498.67,firm_w on all types; energy inside mix,Q2 MDA type table; volume = 540k * Q2 GEO weight

@@ -1,0 +1,11 @@
+segment,role,geo_koz_official_mid,cos_4500,cos_4900,cash_m_4500,cash_m_4900,cash_m_3900,cash_m_5900,source,note
+Tasiast,"producing, Mauritania 100%",505,1050,1070,1742.25,1934.15,1454.4,2413.9,YE 2025 PR country guide; Q2 reaffirmed 29 Jul 2026,"25% of 2,000 GEO; host residual"
+Paracatu,"producing, Brazil 100%",600,1240,1260,1956.0,2184.0,1614.0,2754.0,YE 2025 PR country guide,30%
+La Coipa,"producing, Chile 100%",210,1320,1340,667.8,747.6,548.1,947.1,YE 2025 PR country guide,11%
+Fort Knox + Manh Choh 70%,"producing, US; inside US 685",,,,,,,,Q2 NR site table 1H attrib GEO 189.5 koz,FY site GEO guide UNSOURCED — not a second mid
+Round Mountain,"producing, US; inside US 685",,,,,,,,Q2 NR 1H GEO 46.0 koz; Q2 COS 3360,FY site GEO guide UNSOURCED; miss lives in guide-miss node
+Bald Mountain,"producing, US; inside US 685",,,,,,,,Q2 NR 1H GEO 54.7 koz,FY site GEO guide UNSOURCED
+US attrib. (FK+MC70 + RM + BM),official US mid,685,1700,1720,1918.0,2178.3,1527.55,2829.05,YE 2025 PR country 685 / COS 1700,No RM/H2 path-weight into mid
+Great Bear,development — OUT of ounce mid,0,,,0,0,0,0,YE 2025 colour first gold late 2029,2026 Canada+other non-sust capex 260
+Lobo-Marte,development — OUT of ounce mid,0,,,0,0,0,0,29 Jul 2026 refresh NPV colour,NPV 4.3bn at 4100 OUT of number
+Consol attrib.,sum / company COS 1360,2000,1360,1380,6280.0,7040.0,5140.0,8940.0,"2,000 ±5% official mid = 2,000",Country COS blend 1358 vs guide 1360; $4 gap uses company 1360

@@ -1,0 +1,10 @@
+segment,units,as_of,koz,cash_per_oz,aisc_per_oz,revenue,cash_opex,ebitda,sust_capex,growth_capex,tag,formula
+Greenstone,US$m except koz and $/oz,3y run-rate = 2026 guide mid; gold GOLD-METAL 4900,262.5,1600,1950,1286.25,420.0,866.25,91.88,150.0,sourced: 5 Aug 2026 MD&A 2026 guide range midpoint,rev=koz*4900/1000; opex=koz*cash/1000; ebitda=rev-opex
+Musselwhite,US$m except koz and $/oz,3y run-rate = 2026 guide mid; gold GOLD-METAL 4900,105.0,1250,1750,514.5,131.25,383.25,52.5,12.5,sourced: 5 Aug 2026 MD&A 2026 guide range midpoint,rev=koz*4900/1000; opex=koz*cash/1000; ebitda=rev-opex
+Valentine,US$m except koz and $/oz,3y run-rate = 2026 guide mid; gold GOLD-METAL 4900,145.0,2000,2100,710.5,290.0,420.5,14.5,190.0,sourced: 5 Aug 2026 MD&A 2026 guide range midpoint,rev=koz*4900/1000; opex=koz*cash/1000; ebitda=rev-opex
+Nicaragua,US$m except koz and $/oz,3y run-rate = 2026 guide mid; gold GOLD-METAL 4900,237.5,1850,2050,1163.75,439.38,724.38,47.5,120.0,sourced: 5 Aug 2026 MD&A 2026 guide range midpoint,rev=koz*4900/1000; opex=koz*cash/1000; ebitda=rev-opex
+Camino Rojo,US$m except koz and $/oz,3y run-rate = 2026 guide mid; gold GOLD-METAL 4900,60.0,750,1000,294.0,45.0,249.0,15.0,32.5,sourced: 5 Aug 2026 MD&A 2026 guide range midpoint,rev=koz*4900/1000; opex=koz*cash/1000; ebitda=rev-opex
+Mesquite,US$m except koz and $/oz,3y run-rate = 2026 guide mid; gold GOLD-METAL 4900,75.0,1850,2550,367.5,138.75,228.75,52.5,10.0,sourced: 5 Aug 2026 MD&A 2026 guide range midpoint,rev=koz*4900/1000; opex=koz*cash/1000; ebitda=rev-opex
+Pipeline residual growth capex,US$m,computed residual,,,,,,,,110.0,computed: GUIDE_GROWTH 625 - sum(seg growth 515),625-(150+12.5+190+120+32.5+10)
+SUM_SEGS,US$m except koz,3y base 4900,885.0,,,4336.5,1464.38,2872.12,273.88,515.0,computed sum; oz 885 vs consol 895 — printed 10 koz residual; consol 895 binds; consol binds,sum of segment rows
+CONSOL_BIND,US$m except koz,3y base 4900; official mid,895.0,1650.0,1950.0,4385.5,1476.75,2808.75,268.5,625.0,sourced consol guide; G&A 100 subtracted at consol for official EBITDA,ebitda = 895*(4900-1650)/1000 - 100

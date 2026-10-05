@@ -1,0 +1,14 @@
+line,unit,scenario,value,method,source_or_formula
+cash,USD_m,30Jun2026,5927,sourced,B-SCOUT 30 Jun 2026 cash & equivalents 5927
+total_debt,USD_m,30Jun2026,4682,sourced,B-SCOUT 30 Jun 2026 debt current+LT 4682
+net_cash,USD_m,30Jun2026,1245,computed,5927-4682=1245; sourced cash and debt; no other BS plugs
+PPE,USD_m,30Jun2026,,UNSOURCED,not in B-SCOUT extracted BS
+equity,USD_m,30Jun2026,,UNSOURCED,not in B-SCOUT extracted BS
+working_capital,USD_m,30Jun2026,,UNSOURCED,not in B-SCOUT extracted BS
+NCI,USD_m,30Jun2026,,UNSOURCED,not in B-SCOUT extracted BS
+leases,USD_m,30Jun2026,,UNSOURCED,not in B-SCOUT extracted BS; company net cash is debt net of cash
+net_leverage_company,x,30Jun2026,-0.1,sourced,B-SCOUT company net leverage -0.1x
+cash,USD_m,31Mar2026,7131,sourced,B-SCOUT prior quarter
+total_debt,USD_m,31Mar2026,4726,sourced,B-SCOUT prior quarter
+cash,USD_m,31Dec2025,6706,sourced,B-SCOUT YE
+total_debt,USD_m,31Dec2025,4703,sourced,B-SCOUT YE

@@ -1,0 +1,69 @@
+gold_usd,scenario,line,unit,value,status,source
+3900,3y_bear,CFO,USDm,3821.0,computed,"FCF + attrib capex $1,500. Company attrib FCF = CFO - attrib capex - NCI OCF (NCI FY UNSOURCED, dropped)."
+3900,3y_bear,CFO_build_check,USDm,3821.0,computed,"Q*(G-AISC)/1000 + S - T. Equals FCF+1,500."
+3900,3y_bear,cash_tax_in_CFO,USDm,1029.0,computed,"inside CFO; YE PR $1,125m + $16m / +$100"
+3900,3y_bear,WC_change,USDm,,unsourced,DROPPED from mid
+3900,3y_bear,interest_paid_note_only,USDm,48.4,sourced,MD&A liquidity: next-12m senior-note interest ~$48.4m. NOT deducted again in FCF (may already sit in CFO).
+3900,3y_bear,sustaining_capex,USDm,450.0,sourced,YE PR $450m attrib sustaining
+3900,3y_bear,growth_capex,USDm,1050.0,sourced,"YE PR $1,050m attrib non-sustaining"
+3900,3y_bear,attrib_capex,USDm,1500.0,sourced,"YE PR $1,500m +/-5% attrib capex; Q2 on track"
+3900,3y_bear,FCF_company_def,USDm,2321.0,computed,"CFO - attrib capex. Algebra: 2,000*(G-AISC(G))/1000 - T(G) - 1,050. Do NOT 2x 1H FCF $1,564.3m."
+3900,3y_bear,FCF_1H_print,USDm,1564.3,sourced,"Q2 NR 1H attrib FCF $1,564.3m after all attrib capex. Historical. Not officialized as 2x."
+3900,3y_bear,after_sustaining_FCF_labelled_alt,USDm,3371.0,computed,"company FCF + growth capex $1,050. Labelled alt, not the KPI."
+3900,3y_bear,payout_40pct_policy,USDm,928.4,computed,Q2 NR: policy 40% of FCF to buybacks+dividend in 2026 if gold/ops hold. Not in PT denom.
+3900,3y_bear,dividends_vs_buyback_split_FY,USDm,,unsourced,Q2 div $0.04; 1H buybacks $480.1m. FY split not guided.
+3900,3y_bear,debt_proceeds_paydowns,USDm,0,sourced,no refinancing announced; notes 2033/2041; RCF undrawn
+3900,3y_bear,cash_beginning,USDm,2656.4,sourced,"30 Jun 2026 $2,656.4m"
+3900,3y_bear,cash_ending_model,USDm,4049.0,computed,begin + FCF - 40% payout = begin + CFO - capex - payout
+3900,3y_bear,cash_bridge_plug,USDm,0.0,computed,must be 0: end - (begin + CFO - capex - payout)
+4500,12m_checkin_not_official,CFO,USDm,4865.0,computed,"FCF + attrib capex $1,500. Company attrib FCF = CFO - attrib capex - NCI OCF (NCI FY UNSOURCED, dropped)."
+4500,12m_checkin_not_official,CFO_build_check,USDm,4865.0,computed,"Q*(G-AISC)/1000 + S - T. Equals FCF+1,500."
+4500,12m_checkin_not_official,cash_tax_in_CFO,USDm,1125.0,computed,"inside CFO; YE PR $1,125m + $16m / +$100"
+4500,12m_checkin_not_official,WC_change,USDm,,unsourced,DROPPED from mid
+4500,12m_checkin_not_official,interest_paid_note_only,USDm,48.4,sourced,MD&A liquidity: next-12m senior-note interest ~$48.4m. NOT deducted again in FCF (may already sit in CFO).
+4500,12m_checkin_not_official,sustaining_capex,USDm,450.0,sourced,YE PR $450m attrib sustaining
+4500,12m_checkin_not_official,growth_capex,USDm,1050.0,sourced,"YE PR $1,050m attrib non-sustaining"
+4500,12m_checkin_not_official,attrib_capex,USDm,1500.0,sourced,"YE PR $1,500m +/-5% attrib capex; Q2 on track"
+4500,12m_checkin_not_official,FCF_company_def,USDm,3365.0,computed,"CFO - attrib capex. Algebra: 2,000*(G-AISC(G))/1000 - T(G) - 1,050. Do NOT 2x 1H FCF $1,564.3m."
+4500,12m_checkin_not_official,FCF_1H_print,USDm,1564.3,sourced,"Q2 NR 1H attrib FCF $1,564.3m after all attrib capex. Historical. Not officialized as 2x."
+4500,12m_checkin_not_official,after_sustaining_FCF_labelled_alt,USDm,4415.0,computed,"company FCF + growth capex $1,050. Labelled alt, not the KPI."
+4500,12m_checkin_not_official,payout_40pct_policy,USDm,1346.0,computed,Q2 NR: policy 40% of FCF to buybacks+dividend in 2026 if gold/ops hold. Not in PT denom.
+4500,12m_checkin_not_official,dividends_vs_buyback_split_FY,USDm,,unsourced,Q2 div $0.04; 1H buybacks $480.1m. FY split not guided.
+4500,12m_checkin_not_official,debt_proceeds_paydowns,USDm,0,sourced,no refinancing announced; notes 2033/2041; RCF undrawn
+4500,12m_checkin_not_official,cash_beginning,USDm,2656.4,sourced,"30 Jun 2026 $2,656.4m"
+4500,12m_checkin_not_official,cash_ending_model,USDm,4675.4,computed,begin + FCF - 40% payout = begin + CFO - capex - payout
+4500,12m_checkin_not_official,cash_bridge_plug,USDm,0.0,computed,must be 0: end - (begin + CFO - capex - payout)
+4900,3y_base,CFO,USDm,5561.0,computed,"FCF + attrib capex $1,500. Company attrib FCF = CFO - attrib capex - NCI OCF (NCI FY UNSOURCED, dropped)."
+4900,3y_base,CFO_build_check,USDm,5561.0,computed,"Q*(G-AISC)/1000 + S - T. Equals FCF+1,500."
+4900,3y_base,cash_tax_in_CFO,USDm,1189.0,computed,"inside CFO; YE PR $1,125m + $16m / +$100"
+4900,3y_base,WC_change,USDm,,unsourced,DROPPED from mid
+4900,3y_base,interest_paid_note_only,USDm,48.4,sourced,MD&A liquidity: next-12m senior-note interest ~$48.4m. NOT deducted again in FCF (may already sit in CFO).
+4900,3y_base,sustaining_capex,USDm,450.0,sourced,YE PR $450m attrib sustaining
+4900,3y_base,growth_capex,USDm,1050.0,sourced,"YE PR $1,050m attrib non-sustaining"
+4900,3y_base,attrib_capex,USDm,1500.0,sourced,"YE PR $1,500m +/-5% attrib capex; Q2 on track"
+4900,3y_base,FCF_company_def,USDm,4061.0,computed,"CFO - attrib capex. Algebra: 2,000*(G-AISC(G))/1000 - T(G) - 1,050. Do NOT 2x 1H FCF $1,564.3m."
+4900,3y_base,FCF_1H_print,USDm,1564.3,sourced,"Q2 NR 1H attrib FCF $1,564.3m after all attrib capex. Historical. Not officialized as 2x."
+4900,3y_base,after_sustaining_FCF_labelled_alt,USDm,5111.0,computed,"company FCF + growth capex $1,050. Labelled alt, not the KPI."
+4900,3y_base,payout_40pct_policy,USDm,1624.4,computed,Q2 NR: policy 40% of FCF to buybacks+dividend in 2026 if gold/ops hold. Not in PT denom.
+4900,3y_base,dividends_vs_buyback_split_FY,USDm,,unsourced,Q2 div $0.04; 1H buybacks $480.1m. FY split not guided.
+4900,3y_base,debt_proceeds_paydowns,USDm,0,sourced,no refinancing announced; notes 2033/2041; RCF undrawn
+4900,3y_base,cash_beginning,USDm,2656.4,sourced,"30 Jun 2026 $2,656.4m"
+4900,3y_base,cash_ending_model,USDm,5093.0,computed,begin + FCF - 40% payout = begin + CFO - capex - payout
+4900,3y_base,cash_bridge_plug,USDm,0.0,computed,must be 0: end - (begin + CFO - capex - payout)
+5900,3y_bull,CFO,USDm,7301.0,computed,"FCF + attrib capex $1,500. Company attrib FCF = CFO - attrib capex - NCI OCF (NCI FY UNSOURCED, dropped)."
+5900,3y_bull,CFO_build_check,USDm,7301.0,computed,"Q*(G-AISC)/1000 + S - T. Equals FCF+1,500."
+5900,3y_bull,cash_tax_in_CFO,USDm,1349.0,computed,"inside CFO; YE PR $1,125m + $16m / +$100"
+5900,3y_bull,WC_change,USDm,,unsourced,DROPPED from mid
+5900,3y_bull,interest_paid_note_only,USDm,48.4,sourced,MD&A liquidity: next-12m senior-note interest ~$48.4m. NOT deducted again in FCF (may already sit in CFO).
+5900,3y_bull,sustaining_capex,USDm,450.0,sourced,YE PR $450m attrib sustaining
+5900,3y_bull,growth_capex,USDm,1050.0,sourced,"YE PR $1,050m attrib non-sustaining"
+5900,3y_bull,attrib_capex,USDm,1500.0,sourced,"YE PR $1,500m +/-5% attrib capex; Q2 on track"
+5900,3y_bull,FCF_company_def,USDm,5801.0,computed,"CFO - attrib capex. Algebra: 2,000*(G-AISC(G))/1000 - T(G) - 1,050. Do NOT 2x 1H FCF $1,564.3m."
+5900,3y_bull,FCF_1H_print,USDm,1564.3,sourced,"Q2 NR 1H attrib FCF $1,564.3m after all attrib capex. Historical. Not officialized as 2x."
+5900,3y_bull,after_sustaining_FCF_labelled_alt,USDm,6851.0,computed,"company FCF + growth capex $1,050. Labelled alt, not the KPI."
+5900,3y_bull,payout_40pct_policy,USDm,2320.4,computed,Q2 NR: policy 40% of FCF to buybacks+dividend in 2026 if gold/ops hold. Not in PT denom.
+5900,3y_bull,dividends_vs_buyback_split_FY,USDm,,unsourced,Q2 div $0.04; 1H buybacks $480.1m. FY split not guided.
+5900,3y_bull,debt_proceeds_paydowns,USDm,0,sourced,no refinancing announced; notes 2033/2041; RCF undrawn
+5900,3y_bull,cash_beginning,USDm,2656.4,sourced,"30 Jun 2026 $2,656.4m"
+5900,3y_bull,cash_ending_model,USDm,6137.0,computed,begin + FCF - 40% payout = begin + CFO - capex - payout
+5900,3y_bull,cash_bridge_plug,USDm,0.0,computed,must be 0: end - (begin + CFO - capex - payout)
