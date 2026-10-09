@@ -1,6 +1,6 @@
 # Amazon consensus — what is already priced
 
-GF-AMZN-1 · draft as of 2026-09-29 · name id `amzn`
+GF-AMZN-2 · draft as of 2026-10-05 · name id `amzn`
 
 This home owns the priced-expectations frame. Company actuals remain in [`register.md`](register.md). No rating or positioning conclusion is made.
 
@@ -24,7 +24,9 @@ Source: [Amazon Q2 2026 earnings release](https://www.sec.gov/Archives/edgar/dat
 
 - **[FACT]** Amazon said Prime Day timing depressed the reported Q3 growth comparison: excluding Prime Day from both periods, year-over-year growth would be nearly 400 basis points higher.
 - **[FACT]** The operating-income guide assumes no energy-derivative remeasurement and no additional acquisitions, restructurings or legal settlements.
-- **[FACT]** The latest numerical 2026 capex outlook found remained “about $200 billion,” published with FY2025 results on 2026-02-05; the Q2 release did not provide a revised annual number. See R6.5.
+- **[FACT]** The latest company-stated **2026 cash CapEx** outlook is approximately **$220 billion**, raised on the Q2 2026 earnings call (2026-07-30) from about **$200 billion** communicated with FY2025 results (2026-02-05). See R6.5. The Q2 earnings release guidance section did not restate a numerical full-year capex figure.
+- **[VIEW]** Aggregator and sell-side summaries (e.g. Wells Fargo / TipRanks screens accessed around **2026-10-05**) cite an average analyst price target near **$332** for AMZN; that figure is **not** treated here as **[FACT]** equivalent to a filing and does not satisfy R8.8 on its own.
+- **[VIEW]** Media and industry commentary around **2026-10-07** flagged a reported **~15%** GPU/cloud **reserve-price** increase narrative and a **Synopsys** partnership valued above **$1bn** (Sep 2026); primary Amazon filings for those items were **not obtained** in this pass—use only as qualitative “may be priced” color, not register facts.
 - **[VIEW]** The near-term hurdle is therefore two-dimensional: sustain strong operating growth while funding an exceptional infrastructure build. A revenue beat without evidence on capacity monetization and cash returns would not resolve the core debate.
 
 ## 3. Debate map
@@ -66,7 +68,7 @@ Source: [Amazon Q2 2026 earnings release](https://www.sec.gov/Archives/edgar/dat
 
 ## 4. What appears embedded versus what remains optional
 
-- **[VIEW] Appears embedded qualitatively:** continued AWS and Advertising growth, profitable North America, positive International operating income and substantial 2026 infrastructure spending. These are already visible in reported results and company guidance, so a valuation cannot treat them as undiscovered.
+- **[VIEW] Appears embedded qualitatively:** continued AWS and Advertising growth, profitable North America, positive International operating income and substantial **~$220bn** 2026 cash CapEx (R6.5). These are already visible in reported results and company commentary, so a valuation cannot treat them as undiscovered.
 - **[VIEW] Still debated:** the duration of AWS AI growth, terminal return on the 2026 capacity build, retail margin reinvestment, International steady-state margin and Advertising’s true incremental margin.
 - **[VIEW] Optional but unquantified:** upside from custom chips, agentic services, Amazon Leo, Zoox, healthcare/devices and strategic-equity appreciation. No market-implied value for these was obtained.
 - **[VIEW] Potentially underappreciated downside:** depreciation and power costs after capacity commissioning; debt/lease funding; AI-customer concentration; marketplace remedies; and the cash/non-cash divergence created by investment marks.

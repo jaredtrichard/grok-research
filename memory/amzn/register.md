@@ -1,6 +1,6 @@
 # Amazon fact register
 
-GF-AMZN-1 · as of 2026-09-29 · name id `amzn`
+GF-AMZN-2 · as of 2026-10-05 · name id `amzn`
 USD in millions unless stated otherwise. Every material item is tagged `[FACT]`, `[DEDUCTED]`, or `[VIEW]`. `not obtained` means no usable figure was found in the reviewed primary-source set.
 
 ## Source set
@@ -11,7 +11,8 @@ USD in millions unless stated otherwise. Every material item is tagged `[FACT]`,
 - **S4** — [Amazon Q2 2026 earnings release](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm), furnished 2026-07-30; includes quarterly history, sales groups, operating metrics, TTM cash flow and guidance.
 - **S5** — [Amazon Q4 and FY2025 earnings release](https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/), dated 2026-02-05.
 - **S6** — [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/), accessed 2026-09-29.
-- **S7** — [Amazon Q2 2026 official earnings-call archive](https://ir.aboutamazon.com/events/event-details/2026/Q2-2026-Amazoncom-Inc-Earnings-Conference-Call/default.aspx), call dated 2026-07-30. An official written transcript was **not obtained**.
+- **S7** — [Amazon Q2 2026 official earnings-call archive](https://ir.aboutamazon.com/events/event-details/2026/Q2-2026-Amazoncom-Inc-Earnings-Conference-Call/default.aspx), call dated 2026-07-30. An official written transcript was **not obtained** (R8.9).
+- **S8** — [CNBC coverage of Q2 2026 results](https://www.cnbc.com/2026/07/30/amazon-amzn-q2-earnings-report-2026.html), dated 2026-07-30 (**secondary** summary of CEO remarks on the call; not a company filing).
 
 ## R1 — Reporting perimeter and revenue architecture
 
@@ -137,7 +138,7 @@ Source: [S4 quarterly history](https://www.sec.gov/Archives/edgar/data/1018724/0
 
 Sources: [S1 cash-flow statement and MD&A](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm), [S3 pp. 3 and 28–29](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm), and [S4](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm). FY2024, FY2025 and TTM FCF are company-disclosed. FY2023 and 1H 2026 FCF are **[DEDUCTED]** using the same company definition: operating cash flow less purchases of property/equipment net of proceeds/incentives.
 
-- **R6.5 [FACT]** Amazon expected about 200,000 of 2026 “capital expenditures” across Amazon, citing AI, chips, robotics and low-earth-orbit satellites. The release did not define whether this means gross cash purchases, cash capex net of proceeds/incentives or accounting PPE additions, so it is not directly comparable with the R6 cash-flow table without an assumption. At Q2, the company did not publish a revised annual figure in its release; the 10-Q said cash capex primarily supported technology infrastructure—mostly AWS—and fulfillment capacity, both expected to increase in 2026. [S5](https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/); [S3, MD&A p. 29](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm)
+- **R6.5 [FACT]** On the Q2 2026 earnings call (2026-07-30), CEO Andy Jassy said Amazon now expects to spend approximately **220,000** of **2026 cash CapEx**, up from about **200,000** communicated with FY2025 results (2026-02-05), with the increase driven mainly by higher memory costs; the majority of spending still supports AI and AWS. Jassy said that even at ~$220bn Amazon would **not have enough capacity to meet all 2026 demand** and that he believes the same dynamic will be true in **2027** as well. The Q2 earnings release (S4) did not restate a numerical full-year capex figure in its guidance section; the 10-Q said cash capex primarily supported technology infrastructure—mostly AWS—and fulfillment capacity, both expected to increase in 2026. Company language on “cash CapEx” is not reconciled in filings to gross purchases, net cash capex net of proceeds/incentives or accounting PPE additions, so it is not directly comparable with the R6 cash-flow table without an assumption. [S7](https://ir.aboutamazon.com/events/event-details/2026/Q2-2026-Amazoncom-Inc-Earnings-Conference-Call/default.aspx); [S5](https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/); [S3, MD&A p. 29](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm); [S8](https://www.cnbc.com/2026/07/30/amazon-amzn-q2-earnings-report-2026.html) (**secondary** call summary)
 - **R6.6 [FACT]** 1H 2026 D&A including capitalized content/lease assets was 38,933 and SBC was 10,070. Property/equipment D&A allocated by segment was 8,780 North America, 2,570 International and 15,353 AWS. [S3, pp. 3 and 25](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm)
 
 ## R7 — Investments, commitments and contingencies
